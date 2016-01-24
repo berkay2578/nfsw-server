@@ -1,0 +1,111 @@
+﻿<Controls:MetroWindow x:Class="OfflineServerLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OfflineServerLauncher"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="settings"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" IsSynchronizedWithCurrentItem="True" SnapsToDevicePixels="True" IsManipulationEnabled="True" Grid.ColumnSpan="2" TabStripPlacement="Left">
+            <TabItem x:Name="tabItem" Header="Persona">
+                <Grid>
+                    <Controls:FlipView x:Name="FlipViewPersonaImage" IsBannerEnabled="False" Margin="10,10,281,179" LeftTransition="Left" Background="White"
+                                       GotFocus="FlipView_GotFocus" MouseEnter="FlipView_GotFocus"
+                                       LostFocus="FlipView_LostFocus" MouseLeave="FlipView_LostFocus" />
+                    <Button x:Name="buttonStartServer" HorizontalAlignment="Left" Margin="383,291,0,0" VerticalAlignment="Top" Width="80" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="80" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
+                        <Rectangle Width="60" Height="60">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource EngineStart}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                    <Button x:Name="buttonOpenBasicPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,9,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                        <Rectangle Width="34" Height="30">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clothes_shirt}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                    <Button x:Name="buttonOpenDetailedPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,74,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                        <Rectangle Width="15" Height="34">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clothes_tie}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                    <Button x:Name="buttonOpenPersonaList" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="195,139,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                        <Rectangle Width="34" Height="30">
+                            <Rectangle.Fill>
+                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                    <GroupBox x:Name="groupBox" Header="Persona Name" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Height="156" Width="244">
+                        <Grid>
+                            <Label x:Name="labelPersonaLevel" Content="Level: X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,1,0,0"/>
+                            <Label x:Name="labelPersonaIGC" Content="IGC: X" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="labelPersonaBoost" Content="Boost: X" HorizontalAlignment="Left" Margin="0,55,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="labelPersonaMotto" Content="Motto: X" HorizontalAlignment="Left" Margin="0,83,0,0" VerticalAlignment="Top" Width="222"/>
+                            <Controls:Tile Title="Placeholder" Width="96" Height="76" Margin="126,7,10,34">
+                                <Controls:TransitioningContentControl x:Name="metrotileRandomPersonaInfo" Width="96" Height="76" Transition="Left" />
+                            </Controls:Tile>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Inventory">
+                <Grid/>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <!-- <Controls:NumericUpDown x:Name="numericPersonaLevel" Margin="5" Height="24" Maximum="70" Minimum="1" Value="1" TrackMouseWheelWhenMouseOver="True" StringFormat="Level: {0}" TextAlignment="Justify" />
+                    -->
+                    <DataGrid Name="datagridBasicInfo" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}">
+                    </DataGrid>
+                </StackPanel>
+            </Controls:Flyout>
+            <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="Persona Information" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <DataGrid Name="datagridDetailedInfo" Margin="10,0,10,0" Style="{StaticResource AzureDataGrid}">
+                    </DataGrid>
+                </StackPanel>
+            </Controls:Flyout>
+            <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
+                              CanUserReorderColumns="False" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding sName}" />
+                            <DataGridTextColumn Header="Motto" Binding="{Binding sMotto}" />
+                            <Controls:DataGridNumericUpDownColumn Header="Level" Binding="{Binding shLevel}"  Minimum="1" Maximum="70" />
+                            <Controls:DataGridNumericUpDownColumn Header="In-Game Cash" Binding="{Binding iIGC}"  Minimum="0" Maximum="1000000000" />
+                            <Controls:DataGridNumericUpDownColumn Header="Boost" Binding="{Binding iBoost}"  Minimum="0" Maximum="1000000000" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+</Controls:MetroWindow>
