@@ -35,12 +35,12 @@ namespace OfflineServerLauncher
             
             public Persona(Int64 personaId, String personaName, String personaMotto, Int16 personaLevel, Int32 personaIGC, Int32 personaBoost)
             {
-                iId = personaId;
-                sName = personaName;
-                sMotto = personaMotto;
-                shLevel = personaLevel;
-                iIGC = personaIGC;
-                iBoost = personaBoost;
+                this.iId = personaId;
+                this.sName = personaName;
+                this.sMotto = personaMotto;
+                this.shLevel = personaLevel;
+                this.iIGC = personaIGC;
+                this.iBoost = personaBoost;
             }
 
             public override String ToString()
