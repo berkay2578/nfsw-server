@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfflineServerLauncher"
         mc:Ignorable="d"
-        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True">
+        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="settings"/>
@@ -20,46 +21,46 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TabControl x:Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" IsSynchronizedWithCurrentItem="True" SnapsToDevicePixels="True" IsManipulationEnabled="True" Grid.ColumnSpan="2" TabStripPlacement="Left">
-            <TabItem x:Name="tabItem" Header="Persona">
+        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" IsSynchronizedWithCurrentItem="True" SnapsToDevicePixels="True" IsManipulationEnabled="True" Grid.ColumnSpan="2" TabStripPlacement="Left">
+            <TabItem Name="tabItem" Header="Persona">
                 <Grid>
-                    <Controls:FlipView x:Name="FlipViewPersonaImage" IsBannerEnabled="False" Margin="10,10,281,179" LeftTransition="Left" Background="White"
+                    <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" Margin="10,10,281,179" LeftTransition="Left" Background="White"
                                        GotFocus="FlipView_GotFocus" MouseEnter="FlipView_GotFocus"
                                        LostFocus="FlipView_LostFocus" MouseLeave="FlipView_LostFocus" />
-                    <Button x:Name="buttonStartServer" HorizontalAlignment="Left" Margin="383,291,0,0" VerticalAlignment="Top" Width="80" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="80" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
+                    <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="383,291,0,0" VerticalAlignment="Top" Width="80" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="80" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
                         <Rectangle Width="60" Height="60">
                             <Rectangle.Fill>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource EngineStart}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Button>
-                    <Button x:Name="buttonOpenBasicPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,9,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenBasicPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,9,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
                         <Rectangle Width="34" Height="30">
                             <Rectangle.Fill>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clothes_shirt}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Button>
-                    <Button x:Name="buttonOpenDetailedPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,74,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenDetailedPersonaInfo" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="194,74,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
                         <Rectangle Width="15" Height="34">
                             <Rectangle.Fill>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_clothes_tie}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Button>
-                    <Button x:Name="buttonOpenPersonaList" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="195,139,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenPersonaList" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" Margin="195,139,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="Button_ClickHandler">
                         <Rectangle Width="34" Height="30">
                             <Rectangle.Fill>
                                 <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_group}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Button>
-                    <GroupBox x:Name="groupBox" Header="Persona Name" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Height="156" Width="244">
+                    <GroupBox Name="groupBox" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Height="156" Width="244">
                         <Grid>
-                            <Label x:Name="labelPersonaLevel" Content="Level: X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,1,0,0"/>
-                            <Label x:Name="labelPersonaIGC" Content="IGC: X" HorizontalAlignment="Left" Margin="0,30,0,0" VerticalAlignment="Top"/>
-                            <Label x:Name="labelPersonaBoost" Content="Boost: X" HorizontalAlignment="Left" Margin="0,55,0,0" VerticalAlignment="Top"/>
-                            <Label x:Name="labelPersonaMotto" Content="Motto: X" HorizontalAlignment="Left" Margin="0,83,0,0" VerticalAlignment="Top" Width="222"/>
+                            <TextBlock Name="textblockPersonaLevel" Text="{Binding Path=mPersona.shLevel, StringFormat='Level: {0}'}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top"/>
+                            <TextBlock Name="textblockPersonaIGC" Text="{Binding Path=mPersona.iCash, StringFormat='Cash: {0}'}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5,32.5,0,0" VerticalAlignment="Top"/>
+                            <TextBlock Name="textblockPersonaBoost" Text="{Binding Path=mPersona.iBoost, StringFormat='Boost: {0}'}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5,57.5,0,0" VerticalAlignment="Top"/>
+                            <TextBlock Name="textblockPersonaMotto" Text="{Binding Path=mPersona.sMotto, StringFormat='Motto: {0}'}" TextWrapping="WrapWithOverflow" HorizontalAlignment="Left" Margin="5,85,0,0" VerticalAlignment="Top"/>
                             <Controls:Tile Title="Placeholder" Width="96" Height="76" Margin="126,7,10,34">
                                 <Controls:TransitioningContentControl x:Name="metrotileRandomPersonaInfo" Width="96" Height="76" Transition="Left" />
                             </Controls:Tile>
@@ -77,7 +78,7 @@
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
                         <Label Margin="5" Content="Name: " Foreground="White"/>
@@ -86,12 +87,12 @@
                         <Label Margin="5" Content="Cash: " Foreground="White"/>
                         <Label Margin="5" Content="Boost: " Foreground="White"/>
                         </StackPanel>
-                    <StackPanel x:Name="stackpanelBasicPersonaInfo"  Orientation="Vertical" Width="190">
-                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding sName}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
-                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding sMotto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding iCash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding iBoost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                    <StackPanel x:Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190">
+                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Path=mPersona.sName}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
+                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Path=mPersona.sMotto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Path=mPersona.shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iCash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iBoost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
@@ -105,7 +106,7 @@
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
                               CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
-                              SelectionMode="Single" FrozenColumnCount="1"
+                              SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding mPersonaList}"
                               MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding sName}"/>

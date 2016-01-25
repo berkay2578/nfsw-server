@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 
 namespace OfflineServerLauncher
 {
+
     /// <summary>
     /// Class containing all of the required variables and initializers to create and use a Server Engine.
     /// </summary>
@@ -85,6 +86,22 @@ namespace OfflineServerLauncher
         }
 
         /// <summary>
+        /// Initializes the Persona class with the given persona.
+        /// </summary>
+        public Persona(Persona persona)
+        {
+            this.iId = persona.iId;
+            this.sName = persona.sName;
+            this.sMotto = persona.sMotto;
+            this.shLevel = persona.shLevel;
+            this.iCash = persona.iCash;
+            this.iBoost = persona.iBoost;
+            this.iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
+            this.iReputationInLevel = persona.iReputationInLevel;
+            this.iReputationInTotal = persona.iReputationInTotal;
+        }
+
+        /// <summary>
         /// Converts the Persona to its multilined string equivalent.
         /// </summary>
         public override String ToString()
@@ -103,6 +120,7 @@ namespace OfflineServerLauncher
         /// <summary>
         /// Reads the registered personas from a fixed-string database file and returns them.
         /// </summary>
+        /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
         /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
         public static List<Persona> GetCurrentPersonaList()
         {
@@ -120,36 +138,51 @@ namespace OfflineServerLauncher
             return listPersona;
         }
     }
-
+    
     public class NfswSession
     {
         public Engine EngineBuild;
-        public Persona Persona;
+        private Persona _mPersona;
+        public Persona mPersona
+        {
+            get { return _mPersona; }
+            set
+            {
+                if (this._mPersona != value)
+                {
+                    this._mPersona = value;
+                }
+            }
+        }
+        public List<Persona> mPersonaList { get; set; }
         public string PermanentSession;
         public string UserSettings;
 
         public void StartSession()
         {
-            MainWindow.mPersonaList = Persona.GetCurrentPersonaList();
-            Persona = MainWindow.mPersonaList[0];
-            Console.WriteLine(Persona.ToString());
+            MainWindow.dbConnection = new SQLiteConnection("Data Source=\"Server Data\\PersonaData.db\";Version=3;");
+            MainWindow.dbConnection.Open();
+
+            mPersonaList = Persona.GetCurrentPersonaList();
+            _mPersona = new Persona(mPersonaList[0]);
+            Console.WriteLine(_mPersona.ToString());
 
 
             //long readSessionIdAndCalculated = 0002;
             //    Persona.SetPersona(readSessionIdAndCalculated);
         }
     }
-
+    
     public partial class MainWindow : MetroWindow
     {
         public static SQLiteConnection dbConnection;
-        public static List<Persona> mPersonaList;
+      
         public static NfswSession CurrentSession = new NfswSession();
         public MainWindow()
         {
+            CurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
-            CurrentSession.StartSession();
         }
 
         private void SetupComponents()
@@ -196,11 +229,9 @@ namespace OfflineServerLauncher
             #endregion
 
             #region Flyouts &++ DataGrid;dbConnection
-            dbConnection = new SQLiteConnection("Data Source=\"Server Data\\PersonaData.db\";Version=3;");
-            dbConnection.Open();
-
-            stackpanelBasicPersonaInfo.DataContext = CurrentSession.Persona;
-            datagridPersonaList.ItemsSource = mPersonaList;
+            stackpanelBasicPersonaInfo.DataContext = CurrentSession;
+            datagridPersonaList.DataContext = CurrentSession;
+            groupBox.DataContext = CurrentSession;
             #endregion
         }
 
@@ -243,6 +274,7 @@ namespace OfflineServerLauncher
                     //if (metrotileRandomPersonaInfo.Content == (Visual)Resources["appbar_calculator"]) { metrotileRandomPersonaInfo.Content = (Visual)Resources["appbar_cupcake"]; return; }
                     //metrotileRandomPersonaInfo.Content = (Visual)Resources["appbar_calculator"];
                     flyoutDetailedPersonaInfo.IsOpen = !flyoutDetailedPersonaInfo.IsOpen;
+                    Console.WriteLine(CurrentSession.mPersona.ToString());
                     break;
                 case "buttonOpenPersonaList":
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
@@ -255,8 +287,17 @@ namespace OfflineServerLauncher
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            Int64 iSelectedPersonaId = mSelectedPersona.iId;
-            Console.WriteLine(mSelectedPersona.ToString());
+            //Int64 iSelectedPersonaId = mSelectedPersona.iId;
+            CurrentSession.mPersona = new Persona(mSelectedPersona);
+            //Console.WriteLine(mSelectedPersona.ToString());
+        }
+
+        private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
+        {
+            //currently only implemented for Debug purposes, will be tidied up later
+            int iPersonaIndex = CurrentSession.mPersonaList.FindIndex(a => a.iId == CurrentSession.mPersona.iId);
+            CurrentSession.mPersonaList[iPersonaIndex] = CurrentSession.mPersona;
+            datagridPersonaList.Items.Refresh();
         }
     }
 }
