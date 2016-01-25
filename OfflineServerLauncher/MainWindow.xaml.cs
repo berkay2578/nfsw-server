@@ -1,27 +1,47 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro;
 using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
+using System.IO;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
-using System.IO;
-using System.Data.SQLite;
-using System.Windows.Data;
 
 namespace OfflineServerLauncher
 {
     /// <summary>
-    /// For future use.
+    /// Class containing all of the required variables and initializers to create and use a Server Engine.
     /// </summary>
-    public enum PersonaType
+    /// <remarks>This is NOT to be confused with the NFS:W Game Engines. Server Engines are custom prices and patches.</remarks>
+    public class Engine
     {
-        Basic = 0,
-        Detailed = 1,
-        Debug = 2
+        /// <summary>
+        /// For future use.
+        /// </summary>
+        public enum EngineType
+        {
+            Default = 0,
+            Custom = 1,
+            Debug = 2
+        }
+
+        public Int32 iEngineIndex = 0;
+
+        public void LoadEngine(EngineType mEngine, Int32 EngineIndex = 0)
+        {
+            switch (mEngine)
+            {
+                case EngineType.Default:
+                    break;
+                case EngineType.Custom:
+                    break;
+                case EngineType.Debug:
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -29,17 +49,29 @@ namespace OfflineServerLauncher
     /// </summary>
     public class Persona
     {
+        /// <summary>
+        /// For future use.
+        /// </summary>
+        public enum PersonaType
+        {
+            Basic = 0,
+            Detailed = 1,
+            Debug = 2
+        }
         public Int64 iId { get; set; }
         public String sName { get; set; }
         public String sMotto { get; set; }
         public Int16 shLevel { get; set; }
         public Int32 iCash { get; set; }
         public Int32 iBoost { get; set; }
+        public Int16 iPercentageOfLevelCompletion { get; set; }
+        public Int32 iReputationInLevel { get; set; }
+        public Int32 iReputationInTotal { get; set; }
 
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
         /// </summary>
-        public Persona(Int64 personaId, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost)
+        public Persona(Int64 personaId, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal)
         {
             this.iId = personaId;
             this.sName = personaName;
@@ -47,9 +79,10 @@ namespace OfflineServerLauncher
             this.shLevel = personaLevel;
             this.iCash = personaCash;
             this.iBoost = personaBoost;
+            this.iPercentageOfLevelCompletion = personaPercentageOfLevel;
+            this.iReputationInLevel = personaReputationLevel;
+            this.iReputationInTotal = personaReputationTotal;
         }
-
-
 
         /// <summary>
         /// Converts the Persona to its multilined string equivalent.
@@ -80,7 +113,7 @@ namespace OfflineServerLauncher
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Persona dummyPersona = new Persona((Int64)reader[0], (String)reader[1], (String)reader[2], (Int16)reader[3], (Int32)reader[4], (Int32)reader[5]);
+                Persona dummyPersona = new Persona((Int64)reader[0], (String)reader[1], (String)reader[2], (Int16)reader[3], (Int32)reader[4], (Int32)reader[5], (Int16)reader[6], (Int32)reader[7], (Int32)reader[8]);
                 listPersona.Add(dummyPersona);
             }
 
@@ -90,7 +123,7 @@ namespace OfflineServerLauncher
 
     public class NfswSession
     {
-        public string EngineBuild;
+        public Engine EngineBuild;
         public Persona Persona;
         public string PermanentSession;
         public string UserSettings;
