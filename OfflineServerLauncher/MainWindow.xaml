@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfflineServerLauncher"
         mc:Ignorable="d"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
@@ -78,12 +77,22 @@
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <!-- <Controls:NumericUpDown x:Name="numericPersonaLevel" Margin="5" Height="24" Maximum="70" Minimum="1" Value="1" TrackMouseWheelWhenMouseOver="True" StringFormat="Level: {0}" TextAlignment="Justify" />
-                    -->
-                    <DataGrid Name="datagridBasicInfo" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}">
-                    </DataGrid>
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <StackPanel Orientation="Vertical">
+                        <Label Margin="5" Content="Name: " Foreground="White"/>
+                        <Label Margin="5" Content="Motto: " Foreground="White"/>
+                        <Label Margin="5" Content="Level: " Foreground="White"/>
+                        <Label Margin="5" Content="Cash: " Foreground="White"/>
+                        <Label Margin="5" Content="Boost: " Foreground="White"/>
+                        </StackPanel>
+                    <StackPanel x:Name="stackpanelBasicPersonaInfo"  Orientation="Vertical" Width="190">
+                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding sName}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
+                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding sMotto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding iCash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding iBoost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                    </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="Persona Information" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
@@ -95,13 +104,15 @@
             <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
-                              CanUserReorderColumns="False" AutoGenerateColumns="False">
+                              CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
+                              SelectionMode="Single" FrozenColumnCount="1"
+                              MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding sName}" />
-                            <DataGridTextColumn Header="Motto" Binding="{Binding sMotto}" />
-                            <Controls:DataGridNumericUpDownColumn Header="Level" Binding="{Binding shLevel}"  Minimum="1" Maximum="70" />
-                            <Controls:DataGridNumericUpDownColumn Header="In-Game Cash" Binding="{Binding iIGC}"  Minimum="0" Maximum="1000000000" />
-                            <Controls:DataGridNumericUpDownColumn Header="Boost" Binding="{Binding iBoost}"  Minimum="0" Maximum="1000000000" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding sName}"/>
+                            <DataGridTextColumn Header="Motto" Binding="{Binding sMotto}"/>
+                            <DataGridTextColumn Header="Level" Binding="{Binding shLevel}"/>
+                            <DataGridTextColumn Header="Cash" Binding="{Binding iCash}"/>
+                            <DataGridTextColumn Header="Boost" Binding="{Binding iBoost}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
