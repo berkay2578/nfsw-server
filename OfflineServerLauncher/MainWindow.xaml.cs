@@ -157,7 +157,7 @@ namespace OfflineServerLauncher
                 Rectangle_FlipViewDummy.Fill = VisualBrush_FlipViewDummy;
 
                 Grid_FlipViewDummy.Children.Add(Rectangle_FlipViewDummy);
-                
+
                 FlipViewPersonaImage.Items.Add(Grid_FlipViewDummy);
             }
             #endregion
@@ -198,7 +198,7 @@ namespace OfflineServerLauncher
         {
             ((FlipView)sender).HideControlButtons();
         }
-        
+
         private void Button_ClickHandler(object sender, RoutedEventArgs e)
         {
             switch ((sender as Button).Name)
