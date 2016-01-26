@@ -147,6 +147,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -165,6 +166,93 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Avatars\Avatar_27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Campaigns\Treasure_Hunt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

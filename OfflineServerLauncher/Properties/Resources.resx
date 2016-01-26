@@ -118,7 +118,94 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Avatar_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_23" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Avatar_27" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Avatars\Avatar_27.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="EngineStart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EngineStart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Treasure_Hunt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Campaigns\Treasure_Hunt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
