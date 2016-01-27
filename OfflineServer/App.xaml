@@ -1,7 +1,7 @@
-﻿<Application x:Class="OfflineServerLauncher.App"
+﻿<Application x:Class="OfflineServer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:OfflineServerLauncher"
+             xmlns:local="clr-namespace:OfflineServer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,7 +18,7 @@
                 <!-- theme resource -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Image Source="pack://application:,,,/OfflineServerLauncher;component/Resources/EngineStart.png" x:Key="EngineStart"/>
+            <Image Source="pack://application:,,,/OfflineServer;component/Resources/EngineStart.png" x:Key="EngineStart"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

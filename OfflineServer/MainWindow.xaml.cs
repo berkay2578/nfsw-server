@@ -7,13 +7,14 @@ using System.Data.SQLite;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace OfflineServerLauncher
+namespace OfflineServer
 {
     public class ObservableObject : INotifyPropertyChanged
     {
@@ -25,6 +26,11 @@ namespace OfflineServerLauncher
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public class Achievements
+    {
+
     }
 
     /// <summary>
@@ -175,7 +181,8 @@ namespace OfflineServerLauncher
         }
         private List<Persona> _mPersonaList;
         public List<Persona> mPersonaList {
-            get { return _mPersonaList; } set { if (_mPersonaList != value) { _mPersonaList = value; RaisePropertyChangedEvent("mPersonaList"); } }
+            get { return _mPersonaList; }
+            set { if (_mPersonaList != value) { _mPersonaList = value; RaisePropertyChangedEvent("mPersonaList"); } }
         }
         public string PermanentSession;
         public string UserSettings;
@@ -187,7 +194,8 @@ namespace OfflineServerLauncher
 
             mPersonaList = Persona.GetCurrentPersonaList();
             _mPersona = new Persona(mPersonaList[0]);
-            Console.WriteLine(_mPersona.ToString());
+
+            if (_mPersona.shAvatarIndex > 27) _mPersona.shAvatarIndex = 27;
 
 
             //long readSessionIdAndCalculated = 0002;
@@ -233,17 +241,22 @@ namespace OfflineServerLauncher
             #region FlipViewPersona
             FlipViewPersonaImage.HideControlButtons();
             
-            Rectangle Rectangle_FlipViewDummy;
-            ImageBrush ImageBrush_FlipViewDummy;
+            Image Image_FlipViewDummy;
+            Grid Grid_FlipViewDummy;
             for (int i = 0; i < 28; i++)
             {
-                ImageBrush_FlipViewDummy = new ImageBrush() { Stretch = Stretch.Uniform, ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServerLauncher;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
-                Rectangle_FlipViewDummy = new Rectangle() { Stretch = Stretch.Uniform, Width = 120, Height = 120, Fill = ImageBrush_FlipViewDummy };
-                FlipViewPersonaImage.Items.Add(Rectangle_FlipViewDummy);
+                Image_FlipViewDummy = new Image() { Margin = new Thickness(7d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
+                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(-8d) };
+                Grid_FlipViewDummy.Children.Add(Image_FlipViewDummy);
+                Image t1 = new Image() { Source = Image_FlipViewDummy.Source };
+                t1.Effect = new System.Windows.Media.Effects.BlurEffect() { Radius = 7.5d };
+                Grid_FlipViewDummy.Background = new VisualBrush((Visual)t1);
+                FlipViewPersonaImage.Items.Add(Grid_FlipViewDummy);
             }
             #endregion
 
             #region Flyouts &++ DataGrid;dbConnection
+            FlipViewPersonaImage.DataContext = CurrentSession;
             stackpanelBasicPersonaInfo.DataContext = CurrentSession;
             datagridPersonaList.DataContext = CurrentSession;
             groupBox.DataContext = CurrentSession;
@@ -261,8 +274,8 @@ namespace OfflineServerLauncher
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
             //placeholder for now
-            DockPanel t1 = new DockPanel() { Background = new ImageBrush() { Stretch = Stretch.Fill, ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServerLauncher;component/images/NFSW_Campaigns/Treasure_Hunt.png", UriKind.Absolute)) } };
-            TextBlock t1_1 = new TextBlock() { Text = "Your longest TH Streak is 0 on persona 'Default Profile 1'.", Padding = new Thickness(5d), Background = new SolidColorBrush(Color.FromArgb(122, 0, 0, 0)), VerticalAlignment = VerticalAlignment.Bottom, TextTrimming = TextTrimming.CharacterEllipsis, Height = 30 };
+            DockPanel t1 = new DockPanel() { Background = new ImageBrush() { Stretch = Stretch.Fill, ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Campaigns/Treasure_Hunt.png", UriKind.Absolute)) } };
+            TextBlock t1_1 = new TextBlock() { Text = "Your longest TH Streak is 0 on persona 'Default Profile 1'.", Padding = new Thickness(6.5d), Background = new SolidColorBrush(Color.FromArgb(122, 0, 0, 0)), VerticalAlignment = VerticalAlignment.Bottom, TextTrimming = TextTrimming.CharacterEllipsis, Height = 30 };
             DockPanel.SetDock(t1_1, Dock.Bottom);
             t1.Children.Add(t1_1);
             metrotileRandomPersonaInfo.Content = t1;
@@ -298,7 +311,7 @@ namespace OfflineServerLauncher
                     //metrotileRandomPersonaInfo.Content = (Visual)Resources["appbar_calculator"];
                     
                     flyoutDetailedPersonaInfo.IsOpen = !flyoutDetailedPersonaInfo.IsOpen;
-                    //Console.WriteLine(CurrentSession.mPersona.ToString());
+                    Console.WriteLine(CurrentSession.mPersona.ToString());
                     break;
                 case "buttonOpenPersonaList":
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
@@ -311,9 +324,7 @@ namespace OfflineServerLauncher
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            //Int64 iSelectedPersonaId = mSelectedPersona.iId;
-            CurrentSession.mPersona = new Persona(mSelectedPersona);
-            //Console.WriteLine(mSelectedPersona.ToString());
+            CurrentSession.mPersona = mSelectedPersona;
         }
 
         private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
@@ -337,9 +348,15 @@ namespace OfflineServerLauncher
 
         private void FlipViewPersonaImage_Loaded(object sender, RoutedEventArgs e)
         {
-            FlipViewPersonaImage.SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
+            (sender as FlipView).SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
+            Binding indexBind = new Binding
+            {
+                Path = new PropertyPath("mPersona.shAvatarIndex"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            (sender as FlipView).SetBinding(FlipView.SelectedIndexProperty, indexBind);
         }
         #endregion
-
     }
 }
