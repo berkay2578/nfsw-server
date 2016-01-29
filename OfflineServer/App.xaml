@@ -19,6 +19,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Image Source="pack://application:,,,/OfflineServer;component/Resources/EngineStart.png" x:Key="EngineStart"/>
+            <Image Source="pack://application:,,,/OfflineServer;component/images/NFSW_Currencies/Currency_Cash.png" x:Key="Cash"/>
+            <Image Source="pack://application:,,,/OfflineServer;component/images/NFSW_Currencies/Currency_Boost.png" x:Key="Boost"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

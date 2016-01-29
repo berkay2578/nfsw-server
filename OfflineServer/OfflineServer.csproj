@@ -146,8 +146,8 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -252,7 +252,19 @@
     <Resource Include="images\NFSW_Avatars\Avatar_27.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\NFSW_Campaigns\Treasure_Hunt.png" />
+    <Resource Include="images\NFSW_Currencies\Currency_Boost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Currencies\Currency_Cash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UI_Resources\Level_Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Achievements\TreasureHuntStreak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\NFSW_Achievements\JumpDistance.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />

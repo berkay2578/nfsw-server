@@ -343,6 +343,26 @@ namespace OfflineServer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Currency_Boost {
+            get {
+                object obj = ResourceManager.GetObject("Currency_Boost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Currency_Cash {
+            get {
+                object obj = ResourceManager.GetObject("Currency_Cash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap EngineStart {
             get {
                 object obj = ResourceManager.GetObject("EngineStart", resourceCulture);
@@ -353,9 +373,29 @@ namespace OfflineServer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Treasure_Hunt {
+        public static System.Drawing.Bitmap JumpDistance {
             get {
-                object obj = ResourceManager.GetObject("Treasure_Hunt", resourceCulture);
+                object obj = ResourceManager.GetObject("JumpDistance", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Level_Background {
+            get {
+                object obj = ResourceManager.GetObject("Level_Background", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap TreasureHuntStreak {
+            get {
+                object obj = ResourceManager.GetObject("TreasureHuntStreak", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

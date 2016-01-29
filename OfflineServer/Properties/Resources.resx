@@ -205,7 +205,19 @@
   <data name="EngineStart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EngineStart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Treasure_Hunt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\NFSW_Campaigns\Treasure_Hunt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Currency_Boost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Currencies\Currency_Boost.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Currency_Cash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Currencies\Currency_Cash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level_Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\UI_Resources\Level_Background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JumpDistance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Achievements\JumpDistance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TreasureHuntStreak" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\NFSW_Achievements\TreasureHuntStreak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

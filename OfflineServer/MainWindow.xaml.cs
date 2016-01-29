@@ -1,14 +1,18 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -16,6 +20,7 @@ using System.Windows.Threading;
 
 namespace OfflineServer
 {
+
     public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,9 +33,131 @@ namespace OfflineServer
         }
     }
 
+    /// <summary>
+    /// NOT actual achievements, only readings from API.
+    /// </summary>
     public class Achievements
     {
+        private Random rPseudo;
+        private DockPanel dpAchievement;
+        private ImageBrush ibAchievementBackground;
+        private TextBlock tblockAchievementDescription;
+        private static class tAchievement
+        {
+            public const Int32 TreasureHunt = 1;
+            public const Int32 FarthestJumpDistance = 2;
+        }
 
+        private void vReDefine()
+        {
+            rPseudo = new Random();
+            ibAchievementBackground = new ImageBrush()
+            {
+                Stretch = Stretch.Fill
+            };
+            tblockAchievementDescription = new TextBlock()
+            {
+                Text = "DEBUG PLACEHOLDER",
+                Padding = new Thickness(6d),
+                Background = new SolidColorBrush(Color.FromArgb(122, 0, 0, 0)),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                Height = 30
+            };
+            DockPanel.SetDock(tblockAchievementDescription, Dock.Bottom);
+            dpAchievement = new DockPanel()
+            {
+                Background = ibAchievementBackground
+            };
+            dpAchievement.Children.Add(tblockAchievementDescription);
+        }
+
+        public Achievements()
+        {
+            vReDefine();
+        }
+
+        public DockPanel GenerateNewAchievement()
+        {
+            String sCurrentText = tblockAchievementDescription.Text;
+            reroll:
+
+            vReDefine();
+
+            switch (rPseudo.Next(1, 3))
+            {
+                case tAchievement.TreasureHunt:
+                    {
+                        ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/TreasureHuntStreak.png", UriKind.RelativeOrAbsolute));
+                        tblockAchievementDescription.Text = "Your longest TH Streak was 8, on persona 'Default Profile 1'."; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
+                        break;
+                    }
+                case tAchievement.FarthestJumpDistance:
+                    { 
+                        ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/JumpDistance.png", UriKind.RelativeOrAbsolute));
+                        tblockAchievementDescription.Text = "Your farthest jump distance was 12.87 meters, on persona 'Default Profile 1'."; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...
+                        break;
+                    }
+            }
+            if (tblockAchievementDescription.Text.Equals(sCurrentText)) goto reroll;
+
+            return dpAchievement;
+        }
+    }
+
+    /// <summary>
+    /// SpeedAPI equivalent for the offline server.
+    /// </summary>
+    public class ServerDataAPI
+    {
+
+    }
+
+    public class Car
+    {
+        public Int32 iCarId;
+        public Int32 iCarIndex;
+        public Int64 iPhysicsProfileHash;
+    }
+
+    public class Cars : IEnumerable<Car>
+    {
+        private List<Car> mCarsArray;
+        
+
+        public void Add(Car newCarEntry)
+        {
+            mCarsArray.Add(newCarEntry);
+        }
+
+        public Int32 iAmount
+        {
+            get
+            {
+                Int32 calculate = 13;
+                return calculate;
+            }
+        }
+
+        public void Initialize()
+        {
+
+        }
+
+        public IEnumerator<Car> GetEnumerator()
+        {
+            foreach (Car CarEntry in mCarsArray)
+            {
+                if (CarEntry != null)
+                {
+                    yield return CarEntry;
+                }
+            }
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
     }
 
     /// <summary>
@@ -50,6 +177,8 @@ namespace OfflineServer
         }
 
         public Int32 iEngineIndex = 0;
+        public Achievements mAchievements = new Achievements();
+        public ServerDataAPI mServerDataAPI;
 
         public void LoadEngine(EngineType mEngine, Int32 EngineIndex = 0)
         {
@@ -68,7 +197,7 @@ namespace OfflineServer
     /// <summary>
     /// Class containing all of the required variables and initializers to create and use a local Persona.
     /// </summary>
-    public class Persona
+    public class Persona : ObservableObject
     {
         /// <summary>
         /// For future use.
@@ -79,16 +208,141 @@ namespace OfflineServer
             Detailed = 1,
             Debug = 2
         }
-        public Int64 iId { get; set; }
-        public Int16 shAvatarIndex { get; set; }
-        public String sName { get; set; }
-        public String sMotto { get; set; }
-        public Int16 shLevel { get; set; }
-        public Int32 iCash { get; set; }
-        public Int32 iBoost { get; set; }
-        public Int16 iPercentageOfLevelCompletion { get; set; }
-        public Int32 iReputationInLevel { get; set; }
-        public Int32 iReputationInTotal { get; set; }
+
+        private Int64 _iId;
+        public Int64 iId
+        {
+            get { return _iId; }
+            set
+            {
+                _iId = value;
+                RaisePropertyChangedEvent("iId");
+            }
+        }
+
+        private Int16 _shAvatarIndex;
+        public Int16 shAvatarIndex {
+            get { return _shAvatarIndex; }
+            set
+            {
+                _shAvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                RaisePropertyChangedEvent("shAvatarIndex");
+            }
+        }
+
+        private String _sName;
+        public String sName
+        {
+            get { return _sName; }
+            set
+            {
+                _sName = value;
+                RaisePropertyChangedEvent("sName");
+            }
+        }
+
+        private String _sMotto;
+        public String sMotto
+        {
+            get { return _sMotto; }
+            set
+            {
+                _sMotto = value;
+                RaisePropertyChangedEvent("sMotto");
+            }
+        }
+
+        private Int16 _shLevel;
+        public Int16 shLevel {
+            get { return _shLevel; }
+            set
+            {
+                _shLevel = value;
+                RaisePropertyChangedEvent("shLevel");
+            }
+        }
+
+        private Int32 _iCash;
+        public Int32 iCash
+        {
+            get { return _iCash; }
+            set
+            {
+                _iCash = value;
+                RaisePropertyChangedEvent("iCash");
+                RaisePropertyChangedEvent("iCashForView");
+            }
+        }
+        public String iCashForView
+        {
+            get
+            {
+                return iCash == 0 ? "\r\n\r\n\r\n0.":iCash.ToString("#\r\n##,#\r\n###\r\n###")+".";
+            }
+        }
+
+        private Int32 _iBoost;
+        public Int32 iBoost
+        {
+            get { return _iBoost; }
+            set
+            {
+                _iBoost = value;
+                RaisePropertyChangedEvent("iBoost");
+                RaisePropertyChangedEvent("iBoostForView");
+            }
+        }
+        public String iBoostForView
+        {
+            get
+            {
+                return iBoost == 0 ? "\r\n\r\n\r\n0." : iBoost.ToString("#\r\n##,#\r\n###\r\n###")+".";
+            }
+        }
+
+        private Int16 _iPercentageOfLevelCompletion;
+        public Int16 iPercentageOfLevelCompletion
+        {
+            get { return _iPercentageOfLevelCompletion; }
+            set
+            {
+                _iPercentageOfLevelCompletion = value;
+                RaisePropertyChangedEvent("iPercentageOfLevelCompletion");
+            }
+        }
+
+        private Int32 _iReputationInLevel;
+        public Int32 iReputationInLevel
+        {
+            get { return _iReputationInLevel; }
+            set
+            {
+                _iReputationInLevel = value;
+                RaisePropertyChangedEvent("iReputationInLevel");
+            }
+        }
+
+        private Int32 _iReputationInTotal;
+        public Int32 iReputationInTotal
+        {
+            get { return _iReputationInTotal; }
+            set
+            {
+                _iReputationInTotal = value;
+                RaisePropertyChangedEvent("iReputationInTotal");
+            }
+        }
+
+        private Cars _mCars;
+        public Cars mCars
+        {
+            get { return _mCars; }
+            set
+            {
+                _mCars = value;
+                RaisePropertyChangedEvent("mCars");
+            }
+        }
 
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
@@ -105,6 +359,7 @@ namespace OfflineServer
             this.iPercentageOfLevelCompletion = personaPercentageOfLevel;
             this.iReputationInLevel = personaReputationLevel;
             this.iReputationInTotal = personaReputationTotal;
+            this.mCars = new Cars(); //////////////PLACEHOLDER!!!!
         }
 
         /// <summary>
@@ -122,6 +377,7 @@ namespace OfflineServer
             this.iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
             this.iReputationInLevel = persona.iReputationInLevel;
             this.iReputationInTotal = persona.iReputationInTotal;
+            this.mCars = new Cars(); //////////////PLACEHOLDER!!!!
         }
 
         /// <summary>
@@ -165,7 +421,7 @@ namespace OfflineServer
     
     public class NfswSession : ObservableObject
     {
-        public Engine EngineBuild;
+        public Engine mEngine = new Engine();
         private Persona _mPersona;
         public Persona mPersona
         {
@@ -195,8 +451,6 @@ namespace OfflineServer
             mPersonaList = Persona.GetCurrentPersonaList();
             _mPersona = new Persona(mPersonaList[0]);
 
-            if (_mPersona.shAvatarIndex > 27) _mPersona.shAvatarIndex = 27;
-
 
             //long readSessionIdAndCalculated = 0002;
             //    Persona.SetPersona(readSessionIdAndCalculated);
@@ -210,6 +464,14 @@ namespace OfflineServer
         private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
         public MainWindow()
         {
+            #region Culture Independency
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+            XmlLanguage xMarkup = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(xMarkup));
+            FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
+            #endregion
+
             CurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
@@ -273,12 +535,8 @@ namespace OfflineServer
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            //placeholder for now
-            DockPanel t1 = new DockPanel() { Background = new ImageBrush() { Stretch = Stretch.Fill, ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Campaigns/Treasure_Hunt.png", UriKind.Absolute)) } };
-            TextBlock t1_1 = new TextBlock() { Text = "Your longest TH Streak is 0 on persona 'Default Profile 1'.", Padding = new Thickness(6.5d), Background = new SolidColorBrush(Color.FromArgb(122, 0, 0, 0)), VerticalAlignment = VerticalAlignment.Bottom, TextTrimming = TextTrimming.CharacterEllipsis, Height = 30 };
-            DockPanel.SetDock(t1_1, Dock.Bottom);
-            t1.Children.Add(t1_1);
-            metrotileRandomPersonaInfo.Content = t1;
+            DockPanel dNewInfoContent = CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
+            metrotileRandomPersonaInfo.Content = dNewInfoContent;
         }
 
         private async void buttonStartServer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -315,6 +573,9 @@ namespace OfflineServer
                     break;
                 case "buttonOpenPersonaList":
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
+                    break;
+                case "buttonUpdatePersonaInfoTile":
+                    tRandomPersonaInfo_Tick(null, null);
                     break;
                 default:
                     break;
@@ -358,5 +619,6 @@ namespace OfflineServer
             (sender as FlipView).SetBinding(FlipView.SelectedIndexProperty, indexBind);
         }
         #endregion
+        
     }
 }

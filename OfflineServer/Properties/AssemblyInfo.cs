@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Exclusively made for elitepvpers.com")]
-[assembly: AssemblyProduct("Launcher")]
+[assembly: AssemblyProduct("Server")]
 [assembly: AssemblyCopyright("Copyright © berkay2578 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

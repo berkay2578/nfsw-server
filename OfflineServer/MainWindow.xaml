@@ -64,7 +64,7 @@
                             <DockPanel>
                                 <Rectangle Width="30" Height="30" DockPanel.Dock="Left">
                                     <Rectangle.Fill>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_multiple}" />
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_multiple}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <TextBlock DockPanel.Dock="Right" Margin="15,0,0,0" TextWrapping="Wrap" Text="Persona List" TextAlignment="Center"/>
@@ -73,16 +73,106 @@
                     </Button>
                     <GroupBox Name="groupBox" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
-                            <TextBlock Name="textblockPersonaLevel" Text="{Binding Path=mPersona.shLevel, StringFormat='Level: {0}'}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Margin="133,8,-4,0" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" Width="144"/>
-                            <TextBlock Name="textblockPersonaMotto" Text="{Binding Path=mPersona.sMotto, StringFormat='Motto: {0}'}" TextTrimming="CharacterEllipsis"  HorizontalAlignment="Left" Margin="133,30,-4,0" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" Width="144"/>
-                            <TextBlock Name="textblockPersonaIGC" Text="{Binding Path=mPersona.iCash, StringFormat='Cash: {0}'}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Margin="133,50,-4,0" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" Width="144"/>
-                            <TextBlock Name="textblockPersonaBoost" Text="{Binding Path=mPersona.iBoost, StringFormat='Boost: {0}'}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" Margin="133,72,-4,0" VerticalAlignment="Top" ToolTipService.ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" Width="144"/>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" 
                                 HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" Loaded="FlipViewPersonaImage_Loaded" BorderThickness="2" BorderBrush="#FF505050" Background="#FF303030"/>
+                            <StackPanel Orientation="Vertical" Margin="10,125,215,0" Width="48">
+                                <StackPanel.ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} has {1} cars.">
+                                                <Binding Path="mPersona.sName"/>
+                                                <Binding Path="mPersona.mCars.iAmount"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel.ToolTip>
+                                <Rectangle Height="34" Width="32">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Text="{Binding Path=mPersona.mCars.iAmount}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="63,125,162,0" Width="48">
+                                <StackPanel.ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} has played for {1} hours.">
+                                                <Binding Path="mPersona.sName"/>
+                                                <Binding Path="mPersona.mCars.iAmount"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel.ToolTip>
+                                <Rectangle Height="34" Width="32">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_timer}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                            </StackPanel>
+                            <Grid Margin="127,0,3,110" Background="#FF303030">
+                                <Grid.ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} is level {1}.">
+                                                <Binding Path="mPersona.sName"/>
+                                                <Binding Path="mPersona.shLevel"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid.ToolTip>
+                                <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{Binding mPersona.shLevel}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
+                                <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFDDDDDD" Width="72" Height="32" Margin="3,0,0,0">
+                                    <Run FontFamily="Segoe UI Semilight" FontSize="10pt" Text="17862254"/>
+                                    <LineBreak/>
+                                    <Run FontFamily="Segoe UI Light" FontSize="8pt" Text="XP Left"/>
+                                </TextBlock>
+                            </Grid>
+                            <Grid Margin="127,69,77,0">
+                                <Grid.Background>
+                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource Cash}"/>
+                                </Grid.Background>
+                                <Grid.ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} has {1} cash.">
+                                                <Binding Path="mPersona.sName"/>
+                                                <Binding Path="mPersona.iCash"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid.ToolTip>
+                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,0" Text="{Binding Path=mPersona.iCashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </Grid>
+                            <Grid Margin="201,69,3,0">
+                                <Grid.Background>
+                                    <VisualBrush Stretch="Uniform" Visual="{StaticResource Boost}"/>
+                                </Grid.Background>
+                                <Grid.ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} has {1} boost.">
+                                                <Binding Path="mPersona.sName"/>
+                                                <Binding Path="mPersona.iBoost"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid.ToolTip>
+                                <TextBlock VerticalAlignment="Bottom" Margin="15,0,2,0" Text="{Binding Path=mPersona.iBoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </Grid>
                         </Grid>
                     </GroupBox>
-                    <Controls:Tile HorizontalAlignment="Left" VerticalAlignment="Top" Width="417" Height="127" Margin="10,10,0,0" Focusable="False" IsTabStop="False" IsEnabled="False">
+                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="417" Height="127" Margin="10,10,0,0" Click="Button_ClickHandler">
                         <Grid>
                             <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="417" Height="127" Transition="Up" />
                         </Grid>
