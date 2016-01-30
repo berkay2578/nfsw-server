@@ -21,7 +21,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" IsSynchronizedWithCurrentItem="True" SnapsToDevicePixels="True" IsManipulationEnabled="True" Grid.ColumnSpan="2" TabStripPlacement="Left">
+        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
             <TabItem Name="tabItem" Header="Persona">
                 <Grid Margin="25,0,0,0">
                     <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="117" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
@@ -74,8 +74,8 @@
                     <GroupBox Name="groupBox" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
-                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" 
-                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" Loaded="FlipViewPersonaImage_Loaded" BorderThickness="2" BorderBrush="#FF505050" Background="#FF303030"/>
+                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
+                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="2" BorderBrush="#FF505050" Background="#FF303030"/>
                             <StackPanel Orientation="Vertical" Margin="10,125,215,0" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock>

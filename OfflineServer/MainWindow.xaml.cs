@@ -462,6 +462,7 @@ namespace OfflineServer
         public static SQLiteConnection dbConnection;
         public static NfswSession CurrentSession = new NfswSession();
         private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
+
         public MainWindow()
         {
             #region Culture Independency
@@ -502,19 +503,32 @@ namespace OfflineServer
 
             #region FlipViewPersona
             FlipViewPersonaImage.HideControlButtons();
-            
-            Image Image_FlipViewDummy;
-            Grid Grid_FlipViewDummy;
+
+            Grid[] aFlipViewAvatarArray = new Grid[28];
             for (int i = 0; i < 28; i++)
             {
+                Grid Grid_FlipViewDummy;
+                Image Image_FlipViewDummy;
                 Image_FlipViewDummy = new Image() { Margin = new Thickness(7d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
                 Grid_FlipViewDummy = new Grid() { Margin = new Thickness(-8d) };
                 Grid_FlipViewDummy.Children.Add(Image_FlipViewDummy);
                 Image t1 = new Image() { Source = Image_FlipViewDummy.Source };
                 t1.Effect = new System.Windows.Media.Effects.BlurEffect() { Radius = 7.5d };
                 Grid_FlipViewDummy.Background = new VisualBrush((Visual)t1);
-                FlipViewPersonaImage.Items.Add(Grid_FlipViewDummy);
+                aFlipViewAvatarArray[i] = Grid_FlipViewDummy;
             }
+            FlipViewPersonaImage.ItemsSource = aFlipViewAvatarArray;
+
+
+            Binding indexBind = new Binding()
+            {
+                Path = new PropertyPath("mPersona.shAvatarIndex"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay,
+                Source = CurrentSession
+            };
+            FlipViewPersonaImage.SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
+            BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
             #endregion
 
             #region Flyouts &++ DataGrid;dbConnection
@@ -607,19 +621,6 @@ namespace OfflineServer
         {
             (sender as FlipView).HideControlButtons();
         }
-
-        private void FlipViewPersonaImage_Loaded(object sender, RoutedEventArgs e)
-        {
-            (sender as FlipView).SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
-            Binding indexBind = new Binding
-            {
-                Path = new PropertyPath("mPersona.shAvatarIndex"),
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.TwoWay
-            };
-            (sender as FlipView).SetBinding(FlipView.SelectedIndexProperty, indexBind);
-        }
-        #endregion
-        
     }
+    #endregion
 }
