@@ -71,7 +71,7 @@
                             </DockPanel>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
+                    <GroupBox Name="groupBox" DataContext="{Binding CurrentSession}" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
@@ -188,7 +188,7 @@
         </TabControl>
     </Grid>
     <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl>
+        <Controls:FlyoutsControl DataContext="{Binding CurrentSession}">
             <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">

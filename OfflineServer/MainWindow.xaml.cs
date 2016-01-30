@@ -456,11 +456,11 @@ namespace OfflineServer
             //    Persona.SetPersona(readSessionIdAndCalculated);
         }
     }
-    
+
     public partial class MainWindow : MetroWindow
     {
         public static SQLiteConnection dbConnection;
-        public static NfswSession CurrentSession = new NfswSession();
+        public NfswSession CurrentSession { get; set; } = new NfswSession();
         private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
 
         public MainWindow()
@@ -473,15 +473,16 @@ namespace OfflineServer
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
             #endregion
 
+            //uncomment if running for first time
+            //vCreateDB()
+
             CurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
         }
 
-        private void SetupComponents()
+        private void vCreateDB()
         {
-            goto skip;
-            #region Create .db || Get rid of label if running for the first-time
             if (File.Exists("Server Data\\PersonaData.db")) { File.Delete("Server Data\\PersonaData.db"); } else { Directory.CreateDirectory("Server Data"); }
 
             SQLiteConnection.CreateFile("Server Data\\PersonaData.db");
@@ -498,9 +499,10 @@ namespace OfflineServer
             sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, Garage, Inventory) values (1, 26, 'Default Profile 1', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0, 'GaragePlaceholder2', 'InventoryPlaceholder2')";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            #endregion
-            skip:
+        }
 
+        private void SetupComponents()
+        {
             #region FlipViewPersona
             FlipViewPersonaImage.HideControlButtons();
 
@@ -519,7 +521,6 @@ namespace OfflineServer
             }
             FlipViewPersonaImage.ItemsSource = aFlipViewAvatarArray;
 
-
             Binding indexBind = new Binding()
             {
                 Path = new PropertyPath("mPersona.shAvatarIndex"),
@@ -529,13 +530,6 @@ namespace OfflineServer
             };
             FlipViewPersonaImage.SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
-            #endregion
-
-            #region Flyouts &++ DataGrid;dbConnection
-            FlipViewPersonaImage.DataContext = CurrentSession;
-            stackpanelBasicPersonaInfo.DataContext = CurrentSession;
-            datagridPersonaList.DataContext = CurrentSession;
-            groupBox.DataContext = CurrentSession;
             #endregion
 
             #region MetroTile -> Random Persona Info
