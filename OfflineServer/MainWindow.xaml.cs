@@ -527,7 +527,7 @@ namespace OfflineServer
             #region MetroTile -> Random Persona Info
             tRandomPersonaInfo_Tick(null, null);
             tRandomPersonaInfo.Tick += new EventHandler(tRandomPersonaInfo_Tick);
-            tRandomPersonaInfo.Interval = new TimeSpan(0, 0, 20);
+            tRandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
             tRandomPersonaInfo.Start();
             #endregion
 
@@ -575,6 +575,7 @@ namespace OfflineServer
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
                     break;
                 case "buttonUpdatePersonaInfoTile":
+                    /* Cheeky little trick to restart timer */ tRandomPersonaInfo.Stop(); /* -> */ tRandomPersonaInfo.Start();
                     tRandomPersonaInfo_Tick(null, null);
                     break;
                 default:
