@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
 
 namespace OfflineServer
@@ -13,18 +13,25 @@ namespace OfflineServer
             get { return _mPersona; }
             set
             {
-                if (this._mPersona != value)
+                if (_mPersona != value)
                 {
-                    this._mPersona = value;
+                    _mPersona = value;
                     RaisePropertyChangedEvent("mPersona");
                 }
             }
         }
-        private List<Persona> _mPersonaList;
-        public List<Persona> mPersonaList
+        private ObservableCollection<Persona> _mPersonaList;
+        public ObservableCollection<Persona> mPersonaList
         {
             get { return _mPersonaList; }
-            set { if (_mPersonaList != value) { _mPersonaList = value; RaisePropertyChangedEvent("mPersonaList"); } }
+            set
+            {
+                if (_mPersonaList != value)
+                {
+                    _mPersonaList = value;
+                    RaisePropertyChangedEvent("mPersonaList");
+                }
+            }
         }
         public string PermanentSession;
         public string UserSettings;

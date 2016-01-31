@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,22 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace OfflineServer
-{
-    public class ObservableObject : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChangedEvent(string propertyName)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }        
-    
+{   
     public partial class MainWindow : MetroWindow
     {
-        public NfswSession CurrentSession { get; set; } = new NfswSession();
+        public NfswSession mCurrentSession { get; set; } = new NfswSession();
         private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
 
         public MainWindow()
@@ -45,8 +34,8 @@ namespace OfflineServer
             #endregion
 
             if (!File.Exists("Server Data\\PersonaData.db")) vCreateDB();
-
-            CurrentSession.StartSession();
+            
+            mCurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
         }
@@ -66,7 +55,7 @@ namespace OfflineServer
             sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, Garage, Inventory) values (0, 27, 'Debug', 'Test Build', 69, 0, 0, 0, 0, 699, 'GaragePlaceholder', 'InventoryPlaceholder')";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, Garage, Inventory) values (1, 26, 'Default Profile 1', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0, 'GaragePlaceholder2', 'InventoryPlaceholder2')";
+            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, Garage, Inventory) values (1, 26, 'DefaultProfile', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0, 'GaragePlaceholder2', 'InventoryPlaceholder2')";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             m_dbConnection.Close();
@@ -98,9 +87,9 @@ namespace OfflineServer
                 Path = new PropertyPath("mPersona.shAvatarIndex"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.TwoWay,
-                Source = CurrentSession
+                Source = mCurrentSession
             };
-            FlipViewPersonaImage.SelectedIndex = CurrentSession.mPersona.shAvatarIndex;
+            FlipViewPersonaImage.SelectedIndex = mCurrentSession.mPersona.shAvatarIndex;
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
             #endregion
 
@@ -110,12 +99,11 @@ namespace OfflineServer
             tRandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
             tRandomPersonaInfo.Start();
             #endregion
-
         }
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            DockPanel dNewInfoContent = CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
+            DockPanel dNewInfoContent = mCurrentSession.mEngine.mAchievements.GenerateNewAchievement();
             metrotileRandomPersonaInfo.Content = dNewInfoContent;
         }
 
@@ -145,11 +133,8 @@ namespace OfflineServer
                     flyoutBasicPersonaInfo.IsOpen = !flyoutBasicPersonaInfo.IsOpen;
                     break;
                 case "buttonOpenDetailedPersonaInfo":
-                    //if (metrotileRandomPersonaInfo.Content != (Visual)Resources["appbar_calculator"]) { metrotileRandomPersonaInfo.Content = (Visual)Resources["appbar_cupcake"]; return; }
-                    //metrotileRandomPersonaInfo.Content = (Visual)Resources["appbar_calculator"];
-                    
                     flyoutDetailedPersonaInfo.IsOpen = !flyoutDetailedPersonaInfo.IsOpen;
-                    Console.WriteLine(CurrentSession.mPersona.ToString());
+                    Console.WriteLine(mCurrentSession.mPersona.ToString());
                     break;
                 case "buttonOpenPersonaList":
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
@@ -166,15 +151,16 @@ namespace OfflineServer
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            CurrentSession.mPersona = mSelectedPersona;
+            mCurrentSession.mPersona = mSelectedPersona;
         }
 
         private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
         {
-            //currently only implemented for Debug purposes, will be tidied up later
-            int iPersonaIndex = CurrentSession.mPersonaList.FindIndex(a => a.iId == CurrentSession.mPersona.iId);
-            CurrentSession.mPersonaList[iPersonaIndex] = CurrentSession.mPersona;
-            datagridPersonaList.Items.Refresh();
+            if (!flyoutBasicPersonaInfo.IsOpen)
+            {
+                Int32 iPersonaIndex = mCurrentSession.mPersonaList.IndexOf(mCurrentSession.mPersonaList.First<Persona>(sPersona => sPersona.iId == mCurrentSession.mPersona.iId));
+                mCurrentSession.mPersonaList[iPersonaIndex] = mCurrentSession.mPersona;
+            }
         }
 
         #region FlipViewPersonaImage Event Handlers
@@ -186,6 +172,12 @@ namespace OfflineServer
         private void FlipViewPersonaImage_MouseLeave(object sender, MouseEventArgs e)
         {
             (sender as FlipView).HideControlButtons();
+        }
+
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            NfswSession.dbConnection.Close();
+            NfswSession.dbConnection.Dispose();
         }
     }
     #endregion

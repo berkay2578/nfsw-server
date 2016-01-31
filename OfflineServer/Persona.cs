@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Garage;
+using System;
+using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using Garage;
 
 namespace OfflineServer
 {
@@ -25,9 +25,11 @@ namespace OfflineServer
         {
             get { return _iId; }
             set
-            {
-                _iId = value;
-                RaisePropertyChangedEvent("iId");
+            { 
+                if (_iId != value) { 
+                    _iId = value;
+                    RaisePropertyChangedEvent("iId");
+                }
             }
         }
 
@@ -37,8 +39,11 @@ namespace OfflineServer
             get { return _shAvatarIndex; }
             set
             {
-                _shAvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
-                RaisePropertyChangedEvent("shAvatarIndex");
+                if (_shAvatarIndex != value)
+                {
+                    _shAvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                    RaisePropertyChangedEvent("shAvatarIndex");
+                }
             }
         }
 
@@ -48,8 +53,11 @@ namespace OfflineServer
             get { return _sName; }
             set
             {
-                _sName = value;
-                RaisePropertyChangedEvent("sName");
+                if (_sName != value)
+                {
+                    _sName = value;
+                    RaisePropertyChangedEvent("sName");
+                }
             }
         }
 
@@ -59,8 +67,11 @@ namespace OfflineServer
             get { return _sMotto; }
             set
             {
-                _sMotto = value;
-                RaisePropertyChangedEvent("sMotto");
+                if (_sMotto != value)
+                {
+                    _sMotto = value;
+                    RaisePropertyChangedEvent("sMotto");
+                }
             }
         }
 
@@ -70,8 +81,11 @@ namespace OfflineServer
             get { return _shLevel; }
             set
             {
-                _shLevel = value;
-                RaisePropertyChangedEvent("shLevel");
+                if (_shLevel != value)
+                {
+                    _shLevel = value;
+                    RaisePropertyChangedEvent("shLevel");
+                }
             }
         }
 
@@ -81,9 +95,12 @@ namespace OfflineServer
             get { return _iCash; }
             set
             {
-                _iCash = value;
-                RaisePropertyChangedEvent("iCash");
-                RaisePropertyChangedEvent("iCashForView");
+                if (_iCash != value)
+                {
+                    _iCash = value;
+                    RaisePropertyChangedEvent("iCash");
+                    RaisePropertyChangedEvent("iCashForView");
+                }
             }
         }
         public String iCashForView
@@ -100,9 +117,12 @@ namespace OfflineServer
             get { return _iBoost; }
             set
             {
-                _iBoost = value;
-                RaisePropertyChangedEvent("iBoost");
-                RaisePropertyChangedEvent("iBoostForView");
+                if (_iBoost != value)
+                {
+                    _iBoost = value;
+                    RaisePropertyChangedEvent("iBoost");
+                    RaisePropertyChangedEvent("iBoostForView");
+                }
             }
         }
         public String iBoostForView
@@ -119,8 +139,11 @@ namespace OfflineServer
             get { return _iPercentageOfLevelCompletion; }
             set
             {
-                _iPercentageOfLevelCompletion = value;
-                RaisePropertyChangedEvent("iPercentageOfLevelCompletion");
+                if (_iPercentageOfLevelCompletion != value)
+                {
+                    _iPercentageOfLevelCompletion = value;
+                    RaisePropertyChangedEvent("iPercentageOfLevelCompletion");
+                }
             }
         }
 
@@ -130,8 +153,11 @@ namespace OfflineServer
             get { return _iReputationInLevel; }
             set
             {
-                _iReputationInLevel = value;
-                RaisePropertyChangedEvent("iReputationInLevel");
+                if (_iReputationInLevel != value)
+                {
+                    _iReputationInLevel = value;
+                    RaisePropertyChangedEvent("iReputationInLevel");
+                }
             }
         }
 
@@ -141,8 +167,11 @@ namespace OfflineServer
             get { return _iReputationInTotal; }
             set
             {
-                _iReputationInTotal = value;
-                RaisePropertyChangedEvent("iReputationInTotal");
+                if (_iReputationInTotal != value)
+                {
+                    _iReputationInTotal = value;
+                    RaisePropertyChangedEvent("iReputationInTotal");
+                }
             }
         }
 
@@ -152,8 +181,11 @@ namespace OfflineServer
             get { return _mCars; }
             set
             {
-                _mCars = value;
-                RaisePropertyChangedEvent("mCars");
+                if (_mCars != value)
+                {
+                    _mCars = value;
+                    RaisePropertyChangedEvent("mCars");
+                }
             }
         }
 
@@ -162,17 +194,17 @@ namespace OfflineServer
         /// </summary>
         public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal)
         {
-            this.iId = personaId;
-            this.shAvatarIndex = personaAvatarIndex;
-            this.sName = personaName;
-            this.sMotto = personaMotto;
-            this.shLevel = personaLevel;
-            this.iCash = personaCash;
-            this.iBoost = personaBoost;
-            this.iPercentageOfLevelCompletion = personaPercentageOfLevel;
-            this.iReputationInLevel = personaReputationLevel;
-            this.iReputationInTotal = personaReputationTotal;
-            this.mCars = new Cars(); //////////////PLACEHOLDER!!!!
+            iId = personaId;
+            shAvatarIndex = personaAvatarIndex;
+            sName = personaName;
+            sMotto = personaMotto;
+            shLevel = personaLevel;
+            iCash = personaCash;
+            iBoost = personaBoost;
+            iPercentageOfLevelCompletion = personaPercentageOfLevel;
+            iReputationInLevel = personaReputationLevel;
+            iReputationInTotal = personaReputationTotal;
+            mCars = new Cars(); //////////////PLACEHOLDER!!!!
         }
 
         /// <summary>
@@ -180,17 +212,17 @@ namespace OfflineServer
         /// </summary>
         public Persona(Persona persona)
         {
-            this.iId = persona.iId;
-            this.shAvatarIndex = persona.shAvatarIndex;
-            this.sName = persona.sName;
-            this.sMotto = persona.sMotto;
-            this.shLevel = persona.shLevel;
-            this.iCash = persona.iCash;
-            this.iBoost = persona.iBoost;
-            this.iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
-            this.iReputationInLevel = persona.iReputationInLevel;
-            this.iReputationInTotal = persona.iReputationInTotal;
-            this.mCars = new Cars(); //////////////PLACEHOLDER!!!!
+            iId = persona.iId;
+            shAvatarIndex = persona.shAvatarIndex;
+            sName = persona.sName;
+            sMotto = persona.sMotto;
+            shLevel = persona.shLevel;
+            iCash = persona.iCash;
+            iBoost = persona.iBoost;
+            iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
+            iReputationInLevel = persona.iReputationInLevel;
+            iReputationInTotal = persona.iReputationInTotal;
+            mCars = new Cars(); //////////////PLACEHOLDER!!!!
         }
 
         /// <summary>
@@ -215,9 +247,9 @@ namespace OfflineServer
         /// </summary>
         /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
         /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
-        public static List<Persona> GetCurrentPersonaList()
+        public static ObservableCollection<Persona> GetCurrentPersonaList()
         {
-            List<Persona> listPersona = new List<Persona>();
+            ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
 
             string sql = "select * from personas order by Id asc";
             SQLiteCommand command = new SQLiteCommand(sql, NfswSession.dbConnection);

@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:OfflineServer"
         mc:Ignorable="d"
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Content="settings"/>
@@ -71,7 +71,7 @@
                             </DockPanel>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding CurrentSession}" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
+                    <GroupBox Name="groupBox" DataContext="{Binding mCurrentSession}" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
@@ -188,7 +188,7 @@
         </TabControl>
     </Grid>
     <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl DataContext="{Binding CurrentSession}">
+        <Controls:FlyoutsControl DataContext="{Binding mCurrentSession}">
             <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
@@ -198,10 +198,10 @@
                         <Label Margin="5" Content="Cash: " Foreground="White"/>
                         <Label Margin="5" Content="Boost: " Foreground="White"/>
                     </StackPanel>
-                    <StackPanel x:Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190">
+                    <StackPanel Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190">
                         <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Path=mPersona.sName}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
                         <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Path=mPersona.sMotto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Path=mPersona.shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Path=mPersona.shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Left" />
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iCash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iBoost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
                     </StackPanel>
@@ -217,7 +217,7 @@
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
                               CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
-                              SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding mPersonaList}"
+                              SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding Path=mPersonaList, Mode=OneWay}" 
                               MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding sName}"/>
