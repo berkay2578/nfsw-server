@@ -22,6 +22,7 @@ namespace OfflineServer
     {
         public NfswSession mCurrentSession { get; set; } = new NfswSession();
         private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
+        private HTTPServer sHttp = new HTTPServer();
 
         public MainWindow()
         {
@@ -33,7 +34,7 @@ namespace OfflineServer
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
             #endregion
 
-            if (!File.Exists("Server Data\\PersonaData.db")) vCreateDB();
+            if (!File.Exists("ServerData\\PersonaData.db")) vCreateDB();
             
             mCurrentSession.StartSession();
             InitializeComponent();
@@ -42,11 +43,13 @@ namespace OfflineServer
 
         private void vCreateDB()
         {
-            if (File.Exists("Server Data\\PersonaData.db")) { File.Delete("Server Data\\PersonaData.db"); } else { Directory.CreateDirectory("Server Data"); }
+            Directory.CreateDirectory("ServerData");
 
-            SQLiteConnection.CreateFile("Server Data\\PersonaData.db");
+            File.WriteAllText("ServerData\\test.xml", "<Test xmlns:i=\"\"><localtest/></Test>");
+
+            SQLiteConnection.CreateFile("ServerData\\PersonaData.db");
             SQLiteConnection m_dbConnection;
-            m_dbConnection = new SQLiteConnection("Data Source=\"Server Data\\PersonaData.db\";Version=3;");
+            m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\PersonaData.db\";Version=3;");
             m_dbConnection.Open();
             string sql = "create table personas (Id bigint, IconIndex smallint, Name varchar(14), Motto varchar(30), Level smallint, IGC int, Boost int, ReputationPercentage smallint, LevelReputation int, TotalReputation int, Garage longtext, Inventory longtext)";
 
@@ -134,7 +137,6 @@ namespace OfflineServer
                     break;
                 case "buttonOpenDetailedPersonaInfo":
                     flyoutDetailedPersonaInfo.IsOpen = !flyoutDetailedPersonaInfo.IsOpen;
-                    Console.WriteLine(mCurrentSession.mPersona.ToString());
                     break;
                 case "buttonOpenPersonaList":
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
@@ -143,11 +145,10 @@ namespace OfflineServer
                     /* Cheeky little trick to restart timer */ tRandomPersonaInfo.Stop(); /* -> */ tRandomPersonaInfo.Start();
                     tRandomPersonaInfo_Tick(null, null);
                     break;
-                default:
-                    break;
             }
         }
 
+        #region PersonaList related events
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
@@ -162,8 +163,9 @@ namespace OfflineServer
                 mCurrentSession.mPersonaList[iPersonaIndex] = mCurrentSession.mPersona;
             }
         }
+        #endregion
 
-        #region FlipViewPersonaImage Event Handlers
+        #region FlipViewPersonaImage events
         private void FlipViewPersonaImage_MouseEnter(object sender, MouseEventArgs e)
         {
             (sender as FlipView).ShowControlButtons();
@@ -173,12 +175,16 @@ namespace OfflineServer
         {
             (sender as FlipView).HideControlButtons();
         }
+        #endregion
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
+            sHttp.nServer.Stop();
+            sHttp.nServer.Dispose();
+
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
         }
     }
-    #endregion
+
 }

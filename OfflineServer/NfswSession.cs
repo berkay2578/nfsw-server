@@ -5,7 +5,7 @@ namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
-        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"Server Data\\PersonaData.db\";Version=3;");
+        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"ServerData\\PersonaData.db\";Version=3;");
         public Engine mEngine = new Engine();
         private Persona _mPersona;
         public Persona mPersona
