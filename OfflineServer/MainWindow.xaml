@@ -76,7 +76,7 @@
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has {1} cars.">
                                                 <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.mCars.iAmount"/>
+                                                <Binding Path="mPersona.mCars.Amount"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -86,7 +86,7 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding Path=mPersona.mCars.iAmount}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Path=mPersona.mCars.Amount}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="63,125,162,0" Width="48">
                                 <StackPanel.ToolTip>
@@ -94,7 +94,7 @@
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has played for {1} hours.">
                                                 <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.mCars.iAmount"/>
+                                                <Binding Path="mPersona.mCars.Amount"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>

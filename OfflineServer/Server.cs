@@ -14,6 +14,12 @@ using System.Xml.Linq;
 
 namespace OfflineServer
 {
+    public static class ServerAttributes
+    { 
+        public static readonly XNamespace srlNS = XNamespace.Get("http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization");
+        public static readonly XNamespace nilNS = XNamespace.Get("http://www.w3.org/2001/XMLSchema-instance");
+    }
+
     public class HTTPServer
     {
         public HttpServer nServer = new HttpServer();
@@ -22,7 +28,7 @@ namespace OfflineServer
             nServer.RequestReceived += nServer_RequestReceived;
             nServer.Start();
 
-            System.Diagnostics.Process.Start(String.Format("http://{0}/ServerData/test.xml", nServer.EndPoint));
+            //System.Diagnostics.Process.Start(String.Format("http://{0}/ServerData/test.xml", nServer.EndPoint));
         }
 
         private string oldPath;
@@ -110,16 +116,16 @@ namespace OfflineServer
             /// <param name="Title">Item title that is displayed in-game</param>
             /// <param name="GType">Item type that NFS: World can recognize, not the server</param>
             /// <param name="ExtraDetail">If there is one, a special condition for the item that is displayed in-game</param>
-            /// <returns></returns>
+            /// <returns>An XElement wrapped around in ProductTrans tags.</returns>
             public static XElement GetProductTransactionEntry(Currency CurrencyType, String Description, Int32 RentalDurationInMinutes, Int64 Hash, String IconString, Int16 LevelLimit, String TooltipDescription, Int32 Price, Int16 PriorityNumber, ServerItemType SType, Int32 Id, String Title, GameItemType GType, Special ExtraDetail)
             {
                 XElement ProductNode = 
                     new XElement("ProductTrans",
                         new XElement("BundleItems",
-                            new XAttribute("i:nil", "true")
+                            new XAttribute(ServerAttributes.nilNS + "nil", "true")
                         ),
                         new XElement("CategoryId",
-                            new XAttribute("i:nil", "true")
+                            new XAttribute(ServerAttributes.nilNS + "nil", "true")
                         ),
                         new XElement("Currency", CurrencyType.GetString()),
                         new XElement("Description", Description),

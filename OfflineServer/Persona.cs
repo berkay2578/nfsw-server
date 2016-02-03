@@ -204,7 +204,7 @@ namespace OfflineServer
             iPercentageOfLevelCompletion = personaPercentageOfLevel;
             iReputationInLevel = personaReputationLevel;
             iReputationInTotal = personaReputationTotal;
-            mCars = new Cars(); //////////////PLACEHOLDER!!!!
+            mCars = new Cars(personaId);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace OfflineServer
             iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
             iReputationInLevel = persona.iReputationInLevel;
             iReputationInTotal = persona.iReputationInTotal;
-            mCars = new Cars(); //////////////PLACEHOLDER!!!!
+            mCars = new Cars(persona.iId);
         }
 
         /// <summary>
