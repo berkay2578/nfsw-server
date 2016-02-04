@@ -107,6 +107,7 @@ namespace OfflineServer
                 {
                     _PhysicsProfileHash = value;
                     RaisePropertyChangedEvent("PhysicsProfileHash");
+                    RaisePropertyChangedEvent("MakeModel");
                 }
             }
         }

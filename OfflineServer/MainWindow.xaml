@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:Globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfflineServer"
@@ -17,7 +16,7 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
+        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
             <TabItem Name="PersonaTab" Header="Persona">
                 <Grid Margin="25,0,0,0">
                     <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="117" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
@@ -231,15 +230,15 @@
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApiId" Text="{Binding ApiId}"/>
-                                <TextBox Margin="0,5,0,0"/>
-                                <TextBox Margin="0,5,0,0"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApiId" Text="{Binding ApiId}" IsReadOnly="True" IsEnabled="False"/>
+                                <Button Name="buttonPaints" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
+                                <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="999" Value="{Binding Rating}"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Resale Price" Text="{Binding ResalePrice, StringFormat=\{0:C0\}}" xml:lang="en-US"/>
-                                <TextBox Margin="0,5,0,0"/>
-                                <TextBox Margin="0,5,0,0"/>
-                                <TextBox Margin="0,5,0,0"/>
+                                <Button Name="buttonSkillModParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
+                                <Button Name="buttonVinyls" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
+                                <Button Name="buttonVisualParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%"/>
                                 <TextBox Margin="0,5,0,0"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="1" Maximum="7" Value="{Binding HeatLevel}"/>
@@ -294,6 +293,11 @@
                             <DataGridTextColumn Header="Amount of Cars" Binding="{Binding Cars.Count}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                </StackPanel>
+            </Controls:Flyout>
+            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" Position="Right" Width="350" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Vertical" Margin="15,5,15,15">
+                    <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Name="tbGaragePartInfo" Width="320" Height="320"/>
                 </StackPanel>
             </Controls:Flyout>
         </Controls:FlyoutsControl>

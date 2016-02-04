@@ -181,6 +181,48 @@ namespace OfflineServer
                     /* Cheeky little trick to restart timer */ tRandomPersonaInfo.Stop(); /* -> */ tRandomPersonaInfo.Start();
                     tRandomPersonaInfo_Tick(null, null);
                     break;
+                case "buttonPaints":
+                case "buttonPerformanceParts":
+                case "buttonSkillModParts":
+                case "buttonVinyls":
+                case "buttonVisualParts":
+                    tbGaragePartInfo.SetBinding(TextBox.TextProperty, new Binding() {
+                        Converter = new PropertyValueStringConverter(this),
+                        Path = new PropertyPath("mPersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
+                        UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                        Mode = BindingMode.TwoWay,
+                        Source = mCurrentSession
+                    });
+                    flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
+                    break;
+            }
+        }
+        public class PropertyValueStringConverter : IValueConverter
+        {
+            private MainWindow _Window;
+            public PropertyValueStringConverter(MainWindow dlWindow)
+            {
+                _Window = dlWindow;
+            }
+
+            public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            {
+                return value.ToString();
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            {
+                try
+                {
+                    return System.Xml.Linq.XElement.Parse(value.ToString());
+                }
+                catch (Exception ex)
+                {
+                    BindingOperations.ClearBinding(_Window.tbGaragePartInfo, TextBox.TextProperty);
+                    _Window.flyoutGaragePartInfo.IsOpen = false;
+                    MessageBox.Show(ex.ToString(), "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
             }
         }
 
