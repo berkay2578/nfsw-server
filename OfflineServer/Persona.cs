@@ -1,7 +1,8 @@
-﻿using Garage;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.Text;
+using System.Xml.Linq;
 
 namespace OfflineServer
 {
@@ -175,16 +176,29 @@ namespace OfflineServer
             }
         }
 
-        private Cars _mCars;
-        public Cars mCars
-        {
-            get { return _mCars; }
+        private Car _SelectedCar;
+        public Car SelectedCar {
+            get { return _SelectedCar; }
             set
             {
-                if (_mCars != value)
+                if (_SelectedCar != value)
                 {
-                    _mCars = value;
-                    RaisePropertyChangedEvent("mCars");
+                    _SelectedCar = value;
+                    RaisePropertyChangedEvent("SelectedCar");
+                }
+            }
+        }
+
+        private ObservableCollection<Car> _Cars = new ObservableCollection<Car>();
+        public ObservableCollection<Car> Cars
+        {
+            get { return _Cars; }
+            set
+            {
+                if (_Cars != value)
+                {
+                    _Cars = value;
+                    RaisePropertyChangedEvent("Cars");
                 }
             }
         }
@@ -204,7 +218,15 @@ namespace OfflineServer
             iPercentageOfLevelCompletion = personaPercentageOfLevel;
             iReputationInLevel = personaReputationLevel;
             iReputationInTotal = personaReputationTotal;
-            mCars = new Cars(personaId);
+            
+            SQLiteCommand command = new SQLiteCommand("select * from Id" + personaId.ToString() + " order by ApiId asc", NfswSession.dbCarsConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime ValidTime = (String)reader[12] == "null" ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
+                Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
+                Cars.Add(dummyCar);
+            }
         }
 
         /// <summary>
@@ -222,7 +244,15 @@ namespace OfflineServer
             iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
             iReputationInLevel = persona.iReputationInLevel;
             iReputationInTotal = persona.iReputationInTotal;
-            mCars = new Cars(persona.iId);
+
+            SQLiteCommand command = new SQLiteCommand("select * from Id" + persona.iId.ToString() + " order by ApiId asc", NfswSession.dbCarsConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime ValidTime = (String)reader[12] == "null" ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
+                Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
+                Cars.Add(dummyCar);
+            }
         }
 
         /// <summary>
@@ -243,16 +273,15 @@ namespace OfflineServer
         }
 
         /// <summary>
-        /// Reads the registered personas from a fixed-string database file and returns them.
+        /// Reads the registered personas from a fixed-string database file.
         /// </summary>
         /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
         /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
         public static ObservableCollection<Persona> GetCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
-
-            string sql = "select * from personas order by Id asc";
-            SQLiteCommand command = new SQLiteCommand(sql, NfswSession.dbConnection);
+            
+            SQLiteCommand command = new SQLiteCommand("select * from personas order by Id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -261,6 +290,50 @@ namespace OfflineServer
             }
 
             return listPersona;
+        }
+
+        /// <summary>
+        /// Reads the complete garage of the current active persona.
+        /// </summary>
+        /// <returns>A string instance containing all of the persona's cars in indented XML.</returns>
+        public String GetCompleteGarage()
+        {
+            XElement CarEntries = new XElement("CarsOwnedByPersona");
+            foreach (Car CarEntry in Cars)
+            {
+                CarEntries.Add(CarEntry.GetCarEntry());
+            }
+
+            XDocument docAllCars = new XDocument(
+                new XDeclaration("1.0", Encoding.UTF8.HeaderName, String.Empty),
+                new XElement("CarSlotInfoTrans",
+                    new XAttribute(XNamespace.Xmlns + "i", ServerAttributes.nilNS),
+                    CarEntries,
+                    new XElement("DefaultOwnedCarIndex", "DebugNil"),
+                    new XElement("ObtainableSlots",
+                        Economy.Basket.GetProductTransactionEntry
+                        (
+                            Economy.Currency.Boost,
+                            "Grants you 1 extra car slot.",
+                            0,
+                            -1143680669,
+                            "128_cash",
+                            0,
+                            "Only for 100 boost you will get a car slot instantly!",
+                            100,
+                            0,
+                            Economy.ServerItemType.CarSlot,
+                            0,
+                            "Car Slot",
+                            Economy.GameItemType.CarSlot,
+                            Economy.Special.None
+                        )
+                    ),
+                    new XElement("OwnedCarSlotsCount", "DebugNil")
+                )
+            );
+            docAllCars.Root.SetDefaultXmlNamespace(ServerAttributes.srlNS);
+            return docAllCars.ToString();
         }
     }
 }

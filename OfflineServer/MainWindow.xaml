@@ -2,11 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfflineServer"
         mc:Ignorable="d"
-        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" 
+        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="False"
         IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing">
     <Controls:MetroWindow.RightWindowCommands>
@@ -16,7 +18,7 @@
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
-            <TabItem Name="tabItem" Header="Persona">
+            <TabItem Name="PersonaTab" Header="Persona">
                 <Grid Margin="25,0,0,0">
                     <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="117" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
                         <Rectangle Width="50" Height="40">
@@ -76,7 +78,7 @@
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has {1} cars.">
                                                 <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.mCars.Amount"/>
+                                                <Binding Path="mPersona.Cars.Count"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -86,7 +88,7 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding Path=mPersona.mCars.Amount}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Path=mPersona.Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="63,125,162,0" Width="48">
                                 <StackPanel.ToolTip>
@@ -94,7 +96,7 @@
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has played for {1} hours.">
                                                 <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.mCars.Amount"/>
+                                                <Binding Path="mPersona.Cars.Count"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -173,8 +175,79 @@
                     </Controls:Tile>
                 </Grid>
             </TabItem>
-            <TabItem Header="Inventory">
-                <Grid/>
+            <TabItem Name="GarageTab" Header="Garage">
+                <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding mCurrentSession.mPersona}">
+                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:Car}">
+                                <TextBlock Text="{Binding MakeModel}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Template>
+                            <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                                    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                                    <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Margin="10,0,0,0"/>
+                                    <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </ScrollViewer.Template>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Base Car Id:"/>
+                                <Label Margin="0,5,0,0" Content="Car Class:"/>
+                                <Label Margin="0,5,0,0" Content="Api Id:"/>
+                                <Label Margin="0,5,0,0" Content="Paints:"/>
+                                <Label Margin="0,5,0,0" Content="Performance Parts:"/>
+                                <Label Margin="0,5,0,0" Content="PhysicsProfileHash:"/>
+                                <Label Margin="0,5,0,0" Content="Rating:"/>
+                                <Label Margin="0,5,0,0" Content="Resale Price:"/>
+                                <Label Margin="0,5,0,0" Content="Skill Mod Parts:"/>
+                                <Label Margin="0,5,0,0" Content="Vinyls:"/>
+                                <Label Margin="0,5,0,0" Content="Visual Parts:"/>
+                                <Label Margin="0,5,0,0" Content="Durability:"/>
+                                <Label Margin="0,5,0,0" Content="Expiration Date:"/>
+                                <Label Margin="0,5,0,0" Content="Heat Level:"/>
+                                <Label Margin="0,5,0,0" Content="Id:"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="5,0,0,0" Width="140" DataContext="{Binding SelectedCar}">
+                                <StackPanel.Resources>
+                                    <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                                        <ObjectDataProvider.MethodParameters>
+                                            <x:Type TypeName="local:CarClass"/>
+                                        </ObjectDataProvider.MethodParameters>
+                                    </ObjectDataProvider>
+                                </StackPanel.Resources>
+                                <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId}"/>
+                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApiId" Text="{Binding ApiId}"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash}"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="999" Value="{Binding Rating}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Resale Price" Text="{Binding ResalePrice, StringFormat=\{0:C0\}}" xml:lang="en-US"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%"/>
+                                <TextBox Margin="0,5,0,0"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="1" Maximum="7" Value="{Binding HeatLevel}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Settings">
                 <Grid/>
@@ -218,6 +291,7 @@
                             <DataGridTextColumn Header="Level" Binding="{Binding shLevel}"/>
                             <DataGridTextColumn Header="Cash" Binding="{Binding iCash}"/>
                             <DataGridTextColumn Header="Boost" Binding="{Binding iBoost}"/>
+                            <DataGridTextColumn Header="Amount of Cars" Binding="{Binding Cars.Count}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

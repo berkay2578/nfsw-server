@@ -34,8 +34,8 @@ namespace OfflineServer
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
             #endregion
 
-            if (!File.Exists("ServerData\\PersonaData.db")) vCreateDB();
-            Directory.Delete("ServerData", true); vCreateDB();
+            vCreateDB(); // until beta
+
             mCurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
@@ -43,13 +43,13 @@ namespace OfflineServer
 
         private void vCreateDB()
         {
-            Directory.CreateDirectory("ServerData\\GarageData");
+            if (Directory.Exists("ServerData")) Directory.Delete("ServerData", true);
+            Directory.CreateDirectory("ServerData");
 
             File.WriteAllText("ServerData\\test.xml", "<Test xmlns:i=\"\"><localtest/></Test>");
 
             SQLiteConnection.CreateFile("ServerData\\PersonaData.db");
-            SQLiteConnection.CreateFile("ServerData\\GarageData\\0.db");
-            SQLiteConnection.CreateFile("ServerData\\GarageData\\1.db");
+            SQLiteConnection.CreateFile("ServerData\\GarageData.db");
 
             SQLiteConnection m_dbConnection;
 
@@ -65,12 +65,12 @@ namespace OfflineServer
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             m_dbConnection.Close();
-            m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\GarageData\\0.db\";Version=3;");
+            m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\GarageData.db\";Version=3;");
             m_dbConnection.Open();
-            sql = "create table garage (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
+            sql = "create table Id0 (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into garage (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 1, "+
+            sql = "insert into Id0 (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 1, "+
                 "'<Paints><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>1</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>2</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>6</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>0</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>3</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>4</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>5</Slot><Var>254</Var></CustomPaintTrans></Paints>', "+
                 "'<PerformanceParts><PerformancePartTrans><PerformancePartAttribHash>-1962598619</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>-183076819</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>7155944</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>754340312</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1621862030</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1727386028</PerformancePartAttribHash></PerformancePartTrans></PerformanceParts>', "+
                 "-846723009, 708, 350000, "+
@@ -80,13 +80,12 @@ namespace OfflineServer
                 "100, '2016-01-30T17:30:00.0000000+00:00', 1, 1)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            m_dbConnection.Close();
-            m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\GarageData\\1.db\";Version=3;");
-            m_dbConnection.Open();
-            sql = "create table garage (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
+            command.ExecuteNonQuery();
+            command.ExecuteNonQuery(); // 3 cars
+            sql = "create table Id1 (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into garage (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 2, " +
+            sql = "insert into Id1 (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 2, " +
                 "'<Paints><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>1</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>2</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>6</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>0</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>3</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>4</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>5</Slot><Var>254</Var></CustomPaintTrans></Paints>', " +
                 "'<PerformanceParts><PerformancePartTrans><PerformancePartAttribHash>-1962598619</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>-183076819</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>7155944</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>754340312</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1621862030</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1727386028</PerformancePartAttribHash></PerformancePartTrans></PerformanceParts>', " +
                 "-846723009, 708, 350000, " +
@@ -137,6 +136,8 @@ namespace OfflineServer
             tRandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
             tRandomPersonaInfo.Start();
             #endregion
+            
+            listCar.SelectedIndex = 0; //Avoid NullReference on Garage ListBox
         }
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
@@ -216,10 +217,13 @@ namespace OfflineServer
         {
             sHttp.nServer.Stop();
             sHttp.nServer.Dispose();
+            // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
+
+            NfswSession.dbCarsConnection.Close();
+            NfswSession.dbCarsConnection.Dispose();
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
         }
     }
-
 }
