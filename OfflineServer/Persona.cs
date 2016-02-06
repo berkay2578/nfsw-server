@@ -21,157 +21,157 @@ namespace OfflineServer
             Debug = 2
         }
 
-        private Int64 _iId;
-        public Int64 iId
+        private Int64 _Id;
+        public Int64 Id
         {
-            get { return _iId; }
+            get { return _Id; }
             set
             { 
-                if (_iId != value) { 
-                    _iId = value;
-                    RaisePropertyChangedEvent("iId");
+                if (_Id != value) { 
+                    _Id = value;
+                    RaisePropertyChangedEvent("Id");
                 }
             }
         }
 
-        private Int16 _shAvatarIndex;
-        public Int16 shAvatarIndex
+        private Int16 _AvatarIndex;
+        public Int16 AvatarIndex
         {
-            get { return _shAvatarIndex; }
+            get { return _AvatarIndex; }
             set
             {
-                if (_shAvatarIndex != value)
+                if (_AvatarIndex != value)
                 {
-                    _shAvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
-                    RaisePropertyChangedEvent("shAvatarIndex");
+                    _AvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                    RaisePropertyChangedEvent("AvatarIndex");
                 }
             }
         }
 
-        private String _sName;
-        public String sName
+        private String _Name;
+        public String Name
         {
-            get { return _sName; }
+            get { return _Name; }
             set
             {
-                if (_sName != value)
+                if (_Name != value)
                 {
-                    _sName = value;
-                    RaisePropertyChangedEvent("sName");
+                    _Name = value;
+                    RaisePropertyChangedEvent("Name");
                 }
             }
         }
 
-        private String _sMotto;
-        public String sMotto
+        private String _Motto;
+        public String Motto
         {
-            get { return _sMotto; }
+            get { return _Motto; }
             set
             {
-                if (_sMotto != value)
+                if (_Motto != value)
                 {
-                    _sMotto = value;
-                    RaisePropertyChangedEvent("sMotto");
+                    _Motto = value;
+                    RaisePropertyChangedEvent("Motto");
                 }
             }
         }
 
-        private Int16 _shLevel;
-        public Int16 shLevel
+        private Int16 _Level;
+        public Int16 Level
         {
-            get { return _shLevel; }
+            get { return _Level; }
             set
             {
-                if (_shLevel != value)
+                if (_Level != value)
                 {
-                    _shLevel = value;
-                    RaisePropertyChangedEvent("shLevel");
+                    _Level = value;
+                    RaisePropertyChangedEvent("Level");
                 }
             }
         }
 
-        private Int32 _iCash;
-        public Int32 iCash
+        private Int32 _Cash;
+        public Int32 Cash
         {
-            get { return _iCash; }
+            get { return _Cash; }
             set
             {
-                if (_iCash != value)
+                if (_Cash != value)
                 {
-                    _iCash = value;
-                    RaisePropertyChangedEvent("iCash");
-                    RaisePropertyChangedEvent("iCashForView");
+                    _Cash = value;
+                    RaisePropertyChangedEvent("Cash");
+                    RaisePropertyChangedEvent("CashForView");
                 }
             }
         }
-        public String iCashForView
+        public String CashForView
         {
             get
             {
-                return iCash == 0 ? "\r\n\r\n\r\n0." : iCash.ToString("#\r\n##,#\r\n###\r\n###") + ".";
+                return Cash == 0 ? "\r\n\r\n\r\n0." : Cash.ToString("#\r\n##,#\r\n###\r\n###") + ".";
             }
         }
 
-        private Int32 _iBoost;
-        public Int32 iBoost
+        private Int32 _Boost;
+        public Int32 Boost
         {
-            get { return _iBoost; }
+            get { return _Boost; }
             set
             {
-                if (_iBoost != value)
+                if (_Boost != value)
                 {
-                    _iBoost = value;
-                    RaisePropertyChangedEvent("iBoost");
-                    RaisePropertyChangedEvent("iBoostForView");
+                    _Boost = value;
+                    RaisePropertyChangedEvent("Boost");
+                    RaisePropertyChangedEvent("BoostForView");
                 }
             }
         }
-        public String iBoostForView
+        public String BoostForView
         {
             get
             {
-                return iBoost == 0 ? "\r\n\r\n\r\n0." : iBoost.ToString("#\r\n##,#\r\n###\r\n###") + ".";
+                return Boost == 0 ? "\r\n\r\n\r\n0." : Boost.ToString("#\r\n##,#\r\n###\r\n###") + ".";
             }
         }
 
-        private Int16 _iPercentageOfLevelCompletion;
-        public Int16 iPercentageOfLevelCompletion
+        private Int16 _PercentageOfLevelCompletion;
+        public Int16 PercentageOfLevelCompletion
         {
-            get { return _iPercentageOfLevelCompletion; }
+            get { return _PercentageOfLevelCompletion; }
             set
             {
-                if (_iPercentageOfLevelCompletion != value)
+                if (_PercentageOfLevelCompletion != value)
                 {
-                    _iPercentageOfLevelCompletion = value;
-                    RaisePropertyChangedEvent("iPercentageOfLevelCompletion");
+                    _PercentageOfLevelCompletion = value;
+                    RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
         }
 
-        private Int32 _iReputationInLevel;
-        public Int32 iReputationInLevel
+        private Int32 _ReputationInLevel;
+        public Int32 ReputationInLevel
         {
-            get { return _iReputationInLevel; }
+            get { return _ReputationInLevel; }
             set
             {
-                if (_iReputationInLevel != value)
+                if (_ReputationInLevel != value)
                 {
-                    _iReputationInLevel = value;
-                    RaisePropertyChangedEvent("iReputationInLevel");
+                    _ReputationInLevel = value;
+                    RaisePropertyChangedEvent("ReputationInLevel");
                 }
             }
         }
 
-        private Int32 _iReputationInTotal;
-        public Int32 iReputationInTotal
+        private Int32 _ReputationInTotal;
+        public Int32 ReputationInTotal
         {
-            get { return _iReputationInTotal; }
+            get { return _ReputationInTotal; }
             set
             {
-                if (_iReputationInTotal != value)
+                if (_ReputationInTotal != value)
                 {
-                    _iReputationInTotal = value;
-                    RaisePropertyChangedEvent("iReputationInTotal");
+                    _ReputationInTotal = value;
+                    RaisePropertyChangedEvent("ReputationInTotal");
                 }
             }
         }
@@ -208,18 +208,18 @@ namespace OfflineServer
         /// </summary>
         public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal)
         {
-            iId = personaId;
-            shAvatarIndex = personaAvatarIndex;
-            sName = personaName;
-            sMotto = personaMotto;
-            shLevel = personaLevel;
-            iCash = personaCash;
-            iBoost = personaBoost;
-            iPercentageOfLevelCompletion = personaPercentageOfLevel;
-            iReputationInLevel = personaReputationLevel;
-            iReputationInTotal = personaReputationTotal;
+            Id = personaId;
+            AvatarIndex = personaAvatarIndex;
+            Name = personaName;
+            Motto = personaMotto;
+            Level = personaLevel;
+            Cash = personaCash;
+            Boost = personaBoost;
+            PercentageOfLevelCompletion = personaPercentageOfLevel;
+            ReputationInLevel = personaReputationLevel;
+            ReputationInTotal = personaReputationTotal;
             
-            SQLiteCommand command = new SQLiteCommand("select * from Id" + personaId.ToString() + " order by ApiId asc", NfswSession.dbCarsConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from Id" + personaId.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -227,6 +227,7 @@ namespace OfflineServer
                 Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
                 Cars.Add(dummyCar);
             }
+            SelectedCar = Cars[0];
         }
 
         /// <summary>
@@ -234,18 +235,18 @@ namespace OfflineServer
         /// </summary>
         public Persona(Persona persona)
         {
-            iId = persona.iId;
-            shAvatarIndex = persona.shAvatarIndex;
-            sName = persona.sName;
-            sMotto = persona.sMotto;
-            shLevel = persona.shLevel;
-            iCash = persona.iCash;
-            iBoost = persona.iBoost;
-            iPercentageOfLevelCompletion = persona.iPercentageOfLevelCompletion;
-            iReputationInLevel = persona.iReputationInLevel;
-            iReputationInTotal = persona.iReputationInTotal;
+            Id = persona.Id;
+            AvatarIndex = persona.AvatarIndex;
+            Name = persona.Name;
+            Motto = persona.Motto;
+            Level = persona.Level;
+            Cash = persona.Cash;
+            Boost = persona.Boost;
+            PercentageOfLevelCompletion = persona.PercentageOfLevelCompletion;
+            ReputationInLevel = persona.ReputationInLevel;
+            ReputationInTotal = persona.ReputationInTotal;
 
-            SQLiteCommand command = new SQLiteCommand("select * from Id" + persona.iId.ToString() + " order by ApiId asc", NfswSession.dbCarsConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from Id" + persona.Id.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -253,6 +254,7 @@ namespace OfflineServer
                 Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
                 Cars.Add(dummyCar);
             }
+            SelectedCar = Cars[0];
         }
 
         /// <summary>
@@ -261,13 +263,13 @@ namespace OfflineServer
         public override String ToString()
         {
             string sPersonaData = "Persona Information: {" + Environment.NewLine +
-                "   Id: " + iId.ToString() + Environment.NewLine +
-                "   Avatar Index: " + shAvatarIndex.ToString() + Environment.NewLine +
-                "   Name: " + sName + Environment.NewLine +
-                "   Motto: " + sMotto + Environment.NewLine +
-                "   Level: " + shLevel.ToString() + Environment.NewLine +
-                "   Cash: " + iCash.ToString() + Environment.NewLine +
-                "   Boost: " + iBoost.ToString() + Environment.NewLine +
+                "   Id: " + Id.ToString() + Environment.NewLine +
+                "   Avatar Index: " + AvatarIndex.ToString() + Environment.NewLine +
+                "   Name: " + Name + Environment.NewLine +
+                "   Motto: " + Motto + Environment.NewLine +
+                "   Level: " + Level.ToString() + Environment.NewLine +
+                "   Cash: " + Cash.ToString() + Environment.NewLine +
+                "   Boost: " + Boost.ToString() + Environment.NewLine +
                 "}";
             return sPersonaData;
         }

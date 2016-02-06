@@ -66,7 +66,7 @@
                             </DockPanel>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding mCurrentSession}" Header="{Binding Path=mPersona.sName}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
+                    <GroupBox Name="groupBox" DataContext="{Binding CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
@@ -76,8 +76,8 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has {1} cars.">
-                                                <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.Cars.Count"/>
+                                                <Binding Path="Name"/>
+                                                <Binding Path="Cars.Count"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -87,15 +87,15 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding Path=mPersona.Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="63,125,162,0" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has played for {1} hours.">
-                                                <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.Cars.Count"/>
+                                                <Binding Path="Name"/>
+                                                <Binding Path="Cars.Count"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -112,13 +112,13 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} is level {1}.">
-                                                <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.shLevel"/>
+                                                <Binding Path="Name"/>
+                                                <Binding Path="Level"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Grid.ToolTip>
-                                <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{Binding mPersona.shLevel}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
+                                <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{Binding Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
                                 <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFDDDDDD" Width="72" Height="32" Margin="3,0,0,0">
                                     <Run FontFamily="Segoe UI Semilight" FontSize="10pt" Text="17862254"/>
                                     <LineBreak/>
@@ -133,13 +133,13 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has {1} cash.">
-                                                <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.iCash"/>
+                                                <Binding Path="Name"/>
+                                                <Binding Path="Cash"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,0" Text="{Binding Path=mPersona.iCashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,0" Text="{Binding CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
                                     </TextBlock.Effect>
@@ -153,13 +153,13 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{}{0} has {1} boost.">
-                                                <Binding Path="mPersona.sName"/>
-                                                <Binding Path="mPersona.iBoost"/>
+                                                <Binding Path="Name"/>
+                                                <Binding Path="Boost"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="15,0,2,0" Text="{Binding Path=mPersona.iBoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                <TextBlock VerticalAlignment="Bottom" Margin="15,0,2,0" Text="{Binding BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
                                     </TextBlock.Effect>
@@ -175,7 +175,7 @@
                 </Grid>
             </TabItem>
             <TabItem Name="GarageTab" Header="Garage">
-                <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding mCurrentSession.mPersona}">
+                <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding CurrentSession.ActivePersona}">
                     <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:Car}">
@@ -230,7 +230,7 @@
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApiId" Text="{Binding ApiId}" IsReadOnly="True" IsEnabled="False"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApId" Text="{Binding ApId}" IsReadOnly="True" IsEnabled="False"/>
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, UpdateSourceTrigger=PropertyChanged}"/>
@@ -240,7 +240,6 @@
                                 <Button Name="buttonVinyls" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%"/>
-                                <TextBox Margin="0,5,0,0"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="1" Maximum="7" Value="{Binding HeatLevel}"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id}"/>
                             </StackPanel>
@@ -254,8 +253,8 @@
         </TabControl>
     </Grid>
     <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl DataContext="{Binding mCurrentSession}">
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
+        <Controls:FlyoutsControl DataContext="{Binding CurrentSession}">
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" DataContext="{Binding ActivePersona}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
                         <Label Margin="5" Content="Name: " Foreground="White"/>
@@ -265,31 +264,31 @@
                         <Label Margin="5" Content="Boost: " Foreground="White"/>
                     </StackPanel>
                     <StackPanel Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190">
-                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Path=mPersona.sName}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
-                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Path=mPersona.sMotto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Path=mPersona.shLevel}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Left" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iCash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Path=mPersona.iBoost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
+                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Level}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Left" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="Persona Information" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock Text="Literally no idea what to put here. Do I add the iReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
+                    <TextBlock Text="Literally no idea what to put here. Do I add the ReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
                               CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
-                              SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding Path=mPersonaList, Mode=OneWay}" 
+                              SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding PersonaList, Mode=OneWay}"
                               MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding sName}"/>
-                            <DataGridTextColumn Header="Motto" Binding="{Binding sMotto}"/>
-                            <DataGridTextColumn Header="Level" Binding="{Binding shLevel}"/>
-                            <DataGridTextColumn Header="Cash" Binding="{Binding iCash}"/>
-                            <DataGridTextColumn Header="Boost" Binding="{Binding iBoost}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Motto" Binding="{Binding Motto}"/>
+                            <DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
+                            <DataGridTextColumn Header="Cash" Binding="{Binding Cash}"/>
+                            <DataGridTextColumn Header="Boost" Binding="{Binding Boost}"/>
                             <DataGridTextColumn Header="Amount of Cars" Binding="{Binding Cars.Count}"/>
                         </DataGrid.Columns>
                     </DataGrid>

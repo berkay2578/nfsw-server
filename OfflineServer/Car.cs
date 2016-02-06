@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SQLite;
-using System.Diagnostics;
-using System.Text;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -23,7 +17,7 @@ namespace OfflineServer
     {
         private Int64 _BaseCarId;
         private CarClass _RaceClass;
-        private Int64 _ApiId;
+        private Int64 _ApId;
         private XElement _Paints;
         private XElement _PerformanceParts;
         private Int64 _PhysicsProfileHash;
@@ -62,15 +56,15 @@ namespace OfflineServer
                 }
             }
         }
-        public Int64 ApiId
+        public Int64 ApId
         {
-            get { return _ApiId; }
+            get { return _ApId; }
             set
             {
-                if (_ApiId != value)
+                if (_ApId != value)
                 {
-                    _ApiId = value;
-                    RaisePropertyChangedEvent("ApiId");
+                    _ApId = value;
+                    RaisePropertyChangedEvent("ApId");
                 }
             }
         }
@@ -220,11 +214,11 @@ namespace OfflineServer
             }
         }
 
-        public Car(Int64 baseCar, CarClass raceClass, Int64 apiId, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int32 id)
+        public Car(Int64 baseCarId, CarClass raceClass, Int64 apId, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int32 id)
         {
-            BaseCarId = baseCar;
+            BaseCarId = baseCarId;
             RaceClass = raceClass;
-            ApiId = apiId;
+            ApId = apId;
             Paints = paints;
             PerformanceParts = performanceParts;
             PhysicsProfileHash = physicsProfileHash;
@@ -250,7 +244,7 @@ namespace OfflineServer
                     new XElement("CustomCar",
                         new XElement("BaseCar", BaseCarId),
                         new XElement("CarClassHash", (Int32)RaceClass),
-                        new XElement("Id", ApiId),
+                        new XElement("Id", ApId),
                         new XElement("Paints", Paints),
                         new XElement("PerformanceParts", PerformanceParts),
                         new XElement("PhysicsProfileHash", PhysicsProfileHash),

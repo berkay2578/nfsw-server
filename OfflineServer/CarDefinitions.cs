@@ -7,7 +7,8 @@ namespace OfflineServer
 {
     public static class CarDefinitions
     {
-        public static readonly Dictionary<Int64, String> Definitions = new Dictionary<Int64, String>()
+        // Compiled with the extra list supplied by 379Felipe, cheers buddy!
+        public static readonly Dictionary<Int64, String> PhysicsProfileHashDefinitions = new Dictionary<Int64, String>()
         {
             {226126488, "Alfa Romeo 8C Competizione"},
             {-4068840808, "Alfa Romeo 8C Competizione"},
@@ -499,7 +500,7 @@ namespace OfflineServer
         public static String Define(Int64 PhysicsProfileHash)
         {
             String CarMakeModel;
-            return Definitions.TryGetValue(PhysicsProfileHash, out CarMakeModel) == true ? CarMakeModel : PhysicsProfileHash.ToString() + " [NO DEF]";
+            return PhysicsProfileHashDefinitions.TryGetValue(PhysicsProfileHash, out CarMakeModel) == true ? CarMakeModel : PhysicsProfileHash.ToString() + " [NO DEF]";
         }
     }
 }

@@ -20,8 +20,8 @@ namespace OfflineServer
 {   
     public partial class MainWindow : MetroWindow
     {
-        public NfswSession mCurrentSession { get; set; } = new NfswSession();
-        private DispatcherTimer tRandomPersonaInfo = new DispatcherTimer();
+        public static NfswSession CurrentSession { get; set; } = new NfswSession();
+        private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
         private HTTPServer sHttp = new HTTPServer();
 
         public MainWindow()
@@ -36,7 +36,7 @@ namespace OfflineServer
 
             vCreateDB(); // until beta
 
-            mCurrentSession.StartSession();
+            CurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
         }
@@ -46,7 +46,7 @@ namespace OfflineServer
             if (Directory.Exists("ServerData")) Directory.Delete("ServerData", true);
             Directory.CreateDirectory("ServerData");
 
-            File.WriteAllText("ServerData\\test.xml", "<Test xmlns:i=\"\"><localtest/></Test>");
+            File.WriteAllText("ServerData\\test.xml", "<Test><localtest/></Test>");
 
             SQLiteConnection.CreateFile("ServerData\\PersonaData.db");
             SQLiteConnection.CreateFile("ServerData\\GarageData.db");
@@ -67,10 +67,10 @@ namespace OfflineServer
             m_dbConnection.Close();
             m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\GarageData.db\";Version=3;");
             m_dbConnection.Open();
-            sql = "create table Id0 (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
+            sql = "create table Id0 (BaseCarId bigint, RaceClass int, ApId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into Id0 (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 1, "+
+            sql = "insert into Id0 (BaseCarId, RaceClass, ApId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 1, "+
                 "'<Paints><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>1</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>2</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>6</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>0</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>3</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>4</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>5</Slot><Var>254</Var></CustomPaintTrans></Paints>', "+
                 "'<PerformanceParts><PerformancePartTrans><PerformancePartAttribHash>-1962598619</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>-183076819</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>7155944</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>754340312</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1621862030</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1727386028</PerformancePartAttribHash></PerformancePartTrans></PerformanceParts>', "+
                 "-846723009, 708, 350000, "+
@@ -82,10 +82,10 @@ namespace OfflineServer
             command.ExecuteNonQuery();
             command.ExecuteNonQuery();
             command.ExecuteNonQuery(); // 3 cars
-            sql = "create table Id1 (BaseCar bigint, RaceClass int, ApiId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
+            sql = "create table Id1 (BaseCarId bigint, RaceClass int, ApId bigint, Paints longtext, PerformanceParts longtext, PhysicsProfileHash bigint, Rating int, ResalePrice int, SkillModParts longtext, Vinyls longtext, VisualParts longtext, Durability smallint, ExpirationDate text, HeatLevel smallint, Id int)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into Id1 (BaseCar, RaceClass, ApiId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 2, " +
+            sql = "insert into Id1 (BaseCarId, RaceClass, ApId, Paints, PerformanceParts, PhysicsProfileHash, Rating, ResalePrice, SkillModParts, Vinyls, VisualParts, Durability, ExpirationDate, HeatLevel, Id) values (1816139026, -405837480, 2, " +
                 "'<Paints><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>1</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>2</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>6</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>0</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>3</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>4</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>5</Slot><Var>254</Var></CustomPaintTrans></Paints>', " +
                 "'<PerformanceParts><PerformancePartTrans><PerformancePartAttribHash>-1962598619</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>-183076819</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>7155944</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>754340312</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1621862030</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1727386028</PerformancePartAttribHash></PerformancePartTrans></PerformanceParts>', " +
                 "-846723009, 708, 350000, " +
@@ -121,28 +121,26 @@ namespace OfflineServer
 
             Binding indexBind = new Binding()
             {
-                Path = new PropertyPath("mPersona.shAvatarIndex"),
+                Path = new PropertyPath("ActivePersona.AvatarIndex"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.TwoWay,
-                Source = mCurrentSession
+                Source = CurrentSession
             };
-            FlipViewPersonaImage.SelectedIndex = mCurrentSession.mPersona.shAvatarIndex;
+            FlipViewPersonaImage.SelectedIndex = CurrentSession.ActivePersona.AvatarIndex;
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
             #endregion
 
             #region MetroTile -> Random Persona Info
             tRandomPersonaInfo_Tick(null, null);
-            tRandomPersonaInfo.Tick += new EventHandler(tRandomPersonaInfo_Tick);
-            tRandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
-            tRandomPersonaInfo.Start();
+            RandomPersonaInfo.Tick += new EventHandler(tRandomPersonaInfo_Tick);
+            RandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
+            RandomPersonaInfo.Start();
             #endregion
-            
-            listCar.SelectedIndex = 0; //Avoid NullReference on Garage ListBox
         }
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            DockPanel dNewInfoContent = mCurrentSession.mEngine.mAchievements.GenerateNewAchievement();
+            DockPanel dNewInfoContent = CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
             metrotileRandomPersonaInfo.Content = dNewInfoContent;
         }
 
@@ -178,7 +176,7 @@ namespace OfflineServer
                     flyoutPersonaList.IsOpen = !flyoutPersonaList.IsOpen;
                     break;
                 case "buttonUpdatePersonaInfoTile":
-                    /* Cheeky little trick to restart timer */ tRandomPersonaInfo.Stop(); /* -> */ tRandomPersonaInfo.Start();
+                    /* Cheeky little trick to restart timer */ RandomPersonaInfo.Stop(); /* -> */ RandomPersonaInfo.Start();
                     tRandomPersonaInfo_Tick(null, null);
                     break;
                 case "buttonPaints":
@@ -188,10 +186,10 @@ namespace OfflineServer
                 case "buttonVisualParts":
                     tbGaragePartInfo.SetBinding(TextBox.TextProperty, new Binding() {
                         Converter = new PropertyValueStringConverter(this),
-                        Path = new PropertyPath("mPersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
+                        Path = new PropertyPath("ActivePersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
                         UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
                         Mode = BindingMode.TwoWay,
-                        Source = mCurrentSession
+                        Source = CurrentSession
                     });
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
@@ -205,12 +203,12 @@ namespace OfflineServer
                 _Window = dlWindow;
             }
 
-            public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
                 return value.ToString();
             }
 
-            public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             {
                 try
                 {
@@ -230,15 +228,15 @@ namespace OfflineServer
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            mCurrentSession.mPersona = mSelectedPersona;
+            CurrentSession.ActivePersona = mSelectedPersona;
         }
 
         private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
         {
             if (!flyoutBasicPersonaInfo.IsOpen)
             {
-                Int32 iPersonaIndex = mCurrentSession.mPersonaList.IndexOf(mCurrentSession.mPersonaList.First<Persona>(sPersona => sPersona.iId == mCurrentSession.mPersona.iId));
-                mCurrentSession.mPersonaList[iPersonaIndex] = mCurrentSession.mPersona;
+                Int32 iPersonaIndex = CurrentSession.PersonaList.IndexOf(CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == CurrentSession.ActivePersona.Id));
+                CurrentSession.PersonaList[iPersonaIndex] = CurrentSession.ActivePersona;
             }
         }
         #endregion

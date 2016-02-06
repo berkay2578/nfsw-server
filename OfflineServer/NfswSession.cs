@@ -9,29 +9,29 @@ namespace OfflineServer
         public static SQLiteConnection dbCarsConnection = new SQLiteConnection("Data Source=\"ServerData\\GarageData.db\";Version=3;");
 
         public Engine mEngine = new Engine();
-        private Persona _mPersona;
-        public Persona mPersona
+        private Persona _ActivePersona;
+        public Persona ActivePersona
         {
-            get { return _mPersona; }
+            get { return _ActivePersona; }
             set
             {
-                if (_mPersona != value)
+                if (_ActivePersona != value)
                 {
-                    _mPersona = value;
-                    RaisePropertyChangedEvent("mPersona");
+                    _ActivePersona = value;
+                    RaisePropertyChangedEvent("ActivePersona");
                 }
             }
         }
-        private ObservableCollection<Persona> _mPersonaList;
-        public ObservableCollection<Persona> mPersonaList
+        private ObservableCollection<Persona> _PersonaList;
+        public ObservableCollection<Persona> PersonaList
         {
-            get { return _mPersonaList; }
+            get { return _PersonaList; }
             set
             {
-                if (_mPersonaList != value)
+                if (_PersonaList != value)
                 {
-                    _mPersonaList = value;
-                    RaisePropertyChangedEvent("mPersonaList");
+                    _PersonaList = value;
+                    RaisePropertyChangedEvent("PersonaList");
                 }
             }
         }
@@ -43,8 +43,8 @@ namespace OfflineServer
             dbConnection.Open();
             dbCarsConnection.Open();
 
-            mPersonaList = Persona.GetCurrentPersonaList();
-            _mPersona = new Persona(mPersonaList[0]);
+            PersonaList = Persona.GetCurrentPersonaList();
+            ActivePersona = PersonaList[0];
 
 
             //long readSessionIdAndCalculated = 0002;
