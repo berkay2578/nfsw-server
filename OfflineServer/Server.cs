@@ -21,13 +21,13 @@ namespace OfflineServer
             nServer.RequestReceived += nServer_RequestReceived;
             nServer.Start();
 
-            //System.Diagnostics.Process.Start(String.Format("http://{0}/ServerData/test.xml", nServer.EndPoint));
+            //System.Diagnostics.Process.Start(String.Format("http://{0}/carslots", nServer.EndPoint));
         }
 
-        private string oldPath;
+        private String currentIOPath;
         private void nServer_RequestReceived(object sender, HttpRequestEventArgs e)
         {
-            /*if (e.Request.Path != "/favicon.ico")*/ oldPath = e.Request.Path.Remove(0, 1); // because I'm using Chrome for debug ... it will work without it too since it's Async though
+            currentIOPath = e.Request.Path.Remove(0, 1);
 
             e.Response.Headers.Add("Connection", "close");
             e.Response.Headers.Add("Content-Encoding", "gzip");
@@ -40,9 +40,9 @@ namespace OfflineServer
             {
                 baResponseArray = GetResponseData(MainWindow.CurrentSession.ActivePersona.GetCompleteGarage());
             }
-            else if (File.Exists(oldPath))
+            else if (File.Exists(currentIOPath))
             {
-                baResponseArray = GetResponseData(oldPath);
+                baResponseArray = GetResponseData(currentIOPath);
             }
 
             e.Response.OutputStream.Write(baResponseArray, 0, baResponseArray.Length);
@@ -119,12 +119,6 @@ namespace OfflineServer
             {
                 XElement ProductNode = 
                     new XElement("ProductTrans",
-                        new XElement("BundleItems",
-                            new XAttribute(ServerAttributes.nilNS + "nil", "true")
-                        ),
-                        new XElement("CategoryId",
-                            new XAttribute(ServerAttributes.nilNS + "nil", "true")
-                        ),
                         new XElement("Currency", CurrencyType.GetString()),
                         new XElement("Description", Description),
                         new XElement("DurationMinute", RentalDurationInMinutes.ToString()),
