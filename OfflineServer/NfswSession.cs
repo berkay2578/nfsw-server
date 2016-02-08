@@ -10,6 +10,7 @@ namespace OfflineServer
 
         public Engine mEngine = new Engine();
         private Persona _ActivePersona;
+        private ObservableCollection<Persona> _PersonaList;
         public Persona ActivePersona
         {
             get { return _ActivePersona; }
@@ -22,7 +23,6 @@ namespace OfflineServer
                 }
             }
         }
-        private ObservableCollection<Persona> _PersonaList;
         public ObservableCollection<Persona> PersonaList
         {
             get { return _PersonaList; }

@@ -18,7 +18,6 @@
                 <!-- theme resource -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
-                <ResourceDictionary Source="Simple Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Image Source="pack://application:,,,/OfflineServer;component/Resources/EngineStart.png" x:Key="EngineStart"/>
             <Image Source="pack://application:,,,/OfflineServer;component/images/NFSW_Currencies/Currency_Cash.png" x:Key="Cash"/>

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit;
+using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Interactivity;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -39,6 +41,43 @@ namespace OfflineServer
                 xEntry.Name = xmlns + xEntry.Name.LocalName;
             foreach (XElement _xE in xEntry.Elements())
                 _xE.SetDefaultXmlNamespace(xmlns);
+        }
+    }
+
+    public class MVVMSyntax : TextEditor, INotifyPropertyChanged
+    {
+        public static readonly DependencyProperty _TextProperty = 
+            DependencyProperty.Register("_Text", typeof(String), typeof(MVVMSyntax), new PropertyMetadata(String.Empty, OnMVVMTextChanged));
+
+        private static void OnMVVMTextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (MVVMSyntax)sender;
+            if (string.Compare(control._Text, e.NewValue.ToString()) != 0)
+            {
+                //check for current text, cause it's called EVEN WHEN NOT CHANGED FOR SOME RFAHSFISAPFIKMASMFL REASON
+                control._Text = e.NewValue.ToString();
+            }
+        }
+
+        public string _Text
+        {
+            get { return Text; }
+            set { Text = value; }
+        }
+
+        protected override void OnTextChanged(EventArgs e)
+        {
+            SetCurrentValue(_TextProperty, Text);
+            base.OnTextChanged(e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void RaisePropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 

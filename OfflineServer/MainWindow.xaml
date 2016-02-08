@@ -2,6 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:SyntaxEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -176,7 +178,7 @@
             </TabItem>
             <TabItem Name="GarageTab" Header="Garage">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding CurrentSession.ActivePersona}">
-                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}">
+                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CarIndex}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:Car}">
                                 <TextBlock Text="{Binding MakeModel}">
@@ -300,9 +302,9 @@
                     </DataGrid>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" Position="Right" Width="350" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" Position="Right" Width="450" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="15,5,15,15">
-                    <TextBox VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Name="tbGaragePartInfo" Width="320" Height="320"/>
+                    <local:MVVMSyntax SyntaxHighlighting="XML" ShowLineNumbers="True" WordWrap="True" x:Name="tbGaragePartInfo" Width="420" Height="320" FontSize="10pt"/>
                 </StackPanel>
             </Controls:Flyout>
         </Controls:FlyoutsControl>

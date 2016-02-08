@@ -15,6 +15,8 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit;
 
 namespace OfflineServer
 {   
@@ -55,13 +57,13 @@ namespace OfflineServer
 
             m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\PersonaData.db\";Version=3;");
             m_dbConnection.Open();
-            string sql = "create table personas (Id bigint, IconIndex smallint, Name varchar(14), Motto varchar(30), Level smallint, IGC int, Boost int, ReputationPercentage smallint, LevelReputation int, TotalReputation int)";
+            string sql = "create table personas (Id bigint, IconIndex smallint, Name varchar(14), Motto varchar(30), Level smallint, IGC int, Boost int, ReputationPercentage smallint, LevelReputation int, TotalReputation int, CurrentCarIndex int)";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation) values (0, 27, 'Debug', 'Test Build', 69, 0, 0, 0, 0, 699)";
+            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, CurrentCarIndex) values (0, 27, 'Debug', 'Test Build', 69, 0, 0, 0, 0, 699, 1)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
-            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation) values (1, 26, 'DefaultProfile', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0)";
+            sql = "insert into personas (Id, IconIndex, Name, Motto, Level, IGC, Boost, ReputationPercentage, LevelReputation, TotalReputation, CurrentCarIndex) values (1, 26, 'DefaultProfile', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0, 0)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             m_dbConnection.Close();
@@ -184,21 +186,22 @@ namespace OfflineServer
                 case "buttonSkillModParts":
                 case "buttonVinyls":
                 case "buttonVisualParts":
-                    tbGaragePartInfo.SetBinding(TextBox.TextProperty, new Binding() {
-                        Converter = new PropertyValueStringConverter(this),
-                        Path = new PropertyPath("ActivePersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
-                        UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
-                        Mode = BindingMode.TwoWay,
-                        Source = CurrentSession
-                    });
+                    tbGaragePartInfo.SetBinding(MVVMSyntax._TextProperty, 
+                        new Binding() {
+                            Converter = new STEditConverter(this),
+                            Path = new PropertyPath("ActivePersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
+                            UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                            Mode = BindingMode.TwoWay,
+                            Source = CurrentSession
+                        });
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
             }
         }
-        public class PropertyValueStringConverter : IValueConverter
+        public class STEditConverter : IValueConverter
         {
             private MainWindow _Window;
-            public PropertyValueStringConverter(MainWindow dlWindow)
+            public STEditConverter(MainWindow dlWindow)
             {
                 _Window = dlWindow;
             }
@@ -216,9 +219,9 @@ namespace OfflineServer
                 }
                 catch (Exception ex)
                 {
-                    BindingOperations.ClearBinding(_Window.tbGaragePartInfo, TextBox.TextProperty);
+                    BindingOperations.ClearBinding(_Window.tbGaragePartInfo, MVVMSyntax._TextProperty);
                     _Window.flyoutGaragePartInfo.IsOpen = false;
-                    MessageBox.Show(ex.ToString(), "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex.Message, "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
                     return null;
                 }
             }

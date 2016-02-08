@@ -22,6 +22,19 @@ namespace OfflineServer
         }
 
         private Int64 _Id;
+        private Int16 _AvatarIndex;
+        private String _Name;
+        private String _Motto;
+        private Int16 _Level;
+        private Int32 _Cash;
+        private Int32 _Boost;
+        private Int16 _PercentageOfLevelCompletion;
+        private Int32 _ReputationInLevel;
+        private Int32 _ReputationInTotal;
+        private Int32 _CarIndex;
+        private Car _SelectedCar;
+        private ObservableCollection<Car> _Cars = new ObservableCollection<Car>();
+
         public Int64 Id
         {
             get { return _Id; }
@@ -33,8 +46,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Int16 _AvatarIndex;
         public Int16 AvatarIndex
         {
             get { return _AvatarIndex; }
@@ -47,8 +58,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private String _Name;
         public String Name
         {
             get { return _Name; }
@@ -61,8 +70,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private String _Motto;
         public String Motto
         {
             get { return _Motto; }
@@ -75,8 +82,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Int16 _Level;
         public Int16 Level
         {
             get { return _Level; }
@@ -89,8 +94,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Int32 _Cash;
         public Int32 Cash
         {
             get { return _Cash; }
@@ -111,8 +114,6 @@ namespace OfflineServer
                 return Cash == 0 ? "\r\n\r\n\r\n0." : Cash.ToString("#\r\n##,#\r\n###\r\n###") + ".";
             }
         }
-
-        private Int32 _Boost;
         public Int32 Boost
         {
             get { return _Boost; }
@@ -133,8 +134,6 @@ namespace OfflineServer
                 return Boost == 0 ? "\r\n\r\n\r\n0." : Boost.ToString("#\r\n##,#\r\n###\r\n###") + ".";
             }
         }
-
-        private Int16 _PercentageOfLevelCompletion;
         public Int16 PercentageOfLevelCompletion
         {
             get { return _PercentageOfLevelCompletion; }
@@ -147,8 +146,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Int32 _ReputationInLevel;
         public Int32 ReputationInLevel
         {
             get { return _ReputationInLevel; }
@@ -161,8 +158,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Int32 _ReputationInTotal;
         public Int32 ReputationInTotal
         {
             get { return _ReputationInTotal; }
@@ -175,8 +170,18 @@ namespace OfflineServer
                 }
             }
         }
-
-        private Car _SelectedCar;
+        public Int32 CarIndex
+        {
+            get { return _CarIndex; }
+            set
+            {
+                if (_CarIndex != value)
+                {
+                    _CarIndex = value;
+                    RaisePropertyChangedEvent("CarIndex");
+                }
+            }
+        }
         public Car SelectedCar {
             get { return _SelectedCar; }
             set
@@ -188,8 +193,6 @@ namespace OfflineServer
                 }
             }
         }
-
-        private ObservableCollection<Car> _Cars = new ObservableCollection<Car>();
         public ObservableCollection<Car> Cars
         {
             get { return _Cars; }
@@ -206,7 +209,7 @@ namespace OfflineServer
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
         /// </summary>
-        public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal)
+        public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
         {
             Id = personaId;
             AvatarIndex = personaAvatarIndex;
@@ -218,6 +221,7 @@ namespace OfflineServer
             PercentageOfLevelCompletion = personaPercentageOfLevel;
             ReputationInLevel = personaReputationLevel;
             ReputationInTotal = personaReputationTotal;
+            CarIndex = personaCarIndex;
             
             SQLiteCommand command = new SQLiteCommand("select * from Id" + personaId.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -227,7 +231,6 @@ namespace OfflineServer
                 Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
                 Cars.Add(dummyCar);
             }
-            SelectedCar = Cars[0];
         }
 
         /// <summary>
@@ -245,6 +248,7 @@ namespace OfflineServer
             PercentageOfLevelCompletion = persona.PercentageOfLevelCompletion;
             ReputationInLevel = persona.ReputationInLevel;
             ReputationInTotal = persona.ReputationInTotal;
+            CarIndex = persona.CarIndex;
 
             SQLiteCommand command = new SQLiteCommand("select * from Id" + persona.Id.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -254,7 +258,6 @@ namespace OfflineServer
                 Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
                 Cars.Add(dummyCar);
             }
-            SelectedCar = Cars[0];
         }
 
         /// <summary>
@@ -287,7 +290,7 @@ namespace OfflineServer
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Persona dummyPersona = new Persona((Int64)reader[0], (Int16)reader[1], (String)reader[2], (String)reader[3], (Int16)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9]);
+                Persona dummyPersona = new Persona((Int64)reader[0], (Int16)reader[1], (String)reader[2], (String)reader[3], (Int16)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
                 listPersona.Add(dummyPersona);
             }
 
