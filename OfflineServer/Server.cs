@@ -36,7 +36,7 @@ namespace OfflineServer
 
             Byte[] baResponseArray = null;
 
-            if (e.Request.Path.EndsWith("/carslots"))
+            if (checkEndFor("/carslots", e.Request.Path))
             {
                 baResponseArray = GetResponseData(MainWindow.CurrentSession.ActivePersona.GetCompleteGarage());
             }
@@ -53,6 +53,12 @@ namespace OfflineServer
             // e.Request.RawUrl gives the Path following the IP. EX: if 127.0.0.1:4444/test/path.xml?test=true then /test/path.xml?test=true
             // e.Request.Path gives only the Path, not adding the params at the end. EX: if 127.0.0.1:4444/test/path.xml?test=true then /test/path.xml
             // e.Request.Params gives only the Params, not adding anything else.
+        }
+
+        private Boolean checkEndFor(String partOfURIString, String wholeURI)
+        {
+            if (wholeURI.EndsWith(partOfURIString)) return true;
+            return false;
         }
 
         private Byte[] GetResponseData(String StringOrFilePath)
@@ -115,7 +121,7 @@ namespace OfflineServer
             /// <param name="GType">Item type that NFS: World can recognize, not the server</param>
             /// <param name="ExtraDetail">If there is one, a special condition for the item that is displayed in-game</param>
             /// <returns>An XElement wrapped around in ProductTrans tags.</returns>
-            public static XElement GetProductTransactionEntry(Currency CurrencyType, String Description, Int32 RentalDurationInMinutes, Int64 Hash, String IconString, Int16 LevelLimit, String TooltipDescription, Int32 Price, Int16 PriorityNumber, ServerItemType SType, Int32 Id, String Title, GameItemType GType, Special ExtraDetail)
+            public static XElement GetProductTransactionEntry(Currency CurrencyType, String Description, Int32 RentalDurationInMinutes, Int64 Hash, String IconString, Int16 LevelLimit, String TooltipDescription, Int32 Price, Int16 PriorityNumber, ServerItemType SType, Int32 Id, String Title, GameItemType GType, Special ExtraDetail = Special.None)
             {
                 XElement ProductNode = 
                     new XElement("ProductTrans",

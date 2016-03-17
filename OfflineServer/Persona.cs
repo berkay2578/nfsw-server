@@ -324,7 +324,7 @@ namespace OfflineServer
                             -1143680669,
                             "128_cash",
                             0,
-                            "Only for 100 boost you will get a car slot instantly!",
+                            "Only for 100 boost you will get new a car slot instantly!",
                             100,
                             0,
                             Economy.ServerItemType.CarSlot,
