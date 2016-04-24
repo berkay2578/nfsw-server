@@ -38,7 +38,7 @@ namespace OfflineServer
 
             if (checkEndFor("/carslots", e.Request.Path))
             {
-                baResponseArray = GetResponseData(MainWindow.CurrentSession.ActivePersona.GetCompleteGarage());
+                baResponseArray = GetResponseData(Access.CurrentSession.ActivePersona.GetCompleteGarage());
             }
             else if (File.Exists(currentIOPath))
             {

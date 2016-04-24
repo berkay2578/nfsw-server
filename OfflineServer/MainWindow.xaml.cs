@@ -22,9 +22,8 @@ namespace OfflineServer
 {   
     public partial class MainWindow : MetroWindow
     {
-        public static NfswSession CurrentSession { get; set; } = new NfswSession();
         private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
-        private HTTPServer sHttp = new HTTPServer();
+        public Access Access { get; set; }
 
         public MainWindow()
         {
@@ -38,7 +37,9 @@ namespace OfflineServer
 
             vCreateDB(); // until beta
 
-            CurrentSession.StartSession();
+            Access = new Access();
+
+            Access.CurrentSession.StartSession();
             InitializeComponent();
             SetupComponents();
         }
@@ -126,9 +127,9 @@ namespace OfflineServer
                 Path = new PropertyPath("ActivePersona.AvatarIndex"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.TwoWay,
-                Source = CurrentSession
+                Source = Access.CurrentSession
             };
-            FlipViewPersonaImage.SelectedIndex = CurrentSession.ActivePersona.AvatarIndex;
+            FlipViewPersonaImage.SelectedIndex = Access.CurrentSession.ActivePersona.AvatarIndex;
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
             #endregion
 
@@ -142,7 +143,7 @@ namespace OfflineServer
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            DockPanel dNewInfoContent = CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
+            DockPanel dNewInfoContent = Access.CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
             metrotileRandomPersonaInfo.Content = dNewInfoContent;
         }
 
@@ -192,7 +193,7 @@ namespace OfflineServer
                             Path = new PropertyPath("ActivePersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
                             UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
                             Mode = BindingMode.TwoWay,
-                            Source = CurrentSession
+                            Source = Access.CurrentSession
                         });
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
@@ -231,15 +232,15 @@ namespace OfflineServer
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            CurrentSession.ActivePersona = mSelectedPersona;
+            Access.CurrentSession.ActivePersona = mSelectedPersona;
         }
 
         private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
         {
             if (!flyoutBasicPersonaInfo.IsOpen)
             {
-                Int32 iPersonaIndex = CurrentSession.PersonaList.IndexOf(CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == CurrentSession.ActivePersona.Id));
-                CurrentSession.PersonaList[iPersonaIndex] = CurrentSession.ActivePersona;
+                Int32 iPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == Access.CurrentSession.ActivePersona.Id));
+                Access.CurrentSession.PersonaList[iPersonaIndex] = Access.CurrentSession.ActivePersona;
             }
         }
         #endregion
@@ -258,8 +259,8 @@ namespace OfflineServer
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            sHttp.nServer.Stop();
-            sHttp.nServer.Dispose();
+            Access.sHttp.nServer.Stop();
+            Access.sHttp.nServer.Dispose();
             // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
 
             NfswSession.dbCarsConnection.Close();
