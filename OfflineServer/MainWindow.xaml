@@ -215,7 +215,7 @@
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Base Car Id:"/>
                                 <Label Margin="0,5,0,0" Content="Car Class:"/>
-                                <Label Margin="0,5,0,0" Content="Api Id:"/>
+                                <Label Margin="0,5,0,0" Content="Id:"/>
                                 <Label Margin="0,5,0,0" Content="Paints:"/>
                                 <Label Margin="0,5,0,0" Content="Performance Parts:"/>
                                 <Label Margin="0,5,0,0" Content="PhysicsProfileHash:"/>
@@ -226,7 +226,7 @@
                                 <Label Margin="0,5,0,0" Content="Visual Parts:"/>
                                 <Label Margin="0,5,0,0" Content="Durability:"/>
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
-                                <Label Margin="0,5,0,0" Content="Id:"/>
+                                <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="5,0,0,0" Width="140" DataContext="{Binding SelectedCar}">
                                 <StackPanel.Resources>
@@ -238,7 +238,7 @@
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, UpdateSourceTrigger=PropertyChanged}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="ApId" Text="{Binding ApId}" IsReadOnly="True" IsEnabled="False"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id}" IsReadOnly="True" IsEnabled="False"/>
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, UpdateSourceTrigger=PropertyChanged}"/>
@@ -249,7 +249,7 @@
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Content="Load XElement" Height="26" Click="Button_ClickHandler"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="1" Maximum="7" Value="{Binding HeatLevel}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding CarId}"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

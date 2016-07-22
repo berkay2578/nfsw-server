@@ -21,87 +21,87 @@ namespace OfflineServer
             Debug = 2
         }
 
-        private Int64 _Id;
-        private Int16 _AvatarIndex;
-        private String _Name;
-        private String _Motto;
-        private Int16 _Level;
-        private Int32 _Cash;
-        private Int32 _Boost;
-        private Int16 _PercentageOfLevelCompletion;
-        private Int32 _ReputationInLevel;
-        private Int32 _ReputationInTotal;
-        private Int32 _CarIndex;
-        private Car _SelectedCar;
-        private ObservableCollection<Car> _Cars = new ObservableCollection<Car>();
+        private Int64 id;
+        private Int16 avatarIndex;
+        private String name;
+        private String motto;
+        private Int32 level;
+        private Int32 cash;
+        private Int32 boost;
+        private Int16 percentageOfLevelCompletion;
+        private Int32 reputationInLevel;
+        private Int32 reputationInTotal;
+        private Int32 carIndex;
+        private Car selectedCar;
+        private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
         public Int64 Id
         {
-            get { return _Id; }
+            get { return id; }
             set
             { 
-                if (_Id != value) { 
-                    _Id = value;
+                if (id != value) { 
+                    id = value;
                     RaisePropertyChangedEvent("Id");
                 }
             }
         }
         public Int16 AvatarIndex
         {
-            get { return _AvatarIndex; }
+            get { return avatarIndex; }
             set
             {
-                if (_AvatarIndex != value)
+                if (avatarIndex != value)
                 {
-                    _AvatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                    avatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
                     RaisePropertyChangedEvent("AvatarIndex");
                 }
             }
         }
         public String Name
         {
-            get { return _Name; }
+            get { return name; }
             set
             {
-                if (_Name != value)
+                if (name != value)
                 {
-                    _Name = value;
+                    name = value;
                     RaisePropertyChangedEvent("Name");
                 }
             }
         }
         public String Motto
         {
-            get { return _Motto; }
+            get { return motto; }
             set
             {
-                if (_Motto != value)
+                if (motto != value)
                 {
-                    _Motto = value;
+                    motto = value;
                     RaisePropertyChangedEvent("Motto");
                 }
             }
         }
-        public Int16 Level
+        public Int32 Level
         {
-            get { return _Level; }
+            get { return level; }
             set
             {
-                if (_Level != value)
+                if (level != value)
                 {
-                    _Level = value;
+                    level = value;
                     RaisePropertyChangedEvent("Level");
                 }
             }
         }
         public Int32 Cash
         {
-            get { return _Cash; }
+            get { return cash; }
             set
             {
-                if (_Cash != value)
+                if (cash != value)
                 {
-                    _Cash = value;
+                    cash = value;
                     RaisePropertyChangedEvent("Cash");
                     RaisePropertyChangedEvent("CashForView");
                 }
@@ -116,12 +116,12 @@ namespace OfflineServer
         }
         public Int32 Boost
         {
-            get { return _Boost; }
+            get { return boost; }
             set
             {
-                if (_Boost != value)
+                if (boost != value)
                 {
-                    _Boost = value;
+                    boost = value;
                     RaisePropertyChangedEvent("Boost");
                     RaisePropertyChangedEvent("BoostForView");
                 }
@@ -136,71 +136,71 @@ namespace OfflineServer
         }
         public Int16 PercentageOfLevelCompletion
         {
-            get { return _PercentageOfLevelCompletion; }
+            get { return percentageOfLevelCompletion; }
             set
             {
-                if (_PercentageOfLevelCompletion != value)
+                if (percentageOfLevelCompletion != value)
                 {
-                    _PercentageOfLevelCompletion = value;
+                    percentageOfLevelCompletion = value;
                     RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
         }
         public Int32 ReputationInLevel
         {
-            get { return _ReputationInLevel; }
+            get { return reputationInLevel; }
             set
             {
-                if (_ReputationInLevel != value)
+                if (reputationInLevel != value)
                 {
-                    _ReputationInLevel = value;
+                    reputationInLevel = value;
                     RaisePropertyChangedEvent("ReputationInLevel");
                 }
             }
         }
         public Int32 ReputationInTotal
         {
-            get { return _ReputationInTotal; }
+            get { return reputationInTotal; }
             set
             {
-                if (_ReputationInTotal != value)
+                if (reputationInTotal != value)
                 {
-                    _ReputationInTotal = value;
+                    reputationInTotal = value;
                     RaisePropertyChangedEvent("ReputationInTotal");
                 }
             }
         }
         public Int32 CarIndex
         {
-            get { return _CarIndex; }
+            get { return carIndex; }
             set
             {
-                if (_CarIndex != value)
+                if (carIndex != value)
                 {
-                    _CarIndex = value;
+                    carIndex = value;
                     RaisePropertyChangedEvent("CarIndex");
                 }
             }
         }
         public Car SelectedCar {
-            get { return _SelectedCar; }
+            get { return selectedCar; }
             set
             {
-                if (_SelectedCar != value)
+                if (selectedCar != value)
                 {
-                    _SelectedCar = value;
+                    selectedCar = value;
                     RaisePropertyChangedEvent("SelectedCar");
                 }
             }
         }
         public ObservableCollection<Car> Cars
         {
-            get { return _Cars; }
+            get { return cars; }
             set
             {
-                if (_Cars != value)
+                if (cars != value)
                 {
-                    _Cars = value;
+                    cars = value;
                     RaisePropertyChangedEvent("Cars");
                 }
             }
@@ -209,7 +209,7 @@ namespace OfflineServer
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
         /// </summary>
-        public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int16 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
+        public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
         {
             Id = personaId;
             AvatarIndex = personaAvatarIndex;
@@ -223,12 +223,30 @@ namespace OfflineServer
             ReputationInTotal = personaReputationTotal;
             CarIndex = personaCarIndex;
             
-            SQLiteCommand command = new SQLiteCommand("select * from Id" + personaId.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId=" + personaId.ToString() + " order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                DateTime ValidTime = (String)reader[12] == "null" ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
-                Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
+                DateTime ValidTime = String.IsNullOrWhiteSpace((string)reader[12]) ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
+                /*
+                long a = (Int64)reader[0];
+                long b = (Int64)reader[1];
+                CarClass c = (CarClass)reader[2];
+                XElement d = XElement.Parse((String)reader[3]);
+                XElement e = XElement.Parse((String)reader[4]);
+                long f = (Int64)reader[5];
+                int g = (Int32)reader[6];
+                int h = (Int32)reader[7];
+                XElement j = XElement.Parse((String)reader[8]);
+                XElement k = XElement.Parse((String)reader[9]);
+                XElement l = XElement.Parse((String)reader[10]);
+                short m = (Int16)reader[11];
+                DateTime n = ValidTime;
+                short o = (Int16)reader[13];
+                long p = (Int64)reader[14];
+                long q = (Int64)reader[15];*/
+
+                Car dummyCar = new Car((Int64)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int64)reader[15]);
                 Cars.Add(dummyCar);
             }
         }
@@ -250,12 +268,12 @@ namespace OfflineServer
             ReputationInTotal = persona.ReputationInTotal;
             CarIndex = persona.CarIndex;
 
-            SQLiteCommand command = new SQLiteCommand("select * from Id" + persona.Id.ToString() + " order by ApId asc", NfswSession.dbCarsConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId="+ Id +" order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 DateTime ValidTime = (String)reader[12] == "null" ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
-                Car dummyCar = new Car((Int64)reader[0], (CarClass)reader[1], (Int64)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int32)reader[14]);
+                Car dummyCar = new Car((Int64)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int64)reader[15]);
                 Cars.Add(dummyCar);
             }
         }
@@ -286,11 +304,11 @@ namespace OfflineServer
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
             
-            SQLiteCommand command = new SQLiteCommand("select * from personas order by Id asc", NfswSession.dbConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from persona order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Persona dummyPersona = new Persona((Int64)reader[0], (Int16)reader[1], (String)reader[2], (String)reader[3], (Int16)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
+                Persona dummyPersona = new Persona((Int64)reader[0], (Int16)reader[1], (String)reader[2], (String)reader[3], (Int32)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
                 listPersona.Add(dummyPersona);
             }
 

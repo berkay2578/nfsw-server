@@ -15,92 +15,94 @@ namespace OfflineServer
 
     public class Car : ObservableObject
     {
-        private Int64 _BaseCarId;
-        private CarClass _RaceClass;
-        private Int64 _ApId;
-        private XElement _Paints;
-        private XElement _PerformanceParts;
-        private Int64 _PhysicsProfileHash;
-        private Int32 _Rating;
-        private Int32 _ResalePrice;
-        private XElement _SkillModParts;
-        private XElement _Vinyls;
-        private XElement _VisualParts;
-        private Int16 _Durability;
-        private DateTime _ExpirationDate;
-        private Int16 _HeatLevel;
-        private Int32 _Id;
+        private Int64 id;
+        private Int64 baseCarId;
+        private CarClass raceClass;
+        private XElement paints;
+        private XElement performanceParts;
+        private Int64 physicsProfileHash;
+        private Int32 rating;
+        private Int32 resalePrice;
+        private XElement skillModParts;
+        private XElement vinyls;
+        private XElement visualParts;
+        private Int16 durability;
+        private DateTime expirationDate;
+        private Int16 heatLevel;
+        private Int64 carId;
+        private Int64 personaId;
         public String MakeModel { get { return CarDefinitions.Define(PhysicsProfileHash); } }
         public String MakeModelDetailed { get { return CarDefinitions.DefineFromBaseCarId(BaseCarId); } }
 
-        public Int64 BaseCarId
+
+        public Int64 Id
         {
-            get { return _BaseCarId; }
+            get { return id; }
             set
             {
-                if (_BaseCarId != value)
+                if (id != value)
                 {
-                    _BaseCarId = value;
+                    id = value;
+                    RaisePropertyChangedEvent("Id");
+                }
+            }
+        }
+        public Int64 BaseCarId
+        {
+            get { return baseCarId; }
+            set
+            {
+                if (baseCarId != value)
+                {
+                    baseCarId = value;
                     RaisePropertyChangedEvent("BaseCarId");
                 }
             }
         }
         public CarClass RaceClass
         {
-            get { return _RaceClass; }
+            get { return raceClass; }
             set
             {
-                if (_RaceClass != value)
+                if (raceClass != value)
                 {
-                    _RaceClass = value;
+                    raceClass = value;
                     RaisePropertyChangedEvent("RaceClass");
-                }
-            }
-        }
-        public Int64 ApId
-        {
-            get { return _ApId; }
-            set
-            {
-                if (_ApId != value)
-                {
-                    _ApId = value;
-                    RaisePropertyChangedEvent("ApId");
                 }
             }
         }
         public XElement Paints
         {
-            get { return _Paints; }
+            get { return paints; }
             set
             {
-                if (_Paints != value)
+                if (paints != value)
                 {
-                    _Paints = value;
+                    paints = value;
                     RaisePropertyChangedEvent("Paints");
                 }
             }
         }
         public XElement PerformanceParts
         {
-            get { return _PerformanceParts; }
+            get { return performanceParts; }
             set
             {
-                if (_PerformanceParts != value)
+                if (performanceParts != value)
                 {
-                    _PerformanceParts = value;
+                    performanceParts = value;
                     RaisePropertyChangedEvent("PerformanceParts");
                 }
             }
         }
         public Int64 PhysicsProfileHash
         {
-            get { return _PhysicsProfileHash; }
+            get { return physicsProfileHash; }
             set
             {
-                if (_PhysicsProfileHash != value)
+                if (physicsProfileHash != value)
                 {
-                    _PhysicsProfileHash = value;
+                    physicsProfileHash = value;
                     RaisePropertyChangedEvent("PhysicsProfileHash");
                     RaisePropertyChangedEvent("MakeModel");
                 }
@@ -108,118 +110,130 @@ namespace OfflineServer
         }
         public Int32 Rating
         {
-            get { return _Rating; }
+            get { return rating; }
             set
             {
-                if (_Rating != value)
+                if (rating != value)
                 {
-                    _Rating = value;
+                    rating = value;
                     RaisePropertyChangedEvent("Rating");
                 }
             }
         }
         public Int32 ResalePrice
         {
-            get { return _ResalePrice; }
+            get { return resalePrice; }
             set
             {
-                if (_ResalePrice != value)
+                if (resalePrice != value)
                 {
-                    _ResalePrice = value;
+                    resalePrice = value;
                     RaisePropertyChangedEvent("ResalePrice");
                 }
             }
         }
         public XElement SkillModParts
         {
-            get { return _SkillModParts; }
+            get { return skillModParts; }
             set
             {
-                if (_SkillModParts != value)
+                if (skillModParts != value)
                 {
-                    _SkillModParts = value;
+                    skillModParts = value;
                     RaisePropertyChangedEvent("SkillModParts");
                 }
             }
         }
         public XElement Vinyls
         {
-            get { return _Vinyls; }
+            get { return vinyls; }
             set
             {
-                if (_Vinyls != value)
+                if (vinyls != value)
                 {
-                    _Vinyls = value;
+                    vinyls = value;
                     RaisePropertyChangedEvent("Vinyls");
                 }
             }
         }
         public XElement VisualParts
         {
-            get { return _VisualParts; }
+            get { return visualParts; }
             set
             {
-                if (_VisualParts != value)
+                if (visualParts != value)
                 {
-                    _VisualParts = value;
+                    visualParts = value;
                     RaisePropertyChangedEvent("VisualParts");
                 }
             }
         }
         public Int16 Durability
         {
-            get { return _Durability; }
+            get { return durability; }
             set
             {
-                if (_Durability != value)
+                if (durability != value)
                 {
-                    _Durability = value;
+                    durability = value;
                     RaisePropertyChangedEvent("Durability");
                 }
             }
         }
         public DateTime ExpirationDate
         {
-            get { return _ExpirationDate; }
+            get { return expirationDate; }
             set
             {
-                if (_ExpirationDate != value)
+                if (expirationDate != value)
                 {
-                    _ExpirationDate = value;
+                    expirationDate = value;
                     RaisePropertyChangedEvent("ExpirationDate");
                 }
             }
         }
         public Int16 HeatLevel
         {
-            get { return _HeatLevel; }
+            get { return heatLevel; }
             set
             {
-                if (_HeatLevel != value)
+                if (heatLevel != value)
                 {
-                    _HeatLevel = value;
+                    heatLevel = value;
                     RaisePropertyChangedEvent("HeatLevel");
                 }
             }
         }
-        public Int32 Id
+        public Int64 CarId
         {
-            get { return _Id; }
+            get { return carId; }
             set
             {
-                if (_Id != value)
+                if (carId != value)
                 {
-                    _Id = value;
-                    RaisePropertyChangedEvent("Id");
+                    carId = value;
+                    RaisePropertyChangedEvent("CarId");
+                }
+            }
+        }
+        public Int64 PersonaId
+        {
+            get { return personaId; }
+            set
+            {
+                if (personaId != value)
+                {
+                    personaId = value;
+                    RaisePropertyChangedEvent("PersonaId");
                 }
             }
         }
 
-        public Car(Int64 baseCarId, CarClass raceClass, Int64 apId, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int32 id)
+        public Car(Int64 id, Int64 baseCarId, CarClass raceClass, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int64 carId, Int64 personaId)
         {
+            Id = id;
             BaseCarId = baseCarId;
             RaceClass = raceClass;
-            ApId = apId;
             Paints = paints;
             PerformanceParts = performanceParts;
             PhysicsProfileHash = physicsProfileHash;
@@ -231,7 +245,8 @@ namespace OfflineServer
             Durability = durability;
             ExpirationDate = expirationDate;
             HeatLevel = heatLevel;
-            Id = id;
+            CarId = carId;
+            PersonaId = personaId;
         }
         
         public String GetCarPreset()
@@ -245,7 +260,7 @@ namespace OfflineServer
                     new XElement("CustomCar",
                         new XElement("BaseCar", BaseCarId),
                         new XElement("CarClassHash", (Int32)RaceClass),
-                        new XElement("Id", ApId),
+                        new XElement("Id", Id),
                         new XElement("Paints", Paints),
                         new XElement("PerformanceParts", PerformanceParts),
                         new XElement("PhysicsProfileHash", PhysicsProfileHash),
@@ -260,7 +275,7 @@ namespace OfflineServer
                             new XElement("ExpirationDate", ExpirationDate.ToString("o"))
                         ),
                         new XElement("Heat", HeatLevel),
-                        new XElement("Id", Id),
+                        new XElement("Id", CarId),
                         new XElement("OwnershipType", "CustomizedCar")
                     )
                 );
