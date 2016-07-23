@@ -223,7 +223,7 @@ namespace OfflineServer
             ReputationInTotal = personaReputationTotal;
             CarIndex = personaCarIndex;
             
-            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId=" + personaId.ToString() + " order by id asc", NfswSession.dbConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId = " + Id + " order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -268,7 +268,7 @@ namespace OfflineServer
             ReputationInTotal = persona.ReputationInTotal;
             CarIndex = persona.CarIndex;
 
-            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId="+ Id +" order by id asc", NfswSession.dbConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId = " + Id +" order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
