@@ -36,7 +36,7 @@ namespace OfflineServer
 
             Byte[] baResponseArray = null;
 
-            if (checkEndFor("/carslots", e.Request.Path))
+            if (e.Request.Path.EndsWith("/carslots"))
             {
                 baResponseArray = GetResponseData(Access.CurrentSession.ActivePersona.GetCompleteGarage());
             }
@@ -55,22 +55,15 @@ namespace OfflineServer
             // e.Request.Params gives only the Params, not adding anything else.
         }
 
-        private Boolean checkEndFor(String partOfURIString, String wholeURI)
-        {
-            if (wholeURI.EndsWith(partOfURIString)) return true;
-            return false;
-        }
-
         private Byte[] GetResponseData(String StringOrFilePath)
         {
             Byte[] baAnswerData = File.Exists(StringOrFilePath) ? File.ReadAllBytes(StringOrFilePath) : UTF8Encoding.UTF8.GetBytes(StringOrFilePath);
 
             using (MemoryStream msResponse = new MemoryStream())
             {
-                using (GZipStream gzip = new GZipStream(msResponse, CompressionMode.Compress, true))
-                {
+                using (GZipStream gzip = new GZipStream(msResponse, CompressionMode.Compress, true))                
                     gzip.Write(baAnswerData, 0, baAnswerData.Length);
-                }
+                
                 return msResponse.ToArray();
             }
         }
