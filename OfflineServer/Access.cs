@@ -9,5 +9,6 @@ namespace OfflineServer
     {
         public static NfswSession CurrentSession { get; set; } = new NfswSession();
         public static HTTPServer sHttp = new HTTPServer();
+        public static XMPPServer sXmpp = new BasicXMPPServer(5222);
     }
 }

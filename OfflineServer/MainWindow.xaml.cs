@@ -57,10 +57,10 @@ namespace OfflineServer
                 m_dbConnection = new SQLiteConnection("Data Source=\"ServerData\\PersonaData.db\";Version=3;");
                 m_dbConnection.Open();
 
-                sql[0] = "create table persona (id bigint, iconIndex smallint, name varchar(50), motto varchar(60), level int, IGC int, boost int, reputationPercentage smallint, levelReputation int, totalReputation int, currentCarIndex int)";
+                sql[0] = "create table persona (id integer, iconIndex smallint, name varchar(50), motto varchar(60), level int, IGC int, boost int, reputationPercentage smallint, levelReputation int, totalReputation int, currentCarIndex int, PRIMARY KEY (id))";
                 sql[1] = "insert into persona (id, iconIndex, name, motto, level, IGC, boost, reputationPercentage, levelReputation, totalReputation, currentCarIndex) values (100, 27, 'Debug', 'Test Build', 69, 0, 0, 0, 0, 699, 1)";
                 sql[2] = "insert into persona (id, iconIndex, name, motto, level, IGC, boost, reputationPercentage, levelReputation, totalReputation, currentCarIndex) values (101, 26, 'DefaultProfile', 'Literally, the first.', 1, 25000, 1500, 0, 0, 0, 0)";
-                sql[3] = "create table garage (id bigint, baseCarId bigint, raceClass int, paints longtext, performanceParts longtext, physicsProfileHash bigint, rating int, resalePrice int, skillModParts longtext, vinyls longtext, visualParts longtext, durability smallint, expirationDate text, heatLevel smallint, carId bigint, personaId bigint)";
+                sql[3] = "create table garage (id integer, baseCarId bigint, raceClass int, paints longtext, performanceParts longtext, physicsProfileHash bigint, rating int, resalePrice int, skillModParts longtext, vinyls longtext, visualParts longtext, durability smallint, expirationDate text, heatLevel smallint, carId bigint, personaId bigint, PRIMARY KEY (id))";
                 sql[4] = "insert into garage (id, baseCarId, raceClass, paints, performanceParts, physicsProfileHash, rating, resalePrice, skillModParts, vinyls, visualParts, durability, expirationDate, heatLevel, carId, personaId) values (1, 1816139026, -405837480, " +
                     "'<Paints><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>1</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>-1480403439</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>2</Slot><Var>76</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>6</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>0</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>3</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>4</Slot><Var>254</Var></CustomPaintTrans><CustomPaintTrans><Group>595033610</Group><Hue>496032624</Hue><Sat>0</Sat><Slot>5</Slot><Var>254</Var></CustomPaintTrans></Paints>', " +
                     "'<PerformanceParts><PerformancePartTrans><PerformancePartAttribHash>-1962598619</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>-183076819</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>7155944</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>754340312</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1621862030</PerformancePartAttribHash></PerformancePartTrans><PerformancePartTrans><PerformancePartAttribHash>1727386028</PerformancePartAttribHash></PerformancePartTrans></PerformanceParts>', " +
@@ -244,9 +244,11 @@ namespace OfflineServer
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
+            // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
             Access.sHttp.nServer.Stop();
             Access.sHttp.nServer.Dispose();
-            // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
+
+            Access.sXmpp.shutdown();
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();

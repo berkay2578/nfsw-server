@@ -43,10 +43,6 @@ namespace OfflineServer
 
             PersonaList = Persona.GetCurrentPersonaList();
             ActivePersona = PersonaList[0];
-
-
-            //long readSessionIdAndCalculated = 0002;
-            //    Persona.SetPersona(readSessionIdAndCalculated);
         }
     }
 }

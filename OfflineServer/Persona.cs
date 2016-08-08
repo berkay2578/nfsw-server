@@ -21,7 +21,7 @@ namespace OfflineServer
             Debug = 2
         }
 
-        private Int64 id;
+        private UInt32 id;
         private Int16 avatarIndex;
         private String name;
         private String motto;
@@ -35,7 +35,7 @@ namespace OfflineServer
         private Car selectedCar;
         private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
-        public Int64 Id
+        public UInt32 Id
         {
             get { return id; }
             set
@@ -209,7 +209,7 @@ namespace OfflineServer
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
         /// </summary>
-        public Persona(Int64 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
+        public Persona(UInt32 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
         {
             Id = personaId;
             AvatarIndex = personaAvatarIndex;
@@ -308,7 +308,7 @@ namespace OfflineServer
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Persona dummyPersona = new Persona((Int64)reader[0], (Int16)reader[1], (String)reader[2], (String)reader[3], (Int32)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
+                Persona dummyPersona = new Persona(Convert.ToUInt32(reader[0]), (Int16)reader[1], (String)reader[2], (String)reader[3], (Int32)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
                 listPersona.Add(dummyPersona);
             }
 
