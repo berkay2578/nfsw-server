@@ -45,6 +45,7 @@ namespace OfflineServer
 
             Byte[] baResponseArray = null;
 
+            Console.WriteLine("       + + ++ + : " + e.Request.Path);
             /*if (e.Request.Path.EndsWith("/carslots"))
             {
                 baResponseArray = GetResponseData(Access.CurrentSession.ActivePersona.GetCompleteGarage());
@@ -53,6 +54,11 @@ namespace OfflineServer
             if (File.Exists(currentIOPath))
             {
                 baResponseArray = GetResponseData(currentIOPath);
+            }
+            if (e.Request.Path.Contains("SecureLogin"))
+            {
+                Access.sXmpp.initialize();
+                Access.sXmpp.doLogin(Access.CurrentSession.ActivePersona.Id);
             }
             if (baResponseArray == null) baResponseArray = GetResponseData("<Trans/>");
             e.Response.OutputStream.Write(baResponseArray, 0, baResponseArray.Length);
@@ -116,7 +122,7 @@ namespace OfflineServer
             return request;
         }
 
-        public async void write(String message, Boolean isSSL = true)
+        public async Task write(String message, Boolean isSSL = true)
         {
             File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " WRITE: " + message + "\r\n");
             byte[] msg = Encoding.ASCII.GetBytes(message);
@@ -126,7 +132,7 @@ namespace OfflineServer
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
         }
 
-        public abstract void initialize(TcpClient client);
+        public abstract void initialize();
         public abstract void doHandshake();
         public abstract void doHandshakeWithSSL();
         public abstract void doLogin(UInt32 newPersonaId);
@@ -144,20 +150,18 @@ namespace OfflineServer
             jidPrepender = "nfsw";
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
-            initialize(null);
         }
 
-        public override async void initialize(TcpClient client)
+        public override async void initialize()
         {
             cts = new CancellationTokenSource();
             ct = cts.Token;
-            this.client = client == null ? (await listener.AcceptTcpClientAsync().ConfigureAwait(false)) : client;
-            stream = this.client.GetStream();
-            this.client.Client.NoDelay = true;
-            this.client.NoDelay = true;
-            doLogin(Access.CurrentSession.ActivePersona.Id);
+            client = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
+            stream = client.GetStream();
+            client.Client.NoDelay = true;
+            client.NoDelay = true;
         }
-        
+
         public override void doLogin(UInt32 newPersonaId)
         {
             this.personaId = newPersonaId;
@@ -170,28 +174,29 @@ namespace OfflineServer
         public override async void doHandshake()
         {
             List<String> packets = new List<String>();
-            packets.AddRange(new string[] {"<stream:stream xmlns='jabber:client' xml:lang='en' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='174159513' version='1.0'><stream:features/>",
-            String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
-            "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
-            String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId) });
+            packets.AddRange(new string[] {
+                "<stream:stream xmlns='jabber:client' xml:lang='en' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='174159513' version='1.0'><stream:features/>",
+                String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
+                "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
+                String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId)
+            });
 
             for (int packetCount = 0; packetCount < packets.Count; packetCount++)
             {
                 File.AppendAllText("log.txt", "packetCount: " + packetCount + " \r\n");
-                if (packetCount == 3)
+                if (packetCount < 3)
                 {
-                    string received = "";
-                    while (!ct.IsCancellationRequested)
-                    {
-                        received = read(false).Result;
-                        if (received.StartsWith("<presence to")) break;
-                    }
+                    await read(false).ConfigureAwait(false);
                 }
                 else
                 {
-                    await read(false);
+                    while (!ct.IsCancellationRequested)
+                    {
+                        string received = await read(false).ConfigureAwait(false);
+                        if (received.StartsWith("<presence to")) break;
+                    }
                 }
-                write(packets[packetCount], false);
+                await write(packets[packetCount], false).ConfigureAwait(false);
             }
             listenLoop();
         }
@@ -203,26 +208,14 @@ namespace OfflineServer
         {
             while (!ct.IsCancellationRequested)
             {
-                while (true)
+                string packet = await read(false).ConfigureAwait(false);
+                if (packet.Contains("</stream:stream>"))
                 {
-                    String packet = await read(false);
-                    if (packet.Contains("</stream:stream>"))
-                        break;
+                    await write("</stream:stream>", false).ConfigureAwait(false);
+                    cts.Cancel();
+                    client.Close();
+                    break;
                 }
-                cts.Cancel();
-                client.Client.Close();
-                client.Close();
-
-                //wait for new login; 
-                //if there isn't one for 30 seconds, drop the connection and retry
-                var timeoutTask = TaskEx.Delay(TimeSpan.FromSeconds(30));
-                var clientAcceptTask = listener.AcceptTcpClientAsync();
-                var completedTask = await TaskEx.WhenAny(timeoutTask, clientAcceptTask).ConfigureAwait(false);
-
-                TcpClient resultClient = null;
-                if (completedTask != timeoutTask) resultClient = clientAcceptTask.Result;
-
-                initialize(resultClient);
             }
         }
 
