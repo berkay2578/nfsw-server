@@ -95,16 +95,17 @@ namespace OfflineServer
         protected UInt32 personaId;
         protected String jidPrepender;
         protected X509Certificate certificate;
-        protected Decoder decoder = Encoding.ASCII.GetDecoder();
+        protected Decoder decoder = Encoding.UTF8.GetDecoder();
         protected CancellationTokenSource cts;
         protected CancellationToken ct;
+        protected Boolean isSsl;
 
-        public async Task<String> read(Boolean isSSL = true)
+        public async Task<String> read(Boolean forceNoSsl = false)
         {
             byte[] data = new byte[client.ReceiveBufferSize];
             int bytesRead;
             string request;
-            if (isSSL)
+            if (isSsl & !forceNoSsl)
             {
                 var readTask = await sslStream.ReadAsync(data, 0, Convert.ToInt32(client.ReceiveBufferSize), ct).ConfigureAwait(false);
                 bytesRead = readTask;
@@ -116,25 +117,30 @@ namespace OfflineServer
             {
                 var readTask = await stream.ReadAsync(data, 0, Convert.ToInt32(client.ReceiveBufferSize), ct).ConfigureAwait(false);
                 bytesRead = readTask;
-                request = Encoding.ASCII.GetString(data, 0, bytesRead);
+                request = Encoding.UTF8.GetString(data, 0, bytesRead);
             }
             File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " READ: " + request + "\r\n");
             return request;
         }
 
-        public async Task write(String message, Boolean isSSL = true)
+        public async Task write(String message, Boolean forceNoSsl = false)
         {
-            File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " WRITE: " + message + "\r\n");
-            byte[] msg = Encoding.ASCII.GetBytes(message);
-            if (isSSL)
+            byte[] msg = Encoding.UTF8.GetBytes(message);
+            if (isSsl & !forceNoSsl)
+            {
                 await sslStream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
+                await sslStream.FlushAsync().ConfigureAwait(false);
+            }
             else
+            {
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
+                await stream.FlushAsync().ConfigureAwait(false);
+            }
+            File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " WRITE: " + message + "\r\n");
         }
 
         public abstract void initialize();
         public abstract void doHandshake();
-        public abstract void doHandshakeWithSSL();
         public abstract void doLogin(UInt32 newPersonaId);
         public abstract void doLogout(UInt32 personaId);
         public abstract void listenLoop();
@@ -143,20 +149,36 @@ namespace OfflineServer
 
     public class BasicXMPPServer : XMPPServer
     {
-        public BasicXMPPServer(Int32 port)
+        private Int32 amountRead = -1;
+        private List<String> packets = new List<String>();
+
+        public BasicXMPPServer(Int32 port, Boolean ssl = false)
         {
             this.port = port;
             personaId = 0;
             jidPrepender = "nfsw";
+            isSsl = ssl;
+            if (isSsl)
+                packets.AddRange(new string[] {
+                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features><starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/></stream:features>",
+                "<proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>",
+                });
+            packets.AddRange(new string[] {
+                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features/>",
+                String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
+                "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
+                String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId)
+            });
+            certificate = new X509Certificate2(Properties.Resources.certificate, "123456");
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
         }
 
-        public override async void initialize()
+        public override void initialize()
         {
             cts = new CancellationTokenSource();
             ct = cts.Token;
-            client = await listener.AcceptTcpClientAsync().ConfigureAwait(false);
+            client = listener.AcceptTcpClient();
             stream = client.GetStream();
             client.Client.NoDelay = true;
             client.NoDelay = true;
@@ -173,46 +195,34 @@ namespace OfflineServer
         }
         public override async void doHandshake()
         {
-            List<String> packets = new List<String>();
-            packets.AddRange(new string[] {
-                "<stream:stream xmlns='jabber:client' xml:lang='en' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='174159513' version='1.0'><stream:features/>",
-                String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
-                "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
-                String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId)
-            });
+            Int32 final = 2 + (isSsl ? 2 : 0);
+            String read = "";
 
-            for (int packetCount = 0; packetCount < packets.Count; packetCount++)
+            do
             {
-                File.AppendAllText("log.txt", "packetCount: " + packetCount + " \r\n");
-                if (packetCount < 3)
-                {
-                    await read(false).ConfigureAwait(false);
-                }
-                else
-                {
-                    while (!ct.IsCancellationRequested)
-                    {
-                        string received = await read(false).ConfigureAwait(false);
-                        if (received.StartsWith("<presence to")) break;
-                    }
-                }
-                await write(packets[packetCount], false).ConfigureAwait(false);
-            }
+                await _read().ConfigureAwait(false);
+                await _write().ConfigureAwait(false);
+            } while (amountRead < final);
+
+            while (!read.StartsWith("<presence to"))
+                read = await _read(false).ConfigureAwait(false);
+
+            amountRead++;
+            await _write().ConfigureAwait(false);
             listenLoop();
         }
-        public override void doHandshakeWithSSL()
-        {
-            throw new NotImplementedException();
-        }
+
         public override async void listenLoop()
         {
             while (!ct.IsCancellationRequested)
             {
-                string packet = await read(false).ConfigureAwait(false);
+                string packet = await read().ConfigureAwait(false);
                 if (packet.Contains("</stream:stream>"))
                 {
-                    await write("</stream:stream>", false).ConfigureAwait(false);
+                    await write("</stream:stream>").ConfigureAwait(false);
                     cts.Cancel();
+                    amountRead = -1;
+                    if (isSsl) sslStream.Close();
                     client.Close();
                     break;
                 }
@@ -221,9 +231,27 @@ namespace OfflineServer
 
         public override void shutdown()
         {
-            cts.Cancel();
+            if (cts != null) cts.Cancel();
             if (client != null) client.Close();
-            listener.Stop();
+            if (listener != null) listener.Stop();
+        }
+
+        private async Task<String> _read(Boolean increaseAmountRead = true)
+        {
+            string result = await read((isSsl && amountRead < 1)).ConfigureAwait(false);
+            if (increaseAmountRead) amountRead++;
+            return result;
+        }
+        private async Task _write()
+        {
+            await write(packets[amountRead], (isSsl && amountRead < 2)).ConfigureAwait(false);
+            if (isSsl && amountRead == 1) switchToTls();
+        }
+        private void switchToTls()
+        {
+            File.AppendAllText("log.txt", "Xmpp connection switching to tls.\r\n");
+            sslStream = new SslStream(client.GetStream(), false);
+            sslStream.AuthenticateAsServer(certificate, false, SslProtocols.Tls, true);
         }
     }
 
