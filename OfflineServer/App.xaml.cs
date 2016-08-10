@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Interactivity;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -18,7 +17,6 @@ namespace OfflineServer
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
     [AttributeUsage(AttributeTargets.Field)]
     public class StringData : Attribute
     {
@@ -43,7 +41,6 @@ namespace OfflineServer
                 _xE.SetDefaultXmlNamespace(xmlns);
         }
     }
-
     public class MVVMSyntax : TextEditor, INotifyPropertyChanged
     {
         public static readonly DependencyProperty _TextProperty = 
@@ -86,5 +83,6 @@ namespace OfflineServer
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

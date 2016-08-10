@@ -39,7 +39,7 @@ namespace OfflineServer
 
             Access = new Access();
 
-            Access.CurrentSession.StartSession();
+            Access.CurrentSession.startSession();
             InitializeComponent();
             SetupComponents();
         }
@@ -127,7 +127,7 @@ namespace OfflineServer
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            DockPanel dNewInfoContent = Access.CurrentSession.mEngine.mAchievements.GenerateNewAchievement();
+            DockPanel dNewInfoContent = Access.CurrentSession.Engine.Achievements.generateNewAchievement();
             metrotileRandomPersonaInfo.Content = dNewInfoContent;
         }
 

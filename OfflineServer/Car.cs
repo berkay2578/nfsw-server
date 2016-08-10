@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using OfflineServer.Servers;
 
 namespace OfflineServer
 {
@@ -249,11 +250,11 @@ namespace OfflineServer
             PersonaId = personaId;
         }
         
-        public String GetCarPreset()
+        public String getCarPreset()
         {
             return "";
         }
-        public XElement GetCarEntry()
+        public XElement getCarEntry()
         {
             XElement eCarEntry =
                 new XElement("OwnedCarTrans",
@@ -268,16 +269,16 @@ namespace OfflineServer
                         new XElement("SkillModParts", SkillModParts),
                         new XElement("SkillModSlotCount", 6),
                         new XElement("Vinyls", Vinyls),
-                        new XElement("VisualParts", VisualParts),
-                        new XElement("Durability", Durability),
-                        (ExpirationDate == new DateTime(1, 1, 1) ?
-                            new XElement("ExpirationDate", new XAttribute(ServerAttributes.nilNS + "nil", "true")) :
-                            new XElement("ExpirationDate", ExpirationDate.ToString("o"))
-                        ),
-                        new XElement("Heat", HeatLevel),
-                        new XElement("Id", CarId),
-                        new XElement("OwnershipType", "CustomizedCar")
-                    )
+                        new XElement("VisualParts", VisualParts)
+                    ),
+                    new XElement("Durability", Durability),
+                    (ExpirationDate == new DateTime(1, 1, 1) ?
+                        new XElement("ExpirationDate", new XAttribute(ServerAttributes.nilNS + "nil", "true")) :
+                        new XElement("ExpirationDate", ExpirationDate.ToString("o"))
+                    ),
+                    new XElement("Heat", HeatLevel),
+                    new XElement("Id", CarId),
+                    new XElement("OwnershipType", "CustomizedCar")
                 );
 
             return eCarEntry;

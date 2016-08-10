@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using OfflineServer.Servers.Http;
+using OfflineServer.Servers.Xmpp;
 
 namespace OfflineServer
 {
     public class Access : ObservableObject
     {
         public static NfswSession CurrentSession { get; set; } = new NfswSession();
-        public static HTTPServer sHttp = new HTTPServer();
-        public static XMPPServer sXmpp = new BasicXMPPServer(5222);
+        public static HttpServer sHttp = new HttpServer();
+        public static XmppServer sXmpp = new BasicXmppServer();
     }
 }

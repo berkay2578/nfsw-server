@@ -17,8 +17,8 @@ namespace OfflineServer
         private TextBlock tblockAchievementDescription;
         private static class tAchievement
         {
-            public const Int32 TreasureHunt = 1;
-            public const Int32 FarthestJumpDistance = 2;
+            public const Int32 treasureHunt = 1;
+            public const Int32 farthestJumpDistance = 2;
         }
 
         private void vReDefine()
@@ -50,7 +50,7 @@ namespace OfflineServer
             vReDefine();
         }
 
-        public DockPanel GenerateNewAchievement()
+        public DockPanel generateNewAchievement()
         {
             String sCurrentText = tblockAchievementDescription.Text;
             reroll:
@@ -59,13 +59,13 @@ namespace OfflineServer
 
             switch (rPseudo.Next(1, 3))
             {
-                case tAchievement.TreasureHunt:
+                case tAchievement.treasureHunt:
                     {
                         ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/TreasureHuntStreak.png", UriKind.RelativeOrAbsolute));
                         tblockAchievementDescription.Text = "Your longest TH Streak was 8, on persona 'Default Profile 1'."; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
                         break;
                     }
-                case tAchievement.FarthestJumpDistance:
+                case tAchievement.farthestJumpDistance:
                     {
                         ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/JumpDistance.png", UriKind.RelativeOrAbsolute));
                         tblockAchievementDescription.Text = "Your farthest jump distance was 12.87 meters, on persona 'Default Profile 1'."; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...

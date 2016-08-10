@@ -18,13 +18,12 @@ namespace OfflineServer
             Debug = 2
         }
 
-        public Int32 iEngineIndex = 0;
-        public Achievements mAchievements = new Achievements();
-        public ServerAPI mServerDataAPI;
+        public Int32 engineIndex = 0;
+        public Achievements Achievements = new Achievements();
 
-        public void LoadEngine(EngineType mEngine, Int32 EngineIndex = 0)
+        public void LoadEngine(EngineType engine)
         {
-            switch (mEngine)
+            switch (engine)
             {
                 case EngineType.Default:
                     break;

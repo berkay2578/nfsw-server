@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Text;
 using System.Xml.Linq;
+using OfflineServer.Servers;
 
 namespace OfflineServer
 {
@@ -300,7 +301,7 @@ namespace OfflineServer
         /// </summary>
         /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
         /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
-        public static ObservableCollection<Persona> GetCurrentPersonaList()
+        public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
             
@@ -319,12 +320,12 @@ namespace OfflineServer
         /// Reads the complete garage of the current active persona.
         /// </summary>
         /// <returns>A string instance containing all of the persona's cars in indented XML.</returns>
-        public String GetCompleteGarage()
+        public String getCompleteGarage()
         {
             XElement CarEntries = new XElement("CarsOwnedByPersona");
             foreach (Car CarEntry in Cars)
             {
-                CarEntries.Add(CarEntry.GetCarEntry());
+                CarEntries.Add(CarEntry.getCarEntry());
             }
 
             XDocument docAllCars = new XDocument(
