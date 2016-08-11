@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Text;
 using System.Xml.Linq;
+using NHibernate;
 using OfflineServer.Servers;
+using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
 
 namespace OfflineServer
 {
@@ -22,8 +26,8 @@ namespace OfflineServer
             Debug = 2
         }
 
-        private UInt32 id;
-        private Int16 avatarIndex;
+        private Int32 id;
+        private Int16 iconIndex;
         private String name;
         private String motto;
         private Int32 level;
@@ -32,11 +36,15 @@ namespace OfflineServer
         private Int16 percentageOfLevelCompletion;
         private Int32 reputationInLevel;
         private Int32 reputationInTotal;
-        private Int32 carIndex;
-        private Car selectedCar;
+        private Int32 currentCarIndex;
+        public Int32 score;
+        public Int32 rating;
         private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
-        public UInt32 Id
+        //UI
+        private Car selectedCar;
+
+        public Int32 Id
         {
             get { return id; }
             set
@@ -47,15 +55,15 @@ namespace OfflineServer
                 }
             }
         }
-        public Int16 AvatarIndex
+        public Int16 IconIndex
         {
-            get { return avatarIndex; }
+            get { return iconIndex; }
             set
             {
-                if (avatarIndex != value)
+                if (iconIndex != value)
                 {
-                    avatarIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
-                    RaisePropertyChangedEvent("AvatarIndex");
+                    iconIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                    RaisePropertyChangedEvent("IconIndex");
                 }
             }
         }
@@ -171,15 +179,15 @@ namespace OfflineServer
                 }
             }
         }
-        public Int32 CarIndex
+        public Int32 CurrentCarIndex
         {
-            get { return carIndex; }
+            get { return currentCarIndex; }
             set
             {
-                if (carIndex != value)
+                if (currentCarIndex != value)
                 {
-                    carIndex = value;
-                    RaisePropertyChangedEvent("CarIndex");
+                    currentCarIndex = value;
+                    RaisePropertyChangedEvent("CurrentCarIndex");
                 }
             }
         }
@@ -210,10 +218,10 @@ namespace OfflineServer
         /// <summary>
         /// Initializes the Persona class with the given parameter values.
         /// </summary>
-        public Persona(UInt32 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
+        public Persona(Int32 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
         {
             Id = personaId;
-            AvatarIndex = personaAvatarIndex;
+            IconIndex = personaAvatarIndex;
             Name = personaName;
             Motto = personaMotto;
             Level = personaLevel;
@@ -222,9 +230,9 @@ namespace OfflineServer
             PercentageOfLevelCompletion = personaPercentageOfLevel;
             ReputationInLevel = personaReputationLevel;
             ReputationInTotal = personaReputationTotal;
-            CarIndex = personaCarIndex;
+            CurrentCarIndex = personaCarIndex;
             
-            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId = " + Id + " order by id asc", NfswSession.dbConnection);
+            SQLiteCommand command = new SQLiteCommand("select * from garage where ownerpersona_Id = " + Id + " order by id asc", NfswSession.dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -247,35 +255,33 @@ namespace OfflineServer
                 long p = (Int64)reader[14];
                 long q = (Int64)reader[15];*/
 
-                Car dummyCar = new Car((Int64)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int64)reader[15]);
+                Car dummyCar = new Car((Int32)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int32)reader[15]);
                 Cars.Add(dummyCar);
             }
         }
 
         /// <summary>
-        /// Initializes the Persona class with the given persona.
+        /// Initializes the Persona class with the given persona entity.
         /// </summary>
-        public Persona(Persona persona)
+        public Persona(PersonaEntity persona, ISession session)
         {
-            Id = persona.Id;
-            AvatarIndex = persona.AvatarIndex;
-            Name = persona.Name;
-            Motto = persona.Motto;
-            Level = persona.Level;
-            Cash = persona.Cash;
-            Boost = persona.Boost;
-            PercentageOfLevelCompletion = persona.PercentageOfLevelCompletion;
-            ReputationInLevel = persona.ReputationInLevel;
-            ReputationInTotal = persona.ReputationInTotal;
-            CarIndex = persona.CarIndex;
+            Id = persona.id;
+            IconIndex = persona.iconIndex;
+            Name = persona.name;
+            Motto = persona.motto;
+            Level = persona.level;
+            Cash = persona.cash;
+            Boost = persona.boost;
+            PercentageOfLevelCompletion = persona.percentageOfLevelCompletion;
+            ReputationInLevel = persona.reputationInLevel;
+            ReputationInTotal = persona.reputationInTotal;
+            CurrentCarIndex = persona.currentCarIndex;
+            
+            PersonaEntity personaEntity = session.Load<PersonaEntity>(persona.id);
 
-            SQLiteCommand command = new SQLiteCommand("select * from garage where personaId = " + Id +" order by id asc", NfswSession.dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            foreach (CarEntity car in personaEntity.garage)
             {
-                DateTime ValidTime = (String)reader[12] == "null" ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
-                Car dummyCar = new Car((Int64)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int64)reader[15]);
-                Cars.Add(dummyCar);
+                Cars.Add(new Car(car));
             }
         }
 
@@ -286,7 +292,7 @@ namespace OfflineServer
         {
             string sPersonaData = "Persona Information: {" + Environment.NewLine +
                 "   Id: " + Id.ToString() + Environment.NewLine +
-                "   Avatar Index: " + AvatarIndex.ToString() + Environment.NewLine +
+                "   Avatar Index: " + IconIndex.ToString() + Environment.NewLine +
                 "   Name: " + Name + Environment.NewLine +
                 "   Motto: " + Motto + Environment.NewLine +
                 "   Level: " + Level.ToString() + Environment.NewLine +
@@ -304,13 +310,18 @@ namespace OfflineServer
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
-            
-            SQLiteCommand command = new SQLiteCommand("select * from persona order by id asc", NfswSession.dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            SessionManager sessionManager = new SessionManager();
+            using (var session = sessionManager.getSessionFactory().OpenSession())
             {
-                Persona dummyPersona = new Persona(Convert.ToUInt32(reader[0]), (Int16)reader[1], (String)reader[2], (String)reader[3], (Int32)reader[4], (Int32)reader[5], (Int32)reader[6], (Int16)reader[7], (Int32)reader[8], (Int32)reader[9], (Int32)reader[10]);
-                listPersona.Add(dummyPersona);
+                using (session.BeginTransaction())
+                {
+                    IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
+
+                    foreach (PersonaEntity persona in personas)
+                    {
+                        listPersona.Add(new Persona(persona, session));
+                    }
+                }
             }
 
             return listPersona;
@@ -333,7 +344,7 @@ namespace OfflineServer
                 new XElement("CarSlotInfoTrans",
                     new XAttribute(XNamespace.Xmlns + "i", ServerAttributes.nilNS),
                     CarEntries,
-                    new XElement("DefaultOwnedCarIndex", "DebugNil"),
+                    new XElement("DefaultOwnedCarIndex", currentCarIndex),
                     new XElement("ObtainableSlots",
                         Economy.Basket.GetProductTransactionEntry
                         (
@@ -353,7 +364,7 @@ namespace OfflineServer
                             Economy.Special.None
                         )
                     ),
-                    new XElement("OwnedCarSlotsCount", "DebugNil")
+                    new XElement("OwnedCarSlotsCount", "100")
                 )
             );
             docAllCars.Root.SetDefaultXmlNamespace(ServerAttributes.srlNS);

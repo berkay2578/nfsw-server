@@ -17,7 +17,7 @@ namespace OfflineServer.Servers.Xmpp
         protected TcpClient client;
         protected NetworkStream stream;
         protected SslStream sslStream;
-        protected UInt32 personaId;
+        protected Int32 personaId;
         protected X509Certificate certificate;
         protected Decoder decoder = Encoding.UTF8.GetDecoder();
         protected CancellationTokenSource cts;
@@ -65,8 +65,8 @@ namespace OfflineServer.Servers.Xmpp
 
         public abstract void initialize();
         public abstract void doHandshake();
-        public abstract void doLogin(UInt32 newPersonaId);
-        public abstract void doLogout(UInt32 personaId);
+        public abstract void doLogin(Int32 newPersonaId);
+        public abstract void doLogout(Int32 personaId);
         public abstract void listenLoop();
         public abstract void shutdown();
     }

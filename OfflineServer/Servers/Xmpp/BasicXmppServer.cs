@@ -49,12 +49,12 @@ namespace OfflineServer.Servers.Xmpp
             client.NoDelay = true;
         }
 
-        public override void doLogin(UInt32 newPersonaId)
+        public override void doLogin(Int32 newPersonaId)
         {
             this.personaId = newPersonaId;
             doHandshake();
         }
-        public override void doLogout(UInt32 personaId)
+        public override void doLogout(Int32 personaId)
         {
             throw new NotImplementedException();
         }

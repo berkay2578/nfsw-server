@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using OfflineServer.Servers;
+using OfflineServer.Servers.Database.Entities;
 
 namespace OfflineServer
 {
@@ -16,7 +17,7 @@ namespace OfflineServer
 
     public class Car : ObservableObject
     {
-        private Int64 id;
+        private Int32 id;
         private Int64 baseCarId;
         private CarClass raceClass;
         private XElement paints;
@@ -31,12 +32,12 @@ namespace OfflineServer
         private DateTime expirationDate;
         private Int16 heatLevel;
         private Int64 carId;
-        private Int64 personaId;
+        private Int32 personaId;
         public String MakeModel { get { return CarDefinitions.Define(PhysicsProfileHash); } }
         public String MakeModelDetailed { get { return CarDefinitions.DefineFromBaseCarId(BaseCarId); } }
 
 
-        public Int64 Id
+        public Int32 Id
         {
             get { return id; }
             set
@@ -217,7 +218,7 @@ namespace OfflineServer
                 }
             }
         }
-        public Int64 PersonaId
+        public Int32 PersonaId
         {
             get { return personaId; }
             set
@@ -230,7 +231,7 @@ namespace OfflineServer
             }
         }
 
-        public Car(Int64 id, Int64 baseCarId, CarClass raceClass, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int64 carId, Int64 personaId)
+        public Car(Int32 id, Int64 baseCarId, CarClass raceClass, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int64 carId, Int32 personaId)
         {
             Id = id;
             BaseCarId = baseCarId;
@@ -248,6 +249,26 @@ namespace OfflineServer
             HeatLevel = heatLevel;
             CarId = carId;
             PersonaId = personaId;
+        }
+
+        public Car(CarEntity car)
+        {
+            Id = car.id;
+            BaseCarId = car.baseCarId;
+            RaceClass = car.raceClass;
+            Paints = XElement.Parse(car.paints);
+            PerformanceParts = XElement.Parse(car.performanceParts);
+            PhysicsProfileHash = car.physicsProfileHash;
+            Rating = car.rating;
+            ResalePrice = car.resalePrice;
+            SkillModParts = XElement.Parse(car.skillModParts);
+            Vinyls = XElement.Parse(car.vinyls);
+            VisualParts = XElement.Parse(car.visualParts);
+            Durability = car.durability;
+            ExpirationDate = car.expirationDate;
+            HeatLevel = car.heatLevel;
+            CarId = car.carId;
+            PersonaId = car.ownerPersona.id;
         }
         
         public String getCarPreset()

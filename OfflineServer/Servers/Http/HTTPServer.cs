@@ -50,7 +50,6 @@ namespace OfflineServer.Servers.Http
                     Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
                     MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
                     baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
-                    string a = "r";
                 }
             }
             else
