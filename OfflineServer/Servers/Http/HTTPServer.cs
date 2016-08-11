@@ -12,16 +12,18 @@ namespace OfflineServer.Servers.Http
     public class HttpServer
     {
         // for easy development and debug, will be removed later when everything is coded
-        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots" };
+        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList" };
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();
         public Int32 port;
+        public Stream inStream;
         public HttpServer()
         {
             nServer.RequestReceived += nServer_RequestReceived;
             nServer.EndPoint.Port = 1337; // debug
             nServer.Start();
             port = nServer.EndPoint.Port;
+            ExtraFunctions.log(String.Format("Successfully setup HttpServer on port {0}.", port), "HttpServer");
         }
         
         private void nServer_RequestReceived(object sender, HttpRequestEventArgs e)
@@ -30,11 +32,14 @@ namespace OfflineServer.Servers.Http
             e.Response.Headers.Add("Content-Encoding", "gzip");
             e.Response.Headers.Add("Content-Type", "application/xml;charset=utf-8");
             e.Response.Headers.Add("Status-Code", "200");
+            
+            ExtraFunctions.log(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl), "HttpServer");
 
             Byte[] baResponseArray = null;
             String[] splittedPath = e.Request.Path.Split('/');
             String ioPath = e.Request.Path.Remove(0, 1) + ".xml";
-            Console.WriteLine("       + + ++ + : " + e.Request.Path);
+            inStream = e.Request.InputStream;
+
             if (splittedPath.Length > 5)
             {
                 String targetClassString = changeCaseFirst(splittedPath[4], true);
@@ -43,10 +48,20 @@ namespace OfflineServer.Servers.Http
                 String targetMethodString = changeCaseFirst(isNumber ? splittedPath[6] : splittedPath[5], false);
                 if (!supportedMethods.Contains(targetMethodString))
                 {
+                    ExtraFunctions.log(String.Format("Method for {0} wasn't found, using fallback XML method.", targetMethodString), "HttpServer", 1);
                     if (File.Exists(ioPath))
+                    {
+                        ExtraFunctions.log(String.Format("Reading XML file {0}.", ioPath), "HttpServer");
                         baResponseArray = getResponseData(File.ReadAllText(ioPath, Encoding.UTF8));
-                } else
+                    }
+                    else
+                    {
+                        ExtraFunctions.log(String.Format("File {0} wasn't found, sending only 200OK.", ioPath), "HttpServer", 1);
+                    }
+                }
+                else
                 {
+                    ExtraFunctions.log(String.Format("Processing {0}.", targetMethodString), "HttpServer");
                     Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
                     MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
                     baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
@@ -55,7 +70,13 @@ namespace OfflineServer.Servers.Http
             else
             {
                 if (File.Exists(ioPath))
+                {
+                    ExtraFunctions.log(String.Format("Reading XML file {0}.", ioPath), "HttpServer");
                     baResponseArray = getResponseData(File.ReadAllText(ioPath, Encoding.UTF8));
+                } else
+                {
+                    ExtraFunctions.log(String.Format("File {0} wasn't found, sending only 200OK.", ioPath), "HttpServer", 1);
+                }
             }
 
             if (baResponseArray == null) baResponseArray = getResponseData(" ");
@@ -71,6 +92,7 @@ namespace OfflineServer.Servers.Http
 
         private Byte[] getResponseData(String responseText)
         {
+            Console.WriteLine(responseText);
             Byte[] baAnswerData = Encoding.UTF8.GetBytes(responseText);
 
             using (MemoryStream msResponse = new MemoryStream())
@@ -80,6 +102,11 @@ namespace OfflineServer.Servers.Http
 
                 return msResponse.ToArray();
             }
+        }
+
+        public String readInputStream()
+        {
+            return new StreamReader(inStream).ReadToEnd();
         }
 
         private string changeCaseFirst(String input, Boolean upperCase)

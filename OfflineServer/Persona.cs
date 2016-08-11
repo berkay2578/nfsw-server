@@ -263,7 +263,7 @@ namespace OfflineServer
         /// <summary>
         /// Initializes the Persona class with the given persona entity.
         /// </summary>
-        public Persona(PersonaEntity persona, ISession session)
+        public Persona(PersonaEntity persona)
         {
             Id = persona.id;
             IconIndex = persona.iconIndex;
@@ -276,10 +276,8 @@ namespace OfflineServer
             ReputationInLevel = persona.reputationInLevel;
             ReputationInTotal = persona.reputationInTotal;
             CurrentCarIndex = persona.currentCarIndex;
-            
-            PersonaEntity personaEntity = session.Load<PersonaEntity>(persona.id);
 
-            foreach (CarEntity car in personaEntity.garage)
+            foreach (CarEntity car in persona.garage)
             {
                 Cars.Add(new Car(car));
             }
@@ -310,8 +308,8 @@ namespace OfflineServer
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
-            SessionManager sessionManager = new SessionManager();
-            using (var session = sessionManager.getSessionFactory().OpenSession())
+            var sessionFactory = SessionManager.getSessionFactory();
+            using (var session = sessionFactory.OpenSession())
             {
                 using (session.BeginTransaction())
                 {
@@ -319,7 +317,7 @@ namespace OfflineServer
 
                     foreach (PersonaEntity persona in personas)
                     {
-                        listPersona.Add(new Persona(persona, session));
+                        listPersona.Add(new Persona(persona));
                     }
                 }
             }

@@ -43,6 +43,8 @@ namespace OfflineServer
 
             PersonaList = Persona.getCurrentPersonaList();
             ActivePersona = personaList[0];
+
+            ExtraFunctions.log("Session started.", "NfswSession.startSession");
         }
     }
 }

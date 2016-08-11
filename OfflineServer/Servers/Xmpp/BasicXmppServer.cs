@@ -22,28 +22,20 @@ namespace OfflineServer.Servers.Xmpp
             personaId = 0;
             jidPrepender = "offline";
             isSsl = ssl;
-            if (isSsl)
-                packets.AddRange(new string[] {
-                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features><starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/></stream:features>",
-                "<proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>",
-                });
-            packets.AddRange(new string[] {
-                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features/>",
-                String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
-                "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
-                String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId)
-            });
             certificate = new X509Certificate2(Properties.Resources.certificate, "123456");
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
             port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            ExtraFunctions.log(String.Format("Successfully setup XmppServer on port {0}.", port), "XmppServer");
         }
 
         public override void initialize()
         {
+            ExtraFunctions.log("Setting up for a client.", "XmppServer");
             cts = new CancellationTokenSource();
             ct = cts.Token;
             client = listener.AcceptTcpClient();
+            ExtraFunctions.log(String.Format("Accepted client {0}.", client.GetHashCode()), "XmppServer");
             stream = client.GetStream();
             client.Client.NoDelay = true;
             client.NoDelay = true;
@@ -51,7 +43,9 @@ namespace OfflineServer.Servers.Xmpp
 
         public override void doLogin(Int32 newPersonaId)
         {
-            this.personaId = newPersonaId;
+            personaId = newPersonaId;
+            ExtraFunctions.log(String.Format("Starting handshake for persona id {0}.", personaId), "XmppServer");
+            definePackets();
             doHandshake();
         }
         public override void doLogout(Int32 personaId)
@@ -74,6 +68,8 @@ namespace OfflineServer.Servers.Xmpp
 
             amountRead++;
             await _write().ConfigureAwait(false);
+
+            ExtraFunctions.log("Handshake successful.", "XmppServer");
             listenLoop();
         }
 
@@ -85,6 +81,7 @@ namespace OfflineServer.Servers.Xmpp
                 if (packet.Contains("</stream:stream>"))
                 {
                     await write("</stream:stream>").ConfigureAwait(false);
+                    ExtraFunctions.log(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()), "XmppServer");
                     cts.Cancel();
                     amountRead = -1;
                     if (isSsl) sslStream.Close();
@@ -99,6 +96,23 @@ namespace OfflineServer.Servers.Xmpp
             if (cts != null) cts.Cancel();
             if (client != null) client.Close();
             if (listener != null) listener.Stop();
+            ExtraFunctions.log("Shutdown completed.", "XmppServer");
+        }
+
+        private void definePackets()
+        {
+            packets = new List<String>();
+            if (isSsl)
+                packets.AddRange(new string[] {
+                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features><starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/></stream:features>",
+                "<proceed xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>",
+                });
+            packets.AddRange(new string[] {
+                "<stream:stream xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams' from='127.0.0.1' id='5000000000000A' version='1.0' xml:lang='en'><stream:features/>",
+                String.Format("<iq id='EA-Chat-1' type='result' xml:lang='en'><query xmlns='jabber:iq:auth'><username>{0}.{1}</username><password/><digest/><resource/><clientlock xmlns='http://www.jabber.com/schemas/clientlocking.xsd'/></query></iq>", jidPrepender, personaId),
+                "<iq id='EA-Chat-2' type='result' xml:lang='en'/>",
+                String.Format("<presence from='channel.en__1@conference.127.0.0.1' to='{0}.{1}@127.0.0.1/EA-Chat' type='error'><error code='401' type='auth'><not-authorized xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error><x xmlns='http://jabber.org/protocol/muc'/></presence>", jidPrepender, personaId)
+            });
         }
 
         private async Task<String> _read(Boolean increaseAmountRead = true)
@@ -114,7 +128,7 @@ namespace OfflineServer.Servers.Xmpp
         }
         private void switchToTls()
         {
-            File.AppendAllText("log.txt", "Xmpp connection switching to tls.\r\n");
+            ExtraFunctions.log(String.Format("Securing port {1} for Tls connection.", port), "XmppServer", 1);
             sslStream = new SslStream(client.GetStream(), false);
             sslStream.AuthenticateAsServer(certificate, false, SslProtocols.Tls, true);
         }

@@ -26,32 +26,38 @@ namespace OfflineServer
 
         public MainWindow()
         {
+            ExtraFunctions.log("Application started.", "MainThread");
+
             #region Culture Independency
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
             XmlLanguage xMarkup = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name);
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(xMarkup));
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
+            ExtraFunctions.log("Culture independency achieved.", "MainThread");
             #endregion
 
-            vCreateDB(); // until beta
+            vCreateDb();
 
             Access = new Access();
 
+            ExtraFunctions.log("Starting session.", "MainThread");
             Access.CurrentSession.startSession();
             InitializeComponent();
             SetupComponents();
         }
 
-        private void vCreateDB()
+        private void vCreateDb()
         {
             if (!File.Exists("ServerData\\Personas.db"))
             {
+                ExtraFunctions.log("Database doesn't exist!", "vCreateDb", 1);
                 if (!Directory.Exists("ServerData")) Directory.CreateDirectory("ServerData");
-
-                SessionManager sessionManager = new SessionManager();
-                var sessionFactory = sessionManager.createDatabase();
                 
+                var sessionFactory = SessionManager.createDatabase();
+                ExtraFunctions.log("Created database successfully.", "vCreateDb");
+                ExtraFunctions.log("Inserting filler entries.", "vCreateDb");
+
                 using (var session = sessionFactory.OpenSession())
                 {
                     using (var transaction = session.BeginTransaction())
@@ -69,7 +75,7 @@ namespace OfflineServer
                         personaEntity.reputationInLevel = 0;
                         personaEntity.reputationInTotal = 9999999;
                         personaEntity.score = 2578;
-
+                        
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = 1816139026L;
                         carEntity.carId = 1;
@@ -88,9 +94,10 @@ namespace OfflineServer
                         personaEntity.addCar(carEntity);
                         session.Save(personaEntity);
                         transaction.Commit();
+                        ExtraFunctions.log("Database actions finalized.", "vCreateDb");
                     }
                 }                
-            }
+            } else { ExtraFunctions.log("Database already exists, skipping creation.", "vCreateDb"); }
         }
 
         private void SetupComponents()
@@ -140,33 +147,8 @@ namespace OfflineServer
 
         private async void buttonStartServer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            SessionManager sessionManager = new SessionManager();
-            var sessionFactory = sessionManager.getSessionFactory();
-
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (session.BeginTransaction())
-                {
-                    var personas = session.CreateCriteria(typeof(Servers.Database.Entities.PersonaEntity))
-                      .List<Servers.Database.Entities.PersonaEntity>();
-
-                    foreach (var persona in personas)
-                    {
-                        Console.WriteLine(persona.name);
-                        Console.WriteLine("  Cars:");
-
-                        foreach (var car in persona.garage)
-                        {
-                            Console.WriteLine("    " + car.skillModParts);
-                        }
-
-                        Console.WriteLine();
-                    }
-                }
-            }
-
-                //test
-                var mySettings = new MetroDialogSettings()
+            //test
+            var mySettings = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Yes, please.",
                 NegativeButtonText = "Go away!",
@@ -276,14 +258,19 @@ namespace OfflineServer
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
+            ExtraFunctions.log("Shutting down offline server.", "MainThread");
+
             // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
             Access.sHttp.nServer.Stop();
             Access.sHttp.nServer.Dispose();
+            ExtraFunctions.log("Shutdown completed.", "HttpServer");
 
             Access.sXmpp.shutdown();
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
+
+            ExtraFunctions.log("Killing main thread.\r\n", "GarbageCollector");
         }
     }
 }

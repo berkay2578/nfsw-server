@@ -162,6 +162,7 @@
     <Compile Include="NfswSession.cs" />
     <Compile Include="Economy.cs" />
     <Compile Include="Servers\Http\Classes\User.cs" />
+    <Compile Include="Servers\Http\Responses\PersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\ProfileData.cs" />
     <Compile Include="Servers\Serialization.cs" />
     <Compile Include="Servers\ServerAttributes.cs" />

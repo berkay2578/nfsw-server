@@ -43,7 +43,7 @@ namespace OfflineServer.Servers.Xmpp
                 bytesRead = readTask;
                 request = Encoding.UTF8.GetString(data, 0, bytesRead);
             }
-            File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " READ: " + request + "\r\n");
+            if (!String.IsNullOrWhiteSpace(request)) ExtraFunctions.log(String.Format("Acknowledged xmpp packet {0}.", request), "XmppServer");
             return request;
         }
 
@@ -60,7 +60,7 @@ namespace OfflineServer.Servers.Xmpp
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
                 await stream.FlushAsync().ConfigureAwait(false);
             }
-            File.AppendAllText("log.txt", DateTime.Now.ToLongTimeString() + " WRITE: " + message + "\r\n");
+            ExtraFunctions.log(String.Format("Sent xmpp packet {0}.", message), "XmppServer");
         }
 
         public abstract void initialize();

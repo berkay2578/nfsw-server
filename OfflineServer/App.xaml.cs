@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Xml.Linq;
+using System.IO;
 
 namespace OfflineServer
 {
@@ -39,6 +40,11 @@ namespace OfflineServer
                 xEntry.Name = xmlns + xEntry.Name.LocalName;
             foreach (XElement _xE in xEntry.Elements())
                 _xE.SetDefaultXmlNamespace(xmlns);
+        }
+        public static void log(String text, String prefix, Int32 type = 0)
+        {
+            String logType = type == 0 ? "INFO" : type == 1 ? "WARN" : "ERROR";
+            File.AppendAllText("log.txt", String.Format("{0} {1}-{2}: {3}\r\n", DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss"), logType, prefix, text));
         }
     }
     public class MVVMSyntax : TextEditor, INotifyPropertyChanged
@@ -83,6 +89,5 @@ namespace OfflineServer
     /// </summary>
     public partial class App : Application
     {
-
     }
 }

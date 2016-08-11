@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -10,7 +11,7 @@ namespace OfflineServer.Servers.Database
     public class SessionManager
     {
         private static ISessionFactory sessionFactory;
-        public ISessionFactory getSessionFactory()
+        public static ISessionFactory getSessionFactory()
         {
             if (sessionFactory == null)
             {
@@ -26,21 +27,19 @@ namespace OfflineServer.Servers.Database
             }
             else { return sessionFactory; }
         }
-        public ISessionFactory createDatabase()
+        public static ISessionFactory createDatabase()
         {
-            return Fluently.Configure()
+            Action<Configuration> query = delegate(Configuration config) { new SchemaExport(config).Create(false, true); };
+            sessionFactory = Fluently.Configure()
                    .Database(
                      SQLiteConfiguration.Standard
                      .UsingFile("ServerData\\Personas.db")
                    )
                    .Mappings(m =>
                          m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
-                    .ExposeConfiguration(BuildSchema)
+                    .ExposeConfiguration(query)
                     .BuildSessionFactory();
-        }
-        private void BuildSchema(Configuration config)
-        {
-            new SchemaExport(config).Create(false, true);
+            return sessionFactory;
         }
     }
 }
