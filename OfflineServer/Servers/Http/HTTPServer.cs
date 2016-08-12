@@ -12,12 +12,13 @@ namespace OfflineServer.Servers.Http
     public class HttpServer
     {
         // for easy development and debug, will be removed later when everything is coded
-        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession" };
+        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar" };
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();
         public Int32 port;
         public String postData;
+        public String[] splittedPath;
         public HttpServer()
         {
             nServer.RequestReceived += nServer_RequestReceived;
@@ -37,7 +38,7 @@ namespace OfflineServer.Servers.Http
             log.Info(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl));
 
             Byte[] baResponseArray = null;
-            String[] splittedPath = e.Request.Path.Split('/');
+            splittedPath = e.Request.Path.Split('/');
             String ioPath = e.Request.Path.Remove(0, 1) + ".xml";
 
             if (splittedPath.Length > 5)

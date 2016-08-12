@@ -30,6 +30,22 @@ namespace OfflineServer
 
         public static class Basket
         {
+            public static class ShoppingCartPurchaseResult
+            {
+                public static readonly String fail_MaxAllowedPuchaseLimitPassed = "Fail_MaxAllowedPurchasesForThisProduct";
+                public static readonly String fail_InsufficientPerformanceInventory = "Fail_InsufficientPerformancePartInventory";
+                public static readonly String fail_DisabledBoostTransactions = "Fail_BoostTransactionsAreDisabled";
+                public static readonly String fail_ProductNotAvailableToUser = "Fail_LockedProductNotAccessibleToThisUser";
+                public static readonly String fail_PersonaNotRightLevel = "Fail_PersonaNotRightLevel";
+                public static readonly String fail_ItemNotAvailable = "Fail_ItemNotAvailableStandalone";
+                public static readonly String fail_InvalidPerformanceUpgrade = "Fail_InvalidPerformanceUpgrade";
+                public static readonly String fail_MaxStackOrRentalLimit = "Fail_MaxStackOrRentalLimit";
+                public static readonly String fail_InsufficientCarSlots = "Fail_InsufficientCarSlots";
+                public static readonly String fail_InsufficientFunds = "Fail_InsufficientFunds";
+                public static readonly String fail_InvalidBasket = "Fail_InvalidBasket";
+                public static readonly String success = "Success";
+            }
+
             /// <summary>
             /// Initializes a product data entry for use in XML.
             /// </summary>

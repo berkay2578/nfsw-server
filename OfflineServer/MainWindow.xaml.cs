@@ -68,6 +68,7 @@ namespace OfflineServer
                         PersonaEntity personaEntity = new PersonaEntity();
                         personaEntity.boost = 7331;
                         personaEntity.cash = 1337;
+                        personaEntity.currentCarIndex = 0;
                         personaEntity.iconIndex = 27;
                         personaEntity.id = 100;
                         personaEntity.level = 60;
@@ -81,9 +82,9 @@ namespace OfflineServer
                         
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = 1816139026L;
-                        carEntity.carId = 1;
                         carEntity.durability = 100;
                         carEntity.heatLevel = 6;
+                        carEntity.carId = 1;
                         carEntity.paints = "<Paints/>";
                         carEntity.performanceParts = "<PerformanceParts/>";
                         carEntity.physicsProfileHash = -846723009L;

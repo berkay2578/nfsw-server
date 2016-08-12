@@ -9,8 +9,7 @@ namespace OfflineServer.Servers.Database.Mappings
         {
             Table("Garages");
             Id(c => c.id)
-                .Column("pkCarId")
-                .GeneratedBy.Assigned();
+                .Column("pkCarId");
             Map(c => c.baseCarId);
             Map(c => c.raceClass);
             Map(c => c.paints);

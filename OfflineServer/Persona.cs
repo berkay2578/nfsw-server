@@ -258,6 +258,7 @@ namespace OfflineServer
                 Car dummyCar = new Car((Int32)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int32)reader[15]);
                 Cars.Add(dummyCar);
             }
+            SelectedCar = cars[currentCarIndex];
         }
 
         /// <summary>
@@ -281,6 +282,7 @@ namespace OfflineServer
             {
                 Cars.Add(new Car(car));
             }
+            SelectedCar = cars[currentCarIndex];
         }
 
         /// <summary>

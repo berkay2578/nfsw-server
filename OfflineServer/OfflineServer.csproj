@@ -168,10 +168,16 @@
     <Compile Include="Economy.cs" />
     <Compile Include="Servers\Http\Classes\User.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfPersonaBase.cs" />
+    <Compile Include="Servers\Http\Responses\CommerceSessionResultTrans.cs" />
+    <Compile Include="Servers\Http\Responses\CommerceSessionTrans.cs" />
+    <Compile Include="Servers\Http\Responses\CustomCar.cs" />
     <Compile Include="Servers\Http\Responses\PersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\ProfileData.cs" />
+    <Compile Include="Servers\Http\Responses\UpdatedCar.cs" />
     <Compile Include="Servers\Http\Responses\User.cs" />
     <Compile Include="Servers\Http\Responses\UserInfo.cs" />
+    <Compile Include="Servers\Http\Responses\Wallets.cs" />
+    <Compile Include="Servers\Http\Responses\WalletTrans.cs" />
     <Compile Include="Servers\Serialization.cs" />
     <Compile Include="Servers\ServerAttributes.cs" />
     <Compile Include="Servers\Xmpp\BasicXmppServer.cs" />
@@ -351,10 +357,8 @@
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net40\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.102.0\build\net40\System.Data.SQLite.Core.targets'))" />
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
-  <Target 
-    AfterTargets="AfterBuild;NonWinFodyTarget"
-    Name="CleanReferenceCopyLocalPaths" >
-     <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+  <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.102.0\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.102.0\build\net40\System.Data.SQLite.Core.targets')" />

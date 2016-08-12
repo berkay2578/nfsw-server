@@ -44,5 +44,39 @@ namespace OfflineServer.Servers
             }
             return "";
         }
+        public static T DeserializeObject<T>(this String plainXml)
+        {
+            try
+            {
+                T obj = default(T);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+
+                using (StreamReader streamReader = new StreamReader(plainXml))
+                {
+                    obj = (T)xmlSerializer.Deserialize(streamReader);
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("An exception occured while deserializing the following xml: " + plainXml, ex);
+                MessageBox.Show("Please look at Logs\\EventLog.txt for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                log.Info("Shutting down offline server.");
+
+                Access.sHttp.nServer.Stop();
+                Access.sHttp.nServer.Dispose();
+                log.Info("Http server shutdown successfully.");
+
+                Access.sXmpp.shutdown();
+
+                NfswSession.dbConnection.Close();
+                NfswSession.dbConnection.Dispose();
+
+                log.Info("Killing main thread.");
+                Environment.Exit(0);
+            }
+            return default(T);
+        }
     }
 }
