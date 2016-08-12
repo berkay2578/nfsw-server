@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
-    [XmlRoot("ProfileData")]
+    [XmlRoot("ProfileData", IsNullable = true)]
     public class ProfileData
     {
         [XmlElement("Badges")]
@@ -32,7 +32,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("RepAtCurrentLevel")]
         public Int32 repAtCurrentLevel = 0;
         [XmlElement("ccar")]
-        public String ccar = "";
+        public String ccar = null;
         [XmlElement("Score")]
         public Int32 score = 0;
     }
