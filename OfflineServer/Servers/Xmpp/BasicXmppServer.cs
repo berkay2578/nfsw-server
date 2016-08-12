@@ -26,16 +26,16 @@ namespace OfflineServer.Servers.Xmpp
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
             port = ((IPEndPoint)listener.LocalEndpoint).Port;
-            ExtraFunctions.log(String.Format("Successfully setup XmppServer on port {0}.", port), "XmppServer");
+            log.Info(String.Format("Successfully setup XmppServer on port {0}.", port));
         }
 
         public override void initialize()
         {
-            ExtraFunctions.log("Setting up for a client.", "XmppServer");
+            log.Info("Setting up for a client.");
             cts = new CancellationTokenSource();
             ct = cts.Token;
             client = listener.AcceptTcpClient();
-            ExtraFunctions.log(String.Format("Accepted client {0}.", client.GetHashCode()), "XmppServer");
+            log.Info(String.Format("Accepted client {0}.", client.GetHashCode()));
             stream = client.GetStream();
             client.Client.NoDelay = true;
             client.NoDelay = true;
@@ -44,7 +44,7 @@ namespace OfflineServer.Servers.Xmpp
         public override void doLogin(Int32 newPersonaId)
         {
             personaId = newPersonaId;
-            ExtraFunctions.log(String.Format("Starting handshake for persona id {0}.", personaId), "XmppServer");
+            log.Info(String.Format("Starting handshake for persona id {0}.", personaId));
             definePackets();
             doHandshake();
         }
@@ -69,7 +69,7 @@ namespace OfflineServer.Servers.Xmpp
             amountRead++;
             await _write().ConfigureAwait(false);
 
-            ExtraFunctions.log("Handshake successful.", "XmppServer");
+            log.Info("Handshake successful.");
             listenLoop();
         }
 
@@ -81,7 +81,7 @@ namespace OfflineServer.Servers.Xmpp
                 if (packet.Contains("</stream:stream>"))
                 {
                     await write("</stream:stream>").ConfigureAwait(false);
-                    ExtraFunctions.log(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()), "XmppServer");
+                    log.Info(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()));
                     cts.Cancel();
                     amountRead = -1;
                     if (isSsl) sslStream.Close();
@@ -96,7 +96,7 @@ namespace OfflineServer.Servers.Xmpp
             if (cts != null) cts.Cancel();
             if (client != null) client.Close();
             if (listener != null) listener.Stop();
-            ExtraFunctions.log("Shutdown completed.", "XmppServer");
+            log.Info("Shutdown completed.");
         }
 
         private void definePackets()
@@ -128,7 +128,7 @@ namespace OfflineServer.Servers.Xmpp
         }
         private void switchToTls()
         {
-            ExtraFunctions.log(String.Format("Securing port {1} for Tls connection.", port), "XmppServer", 1);
+            log.Warn(String.Format("Securing port {1} for Tls connection.", port));
             sslStream = new SslStream(client.GetStream(), false);
             sslStream.AuthenticateAsServer(certificate, false, SslProtocols.Tls, true);
         }

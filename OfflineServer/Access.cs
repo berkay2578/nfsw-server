@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Servers.Http;
 using OfflineServer.Servers.Xmpp;
+using System.IO;
 
 namespace OfflineServer
 {

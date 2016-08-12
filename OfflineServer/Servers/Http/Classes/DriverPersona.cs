@@ -28,14 +28,14 @@ namespace OfflineServer.Servers.Http.Classes
 
         public static String getPersonaBaseFromList()
         {
-            String postData = Access.sHttp.readInputStream();
-            Match match = Regex.Match(postData, "<array:long>\\d+</array:long>");
-            Int32 personaId = Int32.Parse(match.Value);
+            Match match = Regex.Match(Access.sHttp.postData, "<array:long>(\\d+)</array:long>");
+            Int32 personaId = Int32.Parse(match.Groups[1].Value);
 
             foreach (Persona persona in Access.CurrentSession.PersonaList)
             {
                 if (persona.Id == personaId)
                 {
+                    ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
                     PersonaBase personaBase = new PersonaBase();
                     personaBase.iconIndex = persona.IconIndex;
                     personaBase.level = persona.Level;
@@ -43,7 +43,8 @@ namespace OfflineServer.Servers.Http.Classes
                     personaBase.name = persona.Name;
                     personaBase.personaId = personaId;
                     personaBase.score = persona.score;
-                    return Serialization.SerializeObject<PersonaBase>(personaBase);
+                    arrayOfPersonaBase.personaBase = personaBase;
+                    return Serialization.SerializeObject<ArrayOfPersonaBase>(arrayOfPersonaBase);
                 }
             }
             return "";

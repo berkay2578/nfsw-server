@@ -16,6 +16,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
+using System.Reflection;
 
 namespace OfflineServer
 {
@@ -23,10 +24,12 @@ namespace OfflineServer
     {
         private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
         public Access Access { get; set; }
+        private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public MainWindow()
         {
-            ExtraFunctions.log("Application started.", "MainThread");
+            Logger.Setup();
+            log.Info("Application started.");
 
             #region Culture Independency
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
@@ -34,14 +37,14 @@ namespace OfflineServer
             XmlLanguage xMarkup = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name);
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(xMarkup));
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
-            ExtraFunctions.log("Culture independency achieved.", "MainThread");
+            log.Info("Culture independency achieved.");
             #endregion
 
             vCreateDb();
 
             Access = new Access();
 
-            ExtraFunctions.log("Starting session.", "MainThread");
+            log.Info("Starting session.");
             Access.CurrentSession.startSession();
             InitializeComponent();
             SetupComponents();
@@ -51,12 +54,12 @@ namespace OfflineServer
         {
             if (!File.Exists("ServerData\\Personas.db"))
             {
-                ExtraFunctions.log("Database doesn't exist!", "vCreateDb", 1);
+                log.Warn("Database doesn't exist!");
                 if (!Directory.Exists("ServerData")) Directory.CreateDirectory("ServerData");
                 
                 var sessionFactory = SessionManager.createDatabase();
-                ExtraFunctions.log("Created database successfully.", "vCreateDb");
-                ExtraFunctions.log("Inserting filler entries.", "vCreateDb");
+                log.Info("Created database successfully.");
+                log.Info("Inserting filler entries.");
 
                 using (var session = sessionFactory.OpenSession())
                 {
@@ -94,10 +97,10 @@ namespace OfflineServer
                         personaEntity.addCar(carEntity);
                         session.Save(personaEntity);
                         transaction.Commit();
-                        ExtraFunctions.log("Database actions finalized.", "vCreateDb");
+                        log.Info("Database actions finalized.");
                     }
                 }                
-            } else { ExtraFunctions.log("Database already exists, skipping creation.", "vCreateDb"); }
+            } else { log.Info("Database already exists, skipping creation."); }
         }
 
         private void SetupComponents()
@@ -258,19 +261,19 @@ namespace OfflineServer
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            ExtraFunctions.log("Shutting down offline server.", "MainThread");
+            log.Info("Shutting down offline server.");
 
             // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
             Access.sHttp.nServer.Stop();
             Access.sHttp.nServer.Dispose();
-            ExtraFunctions.log("Shutdown completed.", "HttpServer");
+            log.Info("Shutdown completed.");
 
             Access.sXmpp.shutdown();
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
 
-            ExtraFunctions.log("Killing main thread.\r\n", "GarbageCollector");
+            log.Info("Killing main thread.");
         }
     }
 }

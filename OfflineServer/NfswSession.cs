@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.Reflection;
 
 namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
         public static SQLiteConnection dbConnection;
+        private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();
         private Persona activePersona;
@@ -44,7 +46,7 @@ namespace OfflineServer
             PersonaList = Persona.getCurrentPersonaList();
             ActivePersona = personaList[0];
 
-            ExtraFunctions.log("Session started.", "NfswSession.startSession");
+            log.Info("Session started.");
         }
     }
 }

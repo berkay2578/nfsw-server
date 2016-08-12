@@ -178,7 +178,7 @@
             </TabItem>
             <TabItem Name="GarageTab" Header="Garage">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding Access.CurrentSession.ActivePersona}">
-                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CarIndex}">
+                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:Car}">
                                 <TextBlock Text="{Binding MakeModel}">

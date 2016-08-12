@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -23,6 +23,7 @@ namespace OfflineServer.Servers.Xmpp
         protected CancellationTokenSource cts;
         protected CancellationToken ct;
         protected Boolean isSsl;
+        protected readonly log4net.ILog log = log4net.LogManager.GetLogger (MethodBase.GetCurrentMethod().DeclaringType);
 
         public async Task<String> read(Boolean forceNoSsl = false)
         {
@@ -43,7 +44,7 @@ namespace OfflineServer.Servers.Xmpp
                 bytesRead = readTask;
                 request = Encoding.UTF8.GetString(data, 0, bytesRead);
             }
-            if (!String.IsNullOrWhiteSpace(request)) ExtraFunctions.log(String.Format("Acknowledged xmpp packet {0}.", request), "XmppServer");
+            log.Info(String.Format("Acknowledged xmpp packet {0}.", request));
             return request;
         }
 
@@ -60,7 +61,7 @@ namespace OfflineServer.Servers.Xmpp
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
                 await stream.FlushAsync().ConfigureAwait(false);
             }
-            ExtraFunctions.log(String.Format("Sent xmpp packet {0}.", message), "XmppServer");
+            log.Info(String.Format("Sent xmpp packet {0}.", message));
         }
 
         public abstract void initialize();

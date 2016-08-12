@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
+    [XmlRoot("PersonaBase")]
     public class PersonaBase
     {
         [XmlElement("Badges")]

@@ -283,14 +283,14 @@ namespace OfflineServer
                         new XElement("BaseCar", BaseCarId),
                         new XElement("CarClassHash", (Int32)RaceClass),
                         new XElement("Id", Id),
-                        new XElement("Paints", Paints),
-                        new XElement("PerformanceParts", PerformanceParts),
+                        Paints,
+                        PerformanceParts,
                         new XElement("PhysicsProfileHash", PhysicsProfileHash),
                         new XElement("ResalePrice", ResalePrice),
-                        new XElement("SkillModParts", SkillModParts),
+                        SkillModParts,
                         new XElement("SkillModSlotCount", 6),
-                        new XElement("Vinyls", Vinyls),
-                        new XElement("VisualParts", VisualParts)
+                        Vinyls,
+                        VisualParts
                     ),
                     new XElement("Durability", Durability),
                     (ExpirationDate == new DateTime(1, 1, 1) ?

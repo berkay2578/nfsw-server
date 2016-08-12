@@ -70,6 +70,10 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.3.0.186, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.3.0-ALPHA186\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -150,6 +154,7 @@
     </ApplicationDefinition>
     <Compile Include="Access.cs" />
     <Compile Include="CarDefinitions.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Servers\Database\Entities\CarEntity.cs" />
     <Compile Include="Servers\Database\Entities\PersonaEntity.cs" />
     <Compile Include="Servers\Database\Mappings\CarEntityMap.cs" />
@@ -162,6 +167,7 @@
     <Compile Include="NfswSession.cs" />
     <Compile Include="Economy.cs" />
     <Compile Include="Servers\Http\Classes\User.cs" />
+    <Compile Include="Servers\Http\Responses\ArrayOfPersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\PersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\ProfileData.cs" />
     <Compile Include="Servers\Serialization.cs" />
