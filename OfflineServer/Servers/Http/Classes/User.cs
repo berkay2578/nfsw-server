@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Servers.Http.Responses;
 using System;
+using System.Linq;
 
 namespace OfflineServer.Servers.Http.Classes
 {
@@ -7,6 +8,10 @@ namespace OfflineServer.Servers.Http.Classes
     {
         public static String secureLoginPersona()
         {
+            Int32 newPersonaId = Int32.Parse(Access.sHttp.request.Params.Get("personaId"));
+            Int32 newPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(p => p.Id == newPersonaId));
+            Access.CurrentSession.ActivePersona = Access.CurrentSession.PersonaList[newPersonaIndex];
+
             Access.sXmpp.initialize();
             Access.sXmpp.doLogin(Access.CurrentSession.ActivePersona.Id);
             return "";
@@ -38,8 +43,9 @@ namespace OfflineServer.Servers.Http.Classes
                 profileData.score = persona.score;
                 userInfo.personas.Add(profileData);
             }
-            String str = Serialization.SerializeObject<UserInfo>(userInfo);
-            return str;
+
+            userInfo.defaultPersonaIdx = Access.CurrentSession.Engine.getDefaultPersonaIdx();
+            return userInfo.SerializeObject();
         }
     }
 }

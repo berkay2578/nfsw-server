@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.Linq;
 using System.Reflection;
 
 namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
-        public static SQLiteConnection dbConnection;
+        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"ServerData\\Personas.db\";Version=3;");
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();
@@ -19,6 +20,7 @@ namespace OfflineServer
             {
                 if (activePersona != value)
                 {
+                    Engine.setDefaultPersonaIdx(personaList.IndexOf(personaList.First<Persona>(p => p.Id == value.Id)));
                     activePersona = value;
                     RaisePropertyChangedEvent("ActivePersona");
                 }
@@ -39,12 +41,10 @@ namespace OfflineServer
 
         public void startSession()
         {
-            dbConnection = new SQLiteConnection("Data Source=\"ServerData\\Personas.db\";Version=3;");
-
             dbConnection.Open();
 
             PersonaList = Persona.getCurrentPersonaList();
-            ActivePersona = personaList[0];
+            ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
 
             log.Info("Session started.");
         }

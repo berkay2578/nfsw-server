@@ -1,5 +1,4 @@
-﻿using OfflineServer.Servers.Http.Responses;
-using System;
+﻿using System;
 
 namespace OfflineServer.Servers.Database.Entities
 {

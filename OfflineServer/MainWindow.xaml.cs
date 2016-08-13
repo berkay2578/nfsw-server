@@ -1,8 +1,14 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using System;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,11 +18,6 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using OfflineServer.Servers.Database;
-using OfflineServer.Servers.Database.Entities;
-using System.Reflection;
 
 namespace OfflineServer
 {
@@ -56,30 +57,43 @@ namespace OfflineServer
             {
                 log.Warn("Database doesn't exist!");
                 if (!Directory.Exists("ServerData")) Directory.CreateDirectory("ServerData");
-                
-                var sessionFactory = SessionManager.createDatabase();
-                log.Info("Created database successfully.");
-                log.Info("Inserting filler entries.");
 
-                using (var session = sessionFactory.OpenSession())
+                log.Info("Creating database.");
+                var sessionFactory = SessionManager.createDatabase();
+
+                log.Info("Setting minimum pkPersonaId to 100.");
+                using (var sqliteConnection = new SQLiteConnection("Data Source=\"ServerData\\Personas.db\";Version=3;"))
                 {
-                    using (var transaction = session.BeginTransaction())
+                    sqliteConnection.Open();
+                    SQLiteCommand insertSQL = new SQLiteCommand("INSERT INTO sqlite_sequence (name, seq) VALUES ('Personas', 99)", sqliteConnection);
+                    insertSQL.ExecuteNonQuery();
+                    sqliteConnection.Close();
+                }
+
+
+                log.Info("Inserting filler entries.");
+                using (var session = sessionFactory.OpenSession())
+                using (var transaction = session.BeginTransaction())
+                {
+                    UserEntity userEntity = new UserEntity();
+                    userEntity.defaultPersonaIdx = 0;
+
+                    for (int i = 0; i < 20; i++)
                     {
                         PersonaEntity personaEntity = new PersonaEntity();
                         personaEntity.boost = 7331;
                         personaEntity.cash = 1337;
                         personaEntity.currentCarIndex = 0;
                         personaEntity.iconIndex = 27;
-                        personaEntity.id = 100;
                         personaEntity.level = 60;
                         personaEntity.motto = "test";
-                        personaEntity.name = "DEBUG";
-                        personaEntity.percentageOfLevelCompletion = 0;
+                        personaEntity.name = "DEBUG Id" + (i+100);
+                        personaEntity.percentageOfLevelCompletion = 100;
                         personaEntity.rating = 8752;
                         personaEntity.reputationInLevel = 0;
-                        personaEntity.reputationInTotal = 9999999;
+                        personaEntity.reputationInTotal = 99999999;
                         personaEntity.score = 2578;
-                        
+
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = 1816139026L;
                         carEntity.durability = 100;
@@ -87,7 +101,7 @@ namespace OfflineServer
                         carEntity.carId = 1;
                         carEntity.paints = "<Paints/>";
                         carEntity.performanceParts = "<PerformanceParts/>";
-                        carEntity.physicsProfileHash = -846723009L;
+                        carEntity.physicsProfileHash = 4123572107L;
                         carEntity.raceClass = CarClass.A;
                         carEntity.rating = 750;
                         carEntity.resalePrice = 123456789;
@@ -97,9 +111,10 @@ namespace OfflineServer
 
                         personaEntity.addCar(carEntity);
                         session.Save(personaEntity);
-                        transaction.Commit();
-                        log.Info("Database actions finalized.");
                     }
+                    session.Save(userEntity);
+                    transaction.Commit();
+                    log.Info("Database actions finalized.");
                 }                
             } else { log.Info("Database already exists, skipping creation."); }
         }
@@ -151,7 +166,13 @@ namespace OfflineServer
 
         private async void buttonStartServer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            //test
+            Access.sHttp = new Servers.Http.HttpServer();
+            Access.sXmpp = new Servers.Xmpp.BasicXmppServer();
+
+            // gonna keep this until I add nfs:w launching support
+            await this.ShowMessageAsync("Servers are up and running!", "Go ahead and launch NFS: World now.", MessageDialogStyle.Affirmative);
+
+            /*test
             var mySettings = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Yes, please.",
@@ -164,7 +185,7 @@ namespace OfflineServer
             if (result != MessageDialogResult.FirstAuxiliary)
             {
 
-            }
+            }*/
         }
 
         private void Button_ClickHandler(object sender, RoutedEventArgs e)
@@ -273,6 +294,9 @@ namespace OfflineServer
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
+
+            SessionManager.getSessionFactory().Close();
+            SessionManager.getSessionFactory().Dispose();
 
             log.Info("Killing main thread.");
         }

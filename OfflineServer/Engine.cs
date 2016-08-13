@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using System;
 
 namespace OfflineServer
 {
@@ -8,29 +10,22 @@ namespace OfflineServer
     /// <remarks>This is NOT to be confused with the NFS:W Game Engines. Server Engines are custom prices and patches.</remarks>
     public class Engine
     {
-        /// <summary>
-        /// For future use.
-        /// </summary>
-        public enum EngineType
-        {
-            Default = 0,
-            Custom = 1,
-            Debug = 2
-        }
-
-        public Int32 engineIndex = 0;
         public Achievements Achievements = new Achievements();
 
-        public void LoadEngine(EngineType engine)
+        public Int32 getDefaultPersonaIdx()
         {
-            switch (engine)
+            using (var session = SessionManager.getSessionFactory().OpenSession())
+                return session.Load<UserEntity>(1).defaultPersonaIdx;
+        }
+        public void setDefaultPersonaIdx(Int32 defaultPersonaIdx)
+        {
+            using (var session = SessionManager.getSessionFactory().OpenSession())
+            using (var transaction = session.BeginTransaction())
             {
-                case EngineType.Default:
-                    break;
-                case EngineType.Custom:
-                    break;
-                case EngineType.Debug:
-                    break;
+                UserEntity userEntity = session.Load<UserEntity>(1);
+                userEntity.defaultPersonaIdx = defaultPersonaIdx;
+                session.Update(userEntity);
+                transaction.Commit();
             }
         }
     }

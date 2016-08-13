@@ -1,8 +1,5 @@
 ﻿using OfflineServer.Servers.Database.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace OfflineServer.Servers.Http.Responses
@@ -22,7 +19,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("Name")]
         public String name;
         [XmlElement("Id")]
-        public Int64 carId;
+        public Int64 id;
         [XmlElement("Paints")]
         public String paints;
         [XmlElement("PerformanceParts")]
@@ -47,7 +44,7 @@ namespace OfflineServer.Servers.Http.Responses
             CustomCar customCar = new CustomCar();
             customCar.baseCarId = carEntity.baseCarId;
             customCar.carClassHash = (Int32)carEntity.raceClass;
-            customCar.carId = carEntity.carId;
+            customCar.id = carEntity.id;
             customCar.isPreset = false;
             customCar.level = 0;
             customCar.name = null;

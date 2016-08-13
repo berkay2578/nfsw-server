@@ -9,8 +9,7 @@ namespace OfflineServer.Servers.Database.Mappings
         {
             Table("Personas");
             Id(p => p.id)
-                .Column("pkPersonaId")
-                .GeneratedBy.Assigned();
+                .Column("pkPersonaId");
             Map(p => p.iconIndex);
             Map(p => p.name);
             Map(p => p.motto);

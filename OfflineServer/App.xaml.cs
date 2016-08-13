@@ -3,9 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Xml.Linq;
-using System.IO;
-using System.Security.AccessControl;
-using System.Text;
 
 namespace OfflineServer
 {

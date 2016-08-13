@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NHttp;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text;
-using NHttp;
 
 namespace OfflineServer.Servers.Http
 {
@@ -17,8 +17,7 @@ namespace OfflineServer.Servers.Http
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();
         public Int32 port;
-        public String postData;
-        public String[] splittedPath;
+        public HttpRequest request;
         public HttpServer()
         {
             nServer.RequestReceived += nServer_RequestReceived;
@@ -38,7 +37,7 @@ namespace OfflineServer.Servers.Http
             log.Info(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl));
 
             Byte[] baResponseArray = null;
-            splittedPath = e.Request.Path.Split('/');
+            String[] splittedPath = e.Request.Path.Split('/');
             String ioPath = e.Request.Path.Remove(0, 1) + ".xml";
 
             if (splittedPath.Length > 5)
@@ -64,9 +63,7 @@ namespace OfflineServer.Servers.Http
                 {
                     Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
                     MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
-                    if (e.Request.HttpMethod == "POST")
-                        using (StreamReader reader = new StreamReader(e.Request.InputStream))
-                            postData = reader.ReadToEnd();
+                    request = e.Request;
                     log.Info(String.Format("Processing OfflineServer.HttpServer.Classes.{0}.{1}().", targetClassString, targetMethodString));
                     baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
                 }
@@ -112,6 +109,12 @@ namespace OfflineServer.Servers.Http
             char[] cArray = input.ToCharArray();
             cArray[0] = upperCase ? char.ToUpper(cArray[0]): char.ToLower(cArray[0]);
             return new string(cArray);
+        }
+
+        public String getPostData()
+        {
+            using (StreamReader reader = new StreamReader(request.InputStream))
+                return reader.ReadToEnd();
         }
     }
 }

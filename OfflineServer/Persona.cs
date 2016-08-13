@@ -1,13 +1,12 @@
-﻿using System;
+﻿using OfflineServer.Servers;
+using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Text;
 using System.Xml.Linq;
-using NHibernate;
-using OfflineServer.Servers;
-using OfflineServer.Servers.Database;
-using OfflineServer.Servers.Database.Entities;
 
 namespace OfflineServer
 {
@@ -310,17 +309,15 @@ namespace OfflineServer
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
-            var sessionFactory = SessionManager.getSessionFactory();
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (session.BeginTransaction())
-                {
-                    IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
 
-                    foreach (PersonaEntity persona in personas)
-                    {
-                        listPersona.Add(new Persona(persona));
-                    }
+            using (var session = SessionManager.getSessionFactory().OpenSession())
+            using (session.BeginTransaction())
+            {
+                IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
+
+                foreach (PersonaEntity persona in personas)
+                {
+                    listPersona.Add(new Persona(persona));
                 }
             }
 

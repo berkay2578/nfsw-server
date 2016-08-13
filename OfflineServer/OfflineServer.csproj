@@ -157,8 +157,10 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Servers\Database\Entities\CarEntity.cs" />
     <Compile Include="Servers\Database\Entities\PersonaEntity.cs" />
+    <Compile Include="Servers\Database\Entities\UserEntity.cs" />
     <Compile Include="Servers\Database\Mappings\CarEntityMap.cs" />
     <Compile Include="Servers\Database\Mappings\PersonaEntityMap.cs" />
+    <Compile Include="Servers\Database\Mappings\UserEntityMap.cs" />
     <Compile Include="Servers\Database\SessionManager.cs" />
     <Compile Include="Servers\Http\Classes\DriverPersona.cs" />
     <Compile Include="Servers\Http\Classes\Personas.cs" />

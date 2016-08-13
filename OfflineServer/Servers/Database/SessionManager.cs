@@ -1,10 +1,10 @@
-﻿using System;
-using System.Reflection;
-using FluentNHibernate.Cfg;
+﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using System;
+using System.Reflection;
 
 namespace OfflineServer.Servers.Database
 {

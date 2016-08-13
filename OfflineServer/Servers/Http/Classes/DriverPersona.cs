@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OfflineServer.Servers.Http.Responses;
+using System;
 using System.Text.RegularExpressions;
-using OfflineServer.Servers.Http.Responses;
 
 namespace OfflineServer.Servers.Http.Classes
 {
@@ -23,12 +23,12 @@ namespace OfflineServer.Servers.Http.Classes
             profileData.repAtCurrentLevel = activePersona.ReputationInLevel;
             profileData.score = activePersona.score;
 
-            return Serialization.SerializeObject<ProfileData>(profileData);
+            return profileData.SerializeObject();
         }
 
         public static String getPersonaBaseFromList()
         {
-            Match match = Regex.Match(Access.sHttp.postData, "<array:long>(\\d+)</array:long>");
+            Match match = Regex.Match(Access.sHttp.getPostData(), "<array:long>(\\d+)</array:long>");
             Int32 personaId = Int32.Parse(match.Groups[1].Value);
 
             foreach (Persona persona in Access.CurrentSession.PersonaList)
@@ -44,7 +44,7 @@ namespace OfflineServer.Servers.Http.Classes
                     personaBase.personaId = personaId;
                     personaBase.score = persona.score;
                     arrayOfPersonaBase.personaBase = personaBase;
-                    return Serialization.SerializeObject<ArrayOfPersonaBase>(arrayOfPersonaBase);
+                    return arrayOfPersonaBase.SerializeObject();
                 }
             }
             return "";

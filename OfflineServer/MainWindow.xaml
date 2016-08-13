@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:OfflineServer"
         mc:Ignorable="d"
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="False"
-        IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" EnableDWMDropShadow="True"
+        IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
