@@ -169,16 +169,16 @@ namespace OfflineServer
             Access.sHttp = new Servers.Http.HttpServer();
             Access.sXmpp = new Servers.Xmpp.BasicXmppServer();
 
-            // gonna keep this until I add nfs:w launching support
-            await this.ShowMessageAsync("Servers are up and running!", "Go ahead and launch NFS: World now.", MessageDialogStyle.Affirmative);
-
-            /*test
-            var mySettings = new MetroDialogSettings()
+            MetroDialogSettings messageBoxStyle = new MetroDialogSettings()
             {
-                AffirmativeButtonText = "Yes, please.",
-                NegativeButtonText = "Go away!",
+                AffirmativeButtonText = "Right away!",
                 ColorScheme = MetroDialogOptions.ColorScheme
             };
+
+            // gonna keep this until I add nfs:w launching support
+            await this.ShowMessageAsync("Servers are up and running!", "Go ahead and launch NFS: World now.", MessageDialogStyle.Affirmative, messageBoxStyle);
+
+            /*test
 
             MessageDialogResult result = await this.ShowMessageAsync("Hello!", "It seems like this is your first time running this build of the Offline Server! Would you like some help?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
 
@@ -285,12 +285,15 @@ namespace OfflineServer
         {
             log.Info("Shutting down offline server.");
 
-            // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
-            Access.sHttp.nServer.Stop();
-            Access.sHttp.nServer.Dispose();
-            log.Info("Shutdown completed.");
+            if (Access.sHttp != null && Access.sXmpp != null)
+            {
+                // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
+                Access.sHttp.nServer.Stop();
+                Access.sHttp.nServer.Dispose();
+                log.Info("Shutdown of HttpServer has been completed.");
 
-            Access.sXmpp.shutdown();
+                Access.sXmpp.shutdown();
+            }
 
             NfswSession.dbConnection.Close();
             NfswSession.dbConnection.Dispose();
