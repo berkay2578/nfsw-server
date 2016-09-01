@@ -19,9 +19,9 @@ namespace OfflineServer.Servers.Xmpp
         {
             this.port = 0;
             personaId = 0;
-            jidPrepender = "offline";
+            jidPrepender = "nfsw";
             isSsl = ssl;
-            certificate = new X509Certificate2(Properties.Resources.certificate, "123456");
+            certificate = new X509Certificate2(Properties.Resources.certificate, "1234");
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
             port = ((IPEndPoint)listener.LocalEndpoint).Port;
@@ -127,8 +127,8 @@ namespace OfflineServer.Servers.Xmpp
         }
         private void switchToTls()
         {
-            log.Warn(String.Format("Securing port {1} for Tls connection.", port));
-            sslStream = new SslStream(client.GetStream(), false);
+            log.Warn(String.Format("Securing port {0} for Tls connection.", port));
+            sslStream = new SslStream(client.GetStream(), false, null, null, EncryptionPolicy.AllowNoEncryption);
             sslStream.AuthenticateAsServer(certificate, false, SslProtocols.Tls, true);
         }
     }

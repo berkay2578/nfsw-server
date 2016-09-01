@@ -23,16 +23,16 @@ namespace OfflineServer.Servers.Xmpp
         protected CancellationTokenSource cts;
         protected CancellationToken ct;
         protected Boolean isSsl;
-        protected readonly log4net.ILog log = log4net.LogManager.GetLogger (MethodBase.GetCurrentMethod().DeclaringType);
+        protected readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public async Task<String> read(Boolean forceNoSsl = false)
         {
-            byte[] data = new byte[client.ReceiveBufferSize];
+            byte[] data = new byte[2048];
             int bytesRead;
             string request;
             if (isSsl & !forceNoSsl)
             {
-                var readTask = await sslStream.ReadAsync(data, 0, Convert.ToInt32(client.ReceiveBufferSize), ct).ConfigureAwait(false);
+                var readTask = await sslStream.ReadAsync(data, 0, 2048, ct).ConfigureAwait(false);
                 bytesRead = readTask;
                 char[] chars = new char[decoder.GetCharCount(data, 0, bytesRead)];
                 decoder.GetChars(data, 0, bytesRead, chars, 0);
@@ -40,7 +40,7 @@ namespace OfflineServer.Servers.Xmpp
             }
             else
             {
-                var readTask = await stream.ReadAsync(data, 0, Convert.ToInt32(client.ReceiveBufferSize), ct).ConfigureAwait(false);
+                var readTask = await stream.ReadAsync(data, 0, 2048, ct).ConfigureAwait(false);
                 bytesRead = readTask;
                 request = Encoding.UTF8.GetString(data, 0, bytesRead);
             }
@@ -54,12 +54,12 @@ namespace OfflineServer.Servers.Xmpp
             if (isSsl & !forceNoSsl)
             {
                 await sslStream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
-                await sslStream.FlushAsync().ConfigureAwait(false);
+                await sslStream.FlushAsync(ct).ConfigureAwait(false);
             }
             else
             {
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
-                await stream.FlushAsync().ConfigureAwait(false);
+                await stream.FlushAsync(ct).ConfigureAwait(false);
             }
             log.Info(String.Format("Sent xmpp packet {0}.", message));
         }

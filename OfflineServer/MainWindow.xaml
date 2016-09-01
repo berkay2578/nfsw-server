@@ -18,8 +18,8 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <TabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
-            <TabItem Name="PersonaTab" Header="Persona">
+        <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
+            <Controls:MetroTabItem Name="PersonaTab" Header="Persona">
                 <Grid Margin="25,0,0,0">
                     <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="117" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
                         <Rectangle Width="50" Height="40">
@@ -175,8 +175,8 @@
                         </Grid>
                     </Controls:Tile>
                 </Grid>
-            </TabItem>
-            <TabItem Name="GarageTab" Header="Garage">
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Name="GarageTab" Header="Garage">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding Access.CurrentSession.ActivePersona}">
                     <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}">
                         <ListBox.ItemTemplate>
@@ -254,11 +254,11 @@
                         </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
-            </TabItem>
-            <TabItem Header="Settings">
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Header="Settings">
                 <Grid/>
-            </TabItem>
-        </TabControl>
+            </Controls:MetroTabItem>
+        </Controls:MetroAnimatedTabControl>
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl DataContext="{Binding Access.CurrentSession}">
