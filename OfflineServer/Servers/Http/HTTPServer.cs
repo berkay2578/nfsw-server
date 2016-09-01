@@ -12,7 +12,7 @@ namespace OfflineServer.Servers.Http
     public class HttpServer
     {
         // for easy development and debug, will be removed later when everything is coded
-        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar" };
+        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar", "categories", "productsInCategory", "systeminfo" };
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();
@@ -37,12 +37,16 @@ namespace OfflineServer.Servers.Http
             log.Info(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl));
 
             Byte[] baResponseArray = null;
-            String[] splittedPath = e.Request.Path.Split('/');
+            List<String> splittedPath = new List<String>(e.Request.Path.Split('/'));
             String ioPath = e.Request.Path.Remove(0, 1) + ".xml";
 
-            if (splittedPath.Length > 5)
+            if (splittedPath.Count >= 4)
             {
                 String targetClassString = changeCaseFirst(splittedPath[4], true);
+                if (splittedPath.Count == 5) {
+                    splittedPath.Insert(0, "");
+                    targetClassString = "Root";
+                }
                 double dummy;
                 Boolean isNumber = double.TryParse(splittedPath[5], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dummy);
                 String targetMethodString = changeCaseFirst(isNumber ? splittedPath[6] : splittedPath[5], false);

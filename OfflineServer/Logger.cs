@@ -15,7 +15,7 @@ namespace OfflineServer
             Hierarchy hierarchy = (Hierarchy)LogManager.GetRepository();
 
             PatternLayout patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "%date{dd/MM/yyyy hh:mm:ss.fff tt} \\/ %logger[%method:%line] %level - %message%newline%exception";
+            patternLayout.ConversionPattern = "%date{dd/MM/yyyy hh:mm:ss.fff tt} | %logger[%method:%line] %level - %message%newline%exception";
             patternLayout.ActivateOptions();
 
             RollingFileAppender roller = new RollingFileAppender();

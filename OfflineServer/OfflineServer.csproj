@@ -67,7 +67,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -95,7 +95,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NHttp, Version=0.1.9.0, Culture=neutral, PublicKeyToken=156364e4f7b202d9, processorArchitecture=MSIL">
@@ -166,8 +166,10 @@
     <Compile Include="Servers\Database\Mappings\PersonaEntityMap.cs" />
     <Compile Include="Servers\Database\Mappings\UserEntityMap.cs" />
     <Compile Include="Servers\Database\SessionManager.cs" />
+    <Compile Include="Servers\Http\Classes\Catalog.cs" />
     <Compile Include="Servers\Http\Classes\DriverPersona.cs" />
     <Compile Include="Servers\Http\Classes\Personas.cs" />
+    <Compile Include="Servers\Http\Classes\Root.cs" />
     <Compile Include="Servers\Http\Classes\Session.cs" />
     <Compile Include="Servers\Http\HttpServer.cs" />
     <Compile Include="NfswSession.cs" />
@@ -240,6 +242,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Resources\certificate.p12" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
