@@ -161,6 +161,7 @@
     <Compile Include="Servers\Http\Classes\Catalog.cs" />
     <Compile Include="Servers\Http\Classes\DriverPersona.cs" />
     <Compile Include="Servers\Http\Classes\Personas.cs" />
+    <Compile Include="Servers\Http\Classes\Powerups.cs" />
     <Compile Include="Servers\Http\Classes\Root.cs" />
     <Compile Include="Servers\Http\Classes\Session.cs" />
     <Compile Include="Servers\Http\HttpServer.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="Servers\Serialization.cs" />
     <Compile Include="Servers\ServerAttributes.cs" />
     <Compile Include="Servers\Xmpp\BasicXmppServer.cs" />
+    <Compile Include="Servers\Xmpp\Responses\Message.cs" />
+    <Compile Include="Servers\Xmpp\Responses\PowerupActivated.cs" />
+    <Compile Include="Servers\Xmpp\Responses\PowerupActivatedResponse.cs" />
     <Compile Include="Servers\Xmpp\XmppServer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

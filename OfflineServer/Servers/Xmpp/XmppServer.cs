@@ -69,6 +69,7 @@ namespace OfflineServer.Servers.Xmpp
         public abstract void doLogin(Int32 newPersonaId);
         public abstract void doLogout(Int32 personaId);
         public abstract void listenLoop();
+        public abstract Int64 calculateHash(char[] jid, char[] response);
         public abstract void shutdown();
     }
 }

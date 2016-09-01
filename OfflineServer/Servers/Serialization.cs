@@ -10,7 +10,7 @@ namespace OfflineServer.Servers
     public static class Serialization
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public static String SerializeObject<T>(this T obj)
+        public static String SerializeObject<T>(this T obj, Boolean forceNoNamespaces = false)
         {
             try
             {
@@ -19,7 +19,16 @@ namespace OfflineServer.Servers
                 using (StringWriter textWriter = new StringWriter())
                 using (XmlWriter xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = false, OmitXmlDeclaration = true }))
                 {
-                    xmlSerializer.Serialize(xmlWriter, obj);
+                    if (forceNoNamespaces)
+                    {
+                        XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                        ns.Add("", "");
+                        xmlSerializer.Serialize(xmlWriter, obj, ns);
+                    }
+                    else
+                    {
+                        xmlSerializer.Serialize(xmlWriter, obj);
+                    }
                     return textWriter.ToString();
                 }
             }

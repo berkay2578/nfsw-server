@@ -93,7 +93,7 @@ namespace OfflineServer.Servers.Xmpp
         // Only copied my calculation from https://raw.githubusercontent.com/nilzao/soapbox-race/master/src/main/java/br/com/soapboxrace/engine/Router.java
         // Will eventually re-write it.
         // For the unaware: THIS CODE IS NOT READY FOR PRODUCTION.
-        protected static Object[] __allmul(long multiplier, long multiplicand)
+        protected Object[] __allmul(long multiplier, long multiplicand)
         {
             long hiMultiplier = (multiplier >> 32) & 0xffffffffL;
             long loMultiplier = ((multiplier << 32) >> 32) & 0xffffffffL;
@@ -121,7 +121,7 @@ namespace OfflineServer.Servers.Xmpp
             return new Object[] { multiplied, oldMultiplied == loMultiplied };
         }
 
-        public static Int64 calculateHash(char[] jid, char[] response)
+        public override Int64 calculateHash(char[] jid, char[] response)
         {
             long multiplier = 4294967295L & 0xffffffffL;
             bool cFlag = true;
