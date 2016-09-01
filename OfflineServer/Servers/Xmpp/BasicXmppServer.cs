@@ -21,7 +21,7 @@ namespace OfflineServer.Servers.Xmpp
             personaId = 0;
             jidPrepender = "nfsw";
             isSsl = ssl;
-            certificate = new X509Certificate2(Properties.Resources.certificate, "1234");
+            certificate = new X509Certificate2(Properties.Resources.certificate, "123456");
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
             port = ((IPEndPoint)listener.LocalEndpoint).Port;
