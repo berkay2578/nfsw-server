@@ -25,11 +25,13 @@ namespace OfflineServer
             {
                 get
                 {
-                    return session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                    if (Access.CurrentSession.ActivePersona != null)
+                        return session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                    return new PersonaEntity(); // to ensure no NullReferenceExceptions, it's just a dummy
                 }
                 set
                 {
-                    if (value != persona)
+                    if (persona != value && value != null)
                     {
                         using (var transaction = session.BeginTransaction())
                         {
