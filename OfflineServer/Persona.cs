@@ -62,6 +62,7 @@ namespace OfflineServer
                 if (iconIndex != value)
                 {
                     iconIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
+                    Engine.PersonaManagement.persona.iconIndex = iconIndex;
                     RaisePropertyChangedEvent("IconIndex");
                 }
             }
@@ -74,6 +75,7 @@ namespace OfflineServer
                 if (name != value)
                 {
                     name = value;
+                    Engine.PersonaManagement.persona.name = value;
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -86,6 +88,7 @@ namespace OfflineServer
                 if (motto != value)
                 {
                     motto = value;
+                    Engine.PersonaManagement.persona.motto = value;
                     RaisePropertyChangedEvent("Motto");
                 }
             }
@@ -98,6 +101,7 @@ namespace OfflineServer
                 if (level != value)
                 {
                     level = value;
+                    Engine.PersonaManagement.persona.level = value;
                     RaisePropertyChangedEvent("Level");
                 }
             }
@@ -110,6 +114,7 @@ namespace OfflineServer
                 if (cash != value)
                 {
                     cash = value;
+                    Engine.PersonaManagement.persona.cash = value;
                     RaisePropertyChangedEvent("Cash");
                     RaisePropertyChangedEvent("CashForView");
                 }
@@ -130,6 +135,7 @@ namespace OfflineServer
                 if (boost != value)
                 {
                     boost = value;
+                    Engine.PersonaManagement.persona.boost = value;
                     RaisePropertyChangedEvent("Boost");
                     RaisePropertyChangedEvent("BoostForView");
                 }
@@ -150,6 +156,7 @@ namespace OfflineServer
                 if (percentageOfLevelCompletion != value)
                 {
                     percentageOfLevelCompletion = value;
+                    Engine.PersonaManagement.persona.percentageOfLevelCompletion = value;
                     RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
@@ -162,6 +169,7 @@ namespace OfflineServer
                 if (reputationInLevel != value)
                 {
                     reputationInLevel = value;
+                    Engine.PersonaManagement.persona.reputationInLevel = value;
                     RaisePropertyChangedEvent("ReputationInLevel");
                 }
             }
@@ -174,6 +182,7 @@ namespace OfflineServer
                 if (reputationInTotal != value)
                 {
                     reputationInTotal = value;
+                    Engine.PersonaManagement.persona.reputationInTotal = value;
                     RaisePropertyChangedEvent("ReputationInTotal");
                 }
             }
@@ -186,6 +195,7 @@ namespace OfflineServer
                 if (currentCarIndex != value)
                 {
                     currentCarIndex = value;
+                    Engine.PersonaManagement.persona.currentCarIndex = value;
                     RaisePropertyChangedEvent("CurrentCarIndex");
                 }
             }

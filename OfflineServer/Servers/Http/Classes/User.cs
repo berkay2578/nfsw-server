@@ -44,7 +44,7 @@ namespace OfflineServer.Servers.Http.Classes
                 userInfo.personas.Add(profileData);
             }
 
-            userInfo.defaultPersonaIdx = Access.CurrentSession.Engine.getDefaultPersonaIdx();
+            userInfo.defaultPersonaIdx = Engine.PersonaManagement.getDefaultPersonaIdx();
             return userInfo.SerializeObject();
         }
     }

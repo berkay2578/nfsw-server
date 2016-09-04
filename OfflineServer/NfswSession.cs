@@ -20,7 +20,7 @@ namespace OfflineServer
             {
                 if (activePersona != value)
                 {
-                    Engine.setDefaultPersonaIdx(personaList.IndexOf(personaList.First<Persona>(p => p.Id == value.Id)));
+                    Engine.PersonaManagement.setDefaultPersonaIdx(personaList.IndexOf(personaList.First<Persona>(p => p.Id == value.Id)));
                     activePersona = value;
                     RaisePropertyChangedEvent("ActivePersona");
                 }
@@ -44,7 +44,7 @@ namespace OfflineServer
             dbConnection.Open();
 
             PersonaList = Persona.getCurrentPersonaList();
-            ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
+            ActivePersona = personaList[Engine.PersonaManagement.getDefaultPersonaIdx()];
 
             log.Info("Session started.");
         }

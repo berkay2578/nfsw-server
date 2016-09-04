@@ -1,4 +1,5 @@
-﻿using OfflineServer.Servers.Database;
+﻿using NHibernate;
+using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using System;
 
@@ -12,20 +13,48 @@ namespace OfflineServer
     {
         public Achievements Achievements = new Achievements();
 
-        public Int32 getDefaultPersonaIdx()
+        public static class PersonaManagement
         {
-            using (var session = SessionManager.getSessionFactory().OpenSession())
-                return session.Load<UserEntity>(1).defaultPersonaIdx;
-        }
-        public void setDefaultPersonaIdx(Int32 defaultPersonaIdx)
-        {
-            using (var session = SessionManager.getSessionFactory().OpenSession())
-            using (var transaction = session.BeginTransaction())
+            private static ISession session;
+            static PersonaManagement()
             {
-                UserEntity userEntity = session.Load<UserEntity>(1);
-                userEntity.defaultPersonaIdx = defaultPersonaIdx;
-                session.Update(userEntity);
-                transaction.Commit();
+                session = SessionManager.getSessionFactory().OpenSession();
+            }
+
+            public static PersonaEntity persona
+            {
+                get
+                {
+                    return session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                }
+                set
+                {
+                    if (value != persona)
+                    {
+                        using (var transaction = session.BeginTransaction())
+                        {
+                            PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                            personaEntity = value;
+                            session.Update(personaEntity);
+                            transaction.Commit();
+                        }
+                    }
+                }
+            }
+
+            public static Int32 getDefaultPersonaIdx()
+            {
+                return session.Load<UserEntity>(1).defaultPersonaIdx;
+            }
+            public static void setDefaultPersonaIdx(Int32 defaultPersonaIdx)
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    UserEntity userEntity = session.Load<UserEntity>(1);
+                    userEntity.defaultPersonaIdx = defaultPersonaIdx;
+                    session.Update(userEntity);
+                    transaction.Commit();
+                }
             }
         }
     }
