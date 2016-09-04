@@ -31,14 +31,17 @@ namespace OfflineServer
                 }
                 set
                 {
-                    if (persona != value && value != null)
+                    if (Access.CurrentSession.ActivePersona != null)
                     {
-                        using (var transaction = session.BeginTransaction())
+                        if (persona != value && value != null)
                         {
-                            PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
-                            personaEntity = value;
-                            session.Update(personaEntity);
-                            transaction.Commit();
+                            using (var transaction = session.BeginTransaction())
+                            {
+                                PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                                personaEntity = value;
+                                session.Update(personaEntity);
+                                transaction.Commit();
+                            }
                         }
                     }
                 }
