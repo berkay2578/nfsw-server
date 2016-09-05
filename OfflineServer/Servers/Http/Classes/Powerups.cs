@@ -17,9 +17,11 @@ namespace OfflineServer.Servers.Http.Classes
             powerupActivatedResponse.powerupActivated = powerupActivated;
 
             Message message = new Message();
-            message.setBody<PowerupActivatedResponse>(powerupActivatedResponse);
-            
+            message.setBody(powerupActivatedResponse);
+
+#pragma warning disable CS4014
             Access.sXmpp.write(message.SerializeObject(true));
+#pragma warning restore CS4014
 
             return "";
         }
