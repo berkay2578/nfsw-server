@@ -147,7 +147,6 @@ namespace OfflineServer
                 Mode = BindingMode.TwoWay,
                 Source = Access.CurrentSession
             };
-            FlipViewPersonaImage.SelectedIndex = Access.CurrentSession.ActivePersona.IconIndex;
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);
             #endregion
 

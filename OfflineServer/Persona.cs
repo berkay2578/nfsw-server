@@ -62,7 +62,8 @@ namespace OfflineServer
                 if (iconIndex != value)
                 {
                     iconIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
-                    Engine.PersonaManagement.persona.iconIndex = iconIndex;
+                    PersonaManagement.persona.iconIndex = iconIndex;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("IconIndex");
                 }
             }
@@ -75,7 +76,8 @@ namespace OfflineServer
                 if (name != value)
                 {
                     name = value;
-                    Engine.PersonaManagement.persona.name = value;
+                    PersonaManagement.persona.name = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -88,7 +90,8 @@ namespace OfflineServer
                 if (motto != value)
                 {
                     motto = value;
-                    Engine.PersonaManagement.persona.motto = value;
+                    PersonaManagement.persona.motto = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Motto");
                 }
             }
@@ -101,7 +104,8 @@ namespace OfflineServer
                 if (level != value)
                 {
                     level = value;
-                    Engine.PersonaManagement.persona.level = value;
+                    PersonaManagement.persona.level = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Level");
                 }
             }
@@ -114,7 +118,8 @@ namespace OfflineServer
                 if (cash != value)
                 {
                     cash = value;
-                    Engine.PersonaManagement.persona.cash = value;
+                    PersonaManagement.persona.cash = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Cash");
                     RaisePropertyChangedEvent("CashForView");
                 }
@@ -135,7 +140,8 @@ namespace OfflineServer
                 if (boost != value)
                 {
                     boost = value;
-                    Engine.PersonaManagement.persona.boost = value;
+                    PersonaManagement.persona.boost = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Boost");
                     RaisePropertyChangedEvent("BoostForView");
                 }
@@ -156,7 +162,8 @@ namespace OfflineServer
                 if (percentageOfLevelCompletion != value)
                 {
                     percentageOfLevelCompletion = value;
-                    Engine.PersonaManagement.persona.percentageOfLevelCompletion = value;
+                    PersonaManagement.persona.percentageOfLevelCompletion = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
@@ -169,7 +176,8 @@ namespace OfflineServer
                 if (reputationInLevel != value)
                 {
                     reputationInLevel = value;
-                    Engine.PersonaManagement.persona.reputationInLevel = value;
+                    PersonaManagement.persona.reputationInLevel = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInLevel");
                 }
             }
@@ -182,7 +190,8 @@ namespace OfflineServer
                 if (reputationInTotal != value)
                 {
                     reputationInTotal = value;
-                    Engine.PersonaManagement.persona.reputationInTotal = value;
+                    PersonaManagement.persona.reputationInTotal = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInTotal");
                 }
             }
@@ -195,7 +204,8 @@ namespace OfflineServer
                 if (currentCarIndex != value)
                 {
                     currentCarIndex = value;
-                    Engine.PersonaManagement.persona.currentCarIndex = value;
+                    PersonaManagement.persona.currentCarIndex = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("CurrentCarIndex");
                 }
             }
