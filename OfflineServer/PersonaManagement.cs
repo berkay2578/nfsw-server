@@ -8,6 +8,7 @@ namespace OfflineServer
     public static class PersonaManagement
     {
         private static ISession session;
+        private static PersonaEntity dummyEntity = new PersonaEntity();
         static PersonaManagement()
         {
             session = SessionManager.getSessionFactory().OpenSession();
@@ -19,7 +20,7 @@ namespace OfflineServer
             {
                 if (Access.CurrentSession.ActivePersona != null)
                     return session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
-                return new PersonaEntity(); // to ensure no NullReferenceExceptions, it's just a dummy
+                return dummyEntity; // to ensure no NullReferenceExceptions, it's just a dummy
             }
             set
             {
