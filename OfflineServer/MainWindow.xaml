@@ -21,54 +21,62 @@
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
             <Controls:MetroTabItem Name="PersonaTab" Header="Persona">
                 <Grid Margin="25,0,0,0">
-                    <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="117" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
+                    <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="155" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
                         <Rectangle Width="50" Height="40">
                             <Rectangle.Fill>
                                 <VisualBrush Stretch="Uniform" Visual="{StaticResource EngineStart}" />
                             </Rectangle.Fill>
                         </Rectangle>
                     </Button>
-                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="117" Height="50" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition Width="74" />
+                                    <ColumnDefinition Width="25pt"/>
+                                    <ColumnDefinition Width="*" MinWidth="90"/>
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Width="30" Height="30" Grid.Column="0">
+                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock TextWrapping="Wrap" Text="Persona Info" TextAlignment="Center" Grid.Column="1"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50pt" TextWrapping="Wrap" Text="Persona Info" TextAlignment="Center" FontSize="12pt"/>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="117" Height="50" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
                         <Button.Content>
-                            <DockPanel>
-                                <Rectangle Width="30" Height="30" DockPanel.Dock="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25pt"/>
+                                    <ColumnDefinition Width="*" MinWidth="90"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_text}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock DockPanel.Dock="Right" Margin="15,0,0,0" TextWrapping="Wrap" Text="Detailed Info" TextAlignment="Center"/>
-                            </DockPanel>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50pt" TextWrapping="Wrap" Text="Detailed Info" TextAlignment="Center" FontSize="12pt"/>
+                            </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="117" Height="50" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
                         <Button.Content>
-                            <DockPanel>
-                                <Rectangle Width="30" Height="30" DockPanel.Dock="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25pt"/>
+                                    <ColumnDefinition Width="*" MinWidth="90"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_multiple}"/>
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_multiple}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock DockPanel.Dock="Right" Margin="15,0,0,0" TextWrapping="Wrap" Text="Persona List" TextAlignment="Center"/>
-                            </DockPanel>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50pt" TextWrapping="Wrap" Text="Persona List" TextAlignment="Center" FontSize="12pt"/>
+                            </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="142,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
+                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
@@ -169,9 +177,9 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
-                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="417" Height="127" Margin="10,10,0,0" Click="Button_ClickHandler">
+                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="445" Height="127" Margin="10,10,0,0" Click="Button_ClickHandler">
                         <Grid>
-                            <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="417" Height="127" Transition="Up" />
+                            <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="445 " Height="127" Transition="Up" />
                         </Grid>
                     </Controls:Tile>
                 </Grid>
@@ -211,7 +219,7 @@
                                 </Grid>
                             </ControlTemplate>
                         </ScrollViewer.Template>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Width="270">
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Base Car Id:"/>
                                 <Label Margin="0,5,0,0" Content="Car Class:"/>
@@ -228,7 +236,7 @@
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
                                 <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="5,0,0,0" Width="140" DataContext="{Binding SelectedCar}">
+                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="140" DataContext="{Binding SelectedCar}">
                                 <StackPanel.Resources>
                                     <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                                         <ObjectDataProvider.MethodParameters>
@@ -255,8 +263,10 @@
                     </ScrollViewer>
                 </StackPanel>
             </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="Settings">
-                <Grid/>
+            <Controls:MetroTabItem Name="SettingsTab" Header="Settings">
+                <Grid Margin="25,0,0,0">
+                    
+                </Grid>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </Grid>
