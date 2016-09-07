@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -129,11 +130,11 @@ namespace OfflineServer
             {
                 Grid Grid_FlipViewDummy;
                 Image Image_FlipViewDummy;
-                Image_FlipViewDummy = new Image() { Margin = new Thickness(7d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
-                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(-8d) };
+                Image_FlipViewDummy = new Image() { Margin = new Thickness(7.4d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
+                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(-5d) };
                 Grid_FlipViewDummy.Children.Add(Image_FlipViewDummy);
                 Image t1 = new Image() { Source = Image_FlipViewDummy.Source };
-                t1.Effect = new System.Windows.Media.Effects.BlurEffect() { Radius = 7.5d };
+                t1.Effect = new BlurEffect() { Radius = 6.55d, RenderingBias = RenderingBias.Performance, KernelType = KernelType.Box };
                 Grid_FlipViewDummy.Background = new VisualBrush((Visual)t1);
                 aFlipViewAvatarArray[i] = Grid_FlipViewDummy;
             }

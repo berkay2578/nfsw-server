@@ -76,11 +76,11 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285">
+                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0">
                         <Grid>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
-                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="2" BorderBrush="#FF505050" Background="#FF303030"/>
+                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="0" BorderBrush="#FF505050" Background="#FF303030"/>
                             <StackPanel Orientation="Vertical" Margin="10,125,215,0" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock>
@@ -265,7 +265,6 @@
             </Controls:MetroTabItem>
             <Controls:MetroTabItem Name="SettingsTab" Header="Settings">
                 <Grid Margin="25,0,0,0">
-                    
                 </Grid>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
