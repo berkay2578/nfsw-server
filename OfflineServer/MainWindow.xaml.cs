@@ -226,6 +226,22 @@ namespace OfflineServer
                 case "buttonAddCar":
                     break;
                 case "buttonRemoveCar":
+                    if (listCar.Items.Count > 1)
+                    {
+                        Int32 selectedItemIndex = listCar.SelectedIndex;
+                        if (selectedItemIndex != -1) {
+                            listCar.Items.RemoveAt(selectedItemIndex);
+                            PersonaManagement.removeCar(((Car)listCar.Items[selectedItemIndex]).Id);
+                            listCar.SelectedIndex = Math.Min(selectedItemIndex, listCar.Items.Count - 1);
+                        } else
+                        {
+                            new ToolTip() { Content = "No car is selected!", StaysOpen = false, IsOpen = true };
+                        }
+                    }
+                    else
+                    {
+                        new ToolTip() { Content = "Cannot remove the last car in a persona!", StaysOpen = false, IsOpen = true };
+                    }
                     break;
             }
         }

@@ -40,6 +40,16 @@ namespace OfflineServer
             }
         }
 
+        public static void removeCar(Int32 carId)
+        {
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                CarEntity carEntity = session.Load<CarEntity>(carId);
+                session.Delete(carEntity);
+                transaction.Commit();
+            }
+        }
+
         public static void update(this PersonaEntity newPersona)
         {
             if (Access.CurrentSession.ActivePersona != null)
