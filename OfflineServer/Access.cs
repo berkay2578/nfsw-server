@@ -21,6 +21,8 @@ namespace OfflineServer
             } else
             {
                 Settings = new Settings();
+                Settings.uiSettings.doDefault();
+                Settings.saveInstance();
             }
         }
     }

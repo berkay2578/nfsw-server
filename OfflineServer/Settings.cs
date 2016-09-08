@@ -13,7 +13,6 @@ namespace OfflineServer
         public Settings()
         {
             uiSettings = new UISettings();
-            saveInstance();
         }
 
         public void saveInstance()
@@ -34,10 +33,10 @@ namespace OfflineServer
                 }
                 set
                 {
-                    if (accent.Name != value)
+                    if (value != null)
                     {
                         accent = ThemeManager.GetAccent(value);
-                        applyNewStyle();
+                        if (theme != null) applyNewStyle();
                         RaisePropertyChangedEvent("Accent");
                     }
                 }
@@ -50,21 +49,19 @@ namespace OfflineServer
                 }
                 set
                 {
-                    if (theme.Name != "Base" + value)
+                    if (value != null)
                     {
                         theme = ThemeManager.GetAppTheme("Base" + value);
-                        applyNewStyle();
+                        if (accent != null) applyNewStyle();
                         RaisePropertyChangedEvent("Theme");
                     }
                 }
             }
 
-            public UISettings()
+            public void doDefault()
             {
-                accent = ThemeManager.GetAccent("Cyan");
-                theme = ThemeManager.GetAppTheme("BaseLight");
-                Accent = "Cyan";
-                Theme = "Light";
+                accent = ThemeManager.GetAccent("Steel");
+                theme = ThemeManager.GetAppTheme("BaseDark");
                 RaisePropertyChangedEvent("Accent");
                 RaisePropertyChangedEvent("Theme");
                 applyNewStyle();

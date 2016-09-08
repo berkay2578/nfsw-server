@@ -12,12 +12,22 @@
         mc:Ignorable="d"
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="False"
         IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Name="buttonSettings" Content="settings" Click="Button_ClickHandler"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+            <Setter Property="Controls:ButtonHelper.PreserveTextCase" Value="True"/>
+            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+        </Style>
+    </Controls:MetroWindow.Resources>
     <Grid>
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
             <Controls:MetroTabItem Name="PersonaTab" Header="Persona">
@@ -38,7 +48,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
-                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page}" />
+                                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50pt" TextWrapping="Wrap" Text="Persona Info" TextAlignment="Center" FontSize="12pt"/>
@@ -77,8 +87,11 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0">
+                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
                         <Grid>
+                            <Grid.Resources>
+                                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                            </Grid.Resources>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
                                 HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="0" BorderBrush="#FF505050" Background="#FF303030"/>
@@ -202,8 +215,8 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,353,0,0" VerticalAlignment="Top" Width="24" Height="21" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Padding="0"/>
-                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,353,0,0" VerticalAlignment="Top" Width="24" Height="21" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Padding="0"/>
+                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"/>
+                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"/>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ScrollViewer.Template>
@@ -248,6 +261,14 @@
                                             <x:Type TypeName="local:CarClass"/>
                                         </ObjectDataProvider.MethodParameters>
                                     </ObjectDataProvider>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                                        <Setter Property="FontWeight" Value="Normal"/>
+                                        <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+                                        <Setter Property="Controls:ButtonHelper.PreserveTextCase" Value="True"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Style>
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, UpdateSourceTrigger=PropertyChanged}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
@@ -275,7 +296,7 @@
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl DataContext="{Binding Access}">
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" DataContext="{Binding CurrentSession.ActivePersona}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" DataContext="{Binding CurrentSession.ActivePersona}" Position="Right" Width="280" Theme="Dark" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
                         <Label Margin="5" Content="Name: " Foreground="White"/>
@@ -293,12 +314,12 @@
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="Persona Information" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="Persona Information" Position="Right" Width="300" Theme="Dark" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <TextBlock Text="Literally no idea what to put here. Do I add the ReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" DataContext="{Binding CurrentSession}" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" DataContext="{Binding CurrentSession}" Position="Right" Width="480" Theme="Dark" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
                               CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
@@ -315,12 +336,12 @@
                     </DataGrid>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" DataContext="{Binding CurrentSession}" Position="Right" Width="450" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" DataContext="{Binding CurrentSession}" Position="Right" Width="450" Theme="Dark" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="15,5,15,15">
                     <local:MVVMSyntax SyntaxHighlighting="XML" ShowLineNumbers="True" WordWrap="True" x:Name="tbGaragePartInfo" Width="420" Height="320" FontSize="10pt"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutUISettings" Header="UI Settings" DataContext="{Binding Settings}" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutUISettings" Header="UI Settings" DataContext="{Binding Settings}" Position="Right" Width="300" Theme="Dark" IsModal="False" IsPinned="False">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
                         <Label Margin="5" Content="Theme: " Foreground="White"/>

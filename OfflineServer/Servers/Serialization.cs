@@ -61,12 +61,11 @@ namespace OfflineServer.Servers
         {
             try
             {
-                T obj = default(T);
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-
                 
                 using (StringReader stringReader = new StringReader(plainXml))
                 {
+                    T obj = default(T);
                     obj = (T)xmlSerializer.Deserialize(stringReader);
                     return obj;
                 }

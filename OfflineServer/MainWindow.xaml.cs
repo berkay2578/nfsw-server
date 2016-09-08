@@ -134,12 +134,12 @@ namespace OfflineServer
             {
                 Grid Grid_FlipViewDummy;
                 Image Image_FlipViewDummy;
-                Image_FlipViewDummy = new Image() { Margin = new Thickness(7.4d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
-                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(-5d) };
+                Image_FlipViewDummy = new Image() { Margin = new Thickness(5.5d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
+                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(0.4d) };
                 Grid_FlipViewDummy.Children.Add(Image_FlipViewDummy);
                 Image t1 = new Image() { Source = Image_FlipViewDummy.Source };
-                t1.Effect = new BlurEffect() { Radius = 6.55d, RenderingBias = RenderingBias.Performance, KernelType = KernelType.Box };
-                Grid_FlipViewDummy.Background = new VisualBrush((Visual)t1);
+                t1.Effect = new BlurEffect() { Radius = 4.5d, RenderingBias = RenderingBias.Quality, KernelType = KernelType.Gaussian };
+                Grid_FlipViewDummy.Background = new VisualBrush(t1);
                 aFlipViewAvatarArray[i] = Grid_FlipViewDummy;
             }
             FlipViewPersonaImage.ItemsSource = aFlipViewAvatarArray;
@@ -229,8 +229,7 @@ namespace OfflineServer
 
             MetroDialogSettings messageBoxStyle = new MetroDialogSettings()
             {
-                AffirmativeButtonText = "Right away!",
-                ColorScheme = MetroDialogColorScheme.Accented
+                AffirmativeButtonText = "Right away!"
             };
 
             // gonna keep this until I add nfs:w launching support
@@ -281,7 +280,7 @@ namespace OfflineServer
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
                 case "buttonAddCar":
-                    this.ShowMetroDialogAsync(carDialog, new MetroDialogSettings() { AnimateHide = true, AnimateShow = true, ColorScheme = MetroDialogColorScheme.Theme });
+                    this.ShowMetroDialogAsync(carDialog, new MetroDialogSettings() { AnimateHide = true, AnimateShow = true });
                     break;
                 case "buttonRemoveCar":
                     if (listCar.Items.Count > 1)
@@ -366,6 +365,14 @@ namespace OfflineServer
         }
         #endregion
 
+        #region Theme error proofing
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Access.Settings.uiSettings.applyNewStyle();
+        }
+        #endregion
+
+        #region Ensuring no empty persona names
         private void textboxPersonaName_LostFocus(object sender, RoutedEventArgs e)
         {
             textboxPersonaName.Text = textboxPersonaName.Text.Trim();
@@ -385,11 +392,14 @@ namespace OfflineServer
                 }
             }
         }
+        #endregion
 
+        #region Functions/Voids to remove if not needed later
         private void informUser(String infoText)
         {
             this.ShowMessageAsync("Oops!", infoText, MessageDialogStyle.Affirmative);
         }
+        #endregion
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
