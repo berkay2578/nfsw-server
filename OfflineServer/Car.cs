@@ -142,8 +142,8 @@ namespace OfflineServer
             {
                 if (resalePrice != value)
                 {
-                    resalePrice = value;
-                    CarManagement.car.resalePrice = value;
+                    resalePrice = Math.Min(value, Int32.MaxValue - 1);
+                    CarManagement.car.resalePrice = resalePrice;
                     CarManagement.car.update();
                     RaisePropertyChangedEvent("ResalePrice");
                 }
