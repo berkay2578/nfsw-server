@@ -88,7 +88,7 @@ namespace OfflineServer
                         personaEntity.iconIndex = 27;
                         personaEntity.level = 60;
                         personaEntity.motto = "test";
-                        personaEntity.name = "DEBUG Id" + (i+100);
+                        personaEntity.name = "DEBUG Id" + (i + 100);
                         personaEntity.percentageOfLevelCompletion = 100;
                         personaEntity.rating = 8752;
                         personaEntity.reputationInLevel = 0;
@@ -116,8 +116,9 @@ namespace OfflineServer
                     session.Save(userEntity);
                     transaction.Commit();
                     log.Info("Database actions finalized.");
-                }                
-            } else { log.Info("Database already exists, skipping creation."); }
+                }
+            }
+            else { log.Info("Database already exists, skipping creation."); }
         }
 
         private void SetupComponents()
@@ -211,8 +212,9 @@ namespace OfflineServer
                 case "buttonSkillModParts":
                 case "buttonVinyls":
                 case "buttonVisualParts":
-                    tbGaragePartInfo.SetBinding(MVVMSyntax._TextProperty, 
-                        new Binding() {
+                    tbGaragePartInfo.SetBinding(MVVMSyntax._TextProperty,
+                        new Binding()
+                        {
                             Converter = new STEditConverter(this),
                             Path = new PropertyPath("ActivePersona.SelectedCar." + ((sender as Button).Name).Remove(0, 6)),
                             UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
@@ -220,6 +222,10 @@ namespace OfflineServer
                             Source = Access.CurrentSession
                         });
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
+                    break;
+                case "buttonAddCar":
+                    break;
+                case "buttonRemoveCar":
                     break;
             }
         }
@@ -263,6 +269,7 @@ namespace OfflineServer
         {
             if (!flyoutBasicPersonaInfo.IsOpen)
             {
+                textboxPersonaName.Text = textboxPersonaName.Text.Trim();
                 Int32 iPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == Access.CurrentSession.ActivePersona.Id));
                 Access.CurrentSession.PersonaList[iPersonaIndex] = Access.CurrentSession.ActivePersona;
             }
@@ -280,6 +287,31 @@ namespace OfflineServer
             (sender as FlipView).HideControlButtons();
         }
         #endregion
+
+        private void textboxPersonaName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            textboxPersonaName.Text = textboxPersonaName.Text.Trim();
+            if (textboxPersonaName.Text.Length < 1)
+            {
+                informUser("Sorry, the persona name cannot be empty.");
+                if (textboxPersonaName.CanUndo)
+                {
+                    do
+                    {
+                        textboxPersonaName.Undo();
+                    } while (textboxPersonaName.Text.Trim().Length < 1);
+                }
+                else
+                {
+                    textboxPersonaName.Text = "CHANGE ME";
+                }
+            }
+        }
+
+        private void informUser(String infoText)
+        {
+            this.ShowMessageAsync("Oops!", infoText, MessageDialogStyle.Affirmative);
+        }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {

@@ -186,20 +186,24 @@
             </Controls:MetroTabItem>
             <Controls:MetroTabItem Name="GarageTab" Header="Garage">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding Access.CurrentSession.ActivePersona}">
-                    <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type local:Car}">
-                                <TextBlock Text="{Binding MakeModel}">
-                                    <TextBlock.ToolTip>
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock FontWeight="Bold" Text="BaseCarId Definition:"/>
-                                            <TextBlock Text="{Binding MakeModelDetailed}"/>
-                                        </StackPanel>
-                                    </TextBlock.ToolTip>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <Grid>
+                        <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:Car}">
+                                    <TextBlock Text="{Binding MakeModel}">
+                                        <TextBlock.ToolTip>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock FontWeight="Bold" Text="BaseCarId Definition:"/>
+                                                <TextBlock Text="{Binding MakeModelDetailed}"/>
+                                            </StackPanel>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,353,0,0" VerticalAlignment="Top" Width="24" Height="21" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Padding="0"/>
+                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,353,0,0" VerticalAlignment="Top" Width="24" Height="21" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" Padding="0"/>
+                    </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ScrollViewer.Template>
                             <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -264,8 +268,7 @@
                 </StackPanel>
             </Controls:MetroTabItem>
             <Controls:MetroTabItem Name="SettingsTab" Header="Settings">
-                <Grid Margin="25,0,0,0">
-                </Grid>
+                <Grid Margin="25,0,0,0"/>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </Grid>
@@ -281,7 +284,7 @@
                         <Label Margin="5" Content="Boost: " Foreground="White"/>
                     </StackPanel>
                     <StackPanel Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190">
-                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14"/>
+                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name}" Controls:TextBoxHelper.Watermark="Persona Name" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14" LostFocus="textboxPersonaName_LostFocus"/>
                         <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto}" Controls:TextBoxHelper.Watermark="Motto Text" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Level}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Left" />
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
