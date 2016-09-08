@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using MahApps.Metro;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
@@ -300,6 +301,9 @@ namespace OfflineServer
                     {
                         new ToolTip() { Content = "Cannot remove the last car in a persona!", StaysOpen = false, IsOpen = true };
                     }
+                    break;
+                case "buttonSettings":
+                    flyoutUISettings.IsOpen = !flyoutUISettings.IsOpen;
                     break;
             }
         }

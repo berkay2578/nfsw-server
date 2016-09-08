@@ -38,12 +38,16 @@ namespace OfflineServer.Servers
                 MessageBox.Show("Please look at Logs\\EventLog.txt for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 log.Info("Shutting down offline server.");
-                
-                Access.sHttp.nServer.Stop();
-                Access.sHttp.nServer.Dispose();
-                log.Info("Http server shutdown successfully.");
 
-                Access.sXmpp.shutdown();
+                if (Access.sHttp != null && Access.sXmpp != null)
+                {
+                    // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
+                    Access.sHttp.nServer.Stop();
+                    Access.sHttp.nServer.Dispose();
+                    log.Info("Shutdown of HttpServer has been completed.");
+
+                    Access.sXmpp.shutdown();
+                }
 
                 NfswSession.dbConnection.Close();
                 NfswSession.dbConnection.Dispose();
@@ -60,9 +64,10 @@ namespace OfflineServer.Servers
                 T obj = default(T);
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
-                using (StreamReader streamReader = new StreamReader(plainXml))
+                
+                using (StringReader stringReader = new StringReader(plainXml))
                 {
-                    obj = (T)xmlSerializer.Deserialize(streamReader);
+                    obj = (T)xmlSerializer.Deserialize(stringReader);
                     return obj;
                 }
             }
@@ -73,11 +78,15 @@ namespace OfflineServer.Servers
 
                 log.Info("Shutting down offline server.");
 
-                Access.sHttp.nServer.Stop();
-                Access.sHttp.nServer.Dispose();
-                log.Info("Http server shutdown successfully.");
+                if (Access.sHttp != null && Access.sXmpp != null)
+                {
+                    // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
+                    Access.sHttp.nServer.Stop();
+                    Access.sHttp.nServer.Dispose();
+                    log.Info("Shutdown of HttpServer has been completed.");
 
-                Access.sXmpp.shutdown();
+                    Access.sXmpp.shutdown();
+                }
 
                 NfswSession.dbConnection.Close();
                 NfswSession.dbConnection.Dispose();

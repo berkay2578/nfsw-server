@@ -15,7 +15,7 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="settings"/>
+            <Button Name="buttonSettings" Content="settings" Click="Button_ClickHandler"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
@@ -268,14 +268,14 @@
                     </ScrollViewer>
                 </StackPanel>
             </Controls:MetroTabItem>
-            <Controls:MetroTabItem Name="SettingsTab" Header="Settings">
+            <Controls:MetroTabItem Header="Something">
                 <Grid Margin="25,0,0,0"/>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </Grid>
     <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl DataContext="{Binding Access.CurrentSession}">
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" DataContext="{Binding ActivePersona}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
+        <Controls:FlyoutsControl DataContext="{Binding Access}">
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="Persona Information" DataContext="{Binding CurrentSession.ActivePersona}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical">
                         <Label Margin="5" Content="Name: " Foreground="White"/>
@@ -298,7 +298,7 @@
                     <TextBlock Text="Literally no idea what to put here. Do I add the ReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutPersonaList" Header="Persona List" DataContext="{Binding CurrentSession}" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
                               CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
@@ -315,9 +315,48 @@
                     </DataGrid>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" Position="Right" Width="450" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutGaragePartInfo" Header="XElement" DataContext="{Binding CurrentSession}" Position="Right" Width="450" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="15,5,15,15">
                     <local:MVVMSyntax SyntaxHighlighting="XML" ShowLineNumbers="True" WordWrap="True" x:Name="tbGaragePartInfo" Width="420" Height="320" FontSize="10pt"/>
+                </StackPanel>
+            </Controls:Flyout>
+            <Controls:Flyout Name="flyoutUISettings" Header="UI Settings" DataContext="{Binding Settings}" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <StackPanel Orientation="Vertical">
+                        <Label Margin="5" Content="Theme: " Foreground="White"/>
+                        <Label Margin="5" Content="Accent: " Foreground="White"/>
+                    </StackPanel>
+                    <StackPanel Name="stackpanelUISettings" Orientation="Vertical" Width="190">
+                        <ComboBox Name="comboBoxTheme" Margin="5" SelectedValue="{Binding uiSettings.Theme, Mode=TwoWay}" SelectedValuePath="Content">
+                            <ComboBoxItem Content="Light"/>
+                            <ComboBoxItem Content="Dark"/>
+                        </ComboBox>
+                        <ComboBox Name="comboBoxAccent" Margin="5" SelectedValue="{Binding uiSettings.Accent, Mode=TwoWay}" SelectedValuePath="Content">
+                            <ComboBoxItem Content="Red"/>
+                            <ComboBoxItem Content="Green"/>
+                            <ComboBoxItem Content="Blue"/>
+                            <ComboBoxItem Content="Purple"/>
+                            <ComboBoxItem Content="Orange"/>
+                            <ComboBoxItem Content="Lime"/>
+                            <ComboBoxItem Content="Emerald"/>
+                            <ComboBoxItem Content="Teal"/>
+                            <ComboBoxItem Content="Cyan"/>
+                            <ComboBoxItem Content="Cobalt"/>
+                            <ComboBoxItem Content="Indigo"/>
+                            <ComboBoxItem Content="Violet"/>
+                            <ComboBoxItem Content="Pink"/>
+                            <ComboBoxItem Content="Magenta"/>
+                            <ComboBoxItem Content="Crimson"/>
+                            <ComboBoxItem Content="Amber"/>
+                            <ComboBoxItem Content="Yellow"/>
+                            <ComboBoxItem Content="Brown"/>
+                            <ComboBoxItem Content="Olive"/>
+                            <ComboBoxItem Content="Steel"/>
+                            <ComboBoxItem Content="Mauve"/>
+                            <ComboBoxItem Content="Taupe"/>
+                            <ComboBoxItem Content="Sienna"/>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
         </Controls:FlyoutsControl>

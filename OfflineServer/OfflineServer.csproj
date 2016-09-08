@@ -188,6 +188,7 @@
     <Compile Include="Servers\Xmpp\Responses\PowerupActivated.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivatedResponse.cs" />
     <Compile Include="Servers\Xmpp\XmppServer.cs" />
+    <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
