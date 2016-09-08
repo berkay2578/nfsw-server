@@ -151,7 +151,8 @@
     <Compile Include="CarDefinitions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="PersonaManagement.cs" />
+    <Compile Include="Servers\Database\Management\CarManagement.cs" />
+    <Compile Include="Servers\Database\Management\PersonaManagement.cs" />
     <Compile Include="Servers\Database\Entities\CarEntity.cs" />
     <Compile Include="Servers\Database\Entities\PersonaEntity.cs" />
     <Compile Include="Servers\Database\Entities\UserEntity.cs" />

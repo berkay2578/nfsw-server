@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Servers;
 using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
 using System;
 using System.Xml.Linq;
 
@@ -57,6 +58,8 @@ namespace OfflineServer
                 if (baseCarId != value)
                 {
                     baseCarId = value;
+                    CarManagement.car.baseCarId = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("BaseCarId");
                 }
             }
@@ -69,6 +72,8 @@ namespace OfflineServer
                 if (raceClass != value)
                 {
                     raceClass = value;
+                    CarManagement.car.raceClass = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("RaceClass");
                 }
             }
@@ -81,6 +86,8 @@ namespace OfflineServer
                 if (paints != value)
                 {
                     paints = value;
+                    CarManagement.car.paints = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Paints");
                 }
             }
@@ -93,6 +100,8 @@ namespace OfflineServer
                 if (performanceParts != value)
                 {
                     performanceParts = value;
+                    CarManagement.car.performanceParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PerformanceParts");
                 }
             }
@@ -105,6 +114,8 @@ namespace OfflineServer
                 if (physicsProfileHash != value)
                 {
                     physicsProfileHash = value;
+                    CarManagement.car.physicsProfileHash = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PhysicsProfileHash");
                     RaisePropertyChangedEvent("MakeModel");
                 }
@@ -118,6 +129,8 @@ namespace OfflineServer
                 if (rating != value)
                 {
                     rating = value;
+                    CarManagement.car.rating = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Rating");
                 }
             }
@@ -130,6 +143,8 @@ namespace OfflineServer
                 if (resalePrice != value)
                 {
                     resalePrice = value;
+                    CarManagement.car.resalePrice = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ResalePrice");
                 }
             }
@@ -142,6 +157,8 @@ namespace OfflineServer
                 if (skillModParts != value)
                 {
                     skillModParts = value;
+                    CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("SkillModParts");
                 }
             }
@@ -154,6 +171,8 @@ namespace OfflineServer
                 if (vinyls != value)
                 {
                     vinyls = value;
+                    CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Vinyls");
                 }
             }
@@ -166,6 +185,8 @@ namespace OfflineServer
                 if (visualParts != value)
                 {
                     visualParts = value;
+                    CarManagement.car.visualParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("VisualParts");
                 }
             }
@@ -178,6 +199,8 @@ namespace OfflineServer
                 if (durability != value)
                 {
                     durability = value;
+                    CarManagement.car.durability = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Durability");
                 }
             }
@@ -190,6 +213,8 @@ namespace OfflineServer
                 if (expirationDate != value)
                 {
                     expirationDate = value;
+                    CarManagement.car.expirationDate = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ExpirationDate");
                 }
             }
@@ -202,6 +227,8 @@ namespace OfflineServer
                 if (heatLevel != value)
                 {
                     heatLevel = value;
+                    CarManagement.car.heatLevel = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("HeatLevel");
                 }
             }
@@ -229,26 +256,6 @@ namespace OfflineServer
                     RaisePropertyChangedEvent("PersonaId");
                 }
             }
-        }
-
-        public Car(Int32 id, Int64 baseCarId, CarClass raceClass, XElement paints, XElement performanceParts, Int64 physicsProfileHash, Int32 rating, Int32 resalePrice, XElement skillModParts, XElement vinyls, XElement visualParts, Int16 durability, DateTime expirationDate, Int16 heatLevel, Int64 carId, Int32 personaId)
-        {
-            Id = id;
-            BaseCarId = baseCarId;
-            RaceClass = raceClass;
-            Paints = paints;
-            PerformanceParts = performanceParts;
-            PhysicsProfileHash = physicsProfileHash;
-            Rating = rating;
-            ResalePrice = resalePrice;
-            SkillModParts = skillModParts;
-            Vinyls = vinyls;
-            VisualParts = visualParts;
-            Durability = durability;
-            ExpirationDate = expirationDate;
-            HeatLevel = heatLevel;
-            CarId = carId;
-            PersonaId = personaId;
         }
 
         public Car(CarEntity car)

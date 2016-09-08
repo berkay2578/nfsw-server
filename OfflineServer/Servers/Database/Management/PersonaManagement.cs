@@ -1,9 +1,7 @@
 ﻿using NHibernate;
-using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
-using System;
 
-namespace OfflineServer
+namespace OfflineServer.Servers.Database.Management
 {
     public static class PersonaManagement
     {

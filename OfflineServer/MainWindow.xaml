@@ -188,10 +188,10 @@
             <Controls:MetroTabItem Name="GarageTab" Header="Garage">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0" DataContext="{Binding Access.CurrentSession.ActivePersona}">
                     <Grid>
-                        <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}">
+                        <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding Cars}" SelectedItem="{Binding SelectedCar}" SelectedIndex="{Binding CurrentCarIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type local:Car}">
-                                    <TextBlock Text="{Binding MakeModel}">
+                                    <TextBlock Text="{Binding MakeModel}" TextWrapping="Wrap">
                                         <TextBlock.ToolTip>
                                             <StackPanel Orientation="Vertical">
                                                 <TextBlock FontWeight="Bold" Text="BaseCarId Definition:"/>

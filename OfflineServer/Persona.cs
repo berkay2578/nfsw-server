@@ -1,10 +1,10 @@
 ﻿using OfflineServer.Servers;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SQLite;
 using System.Text;
 using System.Xml.Linq;
 
@@ -232,52 +232,6 @@ namespace OfflineServer
                     RaisePropertyChangedEvent("Cars");
                 }
             }
-        }
-
-        /// <summary>
-        /// Initializes the Persona class with the given parameter values.
-        /// </summary>
-        public Persona(Int32 personaId, Int16 personaAvatarIndex, String personaName, String personaMotto, Int32 personaLevel, Int32 personaCash, Int32 personaBoost, Int16 personaPercentageOfLevel, Int32 personaReputationLevel, Int32 personaReputationTotal, Int32 personaCarIndex)
-        {
-            Id = personaId;
-            IconIndex = personaAvatarIndex;
-            Name = personaName;
-            Motto = personaMotto;
-            Level = personaLevel;
-            Cash = personaCash;
-            Boost = personaBoost;
-            PercentageOfLevelCompletion = personaPercentageOfLevel;
-            ReputationInLevel = personaReputationLevel;
-            ReputationInTotal = personaReputationTotal;
-            CurrentCarIndex = personaCarIndex;
-            
-            SQLiteCommand command = new SQLiteCommand("select * from garage where ownerpersona_Id = " + Id + " order by id asc", NfswSession.dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                DateTime ValidTime = String.IsNullOrWhiteSpace((string)reader[12]) ? new DateTime(1, 1, 1) : DateTime.ParseExact((String)reader[12], "o", System.Globalization.CultureInfo.CurrentCulture);
-                /*
-                long a = (Int64)reader[0];
-                long b = (Int64)reader[1];
-                CarClass c = (CarClass)reader[2];
-                XElement d = XElement.Parse((String)reader[3]);
-                XElement e = XElement.Parse((String)reader[4]);
-                long f = (Int64)reader[5];
-                int g = (Int32)reader[6];
-                int h = (Int32)reader[7];
-                XElement j = XElement.Parse((String)reader[8]);
-                XElement k = XElement.Parse((String)reader[9]);
-                XElement l = XElement.Parse((String)reader[10]);
-                short m = (Int16)reader[11];
-                DateTime n = ValidTime;
-                short o = (Int16)reader[13];
-                long p = (Int64)reader[14];
-                long q = (Int64)reader[15];*/
-
-                Car dummyCar = new Car((Int32)reader[0], (Int64)reader[1], (CarClass)reader[2], XElement.Parse((String)reader[3]), XElement.Parse((String)reader[4]), (Int64)reader[5], (Int32)reader[6], (Int32)reader[7], XElement.Parse((String)reader[8]), XElement.Parse((String)reader[9]), XElement.Parse((String)reader[10]), (Int16)reader[11], ValidTime, (Int16)reader[13], (Int64)reader[14], (Int32)reader[15]);
-                Cars.Add(dummyCar);
-            }
-            SelectedCar = cars[currentCarIndex];
         }
 
         /// <summary>
