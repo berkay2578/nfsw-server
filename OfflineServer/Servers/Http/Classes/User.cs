@@ -44,7 +44,7 @@ namespace OfflineServer.Servers.Http.Classes
                 userInfo.personas.Add(profileData);
             }
 
-            userInfo.defaultPersonaIdx = PersonaManagement.getDefaultPersonaIdx();
+            userInfo.defaultPersonaIdx = Engine.getDefaultPersonaIdx();
             return userInfo.SerializeObject();
         }
     }

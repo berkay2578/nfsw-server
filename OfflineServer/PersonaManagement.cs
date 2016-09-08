@@ -43,31 +43,16 @@ namespace OfflineServer
         public static void update(this PersonaEntity newPersona)
         {
             if (Access.CurrentSession.ActivePersona != null)
-            if (newPersona != null)
-            {
-                using (ITransaction transaction = session.BeginTransaction())
+                if (newPersona != null)
                 {
-                    PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
-                    personaEntity = newPersona;
-                    session.Update(personaEntity);
-                    transaction.Commit();
+                    using (ITransaction transaction = session.BeginTransaction())
+                    {
+                        PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
+                        personaEntity = newPersona;
+                        session.Update(personaEntity);
+                        transaction.Commit();
+                    }
                 }
-            }
-        }
-
-        public static Int32 getDefaultPersonaIdx()
-        {
-            return session.Load<UserEntity>(1).defaultPersonaIdx;
-        }
-        public static void setDefaultPersonaIdx(Int32 defaultPersonaIdx)
-        {
-            using (ITransaction transaction = session.BeginTransaction())
-            {
-                UserEntity userEntity = session.Load<UserEntity>(1);
-                userEntity.defaultPersonaIdx = defaultPersonaIdx;
-                session.Update(userEntity);
-                transaction.Commit();
-            }
         }
     }
 }
