@@ -33,8 +33,8 @@ namespace OfflineServer
         private Int16 heatLevel;
         private Int64 carId;
         private Int32 personaId;
-        public String MakeModel { get { return CarDefinitions.Define(PhysicsProfileHash); } }
-        public String MakeModelDetailed { get { return CarDefinitions.DefineFromBaseCarId(BaseCarId); } }
+        public String MakeModel { get { return CarDefinitions.defineFromPhysicsProfileHash(PhysicsProfileHash, true); } }
+        public String MakeModelDetailed { get { return CarDefinitions.defineFromBaseCarId(BaseCarId); } }
 
 
         public Int32 Id

@@ -40,13 +40,28 @@ namespace OfflineServer
             }
         }
 
-        public static void removeCar(Int32 carId)
+        public static void addCar(CarEntity carEntity)
         {
             using (ITransaction transaction = session.BeginTransaction())
             {
-                CarEntity carEntity = session.Load<CarEntity>(carId);
+                PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                personaEntity.addCar(carEntity);
+                session.SaveOrUpdate(personaEntity);
+                transaction.Commit();
+
+                Access.CurrentSession.ActivePersona.Cars.Add(new Car(carEntity));
+            }                
+        }
+
+        public static void removeCar(Car car)
+        {
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                CarEntity carEntity = session.Load<CarEntity>(car.Id);
                 session.Delete(carEntity);
                 transaction.Commit();
+
+                Access.CurrentSession.ActivePersona.Cars.Remove(car);
             }
         }
 

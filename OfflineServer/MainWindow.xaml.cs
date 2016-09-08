@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,6 +26,7 @@ namespace OfflineServer
     public partial class MainWindow : MetroWindow
     {
         private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
+        private CustomDialog carDialog;
         public Access Access { get; set; }
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -157,6 +159,60 @@ namespace OfflineServer
             RandomPersonaInfo.Interval = new TimeSpan(0, 0, 10);
             RandomPersonaInfo.Start();
             #endregion
+
+            #region carDialog
+            ComboBox carComboBox = new ComboBox();
+            carComboBox.SetValue(Canvas.LeftProperty, 5d);
+            carComboBox.SetValue(Canvas.TopProperty, 20d);
+            carComboBox.Width = 297d;
+            carComboBox.ItemsSource = CarDefinitions.physicsProfileHashNormal.Values;
+            carComboBox.SelectedIndex = 0;
+
+            Button selectButton = new Button();
+            selectButton.SetValue(Canvas.LeftProperty, 148d);
+            selectButton.SetValue(Canvas.TopProperty, 54d);
+            selectButton.Width = 80d;
+            selectButton.Content = "Select";
+            selectButton.Click += (object sender, RoutedEventArgs routedEventArgs) =>
+            {
+                CarEntity carEntity = new CarEntity();
+                carEntity.baseCarId = CarDefinitions.baseCarId.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
+                carEntity.carId = Access.CurrentSession.ActivePersona.Cars.Last().CarId + 1;
+                carEntity.durability = 100;
+                carEntity.heatLevel = 1;
+                carEntity.paints = "<Paints/>";
+                carEntity.performanceParts = "<PerformanceParts/>";
+                carEntity.physicsProfileHash = CarDefinitions.physicsProfileHashNormal.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
+                carEntity.raceClass = CarClass.E;
+                carEntity.rating = 123;
+                carEntity.resalePrice = 0;
+                carEntity.skillModParts = "<SkillModParts/>";
+                carEntity.vinyls = "<Vinyls/>";
+                carEntity.visualParts = "<VisualParts/>";
+                PersonaManagement.addCar(carEntity);
+                DialogManager.HideMetroDialogAsync(this, carDialog);
+            };
+
+            Button cancelButton = new Button();
+            cancelButton.SetValue(Canvas.LeftProperty, 233d);
+            cancelButton.SetValue(Canvas.TopProperty, 54d);
+            cancelButton.Width = 70d;
+            cancelButton.Content = "Cancel";
+            cancelButton.Click += (object sender, RoutedEventArgs routedEventArgs) =>
+            {
+                DialogManager.HideMetroDialogAsync(this, carDialog);
+            };
+
+            Canvas canvas = new Canvas();
+            canvas.Children.Add(carComboBox);
+            canvas.Children.Add(selectButton);
+            canvas.Children.Add(cancelButton);
+
+            carDialog = new CustomDialog();
+            carDialog.Title = "Select the car you wish to add";
+            carDialog.Height = 200d;
+            carDialog.Content = canvas;
+            #endregion
         }
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
@@ -173,7 +229,7 @@ namespace OfflineServer
             MetroDialogSettings messageBoxStyle = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Right away!",
-                ColorScheme = MetroDialogOptions.ColorScheme
+                ColorScheme = MetroDialogColorScheme.Accented
             };
 
             // gonna keep this until I add nfs:w launching support
@@ -224,16 +280,18 @@ namespace OfflineServer
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
                 case "buttonAddCar":
+                    this.ShowMetroDialogAsync(carDialog, new MetroDialogSettings() { AnimateHide = true, AnimateShow = true, ColorScheme = MetroDialogColorScheme.Theme });
                     break;
                 case "buttonRemoveCar":
                     if (listCar.Items.Count > 1)
                     {
                         Int32 selectedItemIndex = listCar.SelectedIndex;
-                        if (selectedItemIndex != -1) {
-                            listCar.Items.RemoveAt(selectedItemIndex);
-                            PersonaManagement.removeCar(((Car)listCar.Items[selectedItemIndex]).Id);
+                        if (selectedItemIndex != -1)
+                        {
+                            PersonaManagement.removeCar((Car)listCar.Items[selectedItemIndex]);
                             listCar.SelectedIndex = Math.Min(selectedItemIndex, listCar.Items.Count - 1);
-                        } else
+                        }
+                        else
                         {
                             new ToolTip() { Content = "No car is selected!", StaysOpen = false, IsOpen = true };
                         }
