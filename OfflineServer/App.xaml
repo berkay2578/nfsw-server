@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary Source="/Resources/IconsNonShared.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="ThemeImageColor" Color="#FF000000"/>
             <Image Source="pack://application:,,,/OfflineServer;component/Resources/EngineStart.png" x:Key="EngineStart"/>
             <Image Source="pack://application:,,,/OfflineServer;component/images/NFSW_Currencies/Currency_Cash.png" x:Key="Cash"/>
             <Image Source="pack://application:,,,/OfflineServer;component/images/NFSW_Currencies/Currency_Boost.png" x:Key="Boost"/>

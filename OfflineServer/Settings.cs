@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace OfflineServer
 {
@@ -53,6 +54,7 @@ namespace OfflineServer
                     {
                         theme = ThemeManager.GetAppTheme("Base" + value);
                         if (accent != null) applyNewStyle();
+                        Application.Current.Resources["ThemeImageColor"] = new SolidColorBrush(value == "Dark" ? Color.FromArgb(255, 80, 80, 80) : Color.FromArgb(255, 0, 0, 0));
                         RaisePropertyChangedEvent("Theme");
                     }
                 }

@@ -87,15 +87,12 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
+                    <GroupBox Name="groupBox" DataContext="{Binding Path=Access.CurrentSession.ActivePersona}" Header="{Binding Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
                         <Grid>
-                            <Grid.Resources>
-                                <ResourceDictionary Source="/Resources/Icons.xaml" />
-                            </Grid.Resources>
                             <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
-                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="0" BorderBrush="#FF505050" Background="#FF303030"/>
-                            <StackPanel Orientation="Vertical" Margin="10,125,215,0" Width="48">
+                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="1" BorderBrush="#FF505050" Background="#FF303030"/>
+                            <StackPanel Orientation="Vertical" Margin="10,130,215,0" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock>
                                         <TextBlock.Text>
@@ -106,14 +103,14 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </StackPanel.ToolTip>
-                                <Rectangle Height="34" Width="32">
+                                <Rectangle Height="30" Width="30">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="63,125,162,0" Width="48">
+                            <StackPanel Orientation="Vertical" Margin="63,130,162,0" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock>
                                         <TextBlock.Text>
@@ -124,12 +121,12 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </StackPanel.ToolTip>
-                                <Rectangle Height="34" Width="32">
+                                <Rectangle Height="30" Width="30">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_timer}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>
+                                <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
                             <Grid Margin="127,0,3,110" Background="#FF303030">
                                 <Grid.ToolTip>
