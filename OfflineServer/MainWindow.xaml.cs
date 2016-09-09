@@ -327,9 +327,10 @@ namespace OfflineServer
                 }
                 catch (Exception ex)
                 {
+                    Clipboard.SetText(value.ToString(), TextDataFormat.UnicodeText);
                     BindingOperations.ClearBinding(_Window.tbGaragePartInfo, MVVMSyntax._TextProperty);
                     _Window.flyoutGaragePartInfo.IsOpen = false;
-                    MessageBox.Show(ex.Message, "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(String.Format("{0}\r\n\r\nNote: Your input is copied to your clipboard.", ex.Message), "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
                     return null;
                 }
             }
