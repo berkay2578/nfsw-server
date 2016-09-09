@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro;
+using MahApps.Metro.Controls.Dialogs;
 using OfflineServer.Servers;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace OfflineServer.Data.Settings
             private Accent accent;
             private AppTheme theme;
 
+            public Boolean haveSeenCustomAccentSampleMessage = false;
+            public Boolean haveSeenCustomThemeSampleMessage = false;
+
             [XmlIgnore]
             public List<String> list_Accents { get; set; } = new List<String>();
             [XmlIgnore]
@@ -42,6 +46,11 @@ namespace OfflineServer.Data.Settings
                 {
                     if (!String.IsNullOrWhiteSpace(value))
                     {
+                        if (Access.mainWindow != null && value == "CustomAccentSample" && !haveSeenCustomAccentSampleMessage)
+                        {
+                            Access.mainWindow.informUser("Sample custom accent", "Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to " + DataEx.dir_Accents + " and get creative!");
+                            haveSeenCustomAccentSampleMessage = true;
+                        }
                         accent = ThemeManager.GetAccent(value);
                         if (theme != null) applyNewStyle();
                         RaisePropertyChangedEvent("Accent");
@@ -58,6 +67,11 @@ namespace OfflineServer.Data.Settings
                 {
                     if (!String.IsNullOrWhiteSpace(value))
                     {
+                        if (Access.mainWindow != null && value == "CustomThemeSample" && !haveSeenCustomThemeSampleMessage)
+                        {
+                            Access.mainWindow.informUser("Sample custom theme", "Just like the accents, you can add or create infinite amounts of custom themes as well! Go to " + DataEx.dir_Themes + " and go crazy with it!");
+                            haveSeenCustomThemeSampleMessage = true;
+                        }
                         theme = ThemeManager.GetAppTheme(value);
                         if (accent != null) applyNewStyle();
                         Application.Current.Resources["ThemeImageColor"] = new SolidColorBrush(value == "BaseDark" ? Color.FromArgb(255, 80, 80, 80) : Color.FromArgb(255, 0, 0, 0));
@@ -83,17 +97,17 @@ namespace OfflineServer.Data.Settings
 
             public UISettings()
             {
-                foreach (String accentXaml in Directory.GetFiles(DataEx.dir_Accents, "*.xaml", SearchOption.TopDirectoryOnly))
+                foreach (String accentXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Accents), "*.xaml", SearchOption.TopDirectoryOnly))
                 {
-                    String accentName = accentXaml.Replace(DataEx.dir_Accents, String.Empty).Replace(".xaml", String.Empty);
+                    String accentName = accentXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Accents), String.Empty).Replace(".xaml", String.Empty);
 
                     ThemeManager.AddAccent(accentName, new Uri(accentXaml, UriKind.Absolute));
                     list_Accents.Add(accentName);
                 }
 
-                foreach (String themeXaml in Directory.GetFiles(DataEx.dir_Themes, "*.xaml", SearchOption.TopDirectoryOnly))
+                foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
                 {
-                    String themeName = themeXaml.Replace(DataEx.dir_Themes, String.Empty).Replace(".xaml", String.Empty);
+                    String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
 
                     ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
                     list_Themes.Add(themeName);

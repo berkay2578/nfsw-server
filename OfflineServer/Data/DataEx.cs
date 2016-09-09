@@ -9,7 +9,7 @@ namespace OfflineServer.Data
     public static class DataEx
     {
         #region dirs
-        public static readonly String dir_Data = Path.Combine(Environment.CurrentDirectory, @"Data\");
+        public static readonly String dir_Data = @"Data\";
 
         public static readonly String dir_Logs = Path.Combine(dir_Data, @"Logs\");
 

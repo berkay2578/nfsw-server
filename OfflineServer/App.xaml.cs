@@ -69,10 +69,7 @@ namespace OfflineServer
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged(string info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 
@@ -81,5 +78,11 @@ namespace OfflineServer
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Logger.Setup();
+            log4net.LogManager.GetLogger("App.OnStartup").Info("Application started.");
+            base.OnStartup(e);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfflineServer.Data;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -35,7 +36,7 @@ namespace OfflineServer.Servers
             catch (Exception ex)
             {
                 log.Error("An exception occured while serializing the following object: " + obj.GetType().AssemblyQualifiedName, ex);
-                MessageBox.Show("Please look at Logs\\EventLog.txt for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 log.Info("Shutting down offline server.");
 
@@ -73,7 +74,7 @@ namespace OfflineServer.Servers
             catch (Exception ex)
             {
                 log.Error("An exception occured while deserializing the following xml: " + plainXml, ex);
-                MessageBox.Show("Please look at Logs\\EventLog.txt for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 log.Info("Shutting down offline server.");
 

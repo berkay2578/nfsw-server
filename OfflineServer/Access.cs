@@ -14,5 +14,6 @@ namespace OfflineServer
         public static NfswSession CurrentSession { get; set; } = new NfswSession();
         public static HttpServer sHttp;
         public static XmppServer sXmpp;
+        public static MainWindow mainWindow;
     }
 }

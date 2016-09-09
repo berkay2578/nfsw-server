@@ -35,8 +35,7 @@ namespace OfflineServer
 
         public MainWindow()
         {
-            Logger.Setup();
-            log.Info("Application started.");
+            log.Debug("MawinWindow loading...");
 
             #region Culture Independency
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
@@ -55,6 +54,8 @@ namespace OfflineServer
             Access.CurrentSession.startSession();
             InitializeComponent();
             SetupComponents();
+            Access.mainWindow = this;
+            log.Debug("Access.mainWindow set.");
         }
 
         private void vCreateDb()
@@ -381,7 +382,7 @@ namespace OfflineServer
             textboxPersonaName.Text = textboxPersonaName.Text.Trim();
             if (textboxPersonaName.Text.Length < 1)
             {
-                informUser("Sorry, the persona name cannot be empty.");
+                informUser("Oops!", "Sorry, the persona name cannot be empty.");
                 if (textboxPersonaName.CanUndo)
                 {
                     do
@@ -398,9 +399,9 @@ namespace OfflineServer
         #endregion
 
         #region Functions/Voids to remove if not needed later
-        private void informUser(String infoText)
+        public async void informUser(String messageTitle, String messageText)
         {
-            this.ShowMessageAsync("Oops!", infoText, MessageDialogStyle.Affirmative);
+            await this.ShowMessageAsync(messageTitle, messageText, MessageDialogStyle.Affirmative).ConfigureAwait(false);
         }
         #endregion
 
