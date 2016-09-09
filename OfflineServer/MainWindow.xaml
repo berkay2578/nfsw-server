@@ -340,7 +340,7 @@
             </Controls:Flyout>
             <Controls:Flyout Name="flyoutSettings" Header="Settings" DataContext="{Binding dataAccess.appSettings}" Position="Right" Width="300" Theme="Dark" IsModal="False" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock FontSize="12pt" FontFamily="Segoe UI" FontWeight="Normal" Text="UI Settings"/>
+                    <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="UI Settings" Margin="3,0,0,5"/>
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <Label Margin="5" Content="Theme: " Foreground="White"/>
