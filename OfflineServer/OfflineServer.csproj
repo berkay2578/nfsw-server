@@ -149,6 +149,8 @@
     </ApplicationDefinition>
     <Compile Include="Access.cs" />
     <Compile Include="CarDefinitions.cs" />
+    <Compile Include="Data\DataAccess.cs" />
+    <Compile Include="Data\DataEx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Servers\Database\Management\CarManagement.cs" />
@@ -188,7 +190,7 @@
     <Compile Include="Servers\Xmpp\Responses\PowerupActivated.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivatedResponse.cs" />
     <Compile Include="Servers\Xmpp\XmppServer.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Data\Settings\AppSettings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -355,6 +357,7 @@
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

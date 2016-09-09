@@ -1,4 +1,5 @@
 ﻿using NHttp;
+using OfflineServer.Data;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,7 +39,7 @@ namespace OfflineServer.Servers.Http
 
             Byte[] baResponseArray = null;
             List<String> splittedPath = new List<String>(e.Request.Path.Split('/'));
-            String ioPath = e.Request.Path.Remove(0, 1) + ".xml";
+            String ioPath = DataEx.dir_HttpServerFallback + e.Request.Path.Remove(0, 1) + ".xml";
 
             if (splittedPath.Count >= 4)
             {

@@ -338,42 +338,18 @@
                     <local:MVVMSyntax SyntaxHighlighting="XML" ShowLineNumbers="True" WordWrap="True" Background="White" x:Name="tbGaragePartInfo" Width="420" Height="320" FontSize="10pt"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutUISettings" Header="UI Settings" DataContext="{Binding Settings}" Position="Right" Width="300" Theme="Dark" IsModal="False" IsPinned="False">
-                <StackPanel Orientation="Horizontal" Margin="10">
-                    <StackPanel Orientation="Vertical">
-                        <Label Margin="5" Content="Theme: " Foreground="White"/>
-                        <Label Margin="5" Content="Accent: " Foreground="White"/>
-                    </StackPanel>
-                    <StackPanel Name="stackpanelUISettings" Orientation="Vertical" Width="190">
-                        <ComboBox Name="comboBoxTheme" Margin="5" SelectedValue="{Binding uiSettings.Theme, Mode=TwoWay}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="Light"/>
-                            <ComboBoxItem Content="Dark"/>
-                        </ComboBox>
-                        <ComboBox Name="comboBoxAccent" Margin="5" SelectedValue="{Binding uiSettings.Accent, Mode=TwoWay}" SelectedValuePath="Content">
-                            <ComboBoxItem Content="Red"/>
-                            <ComboBoxItem Content="Green"/>
-                            <ComboBoxItem Content="Blue"/>
-                            <ComboBoxItem Content="Purple"/>
-                            <ComboBoxItem Content="Orange"/>
-                            <ComboBoxItem Content="Lime"/>
-                            <ComboBoxItem Content="Emerald"/>
-                            <ComboBoxItem Content="Teal"/>
-                            <ComboBoxItem Content="Cyan"/>
-                            <ComboBoxItem Content="Cobalt"/>
-                            <ComboBoxItem Content="Indigo"/>
-                            <ComboBoxItem Content="Violet"/>
-                            <ComboBoxItem Content="Pink"/>
-                            <ComboBoxItem Content="Magenta"/>
-                            <ComboBoxItem Content="Crimson"/>
-                            <ComboBoxItem Content="Amber"/>
-                            <ComboBoxItem Content="Yellow"/>
-                            <ComboBoxItem Content="Brown"/>
-                            <ComboBoxItem Content="Olive"/>
-                            <ComboBoxItem Content="Steel"/>
-                            <ComboBoxItem Content="Mauve"/>
-                            <ComboBoxItem Content="Taupe"/>
-                            <ComboBoxItem Content="Sienna"/>
-                        </ComboBox>
+            <Controls:Flyout Name="flyoutSettings" Header="Settings" DataContext="{Binding dataAccess.appSettings}" Position="Right" Width="300" Theme="Dark" IsModal="False" IsPinned="False">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock FontSize="12pt" FontFamily="Segoe UI" FontWeight="Normal" Text="UI Settings"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <Label Margin="5" Content="Theme: " Foreground="White"/>
+                            <Label Margin="5" Content="Accent: " Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Name="stackpanelUISettings" Orientation="Vertical" Width="190" DataContext="{Binding uiSettings}">
+                            <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding list_Themes}" SelectedValue="{Binding Theme, Mode=TwoWay}"/>
+                            <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding list_Accents}" SelectedValue="{Binding Accent, Mode=TwoWay}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>

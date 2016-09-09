@@ -1,6 +1,8 @@
 ﻿using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using NHibernate;
+using OfflineServer.Data;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
@@ -57,16 +59,16 @@ namespace OfflineServer
 
         private void vCreateDb()
         {
-            if (!File.Exists("ServerData\\Personas.db"))
+            if (!DataEx.db_ServerExists)
             {
                 log.Warn("Database doesn't exist!");
-                if (!Directory.Exists("ServerData")) Directory.CreateDirectory("ServerData");
+                if (!Directory.Exists(DataEx.dir_Database)) Directory.CreateDirectory(DataEx.dir_Database);
 
                 log.Info("Creating database.");
-                var sessionFactory = SessionManager.createDatabase();
+                ISessionFactory sessionFactory = SessionManager.createDatabase();
 
                 log.Info("Setting minimum pkPersonaId to 100.");
-                using (var sqliteConnection = new SQLiteConnection("Data Source=\"ServerData\\Personas.db\";Version=3;"))
+                using (var sqliteConnection = new SQLiteConnection("Data Source=\"" + DataEx.db_Server + "\";Version=3;"))
                 {
                     sqliteConnection.Open();
                     SQLiteCommand insertSQL = new SQLiteCommand("INSERT INTO sqlite_sequence (name, seq) VALUES ('Personas', 99)", sqliteConnection);
@@ -302,7 +304,7 @@ namespace OfflineServer
                     }
                     break;
                 case "buttonSettings":
-                    flyoutUISettings.IsOpen = !flyoutUISettings.IsOpen;
+                    flyoutSettings.IsOpen = !flyoutSettings.IsOpen;
                     break;
             }
         }
@@ -369,7 +371,7 @@ namespace OfflineServer
         #region Theme error proofing
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Access.Settings.uiSettings.applyNewStyle();
+            Access.dataAccess.appSettings.uiSettings.applyNewStyle();
         }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using OfflineServer.Data;
+using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
@@ -7,7 +8,7 @@ namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
-        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"ServerData\\Personas.db\";Version=3;");
+        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"" + DataEx.db_Server + "\";Version=3;");
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();

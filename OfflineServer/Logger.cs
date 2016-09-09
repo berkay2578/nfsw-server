@@ -3,6 +3,7 @@ using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
+using OfflineServer.Data;
 
 namespace OfflineServer
 {
@@ -18,7 +19,7 @@ namespace OfflineServer
 
             RollingFileAppender roller = new RollingFileAppender();
             roller.AppendToFile = false;
-            roller.File = "Logs\\EventLog.txt";
+            roller.File = DataEx.log_Events;
             roller.Layout = patternLayout;
             roller.MaxSizeRollBackups = 5;
             roller.MaximumFileSize = "5MB";

@@ -3,6 +3,7 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using OfflineServer.Data;
 using System;
 using System.Reflection;
 
@@ -18,7 +19,7 @@ namespace OfflineServer.Servers.Database
                 sessionFactory = Fluently.Configure()
                   .Database(
                     SQLiteConfiguration.Standard
-                    .UsingFile("ServerData\\Personas.db")
+                    .UsingFile(DataEx.db_Server)
                   )
                   .Mappings(m =>
                         m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
@@ -33,7 +34,7 @@ namespace OfflineServer.Servers.Database
             sessionFactory = Fluently.Configure()
                    .Database(
                      SQLiteConfiguration.Standard
-                     .UsingFile("ServerData\\Personas.db")
+                    .UsingFile(DataEx.db_Server)
                    )
                    .Mappings(m =>
                          m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
