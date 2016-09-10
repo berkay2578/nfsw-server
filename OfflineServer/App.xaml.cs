@@ -1,7 +1,9 @@
 ﻿using ICSharpCode.AvalonEdit;
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Data;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -72,7 +74,24 @@ namespace OfflineServer
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
+    public class ToUpperValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+                              CultureInfo culture)
+        {
+            if (value is string)
+            {
+                return value.ToString().ToUpper();
+            }
+            return String.Empty;
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter,
+                                  CultureInfo culture)
+        {
+            return Binding.DoNothing;
+        }
+    }
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

@@ -16,7 +16,6 @@ namespace OfflineServer.Data
             else
             {
                 appSettings = new AppSettings();
-                appSettings.uiSettings.doDefault();
                 appSettings.saveInstance();
             }
             #endregion

@@ -165,6 +165,25 @@ namespace OfflineServer
             #endregion
 
             #region carDialog
+            Binding lBindSelect = new Binding()
+            {
+                Path = new PropertyPath("language.Select"),
+                Mode = BindingMode.OneWay,
+                Source = Access.dataAccess.appSettings.uiSettings
+            };
+            Binding lBindCancel = new Binding()
+            {
+                Path = new PropertyPath("language.Cancel"),
+                Mode = BindingMode.OneWay,
+                Source = Access.dataAccess.appSettings.uiSettings
+            };
+            Binding lBindSelectCar = new Binding()
+            {
+                Path = new PropertyPath("language.AddACarText"),
+                Mode = BindingMode.OneWay,
+                Source = Access.dataAccess.appSettings.uiSettings
+            };
+
             ComboBox carComboBox = new ComboBox();
             carComboBox.SetValue(Canvas.LeftProperty, 5d);
             carComboBox.SetValue(Canvas.TopProperty, 20d);
@@ -176,7 +195,6 @@ namespace OfflineServer
             selectButton.SetValue(Canvas.LeftProperty, 148d);
             selectButton.SetValue(Canvas.TopProperty, 54d);
             selectButton.Width = 80d;
-            selectButton.Content = "Select";
             selectButton.Click += (object sender, RoutedEventArgs routedEventArgs) =>
             {
                 CarEntity carEntity = new CarEntity();
@@ -201,7 +219,6 @@ namespace OfflineServer
             cancelButton.SetValue(Canvas.LeftProperty, 233d);
             cancelButton.SetValue(Canvas.TopProperty, 54d);
             cancelButton.Width = 70d;
-            cancelButton.Content = "Cancel";
             cancelButton.Click += (object sender, RoutedEventArgs routedEventArgs) =>
             {
                 DialogManager.HideMetroDialogAsync(this, carDialog);
@@ -213,9 +230,13 @@ namespace OfflineServer
             canvas.Children.Add(cancelButton);
 
             carDialog = new CustomDialog();
-            carDialog.Title = "Select the car you wish to add";
             carDialog.Height = 200d;
             carDialog.Content = canvas;
+
+            // internationalization
+            BindingOperations.SetBinding(carDialog, CustomDialog.TitleProperty, lBindSelectCar);
+            BindingOperations.SetBinding(selectButton, Button.ContentProperty, lBindSelect);
+            BindingOperations.SetBinding(cancelButton, Button.ContentProperty, lBindCancel);
             #endregion
         }
 
@@ -227,6 +248,8 @@ namespace OfflineServer
 
         private async void buttonStartServer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            // not implemented for internationalization on purpose
+
             Access.sHttp = new Servers.Http.HttpServer();
             Access.sXmpp = new Servers.Xmpp.BasicXmppServer();
 
@@ -237,15 +260,6 @@ namespace OfflineServer
 
             // gonna keep this until I add nfs:w launching support
             await this.ShowMessageAsync("Servers are up and running!", "Go ahead and launch NFS: World now.", MessageDialogStyle.Affirmative, messageBoxStyle);
-
-            /*test
-
-            MessageDialogResult result = await this.ShowMessageAsync("Hello!", "It seems like this is your first time running this build of the Offline Server! Would you like some help?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result != MessageDialogResult.FirstAuxiliary)
-            {
-
-            }*/
         }
 
         private void Button_ClickHandler(object sender, RoutedEventArgs e)
@@ -372,7 +386,7 @@ namespace OfflineServer
         #region Theme error proofing
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Access.dataAccess.appSettings.uiSettings.applyNewStyle();
+            Access.dataAccess.appSettings.uiSettings.style.applyNewStyle();
         }
         #endregion
 

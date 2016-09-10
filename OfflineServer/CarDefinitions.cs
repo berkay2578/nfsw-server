@@ -693,11 +693,11 @@ namespace OfflineServer
         /// Converts the given BaseCarId to its equivalent car make and model string if definition is present.
         /// </summary>
         /// <param name="baseCarId">Car's BaseCar entry</param>
-        /// <returns>If found, car make and model. If not found, 'Definition isn't present.'</returns>
+        /// <returns>If found, car make and model. If not found, <NoBaseCarIdDefinition></returns>
         public static String defineFromBaseCarId(Int64 baseCarId)
         {
             String carMakeModel;
-            if (!CarDefinitions.baseCarId.TryGetValue(baseCarId, out carMakeModel)) carMakeModel = "Definition isn't present.";
+            if (!CarDefinitions.baseCarId.TryGetValue(baseCarId, out carMakeModel)) carMakeModel = Access.dataAccess.appSettings.uiSettings.language.NoBaseCarIdDefinition;
             return carMakeModel;
         }
     }

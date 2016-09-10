@@ -3,6 +3,7 @@ using OfflineServer.Servers;
 using System;
 using System.IO;
 using System.Text;
+using static OfflineServer.Data.Settings.AppSettings.UISettings;
 
 namespace OfflineServer.Data
 {
@@ -20,6 +21,7 @@ namespace OfflineServer.Data
         public static readonly String dir_UI = Path.Combine(dir_Data, @"UI\");
         public static readonly String dir_Accents = Path.Combine(dir_UI, @"Accents\");
         public static readonly String dir_Themes = Path.Combine(dir_UI, @"Themes\");
+        public static readonly String dir_Languages = Path.Combine(dir_UI, @"Languages\");
         #endregion
         #region databases
         public static readonly String db_Server = Path.Combine(dir_Database, "Server.db");
@@ -47,14 +49,18 @@ namespace OfflineServer.Data
         }
         #endregion
         #region functions
-        public static T getInstanceFromXml<T>()
+        public static T getInstanceFromXml<T>(String identifier = "")
         {
             String xmlPath;
 
             if (typeof(T) == typeof(AppSettings))
                 xmlPath = xml_Settings;
+            else if (typeof(T) == typeof(Language))
+                xmlPath = Path.Combine(dir_Languages, identifier);
             else
                 return default(T);
+
+            if (!File.Exists(xmlPath)) return default(T);
 
             String plainXml = File.ReadAllText(xmlPath, Encoding.UTF8);
             return Serialization.DeserializeObject<T>(plainXml);

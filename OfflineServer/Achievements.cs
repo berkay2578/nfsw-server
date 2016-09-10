@@ -62,13 +62,13 @@ namespace OfflineServer
                 case tAchievement.treasureHunt:
                     {
                         ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/TreasureHuntStreak.png", UriKind.RelativeOrAbsolute));
-                        tblockAchievementDescription.Text = "Your longest TH Streak was 8, on persona 'Default Profile 1'."; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
+                        tblockAchievementDescription.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementTreasureHunt; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
                         break;
                     }
                 case tAchievement.farthestJumpDistance:
                     {
                         ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/JumpDistance.png", UriKind.RelativeOrAbsolute));
-                        tblockAchievementDescription.Text = "Your farthest jump distance was 12.87 meters, on persona 'Default Profile 1'."; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...
+                        tblockAchievementDescription.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementJumpDistance; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...
                         break;
                     }
             }
