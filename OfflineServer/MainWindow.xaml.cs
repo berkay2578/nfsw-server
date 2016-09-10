@@ -1,5 +1,4 @@
-﻿using MahApps.Metro;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using NHibernate;
 using OfflineServer.Data;
@@ -310,12 +309,12 @@ namespace OfflineServer
                         }
                         else
                         {
-                            new ToolTip() { Content = "No car is selected!", StaysOpen = false, IsOpen = true };
+                            new ToolTip() { Content = Access.dataAccess.appSettings.uiSettings.language.RemoveCarNoSelectedCarError, StaysOpen = false, IsOpen = true };
                         }
                     }
                     else
                     {
-                        new ToolTip() { Content = "Cannot remove the last car in a persona!", StaysOpen = false, IsOpen = true };
+                        new ToolTip() { Content = Access.dataAccess.appSettings.uiSettings.language.RemoveCarLastCarError, StaysOpen = false, IsOpen = true };
                     }
                     break;
                 case "buttonSettings":

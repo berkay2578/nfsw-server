@@ -1,10 +1,6 @@
 ﻿using OfflineServer.Data;
-using OfflineServer.Data.Settings;
-using OfflineServer.Servers;
 using OfflineServer.Servers.Http;
 using OfflineServer.Servers.Xmpp;
-using System.IO;
-using System.Text;
 
 namespace OfflineServer
 {
