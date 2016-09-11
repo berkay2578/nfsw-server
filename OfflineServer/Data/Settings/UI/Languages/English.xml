@@ -1,0 +1,35 @@
+<Language>
+   <Persona>Persona</Persona>
+   <AchievementTreasureHunt>Your longest recorded TH streak is {0}, on persona '{1}'.</AchievementTreasureHunt>
+   <AchievementJumpDistance>Your farthest jump distance was {0} meters, on persona '{1}'.</AchievementJumpDistance>
+   <PersonaInfo>Persona Info</PersonaInfo>
+   <Name>Name</Name>
+   <Motto>Motto</Motto>
+   <Level>Level</Level>
+   <Cash>Cash</Cash>
+   <DetailedPersonaInfo>Detailed Info</DetailedPersonaInfo>
+   <PersonaList>Persona List</PersonaList>
+   <LevelXP>XP Left</LevelXP>
+   <LevelToolTip>{0} is level {1}.</LevelToolTip>
+   <CashToolTip>{0} has {1} cash.</CashToolTip>
+   <BoostToolTip>{0} has {1} boost.</BoostToolTip>
+   <AmountOfCars>Amount of Cars</AmountOfCars>
+   <GarageToolTip>{0} has {1} cars.</GarageToolTip>
+   <TimePlayedToolTip>{0} has played for {1} hours.</TimePlayedToolTip>
+   <Garage>Garage</Garage>
+   <BaseCarIdDefinition>BaseCarId Definition:</BaseCarIdDefinition>
+   <NoBaseCarIdDefinition>Definition isn't present.</NoBaseCarIdDefinition>
+   <AddACar>Add A Car</AddACar>
+   <AddACarText>Select the car you wish to add</AddACarText>
+   <RemoveCar>Remove Car</RemoveCar>
+   <RemoveCarLastCarError>Cannot remove the last car in a persona!</RemoveCarLastCarError>
+   <RemoveCarNoSelectedCarError>Please select a car first.</RemoveCarNoSelectedCarError>
+   <LoadXElement>Load XElement</LoadXElement>
+   <Settings>Settings</Settings>
+   <UISettings>UI Settings</UISettings>
+   <Accent>Accent</Accent>
+   <Theme>Theme</Theme>
+   <DisplayLanguage>Language</DisplayLanguage>
+   <Select>Select</Select>
+   <Cancel>Cancel</Cancel>
+</Language>

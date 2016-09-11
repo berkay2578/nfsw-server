@@ -1,0 +1,35 @@
+<Language>
+   <Persona>Yarışçı</Persona>
+   <AchievementTreasureHunt>Hazine Avı'nda en çok {0} güne '{1}' ile geldin.</AchievementTreasureHunt>
+   <AchievementJumpDistance>{0} metrelik en uzun uçuşunu '{1}' ile yaptın.</AchievementJumpDistance>
+   <PersonaInfo>Yarışçı Bilgileri</PersonaInfo>
+   <Name>Nick</Name>
+   <Motto>Durum</Motto>
+   <Level>Seviye</Level>
+   <Cash>Para</Cash>
+   <DetailedPersonaInfo>Ekstra Bilgiler</DetailedPersonaInfo>
+   <PersonaList>Yarışçı Listesi</PersonaList>
+   <LevelXP>EXP kaldı</LevelXP>
+   <LevelToolTip>{0} seviye {1}.</LevelToolTip>
+   <CashToolTip>{0}, {1} paraya sahip.</CashToolTip>
+   <BoostToolTip>{0}, {1} boosta sahip.</BoostToolTip>
+   <AmountOfCars>Araba Sayısı</AmountOfCars>
+   <GarageToolTip>{0}, {1} arabaya sahip.</GarageToolTip>
+   <TimePlayedToolTip>{0}, {1} saat oynadı.</TimePlayedToolTip>
+   <Garage>Arabalar</Garage>
+   <BaseCarIdDefinition>BaseCarId tanımı:</BaseCarIdDefinition>
+   <NoBaseCarIdDefinition>Tanımı yok.</NoBaseCarIdDefinition>
+   <AddACar>Araba Ekle</AddACar>
+   <AddACarText>Eklemek istediğin arabayı seç</AddACarText>
+   <RemoveCar>Arabayı Sil</RemoveCar>
+   <RemoveCarLastCarError>Kalan son arabayı silemezsin!</RemoveCarLastCarError>
+   <RemoveCarNoSelectedCarError>İlk önce bir araba seçmelisin.</RemoveCarNoSelectedCarError>
+   <LoadXElement>Düzenle</LoadXElement>
+   <Settings>Ayarlar</Settings>
+   <UISettings>Arayüz Ayarları</UISettings>
+   <Accent>Renk</Accent>
+   <Theme>Tema</Theme>
+   <DisplayLanguage>Dil</DisplayLanguage>
+   <Select>Seç</Select>
+   <Cancel>İptal</Cancel>
+</Language>
