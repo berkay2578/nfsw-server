@@ -125,7 +125,7 @@ namespace OfflineServer.Servers.Xmpp
         public override void shutdown()
         {
             if (cts != null) cts.Cancel();
-            if (isSsl) sslStream.Close();
+            if (isSsl && sslStream != null) sslStream.Close();
             if (client != null) client.Close();
             if (listener != null) listener.Stop();
             log.Info("Shutdown completed.");
