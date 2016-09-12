@@ -1,5 +1,4 @@
-﻿using OfflineServer.Servers.Xmpp.Responses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Security;
@@ -16,16 +15,15 @@ namespace OfflineServer.Servers.Xmpp
         private Int32 amountRead = -1;
         private List<String> packets = new List<String>();
 
-        public BasicXmppServer(Boolean ssl = false)
+        public BasicXmppServer(Boolean ssl = false, Int32 port = 0)
         {
-            this.port = 0;
             personaId = 0;
             jidPrepender = "nfsw";
             isSsl = ssl;
             certificate = new X509Certificate2(Properties.Resources.certificate, "123456");
-            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 5412);
+            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
-            port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            this.port = ((IPEndPoint)listener.LocalEndpoint).Port;
             log.Info(String.Format("Successfully setup XmppServer on port {0}.", port));
         }
 

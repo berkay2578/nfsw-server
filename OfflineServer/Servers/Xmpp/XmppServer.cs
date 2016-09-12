@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Reflection;
@@ -52,8 +51,8 @@ namespace OfflineServer.Servers.Xmpp
         {
             if (isSsl & !forceNoSsl)
             {
-                byte[] msg = Encoding.UTF8.GetBytes(" " + message);
-                
+                // SSLStream crops char[0] into the first 4bytes -> packet length. This is a workaround it.
+                byte[] msg = Encoding.UTF8.GetBytes(" " + message);            
                 await sslStream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
                 await sslStream.FlushAsync(ct).ConfigureAwait(false);
             }
