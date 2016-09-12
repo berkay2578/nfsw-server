@@ -6,10 +6,10 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NFS:W Offline Server")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A local server emulator made to enable NFS: World offline play. It has both an http and an xmpp server bundled inside for easy use.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Exclusively made for elitepvpers.com")]
-[assembly: AssemblyProduct("Server")]
+[assembly: AssemblyProduct("Server Emulator and Launcher")]
 [assembly: AssemblyCopyright("Copyright © berkay2578 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
