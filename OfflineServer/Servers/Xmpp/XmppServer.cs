@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Reflection;
@@ -27,37 +28,38 @@ namespace OfflineServer.Servers.Xmpp
 
         public async Task<String> read(Boolean forceNoSsl = false)
         {
-            byte[] data = new byte[2048];
+            byte[] data = new byte[4096];
             int bytesRead;
             string request;
             if (isSsl & !forceNoSsl)
             {
-                var readTask = await sslStream.ReadAsync(data, 0, 2048, ct).ConfigureAwait(false);
-                bytesRead = readTask;
+                bytesRead = await sslStream.ReadAsync(data, 0, data.Length, ct).ConfigureAwait(false);
                 char[] chars = new char[decoder.GetCharCount(data, 0, bytesRead)];
                 decoder.GetChars(data, 0, bytesRead, chars, 0);
                 request = new string(chars);
             }
             else
             {
-                var readTask = await stream.ReadAsync(data, 0, 2048, ct).ConfigureAwait(false);
+                var readTask = await stream.ReadAsync(data, 0, data.Length, ct).ConfigureAwait(false);
                 bytesRead = readTask;
                 request = Encoding.UTF8.GetString(data, 0, bytesRead);
             }
             log.Info(String.Format("Acknowledged xmpp packet {0}.", request));
             return request;
         }
-
+        
         public async Task write(String message, Boolean forceNoSsl = false)
         {
-            byte[] msg = Encoding.UTF8.GetBytes(message);
             if (isSsl & !forceNoSsl)
             {
+                byte[] msg = Encoding.UTF8.GetBytes(" " + message);
+                
                 await sslStream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
                 await sslStream.FlushAsync(ct).ConfigureAwait(false);
             }
             else
             {
+                byte[] msg = Encoding.UTF8.GetBytes(message);
                 await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
                 await stream.FlushAsync(ct).ConfigureAwait(false);
             }

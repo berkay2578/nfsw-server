@@ -22,7 +22,7 @@ namespace OfflineServer.Servers.Xmpp.Responses
         {
             String plainMessage = obj.SerializeObject(true);
             body = plainMessage;
-            from = String.Format("{0}.engine.engine@127.0.0.1", Access.sXmpp.jidPrepender);
+            from = String.Format("{0}.engine.engine@127.0.0.1/EA_Chat", Access.sXmpp.jidPrepender);
             to = String.Format("{0}.{1}@127.0.0.1", Access.sXmpp.jidPrepender, Access.CurrentSession.ActivePersona.Id);
             subject = Access.sXmpp.calculateHash(to.ToCharArray(), plainMessage.ToCharArray());
         }

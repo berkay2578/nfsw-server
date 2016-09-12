@@ -250,7 +250,7 @@ namespace OfflineServer
             // not implemented for internationalization on purpose
 
             Access.sHttp = new Servers.Http.HttpServer();
-            Access.sXmpp = new Servers.Xmpp.BasicXmppServer();
+            Access.sXmpp = new Servers.Xmpp.BasicXmppServer(true);
 
             MetroDialogSettings messageBoxStyle = new MetroDialogSettings()
             {

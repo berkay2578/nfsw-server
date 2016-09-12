@@ -18,7 +18,6 @@ namespace OfflineServer.Servers.Http.Classes
         }
         public static String secureLogout()
         {
-            Access.sXmpp.shutdown();
             Access.sXmpp = new Xmpp.BasicXmppServer();
             return "";
         }
