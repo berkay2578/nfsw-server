@@ -25,6 +25,13 @@
    <RemoveCarLastCarError>Cannot remove the last car in a persona!</RemoveCarLastCarError>
    <RemoveCarNoSelectedCarError>Please select a car first.</RemoveCarNoSelectedCarError>
    <LoadXElement>Load XElement</LoadXElement>
+   <InformUserError>Beep boop, I done goofed</InformUserError>
+   <InformUserWarning>Hold your horses there, big guy</InformUserWarning>
+   <InformUserInformation>Just to let you know...</InformUserInformation>
+   <InformUserOther>Oops!</InformUserOther>
+   <ErrorEmptyPersonaName>You can't leave the persona name empty!</ErrorEmptyPersonaName>
+   <InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to '{0}' and get creative!</InformationSampleAccent>
+   <InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
    <Settings>Settings</Settings>
    <UISettings>UI Settings</UISettings>
    <Accent>Accent</Accent>

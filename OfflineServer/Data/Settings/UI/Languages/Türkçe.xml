@@ -25,6 +25,13 @@
    <RemoveCarLastCarError>Kalan son arabayı silemezsin!</RemoveCarLastCarError>
    <RemoveCarNoSelectedCarError>İlk önce bir araba seçmelisin.</RemoveCarNoSelectedCarError>
    <LoadXElement>Düzenle</LoadXElement>
+   <InformUserError>Böyle kodu yazanın...</InformUserError>
+   <InformUserWarning>Hele orada bi dur koçum</InformUserWarning>
+   <InformUserInformation>Haberin olsun bak...</InformUserInformation>
+   <InformUserOther>Hooayda</InformUserOther>
+   <ErrorEmptyPersonaName>Yarışçı ismini boş bırakamazsın!</ErrorEmptyPersonaName>
+   <InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Gözlerini bi '{0}'ya çevir derim.</InformationSampleAccent>
+   <InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
    <Settings>Ayarlar</Settings>
    <UISettings>Arayüz Ayarları</UISettings>
    <Accent>Renk</Accent>

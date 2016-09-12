@@ -395,7 +395,8 @@ namespace OfflineServer
             textboxPersonaName.Text = textboxPersonaName.Text.Trim();
             if (textboxPersonaName.Text.Length < 1)
             {
-                informUser("Oops!", "Sorry, the persona name cannot be empty.");
+                informUser(Access.dataAccess.appSettings.uiSettings.language.InformUserWarning,
+                            Access.dataAccess.appSettings.uiSettings.language.ErrorEmptyPersonaName);
                 if (textboxPersonaName.CanUndo)
                 {
                     do

@@ -50,7 +50,8 @@ namespace OfflineServer.Data.Settings
                         {
                             if (Access.mainWindow != null && value == "CustomAccentSample" && !haveSeenCustomAccentSampleMessage)
                             {
-                                Access.mainWindow.informUser("Sample custom accent", "Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to " + DataEx.dir_Accents + " and get creative!");
+                                Access.mainWindow.informUser(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
+                                            Access.dataAccess.appSettings.uiSettings.language.InformationSampleAccent);
                                 haveSeenCustomAccentSampleMessage = true;
                             }
                             accent = ThemeManager.GetAccent(value);
@@ -71,7 +72,8 @@ namespace OfflineServer.Data.Settings
                         {
                             if (Access.mainWindow != null && value == "CustomThemeSample" && !haveSeenCustomThemeSampleMessage)
                             {
-                                Access.mainWindow.informUser("Sample custom theme", "Just like the accents, you can add or create infinite amounts of custom themes as well! Go to " + DataEx.dir_Themes + " and go crazy with it!");
+                                Access.mainWindow.informUser(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
+                                            Access.dataAccess.appSettings.uiSettings.language.InformationSampleTheme);
                                 haveSeenCustomThemeSampleMessage = true;
                             }
                             theme = ThemeManager.GetAppTheme(value);
@@ -148,6 +150,13 @@ namespace OfflineServer.Data.Settings
                 private String removeCarLastCarError;
                 private String removeCarNoSelectedCarError;
                 private String loadXElement;
+                private String informUserError;
+                private String informUserWarning;
+                private String informUserInformation;
+                private String informUserOther;
+                private String errorEmptyPersonaName;
+                private String informationSampleAccent;
+                private String informationSampleTheme;
                 private String settings;
                 private String uISettings;
                 private String accent;
@@ -559,6 +568,111 @@ namespace OfflineServer.Data.Settings
                         {
                             loadXElement = value;
                             RaisePropertyChangedEvent("LoadXElement");
+                        }
+                    }
+                }
+                public String InformUserError
+                {
+                    get
+                    {
+                        return informUserError;
+                    }
+                    set
+                    {
+                        if (informUserError != value)
+                        {
+                            informUserError = value;
+                            RaisePropertyChangedEvent("InformUserError");
+                        }
+                    }
+                }
+                public String InformUserWarning
+                {
+                    get
+                    {
+                        return informUserWarning;
+                    }
+                    set
+                    {
+                        if (informUserWarning != value)
+                        {
+                            informUserWarning = value;
+                            RaisePropertyChangedEvent("InformUserWarning");
+                        }
+                    }
+                }
+                public String InformUserInformation
+                {
+                    get
+                    {
+                        return informUserInformation;
+                    }
+                    set
+                    {
+                        if (informUserInformation != value)
+                        {
+                            informUserInformation = value;
+                            RaisePropertyChangedEvent("InformUserInformation");
+                        }
+                    }
+                }
+                public String InformUserOther
+                {
+                    get
+                    {
+                        return informUserOther;
+                    }
+                    set
+                    {
+                        if (informUserOther != value)
+                        {
+                            informUserOther = value;
+                            RaisePropertyChangedEvent("InformUserOther");
+                        }
+                    }
+                }
+                public String ErrorEmptyPersonaName
+                {
+                    get
+                    {
+                        return errorEmptyPersonaName;
+                    }
+                    set
+                    {
+                        if (errorEmptyPersonaName != value)
+                        {
+                            errorEmptyPersonaName = value;
+                            RaisePropertyChangedEvent("ErrorEmptyPersonaName");
+                        }
+                    }
+                }
+                public String InformationSampleAccent
+                {
+                    get
+                    {
+                        return String.Format(informationSampleAccent, DataEx.dir_Accents);
+                    }
+                    set
+                    {
+                        if (informationSampleAccent != value)
+                        {
+                            informationSampleAccent = value;
+                            RaisePropertyChangedEvent("InformationSampleAccent");
+                        }
+                    }
+                }
+                public String InformationSampleTheme
+                {
+                    get
+                    {
+                        return String.Format(informationSampleTheme, DataEx.dir_Themes);
+                    }
+                    set
+                    {
+                        if (informationSampleTheme != value)
+                        {
+                            informationSampleTheme = value;
+                            RaisePropertyChangedEvent("InformationSampleTheme");
                         }
                     }
                 }
