@@ -24,7 +24,7 @@ namespace OfflineServer.Servers.Xmpp.Responses
             body = plainMessage;
             from = String.Format("{0}.engine.engine@127.0.0.1/EA_Chat", Access.sXmpp.jidPrepender);
             to = String.Format("{0}.{1}@127.0.0.1", Access.sXmpp.jidPrepender, Access.CurrentSession.ActivePersona.Id);
-            subject = Access.sXmpp.calculateHash(to.ToCharArray(), plainMessage.ToCharArray());
+            subject = Access.sXmpp.calculateHash(plainMessage);
         }
     }
 }
