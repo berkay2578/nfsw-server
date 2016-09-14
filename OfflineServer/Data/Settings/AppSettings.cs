@@ -13,9 +13,11 @@ namespace OfflineServer.Data.Settings
     public class AppSettings : ObservableObject
     {
         public UISettings uiSettings { get; set; }
+        public HttpServerSettings httpServerSettings { get; set; }
         public AppSettings()
         {
             uiSettings = new UISettings();
+            httpServerSettings = new HttpServerSettings();
         }
 
         public void saveInstance()
@@ -109,9 +111,9 @@ namespace OfflineServer.Data.Settings
                         list_Accents.Add(accentName);
                     }
 
-                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
+                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_HttpServerCatlogs), "*.xaml", SearchOption.TopDirectoryOnly))
                     {
-                        String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
+                        String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_HttpServerCatlogs), String.Empty).Replace(".xaml", String.Empty);
 
                         ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
                         list_Themes.Add(themeName);
@@ -120,7 +122,6 @@ namespace OfflineServer.Data.Settings
                     doDefault();
                 }
             }
-
             public class Language : ObservableObject
             {
                 #region ViewModel
@@ -162,6 +163,8 @@ namespace OfflineServer.Data.Settings
                 private String accent;
                 private String theme;
                 private String displayLanguage;
+                private String httpServerSettings;
+                private String catalog;
                 private String select;
                 private String cancel;
 
@@ -665,7 +668,7 @@ namespace OfflineServer.Data.Settings
                 {
                     get
                     {
-                        return String.Format(informationSampleTheme, DataEx.dir_Themes);
+                        return String.Format(informationSampleTheme, DataEx.dir_HttpServerCatlogs);
                     }
                     set
                     {
@@ -751,6 +754,36 @@ namespace OfflineServer.Data.Settings
                         }
                     }
                 }
+                public String HttpServerSettings
+                {
+                    get
+                    {
+                        return httpServerSettings;
+                    }
+                    set
+                    {
+                        if (httpServerSettings != value)
+                        {
+                            httpServerSettings = value;
+                            RaisePropertyChangedEvent("HttpServerSettings");
+                        }
+                    }
+                }
+                public String Catalog
+                {
+                    get
+                    {
+                        return catalog;
+                    }
+                    set
+                    {
+                        if (catalog != value)
+                        {
+                            catalog = value;
+                            RaisePropertyChangedEvent("Catalog");
+                        }
+                    }
+                }
                 public String Select
                 {
                     get
@@ -801,6 +834,7 @@ namespace OfflineServer.Data.Settings
             public Style style { get; set; }
             [XmlIgnore]
             public Language language { get; set; }
+
             private String languageFile;
             public String LanguageFile
             {
@@ -826,6 +860,48 @@ namespace OfflineServer.Data.Settings
             {
                 style = new Style();
                 LanguageFile = "English";
+            }
+        }
+        public class HttpServerSettings : ObservableObject
+        {
+            #region Catalog
+            [XmlIgnore]
+            public List<String> list_Catalogs { get; set; } = new List<String>();
+            private String selectedCatalog;
+            public String SelectedCatalog
+            {
+                get
+                {
+                    return selectedCatalog;
+                }
+                set
+                {
+                    if (selectedCatalog != value)
+                    {
+                        if (!Directory.Exists(Path.Combine(DataEx.dir_HttpServerCatalogs, value))) value = "Default";
+                        selectedCatalog = value;
+                        DataEx.currentHttpServerCatalog = value;
+                        if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                        RaisePropertyChangedEvent("SelectedCatalog");
+                    }
+                }
+            }
+            #endregion
+
+            public void doDefault()
+            {
+                SelectedCatalog = "Default";
+            }
+
+            public HttpServerSettings()
+            {
+                foreach (String catalogDir in Directory.GetDirectories(DataEx.dir_HttpServerCatalogs))
+                {
+                    String catalogName = catalogDir.Replace(DataEx.dir_HttpServerCatalogs, String.Empty);
+                    list_Catalogs.Add(catalogName);
+                }
+
+                doDefault();
             }
         }
     }

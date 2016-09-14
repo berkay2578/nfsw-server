@@ -37,6 +37,8 @@
    <Accent>Renk</Accent>
    <Theme>Tema</Theme>
    <DisplayLanguage>Dil</DisplayLanguage>
+   <HttpServerSettings>Server Ayarları</HttpServerSettings>
+   <Catalog>Fiyatlandırmalar</Catalog>
    <Select>Seç</Select>
    <Cancel>İptal</Cancel>
 </Language>

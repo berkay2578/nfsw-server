@@ -37,6 +37,8 @@
    <Accent>Accent</Accent>
    <Theme>Theme</Theme>
    <DisplayLanguage>Language</DisplayLanguage>
+   <HttpServerSettings>Server Settings</HttpServerSettings>
+   <Catalog>Catalog</Catalog>
    <Select>Select</Select>
    <Cancel>Cancel</Cancel>
 </Language>

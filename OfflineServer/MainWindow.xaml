@@ -334,18 +334,31 @@
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="flyoutSettings" DataContext="{Binding dataAccess.appSettings}" Header="{Binding uiSettings.language.Settings}" Position="Right" Width="300" Theme="Dark" IsModal="True" IsPinned="False">
-                <StackPanel Orientation="Vertical" Margin="10" DataContext="{Binding uiSettings}">
-                    <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="{Binding language.UISettings}" Margin="3,0,0,5"/>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Vertical" DataContext="{Binding language}">
-                            <Label Margin="5" Content="{Binding Theme}" Foreground="White"/>
-                            <Label Margin="5" Content="{Binding Accent}" Foreground="White"/>
-                            <Label Margin="5" Content="{Binding DisplayLanguage}" Foreground="White"/>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Vertical" DataContext="{Binding uiSettings}">
+                        <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="{Binding language.UISettings}" Margin="3,0,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" MinWidth="80" MaxWidth="110" DataContext="{Binding language}">
+                                <Label Margin="5" Content="{Binding Theme}" Foreground="White"/>
+                                <Label Margin="5" Content="{Binding Accent}" Foreground="White"/>
+                                <Label Margin="5" Content="{Binding DisplayLanguage}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Name="stackpanelUISettings" Orientation="Vertical" MinWidth="140" MaxWidth="190">
+                                <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding style.list_Themes}" SelectedValue="{Binding style.Theme, Mode=TwoWay}"/>
+                                <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding style.list_Accents}" SelectedValue="{Binding style.Accent, Mode=TwoWay}"/>
+                                <ComboBox Name="comboBoxLanguage" Margin="5" ItemsSource="{Binding language.list_Languages}" SelectedValue="{Binding LanguageFile, Mode=TwoWay}"/>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Name="stackpanelUISettings" Orientation="Vertical" Width="190">
-                            <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding style.list_Themes}" SelectedValue="{Binding style.Theme, Mode=TwoWay}"/>
-                            <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding style.list_Accents}" SelectedValue="{Binding style.Accent, Mode=TwoWay}"/>
-                            <ComboBox Name="comboBoxLanguage" Margin="5" ItemsSource="{Binding language.list_Languages}" SelectedValue="{Binding LanguageFile, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,0">
+                        <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="{Binding uiSettings.language.HttpServerSettings}" Margin="3,0,0,5"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" MinWidth="80" MaxWidth="110" DataContext="{Binding uiSettings.language}">
+                                <Label Margin="5" Content="{Binding Catalog}" Foreground="White"/>
+                            </StackPanel>
+                            <StackPanel Name="stackpanelHttpServerSettings" Orientation="Vertical" MinWidth="140" MaxWidth="190" DataContext="{Binding httpServerSettings}">
+                                <ComboBox Name="comboBoxCatalog" Margin="5" ItemsSource="{Binding list_Catalogs}" SelectedValue="{Binding SelectedCatalog, Mode=TwoWay}"/>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

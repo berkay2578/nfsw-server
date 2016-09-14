@@ -16,11 +16,19 @@ namespace OfflineServer.Data
 
         public static readonly String dir_Database = Path.Combine(dir_Data, @"Database\");
         public static readonly String dir_Server = Path.Combine(dir_Data, @"Server\");
-        public static readonly String dir_HttpServerFallback = Path.Combine(dir_Server, @"Files\");
+
+        public static readonly String dir_HttpServerFiles = Path.Combine(dir_Server, @"Files\");
+        public static readonly String dir_HttpServerFallback = Path.Combine(dir_HttpServerFiles, @"Fallback\");
+        public static readonly String dir_HttpServerCatalogs = Path.Combine(dir_HttpServerFiles, @"Catalogs\");
+        public static readonly String dir_HttpServerBaskets = Path.Combine(dir_HttpServerFiles, @"Baskets\");
+
+        public static String dir_CurrentHttpServerCatalog;
+        public static String dir_CurrentHttpServerCategories;
+        public static String dir_CurrentHttpServerProducts;
 
         public static readonly String dir_UI = Path.Combine(dir_Data, @"UI\");
         public static readonly String dir_Accents = Path.Combine(dir_UI, @"Accents\");
-        public static readonly String dir_Themes = Path.Combine(dir_UI, @"Themes\");
+        public static readonly String dir_HttpServerCatlogs = Path.Combine(dir_UI, @"Themes\");
         public static readonly String dir_Languages = Path.Combine(dir_UI, @"Languages\");
         #endregion
         #region databases
@@ -45,6 +53,19 @@ namespace OfflineServer.Data
             get
             {
                 return File.Exists(xml_Settings);
+            }
+        }
+        public static String currentHttpServerCatalog
+        {
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    dir_CurrentHttpServerCatalog = Path.Combine(dir_HttpServerCatalogs, value + "\\");
+                    dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
+                    dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
+
+                }
             }
         }
         #endregion
