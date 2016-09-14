@@ -111,9 +111,9 @@ namespace OfflineServer.Data.Settings
                         list_Accents.Add(accentName);
                     }
 
-                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_HttpServerCatlogs), "*.xaml", SearchOption.TopDirectoryOnly))
+                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
                     {
-                        String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_HttpServerCatlogs), String.Empty).Replace(".xaml", String.Empty);
+                        String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
 
                         ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
                         list_Themes.Add(themeName);
@@ -668,7 +668,7 @@ namespace OfflineServer.Data.Settings
                 {
                     get
                     {
-                        return String.Format(informationSampleTheme, DataEx.dir_HttpServerCatlogs);
+                        return String.Format(informationSampleTheme, DataEx.dir_Themes);
                     }
                     set
                     {
