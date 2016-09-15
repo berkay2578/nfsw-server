@@ -12,34 +12,18 @@ namespace OfflineServer.Data.Settings
 {
     public class AppSettings : ObservableObject
     {
-        public UISettings uiSettings { get; set; }
-        public HttpServerSettings httpServerSettings { get; set; }
-        public AppSettings()
-        {
-            uiSettings = new UISettings();
-            httpServerSettings = new HttpServerSettings();
-        }
-
-        public void saveInstance()
-        {
-            File.WriteAllText(DataEx.xml_Settings, this.SerializeObject(), Encoding.UTF8);
-        }
-
         public class UISettings : ObservableObject
         {
             private static Persona activePersonaProxy { get { return Access.CurrentSession.ActivePersona; } }
+
             public class Style : ObservableObject
             {
-                private Accent accent;
-                private AppTheme theme;
-
-                public Boolean haveSeenCustomAccentSampleMessage = false;
-                public Boolean haveSeenCustomThemeSampleMessage = false;
-
                 [XmlIgnore]
                 public List<String> list_Accents { get; set; } = new List<String>();
                 [XmlIgnore]
                 public List<String> list_Themes { get; set; } = new List<String>();
+
+                private Accent accent;
                 public String Accent
                 {
                     get
@@ -62,6 +46,8 @@ namespace OfflineServer.Data.Settings
                         }
                     }
                 }
+
+                private AppTheme theme;
                 public String Theme
                 {
                     get
@@ -86,6 +72,15 @@ namespace OfflineServer.Data.Settings
                     }
                 }
 
+                public Boolean haveSeenCustomAccentSampleMessage = false;
+                public Boolean haveSeenCustomThemeSampleMessage = false;
+
+                public void applyNewStyle()
+                {
+                    ThemeManager.ChangeAppStyle(Application.Current, accent, theme);
+                    if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                }
+
                 public void doDefault()
                 {
                     accent = ThemeManager.GetAccent("Steel");
@@ -93,12 +88,6 @@ namespace OfflineServer.Data.Settings
                     RaisePropertyChangedEvent("Accent");
                     RaisePropertyChangedEvent("Theme");
                     applyNewStyle();
-                }
-
-                public void applyNewStyle()
-                {
-                    ThemeManager.ChangeAppStyle(Application.Current, accent, theme);
-                    if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
                 }
 
                 public Style()
@@ -122,6 +111,7 @@ namespace OfflineServer.Data.Settings
                     doDefault();
                 }
             }
+
             public class Language
             {
                 #region ViewModel
@@ -171,10 +161,12 @@ namespace OfflineServer.Data.Settings
 
                 [XmlIgnore]
                 public List<String> list_Languages { get; set; } = new List<String>();
+
                 public static Language loadFromLanguageFile(String languageName)
                 {
                     return DataEx.getInstanceFromXml<Language>(languageName + ".xml");
                 }
+
                 public Language()
                 {
                     foreach (String languageFile in Directory.GetFiles(DataEx.dir_Languages, "*.xml", SearchOption.TopDirectoryOnly))
@@ -191,7 +183,10 @@ namespace OfflineServer.Data.Settings
             private String languageFile;
             public String LanguageFile
             {
-                get { return languageFile; }
+                get
+                {
+                    return languageFile;
+                }
                 set
                 {
                     if (languageFile != value && !String.IsNullOrWhiteSpace(value))
@@ -221,6 +216,7 @@ namespace OfflineServer.Data.Settings
             #region Catalog
             [XmlIgnore]
             public List<String> list_Catalogs { get; set; } = new List<String>();
+
             private String selectedCatalog;
             public String SelectedCatalog
             {
@@ -257,6 +253,20 @@ namespace OfflineServer.Data.Settings
 
                 doDefault();
             }
+        }
+
+        public UISettings uiSettings { get; set; }
+        public HttpServerSettings httpServerSettings { get; set; }
+
+        public void saveInstance()
+        {
+            File.WriteAllText(DataEx.xml_Settings, this.SerializeObject(), Encoding.UTF8);
+        }
+
+        public AppSettings()
+        {
+            uiSettings = new UISettings();
+            httpServerSettings = new HttpServerSettings();
         }
     }
 }
