@@ -64,7 +64,6 @@ namespace OfflineServer.Data
                     dir_CurrentHttpServerCatalog = Path.Combine(dir_HttpServerCatalogs, value + "\\");
                     dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
                     dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
-
                 }
             }
         }
