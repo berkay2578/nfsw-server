@@ -10,9 +10,9 @@ using System.Xml.Serialization;
 
 namespace OfflineServer.Data.Settings
 {
-    public class AppSettings : ObservableObject
+    public sealed class AppSettings : ObservableObject
     {
-        public class UISettings : ObservableObject
+        public sealed class UISettings : ObservableObject
         {
             private static Persona activePersonaProxy { get { return Access.CurrentSession.ActivePersona; } }
 
@@ -211,7 +211,7 @@ namespace OfflineServer.Data.Settings
                 LanguageFile = "English";
             }
         }
-        public class HttpServerSettings : ObservableObject
+        public sealed class HttpServerSettings : ObservableObject
         {
             #region Catalog
             [XmlIgnore]
