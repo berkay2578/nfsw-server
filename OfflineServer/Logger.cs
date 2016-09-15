@@ -4,6 +4,11 @@ using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using OfflineServer.Data;
+using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.Text;
+using System.Windows;
 
 namespace OfflineServer
 {
@@ -19,6 +24,7 @@ namespace OfflineServer
 
             RollingFileAppender roller = new RollingFileAppender();
             roller.AppendToFile = false;
+            roller.Encoding = Encoding.UTF8;
             roller.File = DataEx.log_Events;
             roller.Layout = patternLayout;
             roller.MaxSizeRollBackups = 5;
@@ -32,8 +38,17 @@ namespace OfflineServer
             memory.ActivateOptions();
             hierarchy.Root.AddAppender(memory);
 
-            hierarchy.Root.Level = Level.Info;
+            hierarchy.Root.Level = Level.Debug;
             hierarchy.Configured = true;
+
+            doFirstEntry();
+        }
+
+        public static void doFirstEntry()
+        {
+            ILog debugLogger = LogManager.GetLogger("Logger.doFirstEntry");
+            debugLogger.Debug(String.Format("Loaded application version {0}.", FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location).ProductVersion));
+            if((bool)App.Current.Properties["Troubleshooting"]) debugLogger.Debug(DataEx.getDataHierarchy());
         }
     }
 }

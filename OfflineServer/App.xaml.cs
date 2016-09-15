@@ -99,6 +99,15 @@ namespace OfflineServer
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            this.Properties["Troubleshooting"] = false;
+            for (int i = 0; i != e.Args.Length; ++i)
+            {
+                if (e.Args[i].ToLower() == "/troubleshoot")
+                {
+                    this.Properties["Troubleshooting"] = true;
+                    break;
+                }
+            }
             Logger.Setup();
             log4net.LogManager.GetLogger("App.OnStartup").Info("Application started.");
             base.OnStartup(e);

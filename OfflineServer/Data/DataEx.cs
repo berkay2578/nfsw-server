@@ -85,6 +85,15 @@ namespace OfflineServer.Data
             String plainXml = File.ReadAllText(xmlPath, Encoding.UTF8);
             return Serialization.DeserializeObject<T>(plainXml);
         }
+        public static String getDataHierarchy()
+        {
+            String hierarchy = "Data Hierarchy:";
+            foreach (String folderItem in Directory.GetFiles(dir_Data, "*.*", SearchOption.AllDirectories))
+            {
+                hierarchy += "\r\n" + folderItem;
+            }
+            return hierarchy + "\r\n<END>";
+        }
         #endregion
     }
 }

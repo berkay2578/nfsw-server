@@ -34,7 +34,7 @@ namespace OfflineServer
 
         public MainWindow()
         {
-            log.Debug("MawinWindow loading...");
+            if ((bool)App.Current.Properties["Troubleshooting"]) log.Debug("MawinWindow loading...");
 
             #region Culture Independency
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
@@ -54,7 +54,7 @@ namespace OfflineServer
             InitializeComponent();
             SetupComponents();
             Access.mainWindow = this;
-            log.Debug("Access.mainWindow set.");
+            if ((bool)App.Current.Properties["Troubleshooting"]) log.Debug("Access.mainWindow set.");
         }
 
         private void vCreateDb()
