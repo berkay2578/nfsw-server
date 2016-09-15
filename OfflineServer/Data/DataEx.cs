@@ -7,7 +7,7 @@ using static OfflineServer.Data.Settings.AppSettings.UISettings;
 
 namespace OfflineServer.Data
 {
-    public static class DataEx
+    internal static class DataEx
     {
         #region dirs
         public static readonly String dir_Data = @"Data\";
