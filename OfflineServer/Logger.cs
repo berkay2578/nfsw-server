@@ -38,7 +38,7 @@ namespace OfflineServer
             memory.ActivateOptions();
             hierarchy.Root.AddAppender(memory);
 
-            hierarchy.Root.Level = Level.Debug;
+            hierarchy.Root.Level = (bool)App.Current.Properties["Troubleshooting"] ? Level.Debug : Level.Info;
             hierarchy.Configured = true;
 
             doFirstEntry();
@@ -47,8 +47,8 @@ namespace OfflineServer
         public static void doFirstEntry()
         {
             ILog debugLogger = LogManager.GetLogger("Logger.doFirstEntry");
-            debugLogger.Debug(String.Format("Loaded application version {0}.", FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location).ProductVersion));
-            if((bool)App.Current.Properties["Troubleshooting"]) debugLogger.Debug(DataEx.getDataHierarchy());
+            debugLogger.Info(String.Format("Loaded application version {0}.", FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location).ProductVersion));
+            debugLogger.Debug(DataEx.getDataHierarchy());
         }
     }
 }
