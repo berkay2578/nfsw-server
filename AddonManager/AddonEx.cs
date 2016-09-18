@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using static AddonManager.Addon;
 
 namespace AddonManager
@@ -52,47 +53,62 @@ namespace AddonManager
         }
         internal static void saveAddonFile(this String filePath, String addonType, params String[][] lists)
         {
+            retry:
             string tempDir = Path.Combine(Path.GetTempPath(), "addonmanager");
             string zipFile = Path.Combine(Path.GetTempPath(), "addon.zip");
             if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
             if (File.Exists(zipFile)) File.Delete(zipFile);
             Directory.CreateDirectory(tempDir);
 
-            switch (addonType)
+            try
             {
-                case AddonType.catalogWithBaskets:
-                    string[] products = lists[0];
-                    string[] categories = lists[1];
-                    string[] baskets = lists[2];
+                switch (addonType)
+                {
+                    case AddonType.catalogWithBaskets:
+                        string[] products = lists[0];
+                        string[] categories = lists[1];
+                        string[] baskets = lists[2];
 
-                    var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs, 
-                        Path.GetFileNameWithoutExtension(filePath), "Products"));
-                    var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs, 
-                        Path.GetFileNameWithoutExtension(filePath), "Categories"));
-                    var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets));
+                        var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs,
+                            Path.GetFileNameWithoutExtension(filePath), "Products"));
+                        var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs,
+                            Path.GetFileNameWithoutExtension(filePath), "Categories"));
+                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets));
 
-                    foreach (string product in products)
-                        File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(product)), true);
-                    foreach (string category in categories)
-                        File.Copy(AddonProject.Catalog.getFileLocation(category), Path.Combine(categoriesTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(category)), true);
-                    foreach (string basket in baskets)
-                        File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(basket)), true);
+                        foreach (string product in products)
+                            File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
+                                AddonProject.Catalog.getListBoxEntryText(product)), true);
+                        foreach (string category in categories)
+                            File.Copy(AddonProject.Catalog.getFileLocation(category), Path.Combine(categoriesTemp.FullName,
+                                AddonProject.Catalog.getListBoxEntryText(category)), true);
+                        foreach (string basket in baskets)
+                            File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
+                                AddonProject.Catalog.getListBoxEntryText(basket)), true);
 
-                    FastZip fz = new FastZip();
-                    fz.CreateEmptyDirectories = true;
-                    fz.CreateZip(zipFile, tempDir, true, null);
-                    break;
-                case AddonType.accent:
-                    break;
-                case AddonType.theme:
-                    break;
-                case AddonType.language:
-                    break;
-                case AddonType.memoryPatch:
-                    break;
+                        FastZip fz = new FastZip();
+                        fz.CreateEmptyDirectories = true;
+                        fz.CreateZip(zipFile, tempDir, true, null);
+                        break;
+                    case AddonType.accent:
+                        break;
+                    case AddonType.theme:
+                        break;
+                    case AddonType.language:
+                        break;
+                    case AddonType.memoryPatch:
+                        break;
+                }
+            }
+            catch (FileNotFoundException fnfEx)
+            {
+                DialogResult userResponse = MessageBox.Show("AddonManager couldn't access the following file:\r\n'" + fnfEx.FileName + "'.", 
+                    "Beep boop, I done goofed", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (userResponse == DialogResult.Retry)
+                    goto retry;
+
+                if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+                if (File.Exists(zipFile)) File.Delete(zipFile);
+                return;
             }
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Write, FileShare.None))
