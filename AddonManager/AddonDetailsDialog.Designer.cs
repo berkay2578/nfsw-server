@@ -258,7 +258,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(846, 375);
+            this.ClientSize = new System.Drawing.Size(842, 371);
             this.ControlBox = false;
             this.Controls.Add(this.addonDescriptionUseDefaultFontCheckBox);
             this.Controls.Add(this.refreshDemoLabel);

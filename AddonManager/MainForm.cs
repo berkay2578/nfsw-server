@@ -415,7 +415,7 @@ namespace AddonManager
 
             htmlPanel = new HtmlPanel();
             htmlPanel.AutoSize = false;
-            htmlPanel.BorderStyle = BorderStyle.FixedSingle;
+            htmlPanel.BorderStyle = BorderStyle.Fixed3D;
             htmlPanel.Location = new Point(187, 38);
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;

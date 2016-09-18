@@ -13,7 +13,7 @@ namespace AddonManager
 
         private String wrapWithDefaultFontTag(String sourceStr)
         {
-            return String.Format("{0}{1}{2}", "<font face=\"Microsoft Sans Serif\" size=\"8pt\">", sourceStr, "</font>");
+            return String.Format("{0}{1}{2}", "<font face=\"Microsoft Sans Serif\" size=\"8.25pt\">", sourceStr, "</font>");
         }
 
         private void addonDescriptionUseDefaultFontCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -85,7 +85,7 @@ namespace AddonManager
 
             htmlPanel = new HtmlPanel();
             htmlPanel.AutoSize = false;
-            htmlPanel.BorderStyle = BorderStyle.FixedSingle;
+            htmlPanel.BorderStyle = BorderStyle.Fixed3D;
             htmlPanel.Location = new Point(622, 37);
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
