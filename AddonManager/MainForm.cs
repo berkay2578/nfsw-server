@@ -408,15 +408,16 @@ namespace AddonManager
 
         public MainForm(Boolean isFirstRun = false)
         {
-            firstRun = isFirstRun;
+            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             InitializeComponent();
+            firstRun = isFirstRun;
             serverVersionLabel.Text = String.Format(serverVersionLabel.Text, localOfflineServerVersion);
             addonProject = new AddonProject();
 
             htmlPanel = new HtmlPanel();
             htmlPanel.AutoSize = false;
             htmlPanel.BorderStyle = BorderStyle.Fixed3D;
-            htmlPanel.Location = new Point(187, 38);
+            htmlPanel.Location = new Point(186, 38);
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             installAddonGroupBox.Controls.Add(htmlPanel);

@@ -52,6 +52,7 @@ namespace AddonManager
 
         public AddonDetailsDialog(String addonNameText, String addonTypeText, String addonCreatorText, String addonVersionText, String addonDescriptionText)
         {
+            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             InitializeComponent();
 
             detailsAddonNameMaxLabel.Text = String.Format(detailsAddonNameMaxLabel.Text, Addon.addonNameDef[2] - 1);
