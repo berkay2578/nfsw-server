@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Globalization;
@@ -56,6 +56,16 @@ namespace AddonManager
                     #region Catalog and Basket
                     ActiveCheckedListBox.managingLists = true;
                     // Products
+                    var productsCheckedItems = productsListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
+                    foreach (string currentProduct in productsCheckedItems)
+                    {
+                        string productName = AddonProject.Catalog.getListBoxEntryText(currentProduct);
+                        int targetIndex = productsListBox.Items.IndexOf(productsListBox.Items.Cast<string>()
+                                .Where(itemText => itemText.StartsWith(productName))
+                                .First());
+                        productsListBox.Items[targetIndex] = productName;
+                        productsListBox.SetItemChecked(targetIndex, false);
+                    }
                     foreach (string product in addonProject.catalog.catalog_products)
                         if (product.Trim().IndexOf('(') != -1)
                         {
@@ -67,6 +77,16 @@ namespace AddonManager
                         }
 
                     // Categories
+                    var categoriesCheckedItems = categoriesListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
+                    foreach (string currentCategory in categoriesCheckedItems)
+                    {
+                        string categoryName = AddonProject.Catalog.getListBoxEntryText(currentCategory);
+                        int targetIndex = categoriesListBox.Items.IndexOf(categoriesListBox.Items.Cast<string>()
+                                .Where(itemText => itemText.StartsWith(categoryName))
+                                .First());
+                        categoriesListBox.Items[targetIndex] = categoryName;
+                        categoriesListBox.SetItemChecked(targetIndex, false);
+                    }
                     foreach (string category in addonProject.catalog.catalog_categories)
                         if (category.Trim().IndexOf('(') != -1)
                         {
