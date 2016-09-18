@@ -1,6 +1,4 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -126,7 +124,7 @@ namespace AddonManager
             }
         }
         #endregion
-        
+
         #endregion
 
         private void tabButton_Click(object sender, EventArgs e)
@@ -141,13 +139,11 @@ namespace AddonManager
                         {
                             case "CatalogAddonDetails":
                                 {
-                                    using (AddonDetailsDialog addonDetailsDialog
-                                            = new AddonDetailsDialog(addonProject.catalog.addonName,
+                                    using (AddonDetailsDialog addonDetailsDialog = new AddonDetailsDialog(addonProject.catalog.addonName,
                                                 AddonType.catalogWithBaskets,
                                                 addonProject.catalog.addonCreator,
                                                 addonProject.catalog.addonVersion,
-                                                addonProject.catalog.addonDescription)
-                                          )
+                                                addonProject.catalog.addonDescription))
                                     {
                                         if (addonDetailsDialog.ShowDialog() == DialogResult.OK)
                                         {
@@ -193,7 +189,7 @@ namespace AddonManager
                                                                         categoriesListBox.Items.Cast<string>().ToArray(),
                                                                         basketsListBox.Items.Cast<string>().ToArray()
                                                                      );
-                                            MessageBox.Show("The catalog addon has been created successfully!", 
+                                            MessageBox.Show("The catalog addon has been created successfully!",
                                                 "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         }
                                         else
@@ -291,13 +287,15 @@ namespace AddonManager
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
-                int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
+                string targetString = targetListBox.Items.Cast<string>()
                     .Where(itemText => itemText.Contains(Path.GetFileName(file)))
-                    .First());
-                if (targetIndex == -1)
-                    targetListBox.Items.Add(Path.GetFileName(file) + " (" + file + ")");
+                    .FirstOrDefault();
+                int targetIndex = targetString == null ? -1 : targetListBox.Items.IndexOf(targetString);
+
+                if (targetIndex != -1 && targetString != null)
+                    targetListBox.Items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
                 else
-                    targetListBox.Items[targetIndex] = targetListBox.Items[targetIndex] + " (" + file + ")";
+                    targetListBox.Items.Add(Path.GetFileName(file) + " (" + file + ")");
             }
         }
         private void checkedListBox_DragDrop(object sender, DragEventArgs e)

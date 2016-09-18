@@ -18,8 +18,8 @@ namespace AddonManager
 
             protected override void OnDrawItem(DrawItemEventArgs e)
             {
-                DrawItemEventArgs e2 = new DrawItemEventArgs
-                   (e.Graphics,
+                DrawItemEventArgs e2 = new DrawItemEventArgs(
+                    e.Graphics,
                     e.Font,
                     new Rectangle(e.Bounds.Location, e.Bounds.Size),
                     e.Index,
