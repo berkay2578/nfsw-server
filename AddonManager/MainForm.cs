@@ -1,19 +1,47 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TheArtOfDev.HtmlRenderer.WinForms;
+using static AddonManager.Addon;
+using static AddonManager.CustomControls;
 
 namespace AddonManager
 {
     public partial class MainForm : Form
     {
         private Boolean firstRun = false;
+        private HtmlPanel htmlPanel;
         private AddonProject addonProject;
+        public static String localOfflineServerVersion
+        {
+            get
+            {
+#if DEBUG
+                if (!File.Exists("OfflineServer.exe"))
+                {
+                    MessageBox.Show("It seems like you are running this manager standalone, you need to place this manager next to your 'OfflineServer.exe'!", "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("AddonManager will now close, please place it next to the offline server and then run it again.", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Application.Exit();
+                    return null;
+                }
+                else
+                {
+                    return FileVersionInfo.GetVersionInfo(Path.Combine(Environment.CurrentDirectory, "OfflineServer.exe")).ProductVersion;
+                }
+#else
+                return "DEVELOPER PREVIEW";
+#endif
+            }
+        }
 
         #region Functions and the necessities
         #region Project
@@ -26,6 +54,7 @@ namespace AddonManager
                     addonProject = File.ReadAllText(openProjectDialog.FileName, Encoding.UTF8).DeserializeObject<AddonProject>();
 
                     #region Catalog and Basket
+                    ActiveCheckedListBox.managingLists = true;
                     // Products
                     foreach (string product in addonProject.catalog.catalog_products)
                         if (product.Trim().IndexOf('(') != -1)
@@ -47,16 +76,21 @@ namespace AddonManager
                             categoriesListBox.Items[targetIndex] = category;
                             categoriesListBox.SetItemChecked(targetIndex, true);
                         }
+                    ActiveCheckedListBox.managingLists = false;
 
                     // Basket Files
                     foreach (string basket in addonProject.catalog.basket_definitions)
                         basketsListBox.Items.Add(basket.Trim());
 
                     // Others
-                    catalogCreaterTextBox.Text = addonProject.catalog.addonCreater
-                                                        .Substring(0, Math.Min(addonProject.catalog.addonCreater.Length, 255));
-                    catalogDescriptionTextBox.Text = addonProject.catalog.addonDescription
-                                                        .Substring(0, Math.Min(addonProject.catalog.addonDescription.Length, 255));
+                    addonProject.catalog.addonCreator = addonProject.catalog.addonCreator
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonCreator.Length, Addon.addonCreatorDef[2] - 1));
+                    addonProject.catalog.addonDescription = addonProject.catalog.addonDescription
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonDescription.Length, Addon.addonDescriptionDef[2] - 1));
+                    addonProject.catalog.addonName = addonProject.catalog.addonName
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonName.Length, Addon.addonNameDef[2] - 1));
+                    addonProject.catalog.addonVersion = addonProject.catalog.addonVersion
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonVersion.Length, Addon.addonVersionDef[2] - 1));
                     #endregion
 
                     MessageBox.Show("The selected project was loaded successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -74,150 +108,25 @@ namespace AddonManager
             addonProject.catalog.catalog_products = productsListBox.Items.Cast<String>().ToList();
             addonProject.catalog.catalog_categories = categoriesListBox.Items.Cast<String>().ToList();
             addonProject.catalog.basket_definitions = basketsListBox.Items.Cast<String>().ToList();
-            addonProject.catalog.addonCreater = catalogCreaterTextBox.Text.Trim();
-            addonProject.catalog.addonDescription = catalogDescriptionTextBox.Text.Trim();
             #endregion
-            
+
 
             if (saveProjectDialog.ShowDialog() == DialogResult.OK)
             {
                 if (saveProjectDialog.FileName.EndsWith(".addonmanager_project"))
-                    File.WriteAllText(saveProjectDialog.FileName, DerivedFunctions.serializeObject(addonProject));
+                {
+                    File.WriteAllText(saveProjectDialog.FileName, DerivedFunctions.serializeObject(addonProject), new UTF8Encoding(false, false));
+                    MessageBox.Show("The project has been saved successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 else
-                    MessageBox.Show("Please use the default extension '.addonmanager_project' and retry.", 
+                {
+                    MessageBox.Show("Please use the default extension '.addonmanager_project' and retry.",
                                 "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
         #endregion
-
-        #region AddonType & AddonProperty
-        internal enum AddonType
-        {
-            CatalogAndBasket = 0,
-            Accent = 1,
-            Theme = 2,
-            Language = 3
-        }
-
-        /// <summary>
-        /// Each property other than the AddonFile is a string with the length of 255, and is encoded with UTF8.
-        /// </summary>
-        internal enum AddonProperty
-        {
-            Type = 0,
-            CreatedBy = 1,
-            DateCreated = 2,
-            MadeForVersion = 3,
-            SimpleDescription = 4,
-            ReservedForLater = 5,
-            ReserverForLater2 = 6,
-            ReservedForLater3 = 7,
-            AddonFile = 8
-        }
-
-        internal dynamic readAddonProperty(String filePath, AddonProperty property)
-        {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                try
-                {
-                    int bytesToRead = property != AddonProperty.AddonFile ? 1020 : (int)fileStream.Length - 8160;
-                    int bytesRead = 0;
-                    int count = 0;
-                    byte[] buffer = new byte[bytesToRead];
-                    fileStream.Position = (int)property * 1020;
-
-                    do
-                    {
-                        bytesRead += count;
-                        bytesToRead -= count;
-                        count = fileStream.Read(buffer, bytesRead, bytesToRead);
-                    } while (count > 0);
-                    if (property != AddonProperty.AddonFile)
-                        return Encoding.UTF8.GetString(buffer).TrimEnd('\0');
-                    return buffer;
-                }
-                catch (Exception ex)
-                {
-                    Debug.Print("Something isn't quite right...");
-                    Debug.Print(ex.ToString());
-                    return null;
-                }
-            }
-        }
-        internal void saveAddonProperty(String[] listProperties)
-        {
-            if (listProperties.Length < 9)
-            {
-                int arrayLength = listProperties.Length;
-                Array.Resize<String>(ref listProperties, 9);
-                for (int l = arrayLength; l < 9; l++)
-                    listProperties[l] = "";
-            }
-            using (FileStream fileStream = new FileStream(createAddonDialog.FileName, FileMode.Create, FileAccess.Write))
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    byte[] propertyType = Encoding.UTF8.GetBytes(listProperties[i].Substring(0, Math.Min(listProperties[i].Length, 255)) + '\0');
-                    fileStream.Position = i * 1020;
-                    fileStream.Write(propertyType, 0, propertyType.Length);
-                }
-            }
-        }
-        internal void saveAddonFile(AddonType addonType)
-        {
-            string tempDir = Path.Combine(Path.GetTempPath(), "addonmanager");
-            string zipFile = Path.Combine(Path.GetTempPath(), "addon.zip");
-            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
-            if (File.Exists(zipFile)) File.Delete(zipFile);
-            Directory.CreateDirectory(tempDir);
-
-            switch (addonType)
-            {
-                case AddonType.CatalogAndBasket:
-                    var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs, Path.GetFileNameWithoutExtension(createAddonDialog.FileName), "Products"));
-                    var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs, Path.GetFileNameWithoutExtension(createAddonDialog.FileName), "Categories"));
-                    var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets));
-
-                    foreach (string product in productsListBox.Items)
-                        File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(product)), true);
-                    foreach (string category in categoriesListBox.Items)
-                        File.Copy(AddonProject.Catalog.getFileLocation(category), Path.Combine(categoriesTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(category)), true);
-                    foreach (string basket in basketsListBox.Items)
-                        File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
-                            AddonProject.Catalog.getListBoxEntryText(basket)), true);
-
-                    FastZip fz = new FastZip();
-                    fz.CreateEmptyDirectories = true;
-                    fz.CreateZip(zipFile,
-                                tempDir,
-                                true,
-                                null);
-                    break;
-                case AddonType.Accent:
-                    break;
-                case AddonType.Theme:
-                    break;
-                case AddonType.Language:
-                    break;
-            }
-        }
-        internal void saveAddon()
-        {
-            string tempDir = Path.Combine(Path.GetTempPath(), "addonmanager");
-            string zipFile = Path.Combine(Path.GetTempPath(), "addon.zip");
-            using (FileStream fileStream = new FileStream(createAddonDialog.FileName, FileMode.Open, FileAccess.Write))
-            {
-                byte[] addonFileBytes = File.ReadAllBytes(zipFile);
-                fileStream.Position = 8160;
-                fileStream.Write(addonFileBytes, 0, addonFileBytes.Length);
-            }
-            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
-            if (File.Exists(zipFile)) File.Delete(zipFile);
-        }
-        #endregion
+        
         #endregion
 
         private void tabButton_Click(object sender, EventArgs e)
@@ -225,13 +134,44 @@ namespace AddonManager
             Button source = (Button)sender;
             switch (source.Name.Substring(0, 4))
             {
+                case "open":
+                    {
+                        string fromTab = source.Name.Replace("open", string.Empty);
+                        switch (fromTab)
+                        {
+                            case "CatalogAddonDetails":
+                                {
+                                    using (AddonDetailsDialog addonDetailsDialog
+                                            = new AddonDetailsDialog(addonProject.catalog.addonName,
+                                                AddonType.catalogWithBaskets,
+                                                addonProject.catalog.addonCreator,
+                                                addonProject.catalog.addonVersion,
+                                                addonProject.catalog.addonDescription)
+                                          )
+                                    {
+                                        if (addonDetailsDialog.ShowDialog() == DialogResult.OK)
+                                        {
+
+                                            addonProject.catalog.addonName = addonDetailsDialog.returnValues[0];
+                                            addonProject.catalog.addonCreator = addonDetailsDialog.returnValues[1];
+                                            addonProject.catalog.addonVersion = addonDetailsDialog.returnValues[2];
+                                            addonProject.catalog.addonDescription = addonDetailsDialog.returnValues[3];
+                                        }
+                                    }
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        break;
+                    }
                 case "crea":
                     {
                         string fromTab = source.Name.Replace("create", string.Empty);
                         switch (fromTab)
                         {
                             case "Catalog":
-                                if (productsListBox.CheckedItems.Count == productsListBox.Items.Count 
+                                if (productsListBox.CheckedItems.Count == productsListBox.Items.Count
                                         && categoriesListBox.CheckedItems.Count == categoriesListBox.Items.Count)
                                 {
                                     createAddonDialog.FilterIndex = 1;
@@ -239,14 +179,22 @@ namespace AddonManager
                                     {
                                         if (createAddonDialog.FileName.EndsWith(".serveraddon_catalogwithbasket"))
                                         {
-                                            saveAddonProperty(new string[] { "Catalog and Basket Pack",
-                                                    catalogCreaterTextBox.Text,
-                                                    DateTime.Now.ToShortDateString(),
-                                                    "berkay2578-!5155b22c45050da4dff2ee6fb7d898da5d482c14-2016.09.08",
-                                                    catalogDescriptionTextBox.Text }
-                                                            );
-                                            saveAddonFile(AddonType.CatalogAndBasket);
-                                            saveAddon();
+                                            string targetAddon = createAddonDialog.FileName;
+                                            targetAddon.saveAddonProperty(Addon.addonNameDef, addonProject.catalog.addonName, true);
+                                            targetAddon.saveAddonProperty(Addon.addonTypeDef, AddonType.catalogWithBaskets);
+                                            targetAddon.saveAddonProperty(Addon.addonCreatorDef, addonProject.catalog.addonCreator);
+                                            targetAddon.saveAddonProperty(Addon.addonDateDef, DateTime.Now.ToShortDateString());
+                                            targetAddon.saveAddonProperty(Addon.addonVersionDef, addonProject.catalog.addonVersion);
+                                            targetAddon.saveAddonProperty(Addon.addonForVersionDef, localOfflineServerVersion);
+                                            targetAddon.saveAddonProperty(Addon.addonResDef, "RESERVED FOR LATER USE");
+                                            targetAddon.saveAddonProperty(Addon.addonDescriptionDef, addonProject.catalog.addonDescription);
+                                            targetAddon.saveAddonFile(AddonType.catalogWithBaskets,
+                                                                        productsListBox.Items.Cast<string>().ToArray(),
+                                                                        categoriesListBox.Items.Cast<string>().ToArray(),
+                                                                        basketsListBox.Items.Cast<string>().ToArray()
+                                                                     );
+                                            MessageBox.Show("The catalog addon has been created successfully!", 
+                                                "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         }
                                         else
                                         {
@@ -310,7 +258,29 @@ namespace AddonManager
         }
 
         #region UI Events
-        #region Catalog listBox drag&drops
+        #region ListBox
+        private void basketsListBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int targetIndex = basketsListBox.IndexFromPoint(e.Location);
+                if (targetIndex != -1)
+                {
+                    basketsListBox.SelectedIndex = targetIndex;
+                    listBoxRemoveItemContextMenu.Show(Cursor.Position);
+                    listBoxRemoveItemContextMenu.Visible = true;
+                }
+                else
+                {
+                    listBoxRemoveItemContextMenu.Visible = false;
+                }
+            }
+        }
+        private void removeListBoxEntryMenuItem_Click(object sender, EventArgs e)
+        {
+            if (basketsListBox.SelectedIndex != -1) basketsListBox.Items.RemoveAt(basketsListBox.SelectedIndex);
+        }
+
         private void listBox_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -320,7 +290,15 @@ namespace AddonManager
             ListBox targetListBox = (ListBox)sender;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
-                targetListBox.Items.Add(Path.GetFileName(file) + " (" + file + ")");
+            {
+                int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
+                    .Where(itemText => itemText.Contains(Path.GetFileName(file)))
+                    .First());
+                if (targetIndex == -1)
+                    targetListBox.Items.Add(Path.GetFileName(file) + " (" + file + ")");
+                else
+                    targetListBox.Items[targetIndex] = targetListBox.Items[targetIndex] + " (" + file + ")";
+            }
         }
         private void checkedListBox_DragDrop(object sender, DragEventArgs e)
         {
@@ -328,11 +306,15 @@ namespace AddonManager
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
-                int targetIndex = targetListBox.Items.IndexOf(Path.GetFileName(file));
+                int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
+                    .Where(itemText => itemText.Contains(Path.GetFileName(file)))
+                    .First());
                 if (targetIndex != -1)
                 {
-                    targetListBox.Items[targetIndex] = targetListBox.Items[targetIndex] + " (" + file + ")";
+                    targetListBox.Items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
+                    ActiveCheckedListBox.managingLists = true;
                     targetListBox.SetItemChecked(targetIndex, true);
+                    ActiveCheckedListBox.managingLists = false;
                 } /*else
                 {
                     new ToolTip() { Active = true, ToolTipIcon = ToolTipIcon.Warning, ToolTipTitle = "Invalid File", ShowAlways = false }
@@ -351,14 +333,16 @@ namespace AddonManager
                 string targetAddon = addonLocationDialog.FileName;
 
                 addonLocationLabel.Text = targetAddon;
-                addonInformationLabel.Text = String.Format(CultureInfo.InvariantCulture, 
-                                "- Type: {0}\r\n- Created by: {1}\r\n- Created on: {2}\r\n- Made for version:\r\n{3}",
-                                                                readAddonProperty(targetAddon, AddonProperty.Type),
-                                                                readAddonProperty(targetAddon, AddonProperty.CreatedBy),
-                                                                readAddonProperty(targetAddon, AddonProperty.DateCreated),
-                                                                readAddonProperty(targetAddon, AddonProperty.MadeForVersion)
+                addonInformationLabel.Text = String.Format(CultureInfo.InvariantCulture,
+                                "- Name: {0}\r\n- Type: {1}\r\n- Created by: {2}\r\n- Created on: {3}\r\n- Version: {4}\r\n- Made for offline server version: {5}",
+                                                            targetAddon.readAddonProperty(Addon.addonNameDef),
+                                                            targetAddon.readAddonProperty(Addon.addonTypeDef),
+                                                            targetAddon.readAddonProperty(Addon.addonCreatorDef),
+                                                            targetAddon.readAddonProperty(Addon.addonDateDef),
+                                                            targetAddon.readAddonProperty(Addon.addonVersionDef),
+                                                            targetAddon.readAddonProperty(Addon.addonForVersionDef)
                                                            );
-                addonDescriptionLabel.Text = readAddonProperty(targetAddon, AddonProperty.SimpleDescription);
+                htmlPanel.Text = targetAddon.readAddonProperty(Addon.addonDescriptionDef);
             }
         }
 
@@ -372,19 +356,16 @@ namespace AddonManager
         {
             firstRun = isFirstRun;
             InitializeComponent();
-#if !DEBUG
-            if (!File.Exists("OfflineServer.exe"))
-            {
-                MessageBox.Show("It seems like you are running this manager standalone, you need to place this manager next to your 'OfflineServer.exe'!", "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                MessageBox.Show("AddonManager will now close, please place it next to the offline server and then run it again.", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Application.Exit();
-            } else {
-                serverVersionLabel.Text =  String.Format(serverVersionLabel.Text, FileVersionInfo.GetVersionInfo(Path.Combine(Environment.CurrentDirectory, "OfflineServer.exe")).ProductVersion);
-            }
-#else
-            serverVersionLabel.Text = String.Format(serverVersionLabel.Text, "DEVELOPER PREVIEW");
-#endif
+            serverVersionLabel.Text = String.Format(serverVersionLabel.Text, localOfflineServerVersion);
             addonProject = new AddonProject();
+
+            htmlPanel = new HtmlPanel();
+            htmlPanel.AutoSize = false;
+            htmlPanel.BorderStyle = BorderStyle.FixedSingle;
+            htmlPanel.Location = new Point(187, 38);
+            htmlPanel.Size = new Size(210, 299);
+            htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            installAddonGroupBox.Controls.Add(htmlPanel);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -394,5 +375,6 @@ namespace AddonManager
                 Application.Exit();
             }
         }
+
     }
 }

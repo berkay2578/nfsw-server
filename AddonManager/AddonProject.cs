@@ -8,11 +8,14 @@ namespace AddonManager
     [Serializable()]
     public class AddonProject
     {
-        #region nested-classes
+        #region nested classes
         public class Catalog
         {
-            public String addonCreater;
+            public String addonCreator;
             public String addonDescription;
+            public String addonName;
+            public String addonVersion;
+
             public List<String> catalog_products = new List<String>();
             public List<String> catalog_categories = new List<String>();
             public List<String> basket_definitions = new List<String>(); 
@@ -32,8 +35,10 @@ namespace AddonManager
 
             public Catalog()
             {
-                addonCreater = "Smarty McSmartyFace";
-                addonDescription = "A simple description of my new addon!";
+                addonCreator = "Smarty McSmartyFace";
+                addonDescription = "A simple description of my new addon!\r\n<p>Look at <u>all</u> this <i>fancy</i> <b>HTML</b>!</p>";
+                addonName = "My New Addon";
+                addonVersion = "v1.33.7";
             }
         }
         public class Accent
@@ -48,12 +53,17 @@ namespace AddonManager
         {
 
         }
+        public class MemoryPatch
+        {
+
+        }
         #endregion
 
         public Catalog catalog { get; set; }
         public Accent accent { get; set; }
         public Theme theme { get; set; }
         public Language language { get; set; }
+        public MemoryPatch memoryPatch { get; set; }
 
         public AddonProject()
         {
@@ -61,6 +71,7 @@ namespace AddonManager
             accent = new Accent();
             theme = new Theme();
             language = new Language();
+            memoryPatch = new MemoryPatch();
         }
     }
 }
