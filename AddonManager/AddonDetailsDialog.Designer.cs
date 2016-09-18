@@ -54,7 +54,7 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(686, 344);
+            this.okButton.Location = new System.Drawing.Point(676, 344);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
@@ -65,7 +65,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(767, 344);
+            this.cancelButton.Location = new System.Drawing.Point(759, 344);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 1;
@@ -258,7 +258,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(842, 367);
+            this.ClientSize = new System.Drawing.Size(846, 375);
             this.ControlBox = false;
             this.Controls.Add(this.addonDescriptionUseDefaultFontCheckBox);
             this.Controls.Add(this.refreshDemoLabel);

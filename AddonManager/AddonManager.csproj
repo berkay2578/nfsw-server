@@ -106,6 +106,7 @@
     <Compile Include="FirstRunForm.Designer.cs">
       <DependentUpon>FirstRunForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FunctionsEx.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

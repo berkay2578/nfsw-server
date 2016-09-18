@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 using TheArtOfDev.HtmlRenderer.WinForms;
 using static AddonManager.Addon;
 using static AddonManager.CustomControls;
+using static AddonManager.FunctionsEx;
 
 namespace AddonManager
 {
@@ -23,7 +25,7 @@ namespace AddonManager
         {
             get
             {
-#if DEBUG
+#if !DEBUG
                 if (!File.Exists("OfflineServer.exe"))
                 {
                     MessageBox.Show("It seems like you are running this manager standalone, you need to place this manager next to your 'OfflineServer.exe'!", "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -58,7 +60,7 @@ namespace AddonManager
                         if (product.Trim().IndexOf('(') != -1)
                         {
                             int targetIndex = productsListBox.Items.IndexOf(productsListBox.Items.Cast<string>()
-                                .Where(itemText => itemText.Contains(AddonProject.Catalog.getListBoxEntryText(product)))
+                                .Where(itemText => itemText.StartsWith(AddonProject.Catalog.getListBoxEntryText(product)))
                                 .First());
                             productsListBox.Items[targetIndex] = product;
                             productsListBox.SetItemChecked(targetIndex, true);
@@ -69,7 +71,7 @@ namespace AddonManager
                         if (category.Trim().IndexOf('(') != -1)
                         {
                             int targetIndex = categoriesListBox.Items.IndexOf(categoriesListBox.Items.Cast<string>()
-                                .Where(itemText => itemText.Contains(AddonProject.Catalog.getListBoxEntryText(category)))
+                                .Where(itemText => itemText.StartsWith(AddonProject.Catalog.getListBoxEntryText(category)))
                                 .First());
                             categoriesListBox.Items[targetIndex] = category;
                             categoriesListBox.SetItemChecked(targetIndex, true);
@@ -77,8 +79,11 @@ namespace AddonManager
                     ActiveCheckedListBox.managingLists = false;
 
                     // Basket Files
+                    List<string> basketFiles = new List<string>();
                     foreach (string basket in addonProject.catalog.basket_definitions)
-                        basketsListBox.Items.Add(basket.Trim());
+                        basketFiles.Add(basket.Trim());
+
+                    addItemsWithNaturalOrder(ref basketsListBox, basketFiles);
 
                     // Others
                     addonProject.catalog.addonCreator = addonProject.catalog.addonCreator
@@ -124,7 +129,6 @@ namespace AddonManager
             }
         }
         #endregion
-
         #endregion
 
         private void tabButton_Click(object sender, EventArgs e)
@@ -284,18 +288,20 @@ namespace AddonManager
         private void listBox_DragDrop(object sender, DragEventArgs e)
         {
             ListBox targetListBox = (ListBox)sender;
+            List<string> items = targetListBox.Items.Cast<String>().ToList();
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
-                string targetString = targetListBox.Items.Cast<string>()
-                    .Where(itemText => itemText.Contains(Path.GetFileName(file)))
+                string targetString = items.Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
                     .FirstOrDefault();
-                int targetIndex = targetString == null ? -1 : targetListBox.Items.IndexOf(targetString);
+                int targetIndex = targetString == null ? -1 : items.IndexOf(targetString);
 
                 if (targetIndex != -1 && targetString != null)
-                    targetListBox.Items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
+                    items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
                 else
-                    targetListBox.Items.Add(Path.GetFileName(file) + " (" + file + ")");
+                    items.Add(Path.GetFileName(file) + " (" + file + ")");
+
+                addItemsWithNaturalOrder(ref targetListBox, items);
             }
         }
         private void checkedListBox_DragDrop(object sender, DragEventArgs e)
@@ -305,7 +311,7 @@ namespace AddonManager
             foreach (string file in files)
             {
                 int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
-                    .Where(itemText => itemText.Contains(Path.GetFileName(file)))
+                    .Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
                     .First());
                 if (targetIndex != -1)
                 {
@@ -373,6 +379,5 @@ namespace AddonManager
                 Application.Exit();
             }
         }
-
     }
 }

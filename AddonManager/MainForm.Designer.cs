@@ -470,9 +470,9 @@
             // 
             // serverVersionLabel
             // 
-            this.serverVersionLabel.Location = new System.Drawing.Point(485, 386);
+            this.serverVersionLabel.Location = new System.Drawing.Point(482, 391);
             this.serverVersionLabel.Name = "serverVersionLabel";
-            this.serverVersionLabel.Size = new System.Drawing.Size(403, 28);
+            this.serverVersionLabel.Size = new System.Drawing.Size(406, 28);
             this.serverVersionLabel.TabIndex = 4;
             this.serverVersionLabel.Text = "Your Offline Server version is\r\n{0}";
             this.serverVersionLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
