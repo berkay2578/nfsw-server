@@ -17,8 +17,8 @@ namespace OfflineServer.Servers
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(obj.GetType());
 
-                using (StringWriter textWriter = new StringWriter())
-                using (XmlWriter xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings { Indent = false, OmitXmlDeclaration = true }))
+                using (StringWriter stringWriter = new StringWriter())
+                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Indent = false, OmitXmlDeclaration = true }))
                 {
                     if (forceNoNamespaces)
                     {
@@ -30,7 +30,7 @@ namespace OfflineServer.Servers
                     {
                         xmlSerializer.Serialize(xmlWriter, obj);
                     }
-                    return textWriter.ToString();
+                    return stringWriter.ToString();
                 }
             }
             catch (Exception ex)
@@ -63,11 +63,12 @@ namespace OfflineServer.Servers
             try
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                
+
                 using (StringReader stringReader = new StringReader(plainXml))
+                using (XmlReader xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings()))
                 {
                     T obj = default(T);
-                    obj = (T)xmlSerializer.Deserialize(stringReader);
+                    obj = (T)xmlSerializer.Deserialize(xmlReader);
                     return obj;
                 }
             }
