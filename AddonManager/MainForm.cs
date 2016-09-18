@@ -44,6 +44,44 @@ namespace AddonManager
         }
 
         #region Functions and the necessities
+        #region Catalog
+        private void clearProductsListBox()
+        {
+            ActiveCheckedListBox.managingLists = true;
+            var productsCheckedItems = productsListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
+            foreach (string currentProduct in productsCheckedItems)
+            {
+                string productName = AddonProject.Catalog.getListBoxEntryText(currentProduct);
+                int targetIndex = productsListBox.Items.IndexOf(productsListBox.Items.Cast<string>()
+                        .Where(itemText => itemText.StartsWith(productName))
+                        .First());
+                productsListBox.Items[targetIndex] = productName;
+                productsListBox.SetItemChecked(targetIndex, false);
+            }
+            ActiveCheckedListBox.managingLists = false;
+        }
+        private void clearCategoriesListBox()
+        {
+            ActiveCheckedListBox.managingLists = true;
+            var categoriesCheckedItems = categoriesListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
+            foreach (string currentCategory in categoriesCheckedItems)
+            {
+                string categoryName = AddonProject.Catalog.getListBoxEntryText(currentCategory);
+                int targetIndex = categoriesListBox.Items.IndexOf(categoriesListBox.Items.Cast<string>()
+                        .Where(itemText => itemText.StartsWith(categoryName))
+                        .First());
+                categoriesListBox.Items[targetIndex] = categoryName;
+                categoriesListBox.SetItemChecked(targetIndex, false);
+            }
+            ActiveCheckedListBox.managingLists = false;
+        }
+        private void clearCatalogListBoxes()
+        {
+            clearProductsListBox();
+            clearCategoriesListBox();
+            basketsListBox.Items.Clear();
+        }
+        #endregion
         #region Project
         internal void loadAddonProject()
         {
@@ -54,19 +92,11 @@ namespace AddonManager
                     addonProject = File.ReadAllText(openProjectDialog.FileName, Encoding.UTF8).DeserializeObject<AddonProject>();
 
                     #region Catalog and Basket
-                    ActiveCheckedListBox.managingLists = true;
                     // Products
-                    var productsCheckedItems = productsListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
-                    foreach (string currentProduct in productsCheckedItems)
-                    {
-                        string productName = AddonProject.Catalog.getListBoxEntryText(currentProduct);
-                        int targetIndex = productsListBox.Items.IndexOf(productsListBox.Items.Cast<string>()
-                                .Where(itemText => itemText.StartsWith(productName))
-                                .First());
-                        productsListBox.Items[targetIndex] = productName;
-                        productsListBox.SetItemChecked(targetIndex, false);
-                    }
+                    clearProductsListBox();
+                    ActiveCheckedListBox.managingLists = true;
                     foreach (string product in addonProject.catalog.catalog_products)
+                    {
                         if (product.Trim().IndexOf('(') != -1)
                         {
                             int targetIndex = productsListBox.Items.IndexOf(productsListBox.Items.Cast<string>()
@@ -75,19 +105,14 @@ namespace AddonManager
                             productsListBox.Items[targetIndex] = product;
                             productsListBox.SetItemChecked(targetIndex, true);
                         }
+                    }
+                    ActiveCheckedListBox.managingLists = false;
 
                     // Categories
-                    var categoriesCheckedItems = categoriesListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
-                    foreach (string currentCategory in categoriesCheckedItems)
-                    {
-                        string categoryName = AddonProject.Catalog.getListBoxEntryText(currentCategory);
-                        int targetIndex = categoriesListBox.Items.IndexOf(categoriesListBox.Items.Cast<string>()
-                                .Where(itemText => itemText.StartsWith(categoryName))
-                                .First());
-                        categoriesListBox.Items[targetIndex] = categoryName;
-                        categoriesListBox.SetItemChecked(targetIndex, false);
-                    }
+                    clearCategoriesListBox();
+                    ActiveCheckedListBox.managingLists = true;
                     foreach (string category in addonProject.catalog.catalog_categories)
+                    {
                         if (category.Trim().IndexOf('(') != -1)
                         {
                             int targetIndex = categoriesListBox.Items.IndexOf(categoriesListBox.Items.Cast<string>()
@@ -96,6 +121,7 @@ namespace AddonManager
                             categoriesListBox.Items[targetIndex] = category;
                             categoriesListBox.SetItemChecked(targetIndex, true);
                         }
+                    }
                     ActiveCheckedListBox.managingLists = false;
 
                     // Basket Files
@@ -240,6 +266,10 @@ namespace AddonManager
                         switch (fromTab)
                         {
                             case "Catalog":
+                                {
+                                    clearCatalogListBoxes();
+                                    addonProject.catalog = new AddonProject.Catalog();
+                                }
                                 break;
                             default:
                                 break;
