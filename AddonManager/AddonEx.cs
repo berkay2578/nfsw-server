@@ -3,7 +3,6 @@ using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using static AddonManager.Addon;
@@ -12,25 +11,6 @@ namespace AddonManager
 {
     internal static class AddonEx
     {
-        #region extern definitions
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-        private struct SHFILEOPSTRUCT
-        {
-            public IntPtr hwnd;
-            [MarshalAs(UnmanagedType.U4)]
-            public UInt32 wFunc;
-            public String pFrom;
-            public String pTo;
-            public ushort fFlags;
-            [MarshalAs(UnmanagedType.Bool)]
-            public Boolean fAnyOperationsAborted;
-            public IntPtr hNameMappings;
-            public String lpszProgressTitle;
-        }
-        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
-        private static extern Int32 SHFileOperation(ref SHFILEOPSTRUCT fileOp);
-        #endregion
-
         internal static dynamic readAddonProperty(this String filePath, dynamic[] typeDef)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
