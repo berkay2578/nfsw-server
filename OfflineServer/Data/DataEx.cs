@@ -27,6 +27,8 @@ namespace OfflineServer.Data
         public static String dir_CurrentHttpServerProducts;
         public static String dir_CurrentHttpServerBaskets;
 
+        public static readonly String dir_MemoryPatches = Path.Combine(dir_Data, @"Memory Patches\");
+
         public static readonly String dir_UI = Path.Combine(dir_Data, @"UI\");
         public static readonly String dir_Accents = Path.Combine(dir_UI, @"Accents\");
         public static readonly String dir_Themes = Path.Combine(dir_UI, @"Themes\");
