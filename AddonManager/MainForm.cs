@@ -35,7 +35,7 @@ namespace AddonManager
                 }
                 else
                 {
-                    return FileVersionInfo.GetVersionInfo(Path.Combine(Environment.CurrentDirectory, "OfflineServer.exe")).ProductVersion;
+                    return FileVersionInfo.GetVersionInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "OfflineServer.exe")).ProductVersion;
                 }
 #else
                 return "DEVELOPER PREVIEW";
@@ -92,9 +92,10 @@ namespace AddonManager
                     addonProject = File.ReadAllText(openProjectDialog.FileName, Encoding.UTF8).DeserializeObject<AddonProject>();
 
                     #region Catalog and Basket
-                    // Products
-                    clearProductsListBox();
+                    clearCatalogListBoxes();
                     ActiveCheckedListBox.managingLists = true;
+
+                    // Products
                     foreach (string product in addonProject.catalog.catalog_products)
                     {
                         if (product.Trim().IndexOf('(') != -1)
@@ -106,11 +107,8 @@ namespace AddonManager
                             productsListBox.SetItemChecked(targetIndex, true);
                         }
                     }
-                    ActiveCheckedListBox.managingLists = false;
 
                     // Categories
-                    clearCategoriesListBox();
-                    ActiveCheckedListBox.managingLists = true;
                     foreach (string category in addonProject.catalog.catalog_categories)
                     {
                         if (category.Trim().IndexOf('(') != -1)
@@ -122,6 +120,7 @@ namespace AddonManager
                             categoriesListBox.SetItemChecked(targetIndex, true);
                         }
                     }
+
                     ActiveCheckedListBox.managingLists = false;
 
                     // Basket Files
@@ -221,6 +220,7 @@ namespace AddonManager
                                         && categoriesListBox.CheckedItems.Count == categoriesListBox.Items.Count)
                                 {
                                     createAddonDialog.FilterIndex = 1;
+                                    createAddonDialog.FileName = addonProject.catalog.addonName;
                                     if (createAddonDialog.ShowDialog() == DialogResult.OK)
                                     {
                                         if (createAddonDialog.FileName.EndsWith(".serveraddon_catalogwithbasket"))
@@ -234,13 +234,21 @@ namespace AddonManager
                                             targetAddon.saveAddonProperty(Addon.addonForVersionDef, localOfflineServerVersion);
                                             targetAddon.saveAddonProperty(Addon.addonResDef, "RESERVED FOR LATER USE");
                                             targetAddon.saveAddonProperty(Addon.addonDescriptionDef, addonProject.catalog.addonDescription);
-                                            targetAddon.saveAddonFile(AddonType.catalogWithBaskets,
+                                            if (targetAddon.saveAddonFile(AddonType.catalogWithBaskets,
                                                                         productsListBox.Items.Cast<string>().ToArray(),
                                                                         categoriesListBox.Items.Cast<string>().ToArray(),
                                                                         basketsListBox.Items.Cast<string>().ToArray()
-                                                                     );
-                                            MessageBox.Show("The catalog addon has been created successfully!",
-                                                "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                     ))
+                                            {
+                                                MessageBox.Show("The catalog addon has been created successfully!",
+                                                    "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            }
+                                            else
+                                            {
+                                                if (File.Exists(targetAddon)) File.Delete(targetAddon);
+                                                MessageBox.Show("Create catalog addon operation has been cancelled.",
+                                                    "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            }
                                         }
                                         else
                                         {
@@ -309,6 +317,35 @@ namespace AddonManager
 
         #region UI Events
         #region ListBox
+        private void basketsListBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Delete)
+            {
+                if (basketsListBox.SelectedIndex != -1)
+                {
+                    int oldIndex = basketsListBox.SelectedIndex;
+                    basketsListBox.Items.RemoveAt(basketsListBox.SelectedIndex);
+                    basketsListBox.SelectedIndex = Math.Min(0, oldIndex - 1);
+                }
+            }
+            else if (e.KeyData == (Keys.Control | Keys.Delete))
+            {
+                if (basketsListBox.SelectedIndex != -1)
+                {
+                    string currentItem = basketsListBox.SelectedItem.ToString();
+                    basketsListBox.ClearSelected();
+                    basketsListBox.Items.Clear();
+                    basketsListBox.Items.Add(currentItem);
+                    basketsListBox.SelectedItem = currentItem;
+                }
+            }
+            else if (e.KeyData == (Keys.Shift | Keys.Delete))
+            {
+                basketsListBox.ClearSelected();
+                basketsListBox.Items.Clear();
+            }
+
+        }
         private void basketsListBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -328,7 +365,33 @@ namespace AddonManager
         }
         private void removeListBoxEntryMenuItem_Click(object sender, EventArgs e)
         {
-            if (basketsListBox.SelectedIndex != -1) basketsListBox.Items.RemoveAt(basketsListBox.SelectedIndex);
+            string targetOption = ((ToolStripMenuItem)sender).Name.Substring(11);
+            switch (targetOption)
+            {
+                case "RemoveOption1":
+                    if (basketsListBox.SelectedIndex != -1)
+                    {
+                        int oldIndex = basketsListBox.SelectedIndex;
+                        basketsListBox.Items.RemoveAt(basketsListBox.SelectedIndex);
+                        basketsListBox.SelectedIndex = Math.Min(0, oldIndex - 1);
+                    }
+                    break;
+                case "RemoveOption2":
+                    if (basketsListBox.SelectedIndex != -1)
+                    {
+                        string currentItem = basketsListBox.SelectedItem.ToString();
+                        basketsListBox.ClearSelected();
+                        basketsListBox.Items.Clear();
+                        basketsListBox.Items.Add(currentItem);
+                        basketsListBox.SelectedItem = currentItem;
+                    }
+                    break;
+                case "RemoveOption3":
+                    basketsListBox.ClearSelected();
+                    basketsListBox.Items.Clear();
+                    break;
+            }
+            
         }
 
         private void listBox_DragEnter(object sender, DragEventArgs e)
@@ -342,6 +405,9 @@ namespace AddonManager
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
+                if (!File.Exists(file))
+                    continue;
+
                 string targetString = items.Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
                     .FirstOrDefault();
                 int targetIndex = targetString == null ? -1 : items.IndexOf(targetString);
@@ -350,9 +416,8 @@ namespace AddonManager
                     items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
                 else
                     items.Add(Path.GetFileName(file) + " (" + file + ")");
-
-                addItemsWithNaturalOrder(ref targetListBox, items);
             }
+            addItemsWithNaturalOrder(ref targetListBox, items);
         }
         private void checkedListBox_DragDrop(object sender, DragEventArgs e)
         {
@@ -360,6 +425,9 @@ namespace AddonManager
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
+                if (!File.Exists(file))
+                    continue;
+
                 int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
                     .Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
                     .First());
@@ -397,14 +465,40 @@ namespace AddonManager
                                                             targetAddon.readAddonProperty(Addon.addonForVersionDef)
                                                            );
                 htmlPanel.Text = targetAddon.readAddonProperty(Addon.addonDescriptionDef);
+
+                addonInstallButton.Enabled = true;
             }
         }
 
         private void addonInstallButton_Click(object sender, EventArgs e)
         {
+            addonInstallButton.Enabled = false;
+            addonInstallButton.Text = "Installing...";
 
+            string targetAddon = addonLocationDialog.FileName;
+            if (targetAddon.installAddon())
+            {
+                MessageBox.Show("The selected addon has been installed successfully.", "Just to let you know...",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("There was an error while installing the selected addon. Please double-check the addon and retry.", "Beep boop, I done goofed",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            addonInstallButton.Text = "Install Addon";
+            addonInstallButton.Enabled = true;
         }
         #endregion
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (firstRun)
+            {
+                Application.Exit();
+            }
+        }
 
         public MainForm(Boolean isFirstRun = false)
         {
@@ -421,14 +515,6 @@ namespace AddonManager
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             installAddonGroupBox.Controls.Add(htmlPanel);
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (firstRun)
-            {
-                Application.Exit();
-            }
         }
     }
 }

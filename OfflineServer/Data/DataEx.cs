@@ -25,6 +25,7 @@ namespace OfflineServer.Data
         public static String dir_CurrentHttpServerCatalog;
         public static String dir_CurrentHttpServerCategories;
         public static String dir_CurrentHttpServerProducts;
+        public static String dir_CurrentHttpServerBaskets;
 
         public static readonly String dir_UI = Path.Combine(dir_Data, @"UI\");
         public static readonly String dir_Accents = Path.Combine(dir_UI, @"Accents\");
@@ -64,6 +65,7 @@ namespace OfflineServer.Data
                     dir_CurrentHttpServerCatalog = Path.Combine(dir_HttpServerCatalogs, value + "\\");
                     dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
                     dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
+                    dir_CurrentHttpServerBaskets = Path.Combine(dir_HttpServerBaskets, value + "\\");
                 }
             }
         }

@@ -87,7 +87,7 @@ namespace AddonManager
             htmlPanel = new HtmlPanel();
             htmlPanel.AutoSize = false;
             htmlPanel.BorderStyle = BorderStyle.Fixed3D;
-            htmlPanel.Location = new Point(622, 37);
+            htmlPanel.Location = new Point(620, 37);
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             this.Controls.Add(htmlPanel);

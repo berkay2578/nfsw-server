@@ -1,7 +1,9 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using static AddonManager.Addon;
@@ -10,6 +12,25 @@ namespace AddonManager
 {
     internal static class AddonEx
     {
+        #region extern definitions
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+        private struct SHFILEOPSTRUCT
+        {
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.U4)]
+            public UInt32 wFunc;
+            public String pFrom;
+            public String pTo;
+            public ushort fFlags;
+            [MarshalAs(UnmanagedType.Bool)]
+            public Boolean fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public String lpszProgressTitle;
+        }
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        private static extern Int32 SHFileOperation(ref SHFILEOPSTRUCT fileOp);
+        #endregion
+
         internal static dynamic readAddonProperty(this String filePath, dynamic[] typeDef)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -40,17 +61,31 @@ namespace AddonManager
                 }
             }
         }
-
         internal static void saveAddonProperty(this String filePath, dynamic[] typeDef, String strValue, Boolean resetFile = false)
         {
-            using (FileStream fileStream = new FileStream(filePath, resetFile? FileMode.Create : FileMode.Open, FileAccess.Write, FileShare.None))
+            using (FileStream fileStream = new FileStream(filePath, resetFile ? FileMode.Create : FileMode.Open, FileAccess.Write, FileShare.None))
             {
                 byte[] value = new UTF8Encoding(false, false).GetBytes(strValue.Substring(0, Math.Min(strValue.Length, typeDef[2] - 1)) + '\0');
                 fileStream.Position = typeDef[1];
                 fileStream.Write(value, 0, value.Length);
             }
         }
-        internal static void saveAddonFile(this String filePath, String addonType, params String[][] lists)
+
+        internal static String extractAddonFile(this String addonPath)
+        {
+            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(addonPath));
+            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+            Directory.CreateDirectory(tempDir);
+
+            string tempFile = Path.GetTempFileName();
+            File.WriteAllBytes(tempFile, readAddonProperty(addonPath, addonFileDef));
+
+            new FastZip().ExtractZip(tempFile, tempDir, null);
+            if (File.Exists(tempFile)) File.Delete(tempFile);
+
+            return tempDir;
+        }
+        internal static Boolean saveAddonFile(this String filePath, String addonType, params String[][] lists)
         {
             retry:
             string tempDir = Path.Combine(Path.GetTempPath(), "addonmanager");
@@ -72,7 +107,8 @@ namespace AddonManager
                             Path.GetFileNameWithoutExtension(filePath), "Products"));
                         var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs,
                             Path.GetFileNameWithoutExtension(filePath), "Categories"));
-                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets));
+                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets,
+                            Path.GetFileNameWithoutExtension(filePath)));
 
                         foreach (string product in products)
                             File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
@@ -100,14 +136,14 @@ namespace AddonManager
             }
             catch (FileNotFoundException fnfEx)
             {
-                DialogResult userResponse = MessageBox.Show("AddonManager couldn't access the following file:\r\n'" + fnfEx.FileName + "'.", 
+                DialogResult userResponse = MessageBox.Show("AddonManager couldn't access the following file:\r\n'" + fnfEx.FileName + "'.",
                     "Beep boop, I done goofed", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 if (userResponse == DialogResult.Retry)
                     goto retry;
 
                 if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
                 if (File.Exists(zipFile)) File.Delete(zipFile);
-                return;
+                return false;
             }
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Write, FileShare.None))
@@ -119,6 +155,29 @@ namespace AddonManager
 
             if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
             if (File.Exists(zipFile)) File.Delete(zipFile);
+            return true;
+        }
+
+        internal static Boolean installAddon(this String addonPath)
+        {
+            string extractedAddonDir = extractAddonFile(addonPath);
+
+            try
+            {
+                foreach (string directory in Directory.GetDirectories(extractedAddonDir, "*", System.IO.SearchOption.TopDirectoryOnly))
+                {
+                    FileSystem.MoveDirectory(Path.GetDirectoryName(directory),
+                        Path.GetDirectoryName(Application.ExecutablePath),
+                        UIOption.AllDialogs, UICancelOption.ThrowException);
+                }
+                if (Directory.Exists(extractedAddonDir)) Directory.Delete(extractedAddonDir, true);
+                return true;
+            }
+            catch (Exception)
+            {
+                if (Directory.Exists(extractedAddonDir)) Directory.Delete(extractedAddonDir, true);
+                return false;
+            }
         }
     }
 }

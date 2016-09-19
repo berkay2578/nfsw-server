@@ -54,7 +54,7 @@
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(678, 344);
+            this.okButton.Location = new System.Drawing.Point(674, 344);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
@@ -65,7 +65,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(759, 344);
+            this.cancelButton.Location = new System.Drawing.Point(755, 344);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 1;
@@ -258,8 +258,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(846, 377);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(844, 376);
             this.Controls.Add(this.addonDescriptionUseDefaultFontCheckBox);
             this.Controls.Add(this.refreshDemoLabel);
             this.Controls.Add(this.label7);
@@ -284,6 +283,7 @@
             this.Controls.Add(this.okButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddonDetailsDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

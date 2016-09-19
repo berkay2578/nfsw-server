@@ -92,17 +92,19 @@ namespace OfflineServer.Data.Settings
 
                 public Style()
                 {
-                    foreach (String accentXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Accents), "*.xaml", SearchOption.TopDirectoryOnly))
+                    String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location);
+
+                    foreach (String accentXaml in Directory.GetFiles(Path.Combine(currentDir, DataEx.dir_Accents), "*.xaml", SearchOption.TopDirectoryOnly))
                     {
-                        String accentName = accentXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Accents), String.Empty).Replace(".xaml", String.Empty);
+                        String accentName = accentXaml.Replace(Path.Combine(currentDir, DataEx.dir_Accents), String.Empty).Replace(".xaml", String.Empty);
 
                         ThemeManager.AddAccent(accentName, new Uri(accentXaml, UriKind.Absolute));
                         list_Accents.Add(accentName);
                     }
 
-                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
+                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(currentDir, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
                     {
-                        String themeName = themeXaml.Replace(Path.Combine(Environment.CurrentDirectory, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
+                        String themeName = themeXaml.Replace(Path.Combine(currentDir, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
 
                         ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
                         list_Themes.Add(themeName);

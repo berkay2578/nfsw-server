@@ -69,7 +69,10 @@
             this.openProjectDialog = new System.Windows.Forms.OpenFileDialog();
             this.createAddonDialog = new System.Windows.Forms.SaveFileDialog();
             this.listBoxRemoveItemContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeListBoxEntryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuRemoveOption1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuRemoveOption2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuRemoveOption3 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPageCatalog.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -144,6 +147,7 @@
             this.basketsListBox.TabStop = false;
             this.basketsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox_DragDrop);
             this.basketsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox_DragEnter);
+            this.basketsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.basketsListBox_KeyUp);
             this.basketsListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.basketsListBox_MouseDown);
             // 
             // label6
@@ -521,17 +525,41 @@
             // listBoxRemoveItemContextMenu
             // 
             this.listBoxRemoveItemContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeListBoxEntryMenuItem});
+            this.contextMenuRemove});
             this.listBoxRemoveItemContextMenu.Name = "listBoxRemoveItemContextMenu";
             this.listBoxRemoveItemContextMenu.Size = new System.Drawing.Size(118, 26);
             // 
-            // removeListBoxEntryMenuItem
+            // contextMenuRemove
             // 
-            this.removeListBoxEntryMenuItem.Name = "removeListBoxEntryMenuItem";
-            this.removeListBoxEntryMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.removeListBoxEntryMenuItem.Text = "Remove";
-            this.removeListBoxEntryMenuItem.ToolTipText = "Removes the selected item from the listbox.";
-            this.removeListBoxEntryMenuItem.Click += new System.EventHandler(this.removeListBoxEntryMenuItem_Click);
+            this.contextMenuRemove.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuRemoveOption1,
+            this.contextMenuRemoveOption2,
+            this.contextMenuRemoveOption3});
+            this.contextMenuRemove.Name = "contextMenuRemove";
+            this.contextMenuRemove.Size = new System.Drawing.Size(117, 22);
+            this.contextMenuRemove.Text = "Remove";
+            this.contextMenuRemove.ToolTipText = "Removes the selected item from the listbox.";
+            // 
+            // contextMenuRemoveOption1
+            // 
+            this.contextMenuRemoveOption1.Name = "contextMenuRemoveOption1";
+            this.contextMenuRemoveOption1.Size = new System.Drawing.Size(342, 22);
+            this.contextMenuRemoveOption1.Text = "Remove selected item (del)";
+            this.contextMenuRemoveOption1.Click += new System.EventHandler(this.removeListBoxEntryMenuItem_Click);
+            // 
+            // contextMenuRemoveOption2
+            // 
+            this.contextMenuRemoveOption2.Name = "contextMenuRemoveOption2";
+            this.contextMenuRemoveOption2.Size = new System.Drawing.Size(342, 22);
+            this.contextMenuRemoveOption2.Text = "Remove everything but the selected item (ctrl+del)";
+            this.contextMenuRemoveOption2.Click += new System.EventHandler(this.removeListBoxEntryMenuItem_Click);
+            // 
+            // contextMenuRemoveOption3
+            // 
+            this.contextMenuRemoveOption3.Name = "contextMenuRemoveOption3";
+            this.contextMenuRemoveOption3.Size = new System.Drawing.Size(342, 22);
+            this.contextMenuRemoveOption3.Text = "Remove everything (shift+del)";
+            this.contextMenuRemoveOption3.Click += new System.EventHandler(this.removeListBoxEntryMenuItem_Click);
             // 
             // MainForm
             // 
@@ -605,6 +633,9 @@
         private System.Windows.Forms.Button openCatalogAddonDetails;
         private System.Windows.Forms.TabPage tabPageMemoryPatch;
         private System.Windows.Forms.ContextMenuStrip listBoxRemoveItemContextMenu;
-        private System.Windows.Forms.ToolStripMenuItem removeListBoxEntryMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuRemove;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption1;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption2;
+        private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption3;
     }
 }
