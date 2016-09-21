@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfflineServer", "OfflineServer\OfflineServer.csproj", "{1DA7690F-1316-4BF1-81AD-56A54A422D60}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1B0759-D553-4BE0-940F-FB7D7BE9FA25} = {1A1B0759-D553-4BE0-940F-FB7D7BE9FA25}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddonManager", "AddonManager\AddonManager.csproj", "{1A1B0759-D553-4BE0-940F-FB7D7BE9FA25}"
 EndProject

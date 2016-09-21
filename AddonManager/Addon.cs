@@ -37,6 +37,5 @@
         public static readonly dynamic[] addonDescriptionDef = new dynamic[3] { AddonProperty.Description, 21320, 5001 };
         public static readonly dynamic[] addonFileDef = new dynamic[3] { AddonProperty.AddonFile, 41324, null };
         #endregion
-
     }
 }

@@ -27,30 +27,32 @@ namespace OfflineServer.Servers.Http
             port = nServer.EndPoint.Port;
             log.Info(String.Format("Successfully setup HttpServer on port {0}.", port));
         }
-        
+
         private void nServer_RequestReceived(object sender, HttpRequestEventArgs e)
         {
             e.Response.Headers.Add("Connection", "close");
             e.Response.Headers.Add("Content-Encoding", "gzip");
             e.Response.Headers.Add("Content-Type", "application/xml;charset=utf-8");
             e.Response.Headers.Add("Status-Code", "200");
-            
+
             log.Info(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl));
 
             Byte[] baResponseArray = null;
             List<String> splittedPath = new List<String>(e.Request.Path.Split('/'));
-            String ioPath = DataEx.dir_HttpServerFallback + e.Request.Path.Remove(0, 1) + ".xml";
 
-            if (splittedPath.Count >= 4)
+            String ioPath = Path.Combine(DataEx.dir_Server, e.Request.Path.Substring(1) + ".xml");
+
+            if (splittedPath.Count >= 3)
             {
-                String targetClassString = changeCaseFirst(splittedPath[4], true);
-                if (splittedPath.Count == 5) {
+                String targetClassString = changeCaseFirst(splittedPath[2], true);
+                if (splittedPath.Count == 3)
+                {
                     splittedPath.Insert(0, "");
                     targetClassString = "Root";
                 }
-                double dummy;
-                Boolean isNumber = double.TryParse(splittedPath[5], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dummy);
-                String targetMethodString = changeCaseFirst(isNumber ? splittedPath[6] : splittedPath[5], false);
+                Double dummy;
+                Boolean isNumber = Double.TryParse(splittedPath[3], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dummy);
+                String targetMethodString = changeCaseFirst(isNumber ? splittedPath[4] : splittedPath[3], false);
                 if (!supportedMethods.Contains(targetMethodString))
                 {
                     log.Warn(String.Format("Method for {0} wasn't found, using fallback XML method.", targetMethodString));
@@ -79,7 +81,8 @@ namespace OfflineServer.Servers.Http
                 {
                     log.Info(String.Format("Reading XML file {0}.", ioPath));
                     baResponseArray = getResponseData(File.ReadAllText(ioPath, Encoding.UTF8));
-                } else
+                }
+                else
                 {
                     log.Warn(String.Format("File {0} wasn't found, sending only 200OK.", ioPath));
                 }
@@ -112,7 +115,7 @@ namespace OfflineServer.Servers.Http
         private string changeCaseFirst(String input, Boolean upperCase)
         {
             char[] cArray = input.ToCharArray();
-            cArray[0] = upperCase ? char.ToUpper(cArray[0]): char.ToLower(cArray[0]);
+            cArray[0] = upperCase ? char.ToUpper(cArray[0]) : char.ToLower(cArray[0]);
             return new string(cArray);
         }
 

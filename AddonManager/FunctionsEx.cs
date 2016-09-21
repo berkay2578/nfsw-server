@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -24,6 +25,12 @@ namespace AddonManager
         {
             listBox.Items.Clear();
             listBox.Items.AddRange(items.OrderNatural(s => s).ToArray());
+        }
+
+        public static string getPath(this DirectoryNotFoundException dnfEx)
+        {
+            System.Text.RegularExpressions.Regex pathMatcher = new System.Text.RegularExpressions.Regex(@"[^']+");
+            return pathMatcher.Matches(dnfEx.Message)[1].Value;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace OfflineServer.Servers.Xmpp
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             listener.Start();
             this.port = ((IPEndPoint)listener.LocalEndpoint).Port;
-            log.Info(String.Format("Successfully setup XmppServer on port {0}.", port));
+            log.Info(String.Format("Successfully setup XmppServer on port {0}.", this.port));
         }
 
         public override void initialize()
@@ -57,13 +57,13 @@ namespace OfflineServer.Servers.Xmpp
 
         private async Task<String> _read(Boolean increaseAmountRead = true)
         {
-            string result = await read((isSsl && amountRead < 1)).ConfigureAwait(false);
+            string result = await read((isSsl && amountRead < 1));
             if (increaseAmountRead) amountRead++;
             return result;
         }
         private async Task _write()
         {
-            await write(packets[amountRead], (isSsl && amountRead < 2)).ConfigureAwait(false);
+            await write(packets[amountRead], (isSsl && amountRead < 2));
             if (isSsl && amountRead == 1) switchToTls();
         }
 
@@ -93,15 +93,15 @@ namespace OfflineServer.Servers.Xmpp
 
             do
             {
-                await _read().ConfigureAwait(false);
-                await _write().ConfigureAwait(false);
+                await _read();
+                await _write();
             } while (amountRead < final);
 
             while (!read.StartsWith("<presence to"))
-                read = await _read(false).ConfigureAwait(false);
+                read = await _read(false);
 
             amountRead++;
-            await _write().ConfigureAwait(false);
+            await _write();
 
             log.Info("Handshake successful.");
             listenLoop();
@@ -111,10 +111,10 @@ namespace OfflineServer.Servers.Xmpp
         {
             while (!ct.IsCancellationRequested)
             {
-                string packet = await read().ConfigureAwait(false);
+                string packet = await read();
                 if (packet.Contains("</stream:stream>"))
                 {
-                    await write("</stream:stream>").ConfigureAwait(false);
+                    await write("</stream:stream>");
                     log.Info(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()));
                     shutdown();
                     break;

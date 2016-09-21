@@ -57,14 +57,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.addonInformationLabel = new System.Windows.Forms.Label();
-            this.addonInstallButton = new System.Windows.Forms.Button();
+            this.buttonAddonInstall = new System.Windows.Forms.Button();
             this.addonLocationLabel = new System.Windows.Forms.Label();
-            this.addonLocationButton = new System.Windows.Forms.Button();
+            this.buttonAddonBrowse = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.addonLocationDialog = new System.Windows.Forms.OpenFileDialog();
-            this.serverVersionLabel = new System.Windows.Forms.Label();
-            this.saveProject = new System.Windows.Forms.Button();
-            this.loadProject = new System.Windows.Forms.Button();
             this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
             this.openProjectDialog = new System.Windows.Forms.OpenFileDialog();
             this.createAddonDialog = new System.Windows.Forms.SaveFileDialog();
@@ -73,6 +70,14 @@
             this.contextMenuRemoveOption1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuRemoveOption2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuRemoveOption3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addonManagerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripItemFile = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItemOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSaveProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSaveProjectAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
             this.tabControl1.SuspendLayout();
             this.tabPageCatalog.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -82,6 +87,7 @@
             this.tabPageLanguage.SuspendLayout();
             this.installAddonGroupBox.SuspendLayout();
             this.listBoxRemoveItemContextMenu.SuspendLayout();
+            this.addonManagerToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -92,7 +98,7 @@
             this.tabControl1.Controls.Add(this.tabPageTheme);
             this.tabControl1.Controls.Add(this.tabPageLanguage);
             this.tabControl1.Controls.Add(this.tabPageMemoryPatch);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(12, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(467, 373);
@@ -383,11 +389,11 @@
             this.installAddonGroupBox.Controls.Add(this.label3);
             this.installAddonGroupBox.Controls.Add(this.label2);
             this.installAddonGroupBox.Controls.Add(this.addonInformationLabel);
-            this.installAddonGroupBox.Controls.Add(this.addonInstallButton);
+            this.installAddonGroupBox.Controls.Add(this.buttonAddonInstall);
             this.installAddonGroupBox.Controls.Add(this.addonLocationLabel);
-            this.installAddonGroupBox.Controls.Add(this.addonLocationButton);
+            this.installAddonGroupBox.Controls.Add(this.buttonAddonBrowse);
             this.installAddonGroupBox.Controls.Add(this.label1);
-            this.installAddonGroupBox.Location = new System.Drawing.Point(485, 12);
+            this.installAddonGroupBox.Location = new System.Drawing.Point(485, 28);
             this.installAddonGroupBox.Name = "installAddonGroupBox";
             this.installAddonGroupBox.Size = new System.Drawing.Size(403, 371);
             this.installAddonGroupBox.TabIndex = 3;
@@ -423,16 +429,16 @@
             this.addonInformationLabel.Text = "- Name: (null)\r\n- Type: (null)\r\n- Created by: (null)\r\n- Created on: (null)\r\n- Ver" +
     "sion: (null)\r\n- Made for offline server version: (null)\r\n";
             // 
-            // addonInstallButton
+            // buttonAddonInstall
             // 
-            this.addonInstallButton.Enabled = false;
-            this.addonInstallButton.Location = new System.Drawing.Point(280, 342);
-            this.addonInstallButton.Name = "addonInstallButton";
-            this.addonInstallButton.Size = new System.Drawing.Size(117, 23);
-            this.addonInstallButton.TabIndex = 4;
-            this.addonInstallButton.Text = "Install Addon";
-            this.addonInstallButton.UseVisualStyleBackColor = true;
-            this.addonInstallButton.Click += new System.EventHandler(this.addonInstallButton_Click);
+            this.buttonAddonInstall.Enabled = false;
+            this.buttonAddonInstall.Location = new System.Drawing.Point(280, 342);
+            this.buttonAddonInstall.Name = "buttonAddonInstall";
+            this.buttonAddonInstall.Size = new System.Drawing.Size(117, 23);
+            this.buttonAddonInstall.TabIndex = 4;
+            this.buttonAddonInstall.Text = "Install Addon";
+            this.buttonAddonInstall.UseVisualStyleBackColor = true;
+            this.buttonAddonInstall.Click += new System.EventHandler(this.installAnAddonButton_Click);
             // 
             // addonLocationLabel
             // 
@@ -445,15 +451,15 @@
             this.addonLocationLabel.TabIndex = 3;
             this.addonLocationLabel.Text = "(empty)";
             // 
-            // addonLocationButton
+            // buttonAddonBrowse
             // 
-            this.addonLocationButton.Location = new System.Drawing.Point(12, 61);
-            this.addonLocationButton.Name = "addonLocationButton";
-            this.addonLocationButton.Size = new System.Drawing.Size(75, 23);
-            this.addonLocationButton.TabIndex = 1;
-            this.addonLocationButton.Text = "Browse...";
-            this.addonLocationButton.UseVisualStyleBackColor = true;
-            this.addonLocationButton.Click += new System.EventHandler(this.addonLocationButton_Click);
+            this.buttonAddonBrowse.Location = new System.Drawing.Point(12, 61);
+            this.buttonAddonBrowse.Name = "buttonAddonBrowse";
+            this.buttonAddonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddonBrowse.TabIndex = 1;
+            this.buttonAddonBrowse.Text = "Browse...";
+            this.buttonAddonBrowse.UseVisualStyleBackColor = true;
+            this.buttonAddonBrowse.Click += new System.EventHandler(this.installAnAddonButton_Click);
             // 
             // label1
             // 
@@ -471,35 +477,6 @@
             this.addonLocationDialog.Filter = "Catalog and basket packs|*.serveraddon_catalogwithbasket|Accent|*.serveraddon_acc" +
     "ent|Theme|*.serveraddon_theme|Language|*.serveraddon_language";
             this.addonLocationDialog.Title = "Select an addon...";
-            // 
-            // serverVersionLabel
-            // 
-            this.serverVersionLabel.Location = new System.Drawing.Point(482, 386);
-            this.serverVersionLabel.Name = "serverVersionLabel";
-            this.serverVersionLabel.Size = new System.Drawing.Size(406, 28);
-            this.serverVersionLabel.TabIndex = 4;
-            this.serverVersionLabel.Text = "Your Offline Server version is\r\n{0}";
-            this.serverVersionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // saveProject
-            // 
-            this.saveProject.Location = new System.Drawing.Point(12, 391);
-            this.saveProject.Name = "saveProject";
-            this.saveProject.Size = new System.Drawing.Size(91, 23);
-            this.saveProject.TabIndex = 5;
-            this.saveProject.Text = "Save Project";
-            this.saveProject.UseVisualStyleBackColor = true;
-            this.saveProject.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // loadProject
-            // 
-            this.loadProject.Location = new System.Drawing.Point(109, 391);
-            this.loadProject.Name = "loadProject";
-            this.loadProject.Size = new System.Drawing.Size(91, 23);
-            this.loadProject.TabIndex = 6;
-            this.loadProject.Text = "Load Project";
-            this.loadProject.UseVisualStyleBackColor = true;
-            this.loadProject.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // saveProjectDialog
             // 
@@ -561,19 +538,95 @@
             this.contextMenuRemoveOption3.Text = "Remove everything (shift+del)";
             this.contextMenuRemoveOption3.Click += new System.EventHandler(this.removeListBoxEntryMenuItem_Click);
             // 
+            // addonManagerToolStrip
+            // 
+            this.addonManagerToolStrip.CanOverflow = false;
+            this.addonManagerToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.addonManagerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripItemFile,
+            this.toolStripButtonAbout});
+            this.addonManagerToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.addonManagerToolStrip.Name = "addonManagerToolStrip";
+            this.addonManagerToolStrip.Size = new System.Drawing.Size(900, 25);
+            this.addonManagerToolStrip.TabIndex = 7;
+            // 
+            // toolStripItemFile
+            // 
+            this.toolStripItemFile.AutoToolTip = false;
+            this.toolStripItemFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemOpenProject,
+            this.toolStripMenuItemSaveProject,
+            this.toolStripMenuItemSaveProjectAs,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemExit});
+            this.toolStripItemFile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripItemFile.Image")));
+            this.toolStripItemFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripItemFile.Name = "toolStripItemFile";
+            this.toolStripItemFile.ShowDropDownArrow = false;
+            this.toolStripItemFile.Size = new System.Drawing.Size(29, 22);
+            this.toolStripItemFile.Text = "File";
+            // 
+            // toolStripMenuItemOpenProject
+            // 
+            this.toolStripMenuItemOpenProject.Name = "toolStripMenuItemOpenProject";
+            this.toolStripMenuItemOpenProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.toolStripMenuItemOpenProject.Size = new System.Drawing.Size(235, 22);
+            this.toolStripMenuItemOpenProject.Text = "Open Project";
+            this.toolStripMenuItemOpenProject.Click += new System.EventHandler(this.toolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemSaveProject
+            // 
+            this.toolStripMenuItemSaveProject.Name = "toolStripMenuItemSaveProject";
+            this.toolStripMenuItemSaveProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemSaveProject.Size = new System.Drawing.Size(235, 22);
+            this.toolStripMenuItemSaveProject.Text = "Save Project";
+            this.toolStripMenuItemSaveProject.Click += new System.EventHandler(this.toolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemSaveProjectAs
+            // 
+            this.toolStripMenuItemSaveProjectAs.Name = "toolStripMenuItemSaveProjectAs";
+            this.toolStripMenuItemSaveProjectAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.toolStripMenuItemSaveProjectAs.Size = new System.Drawing.Size(235, 22);
+            this.toolStripMenuItemSaveProjectAs.Text = "Save Project As...";
+            this.toolStripMenuItemSaveProjectAs.Click += new System.EventHandler(this.toolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
+            // 
+            // toolStripMenuItemExit
+            // 
+            this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
+            this.toolStripMenuItemExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(235, 22);
+            this.toolStripMenuItemExit.Text = "Exit";
+            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItem_Click);
+            // 
+            // toolStripButtonAbout
+            // 
+            this.toolStripButtonAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonAbout.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAbout.Image")));
+            this.toolStripButtonAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAbout.Name = "toolStripButtonAbout";
+            this.toolStripButtonAbout.Size = new System.Drawing.Size(44, 22);
+            this.toolStripButtonAbout.Text = "About";
+            this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(914, 423);
-            this.Controls.Add(this.loadProject);
-            this.Controls.Add(this.saveProject);
-            this.Controls.Add(this.serverVersionLabel);
+            this.ClientSize = new System.Drawing.Size(900, 413);
+            this.Controls.Add(this.addonManagerToolStrip);
             this.Controls.Add(this.installAddonGroupBox);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.Opacity = 0D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Offline Server: Addon Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -589,7 +642,10 @@
             this.installAddonGroupBox.ResumeLayout(false);
             this.installAddonGroupBox.PerformLayout();
             this.listBoxRemoveItemContextMenu.ResumeLayout(false);
+            this.addonManagerToolStrip.ResumeLayout(false);
+            this.addonManagerToolStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -608,17 +664,14 @@
         private System.Windows.Forms.Button createLanguage;
         private System.Windows.Forms.Button discardLanguage;
         private System.Windows.Forms.GroupBox installAddonGroupBox;
-        private System.Windows.Forms.Button addonInstallButton;
+        private System.Windows.Forms.Button buttonAddonInstall;
         private System.Windows.Forms.Label addonLocationLabel;
-        private System.Windows.Forms.Button addonLocationButton;
+        private System.Windows.Forms.Button buttonAddonBrowse;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label addonInformationLabel;
         internal System.Windows.Forms.OpenFileDialog addonLocationDialog;
-        private System.Windows.Forms.Label serverVersionLabel;
-        private System.Windows.Forms.Button saveProject;
-        private System.Windows.Forms.Button loadProject;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
@@ -637,5 +690,13 @@
         private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption1;
         private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption2;
         private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption3;
+        private System.Windows.Forms.ToolStrip addonManagerToolStrip;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripItemFile;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveProjectAs;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAbout;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
     }
 }

@@ -5,9 +5,11 @@ using OfflineServer.Data;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.IPC;
 using System;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,6 +24,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using static OfflineServer.Servers.IPC.AddonManagerTalk;
 
 namespace OfflineServer
 {
@@ -51,8 +54,12 @@ namespace OfflineServer
 
             log.Info("Starting session.");
             Access.CurrentSession.startSession();
+
             InitializeComponent();
             SetupComponents();
+
+            Access.addonManagerTalk = new AddonManagerTalk();
+
             Access.mainWindow = this;
             log.Debug("Access.mainWindow set.");
         }
@@ -320,6 +327,26 @@ namespace OfflineServer
                 case "buttonSettings":
                     flyoutSettings.IsOpen = !flyoutSettings.IsOpen;
                     break;
+                case "buttonAddonManager":
+                    if (!AddonManagerTalk.isAddonManagerRunning && AddonManagerTalk.isWaitingForClient)
+                    {
+                        String addonManagerLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "AddonManager.exe");
+                        if (!File.Exists(addonManagerLocation))
+                        {
+                            this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
+                                Access.dataAccess.appSettings.uiSettings.language.AddonManagerNotFoundError);
+                            return;
+                        }
+
+                        Access.addonManagerTalk.initialize();
+                        String args = String.Format("/catalogs '{0}' /baskets '{1}' /logs '{2}' /offlineServer {3}",
+                            Path.GetFullPath(DataEx.dir_HttpServerCatalogs),
+                            Path.GetFullPath(DataEx.dir_HttpServerBaskets),
+                            Path.GetFullPath(DataEx.dir_Logs),
+                            Access.addonManagerTalk.port);
+                        Process.Start(addonManagerLocation, args);
+                    }
+                    break;
             }
         }
         public class STEditConverter : IValueConverter
@@ -415,13 +442,20 @@ namespace OfflineServer
         #region Functions/Voids to remove if not needed later
         public async void informUser(String messageTitle, String messageText)
         {
-            await this.ShowMessageAsync(messageTitle, messageText, MessageDialogStyle.Affirmative).ConfigureAwait(false);
+            await this.ShowMessageAsync(messageTitle, messageText, MessageDialogStyle.Affirmative);
         }
         #endregion
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             log.Info("Shutting down offline server.");
+
+            if (AddonManagerTalk.isAddonManagerRunning || AddonManagerTalk.isWaitingForClient)
+            {
+                log.Info("Closing existing AddonManager IPC Talk.");
+                Access.addonManagerTalk.notify(IPCPacketType.offlineServerClosing);
+                Access.addonManagerTalk.shutdown();
+            }
 
             if (Access.sHttp != null && Access.sXmpp != null)
             {
@@ -437,9 +471,9 @@ namespace OfflineServer
             NfswSession.dbConnection.Dispose();
 
             SessionManager.getSessionFactory().Close();
-            SessionManager.getSessionFactory().Dispose();
 
             log.Info("Killing main thread.");
+            Application.Current.Shutdown();
         }
     }
 }

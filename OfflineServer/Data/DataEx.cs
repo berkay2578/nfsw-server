@@ -16,11 +16,9 @@ namespace OfflineServer.Data
 
         public static readonly String dir_Database = Path.Combine(dir_Data, @"Database\");
         public static readonly String dir_Server = Path.Combine(dir_Data, @"Server\");
-
-        public static readonly String dir_HttpServerFiles = Path.Combine(dir_Server, @"Files\");
-        public static readonly String dir_HttpServerFallback = Path.Combine(dir_HttpServerFiles, @"Fallback\");
-        public static readonly String dir_HttpServerCatalogs = Path.Combine(dir_HttpServerFiles, @"Catalogs\");
-        public static readonly String dir_HttpServerBaskets = Path.Combine(dir_HttpServerFiles, @"Baskets\");
+        
+        public static readonly String dir_HttpServerCatalogs = Path.Combine(dir_Server, @"Catalogs\");
+        public static readonly String dir_HttpServerBaskets = Path.Combine(dir_Server, @"Baskets\");
 
         public static String dir_CurrentHttpServerCatalog;
         public static String dir_CurrentHttpServerCategories;

@@ -3,13 +3,11 @@ using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
-using OfflineServer.Data;
-using System;
-using System.Diagnostics;
-using System.Reflection;
+using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
-namespace OfflineServer
+namespace AddonManager
 {
     public static class Logger
     {
@@ -24,7 +22,7 @@ namespace OfflineServer
             RollingFileAppender roller = new RollingFileAppender();
             roller.AppendToFile = false;
             roller.Encoding = Encoding.UTF8;
-            roller.File = DataEx.log_Events;
+            roller.File = Path.Combine(AddonEx.dir_Logs, "AddonManager.log");
             roller.Layout = patternLayout;
             roller.MaxSizeRollBackups = 5;
             roller.MaximumFileSize = "5MB";
@@ -37,7 +35,7 @@ namespace OfflineServer
             memory.ActivateOptions();
             hierarchy.Root.AddAppender(memory);
 
-            hierarchy.Root.Level = (bool)App.Current.Properties["Troubleshooting"] ? Level.Debug : Level.Info;
+            hierarchy.Root.Level = Level.Info;
             hierarchy.Configured = true;
 
             doFirstEntry();
@@ -46,8 +44,7 @@ namespace OfflineServer
         public static void doFirstEntry()
         {
             ILog debugLogger = LogManager.GetLogger("Logger.doFirstEntry");
-            debugLogger.Info(String.Format("Loaded application version {0}.", FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion));
-            debugLogger.Debug(DataEx.getDataHierarchy());
+            debugLogger.InfoFormat("Loaded application version {0}.", Application.ProductVersion);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace OfflineServer.Servers.Http.Classes
         public static String defaultcar()
         {
             String[] splittedPath = Access.sHttp.request.Path.Split('/');
-            if (splittedPath.Length == 8)
+            if (splittedPath.Length == 6)
             {
-                Int32 newCarId = Int32.Parse(splittedPath[7]);
+                Int32 newCarId = Int32.Parse(splittedPath[5]);
                 var garage = Access.CurrentSession.ActivePersona.Cars;
                 for (int i = 0; i < garage.Count - 1; i++)
                 {

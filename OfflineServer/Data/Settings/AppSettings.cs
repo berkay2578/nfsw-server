@@ -81,6 +81,32 @@ namespace OfflineServer.Data.Settings
                     if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
                 }
 
+                public void loadStyles()
+                {
+                    list_Accents.Clear();
+                    list_Themes.Clear();
+
+                    String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    String accentsDir = Path.Combine(currentDir, DataEx.dir_Accents);
+                    String themesDir = Path.Combine(currentDir, DataEx.dir_Themes);
+
+                    foreach (String accentXaml in Directory.GetFiles(accentsDir, "*.xaml", SearchOption.TopDirectoryOnly))
+                    {
+                        String accentName = accentXaml.Replace(accentsDir, String.Empty).Replace(".xaml", String.Empty);
+
+                        ThemeManager.AddAccent(accentName, new Uri(accentXaml, UriKind.Absolute));
+                        list_Accents.Add(accentName);
+                    }
+
+                    foreach (String themeXaml in Directory.GetFiles(themesDir, "*.xaml", SearchOption.TopDirectoryOnly))
+                    {
+                        String themeName = themeXaml.Replace(themesDir, String.Empty).Replace(".xaml", String.Empty);
+
+                        ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
+                        list_Themes.Add(themeName);
+                    }
+                }
+
                 public void doDefault()
                 {
                     accent = ThemeManager.GetAccent("Steel");
@@ -92,24 +118,7 @@ namespace OfflineServer.Data.Settings
 
                 public Style()
                 {
-                    String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location);
-
-                    foreach (String accentXaml in Directory.GetFiles(Path.Combine(currentDir, DataEx.dir_Accents), "*.xaml", SearchOption.TopDirectoryOnly))
-                    {
-                        String accentName = accentXaml.Replace(Path.Combine(currentDir, DataEx.dir_Accents), String.Empty).Replace(".xaml", String.Empty);
-
-                        ThemeManager.AddAccent(accentName, new Uri(accentXaml, UriKind.Absolute));
-                        list_Accents.Add(accentName);
-                    }
-
-                    foreach (String themeXaml in Directory.GetFiles(Path.Combine(currentDir, DataEx.dir_Themes), "*.xaml", SearchOption.TopDirectoryOnly))
-                    {
-                        String themeName = themeXaml.Replace(Path.Combine(currentDir, DataEx.dir_Themes), String.Empty).Replace(".xaml", String.Empty);
-
-                        ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
-                        list_Themes.Add(themeName);
-                    }
-
+                    loadStyles();
                     doDefault();
                 }
             }
@@ -151,6 +160,9 @@ namespace OfflineServer.Data.Settings
                 public String InformationSampleAccent { get; set; }
                 public String InformationSampleTheme { get; set; }
                 public String Settings { get; set; }
+                public String AddonManager { get; set; }
+                public String AddonManagerNotFoundError { get; set; }
+                public String AddonManagerAddonInstalled { get; set; }
                 public String UISettings { get; set; }
                 public String Accent { get; set; }
                 public String Theme { get; set; }
@@ -169,12 +181,22 @@ namespace OfflineServer.Data.Settings
                     return DataEx.getInstanceFromXml<Language>(languageName + ".xml");
                 }
 
+                public void loadLanguages()
+                {
+                    list_Languages.Clear();
+
+                    String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    String languagesDir = Path.Combine(currentDir, DataEx.dir_Languages);
+
+                    foreach (String languageFile in Directory.GetFiles(languagesDir, "*.xml", SearchOption.TopDirectoryOnly))
+                    {
+                        list_Languages.Add(languageFile.Replace(languagesDir, String.Empty).Replace(".xml", String.Empty));
+                    }
+                }
+
                 public Language()
                 {
-                    foreach (String languageFile in Directory.GetFiles(DataEx.dir_Languages, "*.xml", SearchOption.TopDirectoryOnly))
-                    {
-                        list_Languages.Add(languageFile.Replace(DataEx.dir_Languages, String.Empty).Replace(".xml", String.Empty));
-                    }
+                    loadLanguages();
                 }
             }
 
@@ -240,6 +262,20 @@ namespace OfflineServer.Data.Settings
             }
             #endregion
 
+            public void loadCatalogs()
+            {
+                list_Catalogs.Clear();
+
+                String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                String catalogsDir = Path.Combine(currentDir, DataEx.dir_HttpServerCatalogs);
+
+                foreach (String catalogDir in Directory.GetDirectories(catalogsDir))
+                {
+                    String catalogName = catalogDir.Replace(catalogsDir, String.Empty);
+                    list_Catalogs.Add(catalogName);
+                }
+            }
+
             public void doDefault()
             {
                 SelectedCatalog = "Default";
@@ -247,18 +283,20 @@ namespace OfflineServer.Data.Settings
 
             public HttpServerSettings()
             {
-                foreach (String catalogDir in Directory.GetDirectories(DataEx.dir_HttpServerCatalogs))
-                {
-                    String catalogName = catalogDir.Replace(DataEx.dir_HttpServerCatalogs, String.Empty);
-                    list_Catalogs.Add(catalogName);
-                }
-
+                loadCatalogs();
                 doDefault();
             }
         }
 
         public UISettings uiSettings { get; set; }
         public HttpServerSettings httpServerSettings { get; set; }
+
+        public void reloadAllLists()
+        {
+            uiSettings.style.loadStyles();
+            uiSettings.language.loadLanguages();
+            httpServerSettings.loadCatalogs();
+        }
 
         public void saveInstance()
         {

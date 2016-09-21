@@ -33,6 +33,9 @@
    <InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to '{0}' and get creative!</InformationSampleAccent>
    <InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
    <Settings>Settings</Settings>
+   <AddonManager>Addon Manager</AddonManager>
+   <AddonManagerNotFoundError>Offline Server couldn't locate AddonManager. Have you moved or deleted it? It should be next to the Offline Server.</AddonManagerNotFoundError>
+   <AddonManagerAddonInstalled>The addon '{0}' was installed.</AddonManagerAddonInstalled>
    <UISettings>UI Settings</UISettings>
    <Accent>Accent</Accent>
    <Theme>Theme</Theme>

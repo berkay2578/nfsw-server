@@ -7,7 +7,7 @@ namespace OfflineServer.Servers.Http.Classes
     {
         public static String activated()
         {
-            Int64 powerupHash = Int64.Parse(Access.sHttp.request.Path.Split('/')[6]);
+            Int64 powerupHash = Int64.Parse(Access.sHttp.request.Path.Split('/')[4]);
             PowerupActivated powerupActivated = new PowerupActivated();
             powerupActivated.id = powerupHash;
             powerupActivated.targetPersonaId = Int32.Parse(Access.sHttp.request.Params.Get("targetId"));

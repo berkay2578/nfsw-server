@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Data;
 using OfflineServer.Servers.Http;
+using OfflineServer.Servers.IPC;
 using OfflineServer.Servers.Xmpp;
 
 namespace OfflineServer
@@ -11,5 +12,6 @@ namespace OfflineServer
         public static HttpServer sHttp;
         public static XmppServer sXmpp;
         public static MainWindow mainWindow;
+        public static AddonManagerTalk addonManagerTalk;
     }
 }

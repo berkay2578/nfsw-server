@@ -23,6 +23,7 @@ namespace OfflineServer.Servers.Xmpp
         protected CancellationTokenSource cts;
         protected CancellationToken ct;
         protected Boolean isSsl;
+        protected Encoding utf8Encoding = Encoding.UTF8;
         protected readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public async Task<String> read(Boolean forceNoSsl = false)
@@ -32,35 +33,34 @@ namespace OfflineServer.Servers.Xmpp
             string request;
             if (isSsl & !forceNoSsl)
             {
-                bytesRead = await sslStream.ReadAsync(data, 0, data.Length, ct).ConfigureAwait(false);
-                char[] chars = new char[decoder.GetCharCount(data, 0, bytesRead)];
+                bytesRead = await sslStream.ReadAsync(data, 0, data.Length, ct);
+                Char[] chars = new Char[decoder.GetCharCount(data, 0, bytesRead)];
                 decoder.GetChars(data, 0, bytesRead, chars, 0);
-                request = new string(chars);
+                request = new String(chars);
             }
             else
             {
-                var readTask = await stream.ReadAsync(data, 0, data.Length, ct).ConfigureAwait(false);
-                bytesRead = readTask;
-                request = Encoding.UTF8.GetString(data, 0, bytesRead);
+                bytesRead = await stream.ReadAsync(data, 0, data.Length, ct);
+                request = utf8Encoding.GetString(data, 0, bytesRead);
             }
             log.Info(String.Format("Acknowledged xmpp packet {0}.", request));
             return request;
         }
-        
+
         public async Task write(String message, Boolean forceNoSsl = false)
         {
             if (isSsl & !forceNoSsl)
             {
                 // SSLStream crops char[0] into the first 4bytes -> packet length. This is a workaround it.
-                byte[] msg = Encoding.UTF8.GetBytes(" " + message);            
-                await sslStream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
-                await sslStream.FlushAsync(ct).ConfigureAwait(false);
+                byte[] msg = utf8Encoding.GetBytes(" " + message);
+                await sslStream.WriteAsync(msg, 0, msg.Length, ct);
+                await sslStream.FlushAsync(ct);
             }
             else
             {
-                byte[] msg = Encoding.UTF8.GetBytes(message);
-                await stream.WriteAsync(msg, 0, msg.Length, ct).ConfigureAwait(false);
-                await stream.FlushAsync(ct).ConfigureAwait(false);
+                byte[] msg = utf8Encoding.GetBytes(message);
+                await stream.WriteAsync(msg, 0, msg.Length, ct);
+                await stream.FlushAsync(ct);
             }
             log.Info(String.Format("Sent xmpp packet {0}.", message));
         }

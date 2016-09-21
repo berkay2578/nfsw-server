@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace AddonManager
 {
@@ -57,6 +58,8 @@ namespace AddonManager
         }
         #endregion
 
+        [XmlIgnore]
+        public String projectLocation { get; set; }
         public Catalog catalog { get; set; }
         public Accent accent { get; set; }
         public Theme theme { get; set; }
@@ -65,6 +68,7 @@ namespace AddonManager
 
         public AddonProject()
         {
+            projectLocation = null;
             catalog = new Catalog();
             accent = new Accent();
             theme = new Theme();

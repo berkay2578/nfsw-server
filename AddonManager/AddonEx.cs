@@ -11,6 +11,10 @@ namespace AddonManager
 {
     internal static class AddonEx
     {
+        internal static String dir_HttpServerCatalogs;
+        internal static String dir_HttpServerBaskets;
+        internal static String dir_Logs;
+
         internal static dynamic readAddonProperty(this String filePath, dynamic[] typeDef)
         {
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -83,11 +87,11 @@ namespace AddonManager
                         string[] categories = lists[1];
                         string[] baskets = lists[2];
 
-                        var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs,
+                        var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
                             Path.GetFileNameWithoutExtension(filePath), "Products"));
-                        var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerCatalogs,
+                        var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
                             Path.GetFileNameWithoutExtension(filePath), "Categories"));
-                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, OfflineServer.Data.DataEx.dir_HttpServerBaskets,
+                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerBaskets,
                             Path.GetFileNameWithoutExtension(filePath)));
 
                         foreach (string product in products)
@@ -113,6 +117,17 @@ namespace AddonManager
                     case AddonType.memoryPatch:
                         break;
                 }
+            }
+            catch (DirectoryNotFoundException dnfEx)
+            {
+                DialogResult userResponse = MessageBox.Show("AddonManager couldn't access the following directory:\r\n'" + dnfEx.getPath() + "'.",
+                    "Beep boop, I done goofed", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (userResponse == DialogResult.Retry)
+                    goto retry;
+
+                if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+                if (File.Exists(zipFile)) File.Delete(zipFile);
+                return false;
             }
             catch (FileNotFoundException fnfEx)
             {

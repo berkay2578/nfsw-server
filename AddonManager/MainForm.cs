@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddonManager.IPCTalk;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -6,26 +7,30 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using TheArtOfDev.HtmlRenderer.WinForms;
 using static AddonManager.Addon;
 using static AddonManager.CustomControls;
 using static AddonManager.FunctionsEx;
+using static AddonManager.IPCTalk.OfflineServerTalk;
 
 namespace AddonManager
 {
     public partial class MainForm : Form
     {
-        private Boolean firstRun = false;
         private HtmlPanel htmlPanel;
         private AddonProject addonProject;
+        public OfflineServerTalk offlineServerTalk;
         public static String localOfflineServerVersion
         {
             get
             {
 #if !DEBUG
-                if (!File.Exists("OfflineServer.exe"))
+                string offlineVersionLocation = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "OfflineServer.exe");
+                if (!File.Exists(offlineVersionLocation))
                 {
                     MessageBox.Show("It seems like you are running this manager standalone, you need to place this manager next to your 'OfflineServer.exe'!", "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     MessageBox.Show("AddonManager will now close, please place it next to the offline server and then run it again.", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -34,13 +39,14 @@ namespace AddonManager
                 }
                 else
                 {
-                    return FileVersionInfo.GetVersionInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "OfflineServer.exe")).ProductVersion;
+                    return System.Diagnostics.FileVersionInfo.GetVersionInfo(offlineVersionLocation).ProductVersion;
                 }
 #else
                 return "DEVELOPER PREVIEW";
 #endif
             }
         }
+        private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Functions and the necessities
         #region Catalog
@@ -89,6 +95,7 @@ namespace AddonManager
                 if (openProjectDialog.FileName.EndsWith(".addonmanager_project"))
                 {
                     addonProject = File.ReadAllText(openProjectDialog.FileName, Encoding.UTF8).DeserializeObject<AddonProject>();
+                    addonProject.projectLocation = openProjectDialog.FileName;
 
                     #region Catalog and Basket
                     clearCatalogListBoxes();
@@ -149,7 +156,7 @@ namespace AddonManager
                 }
             }
         }
-        internal void saveAddonProject()
+        internal void saveAddonProject(String projectLocation = null)
         {
             #region Catalog and Basket
             addonProject.catalog.catalog_products = productsListBox.Items.Cast<String>().ToList();
@@ -157,24 +164,34 @@ namespace AddonManager
             addonProject.catalog.basket_definitions = basketsListBox.Items.Cast<String>().ToList();
             #endregion
 
-
-            if (saveProjectDialog.ShowDialog() == DialogResult.OK)
+            if (String.IsNullOrWhiteSpace(projectLocation))
             {
-                if (saveProjectDialog.FileName.EndsWith(".addonmanager_project"))
+                if (saveProjectDialog.ShowDialog() == DialogResult.OK)
                 {
-                    File.WriteAllText(saveProjectDialog.FileName, DerivedFunctions.serializeObject(addonProject), new UTF8Encoding(false, false));
-                    MessageBox.Show("The project has been saved successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (saveProjectDialog.FileName.EndsWith(".addonmanager_project"))
+                    {
+                        File.WriteAllText(saveProjectDialog.FileName, DerivedFunctions.serializeObject(addonProject), new UTF8Encoding(false, false));
+                        addonProject.projectLocation = saveProjectDialog.FileName;
+                        MessageBox.Show("The project has been saved successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please use the default extension '.addonmanager_project' and retry.",
+                                    "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Please use the default extension '.addonmanager_project' and retry.",
-                                "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+            }
+            else
+            {
+                File.WriteAllText(projectLocation, DerivedFunctions.serializeObject(addonProject), new UTF8Encoding(false, false));
+                MessageBox.Show("The project has been saved successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         #endregion
         #endregion
 
+        #region UI Events
+        #region Button Handlers
         private void tabButton_Click(object sender, EventArgs e)
         {
             Button source = (Button)sender;
@@ -283,38 +300,92 @@ namespace AddonManager
                         }
                         break;
                     }
-                case "save":
-                    {
-
-                        string fromTab = source.Name.Replace("save", string.Empty);
-                        switch (fromTab)
-                        {
-                            case "Project":
-                                saveAddonProject();
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    }
-                case "load":
-                    {
-
-                        string fromTab = source.Name.Replace("load", string.Empty);
-                        switch (fromTab)
-                        {
-                            case "Project":
-                                loadAddonProject();
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-                    }
             }
         }
+        private void installAnAddonButton_Click(object sender, EventArgs e)
+        {
+            Button source = (Button)sender;
+            switch (source.Name.Replace("button", string.Empty))
+            {
+                case "AddonBrowse":
+                    {
+                        if (addonLocationDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string targetAddon = addonLocationDialog.FileName;
 
-        #region UI Events
+                            addonLocationLabel.Text = targetAddon;
+                            addonInformationLabel.Text = String.Format(CultureInfo.InvariantCulture,
+                                "- Name: {0}\r\n- Type: {1}\r\n- Created by: {2}\r\n- Created on: {3}\r\n- Version: {4}\r\n- Made for offline server version: {5}",
+                                    targetAddon.readAddonProperty(Addon.addonNameDef),
+                                    targetAddon.readAddonProperty(Addon.addonTypeDef),
+                                    targetAddon.readAddonProperty(Addon.addonCreatorDef),
+                                    targetAddon.readAddonProperty(Addon.addonDateDef),
+                                    targetAddon.readAddonProperty(Addon.addonVersionDef),
+                                    targetAddon.readAddonProperty(Addon.addonForVersionDef)
+                                );
+                            htmlPanel.Text = targetAddon.readAddonProperty(Addon.addonDescriptionDef);
+
+                            buttonAddonInstall.Enabled = true;
+                        }
+                    }
+                    break;
+                case "AddonInstall":
+                    {
+                        buttonAddonInstall.Enabled = false;
+                        buttonAddonInstall.Text = "Installing...";
+
+                        string targetAddon = addonLocationDialog.FileName;
+                        if (targetAddon.installAddon())
+                        {
+                            offlineServerTalk.notify(IPCPacketType.installedAddon, targetAddon.readAddonProperty(addonNameDef));
+                            MessageBox.Show("The selected addon has been installed successfully.", "Just to let you know...",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("There was an error while installing the selected addon. Please double-check the addon and retry.", "Beep boop, I done goofed",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+                        this.BringToFront();
+                        buttonAddonInstall.Text = "Install Addon";
+                        buttonAddonInstall.Enabled = true;
+                    }
+                    break;
+            }
+        }
+        private void toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem source = (ToolStripMenuItem)sender;
+            switch (source.Name.Replace("toolStripMenuItem", string.Empty))
+            {
+                case "OpenProject":
+                    loadAddonProject();
+                    break;
+                case "SaveProject":
+                    saveAddonProject(addonProject.projectLocation);
+                    break;
+                case "SaveProjectAs":
+                    saveAddonProject();
+                    break;
+                case "Exit":
+                    Application.Exit();
+                    break;
+            }
+        }
+        private void toolStripButton_Click(object sender, EventArgs e)
+        {
+            ToolStripButton source = (ToolStripButton)sender;
+            switch (source.Name.Replace("toolStripButton", string.Empty))
+            {
+                case "About":
+                    // will be changed later on with a dialog
+                    MessageBox.Show(String.Format("AddonManager version: {0}\r\nLocal Offline Server version: {1}",
+                        Application.ProductVersion, localOfflineServerVersion), "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
+        }
+        #endregion
         #region ListBox
         private void basketsListBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -390,7 +461,7 @@ namespace AddonManager
                     basketsListBox.Items.Clear();
                     break;
             }
-            
+
         }
 
         private void listBox_DragEnter(object sender, DragEventArgs e)
@@ -401,110 +472,92 @@ namespace AddonManager
         {
             ListBox targetListBox = (ListBox)sender;
             List<string> items = targetListBox.Items.Cast<String>().ToList();
+
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
                 if (!File.Exists(file))
                     continue;
 
-                string targetString = items.Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
-                    .FirstOrDefault();
-                int targetIndex = targetString == null ? -1 : items.IndexOf(targetString);
+                string fileName = Path.GetFileName(file);
+                try
+                {
+                    int targetIndex = items.IndexOf(items
+                                    .Where(itemText => itemText.StartsWith(fileName))
+                                    .First());
 
-                if (targetIndex != -1 && targetString != null)
-                    items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
-                else
-                    items.Add(Path.GetFileName(file) + " (" + file + ")");
+                    items[targetIndex] = String.Format("{0} ({1})", fileName, file);
+                    log.InfoFormat("Updated {0} on {1}.", fileName, targetListBox.Name);
+                }
+                catch (InvalidOperationException)
+                {
+                    items.Add(String.Format("{0} ({1})", fileName, file));
+                    log.InfoFormat("Added file {0} to {1}.", file, targetListBox.Name);
+                }
+                catch (ArgumentNullException)
+                {
+                    items.Add(String.Format("{0} ({1})", fileName, file));
+                    log.InfoFormat("Added file {0} to {1}.", file, targetListBox.Name);
+                }
             }
             addItemsWithNaturalOrder(ref targetListBox, items);
         }
         private void checkedListBox_DragDrop(object sender, DragEventArgs e)
         {
             CheckedListBox targetListBox = (CheckedListBox)sender;
+
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (string file in files)
             {
                 if (!File.Exists(file))
                     continue;
-
-                int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
-                    .Where(itemText => itemText.StartsWith(Path.GetFileName(file)))
-                    .First());
-                if (targetIndex != -1)
+                try
                 {
-                    targetListBox.Items[targetIndex] = Path.GetFileName(file) + " (" + file + ")";
+                    string fileName = Path.GetFileName(file);
+                    int targetIndex = targetListBox.Items.IndexOf(targetListBox.Items.Cast<string>()
+                        .Where(itemText => itemText.StartsWith(fileName))
+                        .First());
+
+                    targetListBox.Items[targetIndex] = String.Format("{0} ({1})", fileName, file);
                     ActiveCheckedListBox.managingLists = true;
                     targetListBox.SetItemChecked(targetIndex, true);
                     ActiveCheckedListBox.managingLists = false;
-                } /*else
+                    log.InfoFormat("Updated {0} on {1}.", fileName, targetListBox.Name);
+                }
+                catch (InvalidOperationException)
                 {
-                    new ToolTip() { Active = true, ToolTipIcon = ToolTipIcon.Warning, ToolTipTitle = "Invalid File", ShowAlways = false }
-                            .Show(file + " was discarded.", targetListBox, 1000);
-                }*/
+                    log.InfoFormat("The file {0} was discarded as it is invalid.", file);
+                }
+                catch (ArgumentNullException)
+                {
+                    log.InfoFormat("The file {0} was discarded as it is invalid.", file);
+                }
             }
         }
         #endregion
-        #endregion
-
-        #region Install an Addon
-        private void addonLocationButton_Click(object sender, EventArgs e)
-        {
-            if (addonLocationDialog.ShowDialog() == DialogResult.OK)
-            {
-                string targetAddon = addonLocationDialog.FileName;
-
-                addonLocationLabel.Text = targetAddon;
-                addonInformationLabel.Text = String.Format(CultureInfo.InvariantCulture,
-                                "- Name: {0}\r\n- Type: {1}\r\n- Created by: {2}\r\n- Created on: {3}\r\n- Version: {4}\r\n- Made for offline server version: {5}",
-                                                            targetAddon.readAddonProperty(Addon.addonNameDef),
-                                                            targetAddon.readAddonProperty(Addon.addonTypeDef),
-                                                            targetAddon.readAddonProperty(Addon.addonCreatorDef),
-                                                            targetAddon.readAddonProperty(Addon.addonDateDef),
-                                                            targetAddon.readAddonProperty(Addon.addonVersionDef),
-                                                            targetAddon.readAddonProperty(Addon.addonForVersionDef)
-                                                           );
-                htmlPanel.Text = targetAddon.readAddonProperty(Addon.addonDescriptionDef);
-
-                addonInstallButton.Enabled = true;
-            }
-        }
-
-        private void addonInstallButton_Click(object sender, EventArgs e)
-        {
-            addonInstallButton.Enabled = false;
-            addonInstallButton.Text = "Installing...";
-
-            string targetAddon = addonLocationDialog.FileName;
-            if (targetAddon.installAddon())
-            {
-                MessageBox.Show("The selected addon has been installed successfully.", "Just to let you know...",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show("There was an error while installing the selected addon. Please double-check the addon and retry.", "Beep boop, I done goofed",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            addonInstallButton.Text = "Install Addon";
-            addonInstallButton.Enabled = true;
-        }
         #endregion
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (firstRun)
-            {
-                Application.Exit();
-            }
+            log.Info("Shutting down AddonManager.");
+            offlineServerTalk.notify(IPCPacketType.addonManagerClosing);
+            offlineServerTalk.shutdown();
         }
 
-        public MainForm(Boolean isFirstRun = false)
+        public MainForm(Boolean isFirstRun = false, String installAddonPath = null, Boolean setupIPCTalk = false, Int32 port = -1)
         {
+            Logger.Setup();
+
+            #region Culture Independency
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+            log.Info("Culture independency achieved.");
+            #endregion
+
             Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             InitializeComponent();
-            firstRun = isFirstRun;
-            serverVersionLabel.Text = String.Format(serverVersionLabel.Text, localOfflineServerVersion);
+
+            offlineServerTalk = new OfflineServerTalk();
             addonProject = new AddonProject();
 
             htmlPanel = new HtmlPanel();
@@ -514,6 +567,27 @@ namespace AddonManager
             htmlPanel.Size = new Size(210, 299);
             htmlPanel.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             installAddonGroupBox.Controls.Add(htmlPanel);
+
+            if (!String.IsNullOrWhiteSpace(installAddonPath))
+            {
+                log.Info("/installAddon was specified, executing run-once installation.");
+                // handle auto install
+            }
+            else
+            {
+                if (isFirstRun)
+                {
+                    if (setupIPCTalk && port != -1)
+                        offlineServerTalk.initialize(port);
+
+                    BeginInvoke(new MethodInvoker(delegate
+                    {
+                        Hide();
+                        FirstRunForm frForm = new FirstRunForm(this);
+                        frForm.Show();
+                    }));
+                }
+            }
         }
     }
 }

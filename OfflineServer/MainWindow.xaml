@@ -12,9 +12,10 @@
         mc:Ignorable="d"
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="False"
         IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded" Icon="LauncherIcon.ico">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands Controls:ControlsHelper.ContentCharacterCasing="Lower">
+            <Button Name="buttonAddonManager" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.AddonManager}" Click="Button_ClickHandler"/>
             <Button Name="buttonSettings" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.Settings}" Click="Button_ClickHandler"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>

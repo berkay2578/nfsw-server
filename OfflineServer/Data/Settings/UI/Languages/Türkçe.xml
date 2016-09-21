@@ -33,6 +33,9 @@
    <InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Gözlerini bi '{0}'ya çevir derim.</InformationSampleAccent>
    <InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
    <Settings>Ayarlar</Settings>
+   <AddonManager>Eklenti Düzenleyicisi</AddonManager>
+   <AddonManagerNotFoundError>Eklenti düzenleyicisi (AddonManager.exe) bulunamadı, OfflineServer'ın hemen yanında olmadan açamazsın.</AddonManagerNotFoundError>
+   <AddonManagerAddonInstalled>'{0}' eklentisi yüklendi.</AddonManagerAddonInstalled>
    <UISettings>Arayüz Ayarları</UISettings>
    <Accent>Renk</Accent>
    <Theme>Tema</Theme>

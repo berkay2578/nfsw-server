@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AddonManager")]
-[assembly: AssemblyDescription("An addon manager that will help other non-developers set up their own addon packages for the NFS: World Offline Server")]
+[assembly: AssemblyDescription("An addon manager that will help other non-developers set up their own addon packages for the NFS: World Offline Server.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AddonManager")]
@@ -33,3 +33,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyInformationalVersion("{cname}-{!}{chash}.{b:ymd-}")]
