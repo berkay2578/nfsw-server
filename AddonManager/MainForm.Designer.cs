@@ -95,6 +95,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageCatalog.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -404,6 +405,7 @@
             // 
             // tabPageLanguage
             // 
+            this.tabPageLanguage.Controls.Add(this.label8);
             this.tabPageLanguage.Controls.Add(this.openLanguageDefault);
             this.tabPageLanguage.Controls.Add(this.elementHostLanguage);
             this.tabPageLanguage.Controls.Add(this.openLanguageAddonDetails);
@@ -418,11 +420,11 @@
             // 
             // openLanguageDefault
             // 
-            this.openLanguageDefault.Location = new System.Drawing.Point(5, 289);
+            this.openLanguageDefault.Location = new System.Drawing.Point(133, 289);
             this.openLanguageDefault.Name = "openLanguageDefault";
-            this.openLanguageDefault.Size = new System.Drawing.Size(219, 52);
+            this.openLanguageDefault.Size = new System.Drawing.Size(91, 52);
             this.openLanguageDefault.TabIndex = 21;
-            this.openLanguageDefault.Text = "Show Default (English) \r\nLanguage File";
+            this.openLanguageDefault.Text = "Show Default (English) Language File";
             this.openLanguageDefault.UseVisualStyleBackColor = true;
             this.openLanguageDefault.Click += new System.EventHandler(this.tabButton_Click);
             // 
@@ -789,6 +791,16 @@
             this.toolStripButtonAbout.Text = "About";
             this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButton_Click);
             // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(5, 289);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(122, 52);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Please do not ONLY translate language file. Add yourself into the mix, make it yo" +
+    "urs.";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -890,5 +902,6 @@
         private AvalonEditProxy avalonEditProxyTheme;
         private AvalonEditProxy avalonEditProxyLanguage;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
