@@ -128,6 +128,12 @@
       <DependentUpon>FirstRunForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FunctionsEx.cs" />
+    <Compile Include="HelpLanguageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpLanguageForm.Designer.cs">
+      <DependentUpon>HelpLanguageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IPCTalk\IPCBase.cs" />
     <Compile Include="IPCTalk\OfflineServerTalk.cs" />
     <Compile Include="Logger.cs" />
@@ -146,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FirstRunForm.resx">
       <DependentUpon>FirstRunForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpLanguageForm.resx">
+      <DependentUpon>HelpLanguageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

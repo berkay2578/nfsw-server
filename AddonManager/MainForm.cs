@@ -24,6 +24,7 @@ namespace AddonManager
     {
         private HtmlPanel htmlPanel;
         private AddonProject addonProject;
+        private HelpLanguageForm helpLanguageForm;
         public OfflineServerTalk offlineServerTalk;
         public static String localOfflineServerVersion
         {
@@ -298,7 +299,10 @@ namespace AddonManager
                                 break;
                             case "LanguageDefault":
                                 {
-                                    MessageBox.Show("Will open form with English.xml inside");
+                                    if (helpLanguageForm == null)
+                                        helpLanguageForm = new HelpLanguageForm();
+                                    helpLanguageForm.Show();
+                                    helpLanguageForm.BringToFront();
                                 }
                                 break;
                             case "LanguageAddonDetails":
