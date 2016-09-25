@@ -44,16 +44,33 @@
             this.createCatalog = new System.Windows.Forms.Button();
             this.discardCatalog = new System.Windows.Forms.Button();
             this.tabPageAccent = new System.Windows.Forms.TabPage();
+            this.elementHostAccent = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyAccent = new AddonManager.AvalonEditProxy();
+            this.openAccentAddonDetails = new System.Windows.Forms.Button();
             this.createAccent = new System.Windows.Forms.Button();
             this.discardAccent = new System.Windows.Forms.Button();
             this.tabPageTheme = new System.Windows.Forms.TabPage();
+            this.elementHostTheme = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyTheme = new AddonManager.AvalonEditProxy();
+            this.openThemeAddonDetails = new System.Windows.Forms.Button();
             this.createTheme = new System.Windows.Forms.Button();
             this.discardTheme = new System.Windows.Forms.Button();
             this.tabPageLanguage = new System.Windows.Forms.TabPage();
+            this.openLanguageDefault = new System.Windows.Forms.Button();
+            this.elementHostLanguage = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyLanguage = new AddonManager.AvalonEditProxy();
+            this.openLanguageAddonDetails = new System.Windows.Forms.Button();
             this.createLanguage = new System.Windows.Forms.Button();
             this.discardLanguage = new System.Windows.Forms.Button();
             this.tabPageMemoryPatch = new System.Windows.Forms.TabPage();
+            this.elementHostMemoryPatch = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyMemoryPatch = new AddonManager.AvalonEditProxy();
+            this.comboBoxMemoryPatchTargetModule = new System.Windows.Forms.ComboBox();
+            this.openMemoryPatchAddonDetails = new System.Windows.Forms.Button();
+            this.createMemoryPatch = new System.Windows.Forms.Button();
+            this.discardMemoryPatch = new System.Windows.Forms.Button();
             this.installAddonGroupBox = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.addonInformationLabel = new System.Windows.Forms.Label();
@@ -85,6 +102,7 @@
             this.tabPageAccent.SuspendLayout();
             this.tabPageTheme.SuspendLayout();
             this.tabPageLanguage.SuspendLayout();
+            this.tabPageMemoryPatch.SuspendLayout();
             this.installAddonGroupBox.SuspendLayout();
             this.listBoxRemoveItemContextMenu.SuspendLayout();
             this.addonManagerToolStrip.SuspendLayout();
@@ -152,7 +170,7 @@
             this.basketsListBox.TabIndex = 4;
             this.basketsListBox.TabStop = false;
             this.basketsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox_DragDrop);
-            this.basketsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox_DragEnter);
+            this.basketsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             this.basketsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.basketsListBox_KeyUp);
             this.basketsListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.basketsListBox_MouseDown);
             // 
@@ -200,7 +218,7 @@
             this.categoriesListBox.TabIndex = 2;
             this.categoriesListBox.TabStop = false;
             this.categoriesListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
-            this.categoriesListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox_DragEnter);
+            this.categoriesListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // label4
             // 
@@ -260,7 +278,7 @@
             this.productsListBox.TabIndex = 0;
             this.productsListBox.TabStop = false;
             this.productsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
-            this.productsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.listBox_DragEnter);
+            this.productsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // createCatalog
             // 
@@ -284,6 +302,8 @@
             // 
             // tabPageAccent
             // 
+            this.tabPageAccent.Controls.Add(this.elementHostAccent);
+            this.tabPageAccent.Controls.Add(this.openAccentAddonDetails);
             this.tabPageAccent.Controls.Add(this.createAccent);
             this.tabPageAccent.Controls.Add(this.discardAccent);
             this.tabPageAccent.Location = new System.Drawing.Point(4, 4);
@@ -293,28 +313,48 @@
             this.tabPageAccent.Text = "Accent";
             this.tabPageAccent.UseVisualStyleBackColor = true;
             // 
+            // elementHostAccent
+            // 
+            this.elementHostAccent.Location = new System.Drawing.Point(5, 5);
+            this.elementHostAccent.Name = "elementHostAccent";
+            this.elementHostAccent.Size = new System.Drawing.Size(448, 307);
+            this.elementHostAccent.TabIndex = 24;
+            this.elementHostAccent.Child = this.avalonEditProxyAccent;
+            // 
+            // openAccentAddonDetails
+            // 
+            this.openAccentAddonDetails.Location = new System.Drawing.Point(119, 318);
+            this.openAccentAddonDetails.Name = "openAccentAddonDetails";
+            this.openAccentAddonDetails.Size = new System.Drawing.Size(219, 23);
+            this.openAccentAddonDetails.TabIndex = 23;
+            this.openAccentAddonDetails.Text = "Addon Details";
+            this.openAccentAddonDetails.UseVisualStyleBackColor = true;
+            this.openAccentAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
             // createAccent
             // 
-            this.createAccent.Location = new System.Drawing.Point(381, 303);
+            this.createAccent.Location = new System.Drawing.Point(344, 318);
             this.createAccent.Name = "createAccent";
-            this.createAccent.Size = new System.Drawing.Size(75, 23);
-            this.createAccent.TabIndex = 5;
+            this.createAccent.Size = new System.Drawing.Size(109, 23);
+            this.createAccent.TabIndex = 21;
             this.createAccent.Text = "Create";
             this.createAccent.UseVisualStyleBackColor = true;
             this.createAccent.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // discardAccent
             // 
-            this.discardAccent.Location = new System.Drawing.Point(300, 303);
+            this.discardAccent.Location = new System.Drawing.Point(5, 318);
             this.discardAccent.Name = "discardAccent";
-            this.discardAccent.Size = new System.Drawing.Size(75, 23);
-            this.discardAccent.TabIndex = 6;
+            this.discardAccent.Size = new System.Drawing.Size(108, 23);
+            this.discardAccent.TabIndex = 22;
             this.discardAccent.Text = "Discard";
             this.discardAccent.UseVisualStyleBackColor = true;
             this.discardAccent.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // tabPageTheme
             // 
+            this.tabPageTheme.Controls.Add(this.elementHostTheme);
+            this.tabPageTheme.Controls.Add(this.openThemeAddonDetails);
             this.tabPageTheme.Controls.Add(this.createTheme);
             this.tabPageTheme.Controls.Add(this.discardTheme);
             this.tabPageTheme.Location = new System.Drawing.Point(4, 4);
@@ -324,28 +364,49 @@
             this.tabPageTheme.Text = "Theme";
             this.tabPageTheme.UseVisualStyleBackColor = true;
             // 
+            // elementHostTheme
+            // 
+            this.elementHostTheme.Location = new System.Drawing.Point(5, 5);
+            this.elementHostTheme.Name = "elementHostTheme";
+            this.elementHostTheme.Size = new System.Drawing.Size(448, 307);
+            this.elementHostTheme.TabIndex = 24;
+            this.elementHostTheme.Child = this.avalonEditProxyTheme;
+            // 
+            // openThemeAddonDetails
+            // 
+            this.openThemeAddonDetails.Location = new System.Drawing.Point(119, 318);
+            this.openThemeAddonDetails.Name = "openThemeAddonDetails";
+            this.openThemeAddonDetails.Size = new System.Drawing.Size(219, 23);
+            this.openThemeAddonDetails.TabIndex = 23;
+            this.openThemeAddonDetails.Text = "Addon Details";
+            this.openThemeAddonDetails.UseVisualStyleBackColor = true;
+            this.openThemeAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
             // createTheme
             // 
-            this.createTheme.Location = new System.Drawing.Point(381, 303);
+            this.createTheme.Location = new System.Drawing.Point(344, 318);
             this.createTheme.Name = "createTheme";
-            this.createTheme.Size = new System.Drawing.Size(75, 23);
-            this.createTheme.TabIndex = 5;
+            this.createTheme.Size = new System.Drawing.Size(109, 23);
+            this.createTheme.TabIndex = 21;
             this.createTheme.Text = "Create";
             this.createTheme.UseVisualStyleBackColor = true;
             this.createTheme.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // discardTheme
             // 
-            this.discardTheme.Location = new System.Drawing.Point(300, 303);
+            this.discardTheme.Location = new System.Drawing.Point(5, 318);
             this.discardTheme.Name = "discardTheme";
-            this.discardTheme.Size = new System.Drawing.Size(75, 23);
-            this.discardTheme.TabIndex = 6;
+            this.discardTheme.Size = new System.Drawing.Size(108, 23);
+            this.discardTheme.TabIndex = 22;
             this.discardTheme.Text = "Discard";
             this.discardTheme.UseVisualStyleBackColor = true;
             this.discardTheme.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // tabPageLanguage
             // 
+            this.tabPageLanguage.Controls.Add(this.openLanguageDefault);
+            this.tabPageLanguage.Controls.Add(this.elementHostLanguage);
+            this.tabPageLanguage.Controls.Add(this.openLanguageAddonDetails);
             this.tabPageLanguage.Controls.Add(this.createLanguage);
             this.tabPageLanguage.Controls.Add(this.discardLanguage);
             this.tabPageLanguage.Location = new System.Drawing.Point(4, 4);
@@ -355,28 +416,61 @@
             this.tabPageLanguage.Text = "Language";
             this.tabPageLanguage.UseVisualStyleBackColor = true;
             // 
+            // openLanguageDefault
+            // 
+            this.openLanguageDefault.Location = new System.Drawing.Point(5, 289);
+            this.openLanguageDefault.Name = "openLanguageDefault";
+            this.openLanguageDefault.Size = new System.Drawing.Size(219, 52);
+            this.openLanguageDefault.TabIndex = 21;
+            this.openLanguageDefault.Text = "Show Default (English) \r\nLanguage File";
+            this.openLanguageDefault.UseVisualStyleBackColor = true;
+            this.openLanguageDefault.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // elementHostLanguage
+            // 
+            this.elementHostLanguage.Location = new System.Drawing.Point(5, 5);
+            this.elementHostLanguage.Name = "elementHostLanguage";
+            this.elementHostLanguage.Size = new System.Drawing.Size(448, 278);
+            this.elementHostLanguage.TabIndex = 20;
+            this.elementHostLanguage.Child = this.avalonEditProxyLanguage;
+            // 
+            // openLanguageAddonDetails
+            // 
+            this.openLanguageAddonDetails.Location = new System.Drawing.Point(230, 289);
+            this.openLanguageAddonDetails.Name = "openLanguageAddonDetails";
+            this.openLanguageAddonDetails.Size = new System.Drawing.Size(223, 23);
+            this.openLanguageAddonDetails.TabIndex = 18;
+            this.openLanguageAddonDetails.Text = "Addon Details";
+            this.openLanguageAddonDetails.UseVisualStyleBackColor = true;
+            this.openLanguageAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
             // createLanguage
             // 
-            this.createLanguage.Location = new System.Drawing.Point(381, 303);
+            this.createLanguage.Location = new System.Drawing.Point(344, 318);
             this.createLanguage.Name = "createLanguage";
-            this.createLanguage.Size = new System.Drawing.Size(75, 23);
-            this.createLanguage.TabIndex = 5;
+            this.createLanguage.Size = new System.Drawing.Size(109, 23);
+            this.createLanguage.TabIndex = 16;
             this.createLanguage.Text = "Create";
             this.createLanguage.UseVisualStyleBackColor = true;
             this.createLanguage.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // discardLanguage
             // 
-            this.discardLanguage.Location = new System.Drawing.Point(300, 303);
+            this.discardLanguage.Location = new System.Drawing.Point(230, 318);
             this.discardLanguage.Name = "discardLanguage";
-            this.discardLanguage.Size = new System.Drawing.Size(75, 23);
-            this.discardLanguage.TabIndex = 6;
+            this.discardLanguage.Size = new System.Drawing.Size(108, 23);
+            this.discardLanguage.TabIndex = 17;
             this.discardLanguage.Text = "Discard";
             this.discardLanguage.UseVisualStyleBackColor = true;
             this.discardLanguage.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // tabPageMemoryPatch
             // 
+            this.tabPageMemoryPatch.Controls.Add(this.elementHostMemoryPatch);
+            this.tabPageMemoryPatch.Controls.Add(this.comboBoxMemoryPatchTargetModule);
+            this.tabPageMemoryPatch.Controls.Add(this.openMemoryPatchAddonDetails);
+            this.tabPageMemoryPatch.Controls.Add(this.createMemoryPatch);
+            this.tabPageMemoryPatch.Controls.Add(this.discardMemoryPatch);
             this.tabPageMemoryPatch.Location = new System.Drawing.Point(4, 4);
             this.tabPageMemoryPatch.Name = "tabPageMemoryPatch";
             this.tabPageMemoryPatch.Size = new System.Drawing.Size(459, 347);
@@ -384,8 +478,61 @@
             this.tabPageMemoryPatch.Text = "Memory Patch";
             this.tabPageMemoryPatch.UseVisualStyleBackColor = true;
             // 
+            // elementHostMemoryPatch
+            // 
+            this.elementHostMemoryPatch.Location = new System.Drawing.Point(5, 5);
+            this.elementHostMemoryPatch.Name = "elementHostMemoryPatch";
+            this.elementHostMemoryPatch.Size = new System.Drawing.Size(448, 251);
+            this.elementHostMemoryPatch.TabIndex = 15;
+            this.elementHostMemoryPatch.Child = this.avalonEditProxyMemoryPatch;
+            // 
+            // comboBoxMemoryPatchTargetModule
+            // 
+            this.comboBoxMemoryPatchTargetModule.FormattingEnabled = true;
+            this.comboBoxMemoryPatchTargetModule.Items.AddRange(new object[] {
+            "nfsw.exe",
+            "gameplay.dll",
+            "gameplay.native.dll",
+            "eawebkit.dll"});
+            this.comboBoxMemoryPatchTargetModule.Location = new System.Drawing.Point(230, 262);
+            this.comboBoxMemoryPatchTargetModule.Name = "comboBoxMemoryPatchTargetModule";
+            this.comboBoxMemoryPatchTargetModule.Size = new System.Drawing.Size(223, 21);
+            this.comboBoxMemoryPatchTargetModule.TabIndex = 14;
+            this.comboBoxMemoryPatchTargetModule.Text = "Target Module";
+            // 
+            // openMemoryPatchAddonDetails
+            // 
+            this.openMemoryPatchAddonDetails.Location = new System.Drawing.Point(230, 289);
+            this.openMemoryPatchAddonDetails.Name = "openMemoryPatchAddonDetails";
+            this.openMemoryPatchAddonDetails.Size = new System.Drawing.Size(223, 23);
+            this.openMemoryPatchAddonDetails.TabIndex = 13;
+            this.openMemoryPatchAddonDetails.Text = "Addon Details";
+            this.openMemoryPatchAddonDetails.UseVisualStyleBackColor = true;
+            this.openMemoryPatchAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // createMemoryPatch
+            // 
+            this.createMemoryPatch.Location = new System.Drawing.Point(344, 318);
+            this.createMemoryPatch.Name = "createMemoryPatch";
+            this.createMemoryPatch.Size = new System.Drawing.Size(109, 23);
+            this.createMemoryPatch.TabIndex = 11;
+            this.createMemoryPatch.Text = "Create";
+            this.createMemoryPatch.UseVisualStyleBackColor = true;
+            this.createMemoryPatch.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // discardMemoryPatch
+            // 
+            this.discardMemoryPatch.Location = new System.Drawing.Point(230, 318);
+            this.discardMemoryPatch.Name = "discardMemoryPatch";
+            this.discardMemoryPatch.Size = new System.Drawing.Size(108, 23);
+            this.discardMemoryPatch.TabIndex = 12;
+            this.discardMemoryPatch.Text = "Discard";
+            this.discardMemoryPatch.UseVisualStyleBackColor = true;
+            this.discardMemoryPatch.Click += new System.EventHandler(this.tabButton_Click);
+            // 
             // installAddonGroupBox
             // 
+            this.installAddonGroupBox.Controls.Add(this.label7);
             this.installAddonGroupBox.Controls.Add(this.label3);
             this.installAddonGroupBox.Controls.Add(this.label2);
             this.installAddonGroupBox.Controls.Add(this.addonInformationLabel);
@@ -399,6 +546,18 @@
             this.installAddonGroupBox.TabIndex = 3;
             this.installAddonGroupBox.TabStop = false;
             this.installAddonGroupBox.Text = "Install an addon";
+            // 
+            // label7
+            // 
+            this.label7.AllowDrop = true;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(85, 66);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(64, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "or drop here";
+            this.label7.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.label7.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // label3
             // 
@@ -442,27 +601,34 @@
             // 
             // addonLocationLabel
             // 
+            this.addonLocationLabel.AllowDrop = true;
             this.addonLocationLabel.AutoEllipsis = true;
             this.addonLocationLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.addonLocationLabel.Enabled = false;
+            this.addonLocationLabel.ForeColor = System.Drawing.SystemColors.GrayText;
             this.addonLocationLabel.Location = new System.Drawing.Point(12, 42);
             this.addonLocationLabel.Name = "addonLocationLabel";
             this.addonLocationLabel.Size = new System.Drawing.Size(151, 15);
             this.addonLocationLabel.TabIndex = 3;
             this.addonLocationLabel.Text = "(empty)";
+            this.addonLocationLabel.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.addonLocationLabel.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // buttonAddonBrowse
             // 
+            this.buttonAddonBrowse.AllowDrop = true;
             this.buttonAddonBrowse.Location = new System.Drawing.Point(12, 61);
             this.buttonAddonBrowse.Name = "buttonAddonBrowse";
-            this.buttonAddonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddonBrowse.Size = new System.Drawing.Size(67, 23);
             this.buttonAddonBrowse.TabIndex = 1;
             this.buttonAddonBrowse.Text = "Browse...";
             this.buttonAddonBrowse.UseVisualStyleBackColor = true;
             this.buttonAddonBrowse.Click += new System.EventHandler(this.installAnAddonButton_Click);
+            this.buttonAddonBrowse.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.buttonAddonBrowse.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // label1
             // 
+            this.label1.AllowDrop = true;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label1.Location = new System.Drawing.Point(9, 24);
@@ -470,33 +636,41 @@
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Addon location:";
+            this.label1.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.label1.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // addonLocationDialog
             // 
             this.addonLocationDialog.AddExtension = false;
-            this.addonLocationDialog.Filter = "Catalog and basket packs|*.serveraddon_catalogwithbasket|Accent|*.serveraddon_acc" +
-    "ent|Theme|*.serveraddon_theme|Language|*.serveraddon_language";
+            this.addonLocationDialog.Filter = "Catalog and basket pack|*.serveraddon.catalogwithbasket|Accent|*.serveraddon.acce" +
+    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language|Memory Patch|*.serv" +
+    "eraddon.memorypatch";
+            this.addonLocationDialog.SupportMultiDottedExtensions = true;
             this.addonLocationDialog.Title = "Select an addon...";
             // 
             // saveProjectDialog
             // 
-            this.saveProjectDialog.DefaultExt = "addonmanager_project";
+            this.saveProjectDialog.DefaultExt = "addonmanager.project";
             this.saveProjectDialog.FileName = "MyNewAddonProject";
-            this.saveProjectDialog.Filter = "Project files|*.addonmanager_project";
+            this.saveProjectDialog.Filter = "Project files|*.addonmanager.project";
+            this.saveProjectDialog.SupportMultiDottedExtensions = true;
             this.saveProjectDialog.Title = "Save addon manager project file";
             // 
             // openProjectDialog
             // 
-            this.openProjectDialog.DefaultExt = "addonmanager_project";
+            this.openProjectDialog.DefaultExt = "addonmanager.project";
             this.openProjectDialog.FileName = "MyAddonProject";
-            this.openProjectDialog.Filter = "Project files|*.addonmanager_project";
+            this.openProjectDialog.Filter = "Project files|*.addonmanager.project";
+            this.openProjectDialog.SupportMultiDottedExtensions = true;
             this.openProjectDialog.Title = "Select an addon manager project file...";
             // 
             // createAddonDialog
             // 
             this.createAddonDialog.FileName = "MyNewAddon";
-            this.createAddonDialog.Filter = "Catalog and basket packs|*.serveraddon_catalogwithbasket|Accent|*.serveraddon_acc" +
-    "ent|Theme|*.serveraddon_theme|Language|*.serveraddon_language";
+            this.createAddonDialog.Filter = "Catalog and basket pack|*.serveraddon.catalogwithbasket|Accent|*.serveraddon.acce" +
+    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language|Memory Patch|*.serv" +
+    "eraddon.memorypatch";
+            this.createAddonDialog.SupportMultiDottedExtensions = true;
             this.createAddonDialog.Title = "Create an addon";
             // 
             // listBoxRemoveItemContextMenu
@@ -639,6 +813,7 @@
             this.tabPageAccent.ResumeLayout(false);
             this.tabPageTheme.ResumeLayout(false);
             this.tabPageLanguage.ResumeLayout(false);
+            this.tabPageMemoryPatch.ResumeLayout(false);
             this.installAddonGroupBox.ResumeLayout(false);
             this.installAddonGroupBox.PerformLayout();
             this.listBoxRemoveItemContextMenu.ResumeLayout(false);
@@ -655,14 +830,8 @@
         private System.Windows.Forms.Button createCatalog;
         private System.Windows.Forms.Button discardCatalog;
         private System.Windows.Forms.TabPage tabPageAccent;
-        private System.Windows.Forms.Button createAccent;
-        private System.Windows.Forms.Button discardAccent;
         private System.Windows.Forms.TabPage tabPageTheme;
-        private System.Windows.Forms.Button createTheme;
-        private System.Windows.Forms.Button discardTheme;
         private System.Windows.Forms.TabPage tabPageLanguage;
-        private System.Windows.Forms.Button createLanguage;
-        private System.Windows.Forms.Button discardLanguage;
         private System.Windows.Forms.GroupBox installAddonGroupBox;
         private System.Windows.Forms.Button buttonAddonInstall;
         private System.Windows.Forms.Label addonLocationLabel;
@@ -698,5 +867,28 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
+        private System.Windows.Forms.ComboBox comboBoxMemoryPatchTargetModule;
+        private System.Windows.Forms.Button openMemoryPatchAddonDetails;
+        private System.Windows.Forms.Button createMemoryPatch;
+        private System.Windows.Forms.Button discardMemoryPatch;
+        private System.Windows.Forms.Integration.ElementHost elementHostMemoryPatch;
+        private AvalonEditProxy avalonEditProxyMemoryPatch;
+        private System.Windows.Forms.Integration.ElementHost elementHostAccent;
+        private System.Windows.Forms.Button openAccentAddonDetails;
+        private System.Windows.Forms.Button createAccent;
+        private System.Windows.Forms.Button discardAccent;
+        private System.Windows.Forms.Integration.ElementHost elementHostTheme;
+        private System.Windows.Forms.Button openThemeAddonDetails;
+        private System.Windows.Forms.Button createTheme;
+        private System.Windows.Forms.Button discardTheme;
+        private System.Windows.Forms.Integration.ElementHost elementHostLanguage;
+        private System.Windows.Forms.Button openLanguageAddonDetails;
+        private System.Windows.Forms.Button createLanguage;
+        private System.Windows.Forms.Button discardLanguage;
+        private AvalonEditProxy avalonEditProxyAccent;
+        private System.Windows.Forms.Button openLanguageDefault;
+        private AvalonEditProxy avalonEditProxyTheme;
+        private AvalonEditProxy avalonEditProxyLanguage;
+        private System.Windows.Forms.Label label7;
     }
 }

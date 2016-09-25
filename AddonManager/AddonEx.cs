@@ -13,6 +13,10 @@ namespace AddonManager
     {
         internal static String dir_HttpServerCatalogs;
         internal static String dir_HttpServerBaskets;
+        internal static String dir_Accents;
+        internal static String dir_Themes;
+        internal static String dir_Languages;
+        internal static String dir_MemoryPatches;
         internal static String dir_Logs;
 
         internal static dynamic readAddonProperty(this String filePath, dynamic[] typeDef)
@@ -83,38 +87,73 @@ namespace AddonManager
                 switch (addonType)
                 {
                     case AddonType.catalogWithBaskets:
-                        string[] products = lists[0];
-                        string[] categories = lists[1];
-                        string[] baskets = lists[2];
+                        {
+                            string[] products = lists[0];
+                            string[] categories = lists[1];
+                            string[] baskets = lists[2];
 
-                        var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
-                            Path.GetFileNameWithoutExtension(filePath), "Products"));
-                        var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
-                            Path.GetFileNameWithoutExtension(filePath), "Categories"));
-                        var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerBaskets,
-                            Path.GetFileNameWithoutExtension(filePath)));
+                            var productsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
+                                Path.GetFileNameWithoutExtension(filePath), "Products"));
+                            var categoriesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerCatalogs,
+                                Path.GetFileNameWithoutExtension(filePath), "Categories"));
+                            var basketsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_HttpServerBaskets,
+                                Path.GetFileNameWithoutExtension(filePath)));
 
-                        foreach (string product in products)
-                            File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
-                                AddonProject.Catalog.getListBoxEntryText(product)), true);
-                        foreach (string category in categories)
-                            File.Copy(AddonProject.Catalog.getFileLocation(category), Path.Combine(categoriesTemp.FullName,
-                                AddonProject.Catalog.getListBoxEntryText(category)), true);
-                        foreach (string basket in baskets)
-                            File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
-                                AddonProject.Catalog.getListBoxEntryText(basket)), true);
-
-                        FastZip fz = new FastZip();
-                        fz.CreateEmptyDirectories = true;
-                        fz.CreateZip(zipFile, tempDir, true, null);
+                            foreach (string product in products)
+                                File.Copy(AddonProject.Catalog.getFileLocation(product), Path.Combine(productsTemp.FullName,
+                                    AddonProject.Catalog.getListBoxEntryText(product)), true);
+                            foreach (string category in categories)
+                                File.Copy(AddonProject.Catalog.getFileLocation(category), Path.Combine(categoriesTemp.FullName,
+                                    AddonProject.Catalog.getListBoxEntryText(category)), true);
+                            foreach (string basket in baskets)
+                                File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
+                                    AddonProject.Catalog.getListBoxEntryText(basket)), true);
+                        }
                         break;
                     case AddonType.accent:
+                        {
+                            string accentName = Path.GetFileNameWithoutExtension(filePath);
+                            string accentXaml = lists[0][0];
+                            var accentsTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_Accents));
+                            string tempAccentFile = accentsTemp.FullName + accentName + ".xaml";
+
+                            using (FileStream fileStream = new FileStream(tempAccentFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                            {
+                                byte[] value = new UTF8Encoding(false, false).GetBytes(accentXaml);
+                                fileStream.Write(value, 0, value.Length);
+                            }
+                        }
                         break;
                     case AddonType.theme:
+                        {
+                            string themeName = Path.GetFileNameWithoutExtension(filePath);
+                            string themeXaml = lists[0][0];
+                            var themesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_Themes));
+                            string tempAccentFile = themesTemp.FullName + themeName + ".xaml";
+
+                            using (FileStream fileStream = new FileStream(tempAccentFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                            {
+                                byte[] value = new UTF8Encoding(false, false).GetBytes(themeXaml);
+                                fileStream.Write(value, 0, value.Length);
+                            }
+                        }
                         break;
                     case AddonType.language:
+                        {
+                            string languageName = Path.GetFileNameWithoutExtension(filePath);
+                            string languageXml = lists[0][0];
+                            var languagesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_Languages));
+                            string tempLanguageFile = languagesTemp.FullName + languageName + ".xml";
+
+                            using (FileStream fileStream = new FileStream(tempLanguageFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                            {
+                                byte[] value = new UTF8Encoding(false, false).GetBytes(languageXml);
+                                fileStream.Write(value, 0, value.Length);
+                            }
+                        }
                         break;
                     case AddonType.memoryPatch:
+                        // not yet implemented
                         break;
                 }
             }
@@ -140,6 +179,10 @@ namespace AddonManager
                 if (File.Exists(zipFile)) File.Delete(zipFile);
                 return false;
             }
+
+            FastZip fz = new FastZip();
+            fz.CreateEmptyDirectories = true;
+            fz.CreateZip(zipFile, tempDir, true, null);
 
             using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Write, FileShare.None))
             {

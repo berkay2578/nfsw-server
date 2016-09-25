@@ -21,7 +21,7 @@ namespace AddonManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-#if DEBUG
+#if !DEBUG
             string addonPath = null;
             bool setupIPCTalk = false;
             int port = -1;
@@ -29,6 +29,10 @@ namespace AddonManager
 
             AddonEx.dir_HttpServerCatalogs = paths.getPath("/catalogs");
             AddonEx.dir_HttpServerBaskets = paths.getPath("/baskets");
+            AddonEx.dir_Accents = paths.getPath("/accents");
+            AddonEx.dir_Themes = paths.getPath("/themes");
+            AddonEx.dir_Languages = paths.getPath("/languages");
+            AddonEx.dir_MemoryPatches = paths.getPath("/memorypatches");
             AddonEx.dir_Logs = paths.getPath("/logs");
 
             for (int i = 0; i < args.Length; i++)
@@ -58,12 +62,17 @@ namespace AddonManager
 
             if (String.IsNullOrWhiteSpace(AddonEx.dir_HttpServerCatalogs)
                 && String.IsNullOrWhiteSpace(AddonEx.dir_HttpServerBaskets)
+                && String.IsNullOrWhiteSpace(AddonEx.dir_Accents)
+                && String.IsNullOrWhiteSpace(AddonEx.dir_Themes)
+                && String.IsNullOrWhiteSpace(AddonEx.dir_Languages)
+                && String.IsNullOrWhiteSpace(AddonEx.dir_MemoryPatches)
                 && String.IsNullOrWhiteSpace(AddonEx.dir_Logs))
             {
-                MessageBox.Show(String.Format("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\nArgument order isn't important.",
-                    @"AddonManager.exe /catalogs 'dir_HttpServerCatalogs' /baskets 'dir_HttpServerBaskets' /logs 'dir_Logs'",
-                    @"AddonManager.exe /catalogs 'dir_HttpServerCatalogs' /baskets 'dir_HttpServerBaskets' /logs 'dir_Logs' /installAddon 'addonPath'"),
-                    "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.WriteLine("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\nArgument order isn't important.\r\n{2}",
+                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path'",
+                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path' /installAddon 'path'",
+                    @"Each variable 'path' do not need to be escaped."
+                    );
                 Environment.Exit(0);
                 return;
             }
@@ -72,6 +81,10 @@ namespace AddonManager
 #else
             AddonEx.dir_HttpServerCatalogs = @"Data\Server\Catalogs\";
             AddonEx.dir_HttpServerBaskets = @"Data\Server\Baskets\";
+            AddonEx.dir_Accents = @"Data\UI\Accents\";
+            AddonEx.dir_Themes = @"Data\UI\Themes\";
+            AddonEx.dir_Languages = @"Data\UI\Languages\";
+            AddonEx.dir_MemoryPatches = @"Data\Others\Memory Patches\";
             AddonEx.dir_Logs = @"Data\Logs\";
 
             Application.Run(new MainForm(true, null, false));

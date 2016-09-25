@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AddonManager.Properties
-{
-
-
+namespace AddonManager.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,97 @@ namespace AddonManager.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AddonManager.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ResourceDictionary xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///                    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        ///                    xmlns:options=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation/options&quot;
+        ///                    xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        ///                    mc:Ignorable=&quot;options&quot;&gt;
+        ///
+        ///    &lt;!--ACCENT COLORS--&gt;
+        ///    &lt;Color x:Key=&quot;HighlightColor&quot;&gt;#FFB94C00&lt;/Color&gt;
+        ///
+        ///    &lt;Color x:Key=&quot;AccentBaseColor&quot;&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CustomAccentSample {
+            get {
+                return ResourceManager.GetString("CustomAccentSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ResourceDictionary xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///                    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        ///                    xmlns:options=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation/options&quot;
+        ///                    xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        ///                    mc:Ignorable=&quot;options&quot;&gt;
+        ///
+        ///	&lt;!-- Theme colors --&gt;
+        ///	&lt;Color x:Key=&quot;BlackColor&quot;&gt;#323232&lt;/Color&gt;
+        ///    &lt;Color x:Key=&quot;WhiteColor&quot;&gt;#CCCCCC&lt;/Color&gt;
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CustomThemeSample {
+            get {
+                return ResourceManager.GetString("CustomThemeSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Language&gt;
+        ///   &lt;Persona&gt;Persona&lt;/Persona&gt;
+        ///   &lt;AchievementTreasureHunt&gt;Your longest recorded TH streak is {0}, on persona &apos;{1}&apos;.&lt;/AchievementTreasureHunt&gt;
+        ///   &lt;AchievementJumpDistance&gt;Your farthest jump distance was {0} meters, on persona &apos;{1}&apos;.&lt;/AchievementJumpDistance&gt;
+        ///   &lt;PersonaInfo&gt;Persona Info&lt;/PersonaInfo&gt;
+        ///   &lt;Name&gt;Name&lt;/Name&gt;
+        ///   &lt;Motto&gt;Motto&lt;/Motto&gt;
+        ///   &lt;Level&gt;Level&lt;/Level&gt;
+        ///   &lt;Cash&gt;Cash&lt;/Cash&gt;
+        ///   &lt;DetailedPersonaInfo&gt;Detailed Info&lt;/DetailedPersonaInfo&gt;
+        ///   &lt;PersonaList&gt;Persona List&lt;/PersonaLis [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
             }
         }
     }

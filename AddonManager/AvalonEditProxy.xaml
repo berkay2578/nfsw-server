@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="AddonManager.AvalonEditProxy"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AddonManager"
+             xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+             mc:Ignorable="d"  x:Name="avalonEditProxy"
+             d:DesignHeight="251" d:DesignWidth="448">
+    <avalonEdit:TextEditor x:Name="textEditor" FontFamily="Consolas" FontSize="9pt" BorderBrush="Black" BorderThickness="1"
+                           ShowLineNumbers="True" WordWrap="False"/>
+</UserControl>
