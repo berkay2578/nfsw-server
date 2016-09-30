@@ -424,8 +424,8 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(122, 52);
             this.label8.TabIndex = 22;
-            this.label8.Text = "Please do NOT only translate language file. Add yourself into the mix, make it yo" +
-    "urs.";
+            this.label8.Text = "Please do NOT only translate the language file. Add yourself into the mix, make i" +
+    "t yours.";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // openLanguageDefault
@@ -558,6 +558,8 @@
             this.installAddonGroupBox.TabIndex = 3;
             this.installAddonGroupBox.TabStop = false;
             this.installAddonGroupBox.Text = "Install an addon";
+            this.installAddonGroupBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.installAddonGroupBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // label7
             // 
@@ -580,6 +582,8 @@
             this.label3.Size = new System.Drawing.Size(115, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Addon Description:";
+            this.label3.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.label3.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // label2
             // 
@@ -590,6 +594,8 @@
             this.label2.Size = new System.Drawing.Size(114, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Addon Information:";
+            this.label2.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.label2.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // addonInformationLabel
             // 
@@ -599,6 +605,8 @@
             this.addonInformationLabel.TabIndex = 5;
             this.addonInformationLabel.Text = "- Name: (null)\r\n- Type: (null)\r\n- Created by: (null)\r\n- Created on: (null)\r\n- Ver" +
     "sion: (null)\r\n- Made for offline server version: (null)\r\n";
+            this.addonInformationLabel.DragDrop += new System.Windows.Forms.DragEventHandler(this.browseAddon_DragDrop);
+            this.addonInformationLabel.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
             // 
             // buttonAddonInstall
             // 
