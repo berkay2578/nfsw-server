@@ -56,6 +56,7 @@
             this.createTheme = new System.Windows.Forms.Button();
             this.discardTheme = new System.Windows.Forms.Button();
             this.tabPageLanguage = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.openLanguageDefault = new System.Windows.Forms.Button();
             this.elementHostLanguage = new System.Windows.Forms.Integration.ElementHost();
             this.avalonEditProxyLanguage = new AddonManager.AvalonEditProxy();
@@ -95,7 +96,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
-            this.label8 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageCatalog.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -417,6 +417,16 @@
             this.tabPageLanguage.TabIndex = 4;
             this.tabPageLanguage.Text = "Language";
             this.tabPageLanguage.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(5, 289);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(122, 52);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Please do NOT only translate language file. Add yourself into the mix, make it yo" +
+    "urs.";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // openLanguageDefault
             // 
@@ -790,16 +800,6 @@
             this.toolStripButtonAbout.Size = new System.Drawing.Size(44, 22);
             this.toolStripButtonAbout.Text = "About";
             this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButton_Click);
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(5, 289);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 52);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "Please do not ONLY translate language file. Add yourself into the mix, make it yo" +
-    "urs.";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // MainForm
             // 
