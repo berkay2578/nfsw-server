@@ -129,9 +129,9 @@ namespace AddonManager
                             string themeName = Path.GetFileNameWithoutExtension(filePath);
                             string themeXaml = lists[0][0];
                             var themesTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_Themes));
-                            string tempAccentFile = themesTemp.FullName + themeName + ".xaml";
+                            string tempThemeFile = themesTemp.FullName + themeName + ".xaml";
 
-                            using (FileStream fileStream = new FileStream(tempAccentFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                            using (FileStream fileStream = new FileStream(tempThemeFile, FileMode.Create, FileAccess.Write, FileShare.None))
                             {
                                 byte[] value = new UTF8Encoding(false, false).GetBytes(themeXaml);
                                 fileStream.Write(value, 0, value.Length);

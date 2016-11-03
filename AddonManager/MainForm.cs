@@ -149,6 +149,51 @@ namespace AddonManager
                                                         .Substring(0, Math.Min(addonProject.catalog.addonVersion.Length, Addon.addonVersionDef[2] - 1));
                     #endregion
 
+                    #region Accent
+                    if (addonProject.accent.accentXamlBytes != null)
+                        avalonEditProxyAccent.textEditor.Text = addonProject.accent.accentXaml;
+
+                    // Others
+                    addonProject.accent.addonCreator = addonProject.accent.addonCreator
+                                                        .Substring(0, Math.Min(addonProject.accent.addonCreator.Length, Addon.addonCreatorDef[2] - 1));
+                    addonProject.accent.addonDescription = addonProject.accent.addonDescription
+                                                        .Substring(0, Math.Min(addonProject.accent.addonDescription.Length, Addon.addonDescriptionDef[2] - 1));
+                    addonProject.accent.addonName = addonProject.accent.addonName
+                                                        .Substring(0, Math.Min(addonProject.accent.addonName.Length, Addon.addonNameDef[2] - 1));
+                    addonProject.accent.addonVersion = addonProject.accent.addonVersion
+                                                        .Substring(0, Math.Min(addonProject.accent.addonVersion.Length, Addon.addonVersionDef[2] - 1));
+                    #endregion
+
+                    #region Theme
+                    if (addonProject.theme.themeXamlBytes != null)
+                        avalonEditProxyTheme.textEditor.Text = addonProject.theme.themeXaml;
+
+                    // Others
+                    addonProject.theme.addonCreator = addonProject.theme.addonCreator
+                                                        .Substring(0, Math.Min(addonProject.theme.addonCreator.Length, Addon.addonCreatorDef[2] - 1));
+                    addonProject.theme.addonDescription = addonProject.theme.addonDescription
+                                                        .Substring(0, Math.Min(addonProject.theme.addonDescription.Length, Addon.addonDescriptionDef[2] - 1));
+                    addonProject.theme.addonName = addonProject.theme.addonName
+                                                        .Substring(0, Math.Min(addonProject.theme.addonName.Length, Addon.addonNameDef[2] - 1));
+                    addonProject.theme.addonVersion = addonProject.theme.addonVersion
+                                                        .Substring(0, Math.Min(addonProject.theme.addonVersion.Length, Addon.addonVersionDef[2] - 1));
+                    #endregion
+
+                    #region Language
+                    if (addonProject.language.languageFileBytes != null)
+                        avalonEditProxyLanguage.textEditor.Text = addonProject.language.languageFileText;
+
+                    // Others
+                    addonProject.language.addonCreator = addonProject.language.addonCreator
+                                                        .Substring(0, Math.Min(addonProject.language.addonCreator.Length, Addon.addonCreatorDef[2] - 1));
+                    addonProject.language.addonDescription = addonProject.language.addonDescription
+                                                        .Substring(0, Math.Min(addonProject.language.addonDescription.Length, Addon.addonDescriptionDef[2] - 1));
+                    addonProject.language.addonName = addonProject.language.addonName
+                                                        .Substring(0, Math.Min(addonProject.language.addonName.Length, Addon.addonNameDef[2] - 1));
+                    addonProject.language.addonVersion = addonProject.language.addonVersion
+                                                        .Substring(0, Math.Min(addonProject.language.addonVersion.Length, Addon.addonVersionDef[2] - 1));
+                    #endregion
+
                     MessageBox.Show("The selected project was loaded successfully!", "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
@@ -164,6 +209,18 @@ namespace AddonManager
             addonProject.catalog.catalog_products = productsListBox.Items.Cast<String>().ToList();
             addonProject.catalog.catalog_categories = categoriesListBox.Items.Cast<String>().ToList();
             addonProject.catalog.basket_definitions = basketsListBox.Items.Cast<String>().ToList();
+            #endregion
+
+            #region Accent
+            addonProject.accent.accentXaml = avalonEditProxyAccent.textEditor.Text;
+            #endregion
+
+            #region Theme
+            addonProject.theme.themeXaml = avalonEditProxyTheme.textEditor.Text;
+            #endregion
+
+            #region Language
+            addonProject.language.languageFileText = avalonEditProxyLanguage.textEditor.Text;
             #endregion
 
             if (String.IsNullOrWhiteSpace(projectLocation))

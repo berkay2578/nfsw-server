@@ -21,7 +21,7 @@
          * 3. Kind of a long shot, and probably will take a long time, but maybe add visual info to the language tab?
          * -> Like, if the AddonManager was launched from the OfflineServer auto highlight UI element of active node.
          * 4. Memory Patcher, just fuck all at this stage. Needs active code compiling into static-load-library.
-         * -> OfflineServer will have it's own in-game UI with injection, memory patches will have options etcetra there.
+         * -> OfflineServer will have its own in-game UI with injection, memory patches will have options etcetra there.
          * --> Yeah, need me some unamanaged code here, not sure if I wanna stick to c# for this.
          * ---> However, if I don't, then other people without the knowledge won't be able to write shit. 
          * ----> I've seen hackers with 0 coding knowledge, it still amazes me that they exist, though.

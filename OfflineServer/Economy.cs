@@ -5,17 +5,13 @@ namespace OfflineServer
 {
     public class Economy
     {
+        #region enums
         public enum Currency
         {
             [StringData("Cash")]
             Cash = 0,
             [StringData("_NS")]
             Boost = 1
-        }
-        public enum ServerItemType
-        {
-            [StringData("CarSlot")]
-            CarSlot = 0
         }
         public enum GameItemType
         {
@@ -27,6 +23,37 @@ namespace OfflineServer
             [StringData(null)]
             None = 0
         }
+        #endregion
+        #region fields
+        protected Int32 activePersonaBoost
+        {
+            get
+            {
+                if (Access.CurrentSession.ActivePersona != null)
+                    return Access.CurrentSession.ActivePersona.Boost;
+                return -1;
+            }
+            set
+            {
+                if (Access.CurrentSession.ActivePersona != null)
+                    Access.CurrentSession.ActivePersona.Boost = value;
+            }
+        }
+        protected Int32 activePersonaCash
+        {
+            get
+            {
+                if (Access.CurrentSession.ActivePersona != null)
+                    return Access.CurrentSession.ActivePersona.Cash;
+                return -1;
+            }
+            set
+            {
+                if (Access.CurrentSession.ActivePersona != null)
+                    Access.CurrentSession.ActivePersona.Cash = value;
+            }
+        }
+        #endregion
 
         public static class Basket
         {
@@ -49,38 +76,37 @@ namespace OfflineServer
             /// <summary>
             /// Initializes a product data entry for use in XML.
             /// </summary>
-            /// <param name="CurrencyType">Type of currency the item is sold for</param>
-            /// <param name="Description">NFS: World Beta feature, still gonna keep it for MAYBE future-use</param>
-            /// <param name="RentalDurationInMinutes">0 if not a rental, rental duration in minutes if else</param>
-            /// <param name="Hash">Item hash value that is recognized by NFS: World</param>
-            /// <param name="IconString">Item icon that is displayed somewhere around it's title</param>
-            /// <param name="LevelLimit">0 if not level limited, minimum level value if else</param>
-            /// <param name="TooltipDescription">NFS: World Beta feature, still gonna keep it for MAYBE future-use</param>
-            /// <param name="Price">How much the item is sold for</param>
-            /// <param name="PriorityNumber">Priority in the shopping list in-game, commonly used for new items or discounts</param>
-            /// <param name="SType">Item type that the server can recognize, not the game</param>
-            /// <param name="Id">Item index for the server</param>
-            /// <param name="Title">Item title that is displayed in-game</param>
-            /// <param name="GType">Item type that NFS: World can recognize, not the server</param>
-            /// <param name="ExtraDetail">If there is one, a special condition for the item that is displayed in-game</param>
+            /// <param name="currencyType">Type of currency the item is sold for</param>
+            /// <param name="description">NFS: World Beta feature, still gonna keep it for MAYBE future-use</param>
+            /// <param name="rentalDurationInMinutes">0 if not a rental, rental duration in minutes if else</param>
+            /// <param name="hash">Item hash value that is recognized by NFS: World</param>
+            /// <param name="iconString">Item icon that is displayed somewhere around its title</param>
+            /// <param name="levelLimit">0 if not level limited, minimum level value if else</param>
+            /// <param name="tooltipDescription">NFS: World Beta feature, still gonna keep it for MAYBE future-use</param>
+            /// <param name="price">How much the item is sold for</param>
+            /// <param name="priorityNumber">Priority in the shopping list in-game, commonly used for new items or discounts</param>
+            /// <param name="id">Server product id</param>
+            /// <param name="title">Item title that is displayed in-game</param>
+            /// <param name="itemType">Item type that NFS: World can recognize</param>
+            /// <param name="extraDetail">If there is one, a special condition for the item that is displayed in-game</param>
             /// <returns>An XElement wrapped around in ProductTrans tags.</returns>
-            public static XElement GetProductTransactionEntry(Currency CurrencyType, String Description, Int32 RentalDurationInMinutes, Int64 Hash, String IconString, Int16 LevelLimit, String TooltipDescription, Int32 Price, Int16 PriorityNumber, ServerItemType SType, Int32 Id, String Title, GameItemType GType, Special ExtraDetail = Special.None)
+            public static XElement getProductTransactionEntry(Currency currencyType, String description, Int32 rentalDurationInMinutes, Int64 hash, String iconString, Int16 levelLimit, String tooltipDescription, Int32 price, Int16 priorityNumber, String id, String title, GameItemType itemType, Special extraDetail = Special.None)
             {
                 XElement ProductNode =
                     new XElement("ProductTrans",
-                        new XElement("Currency", CurrencyType.GetString()),
-                        new XElement("Description", Description),
-                        new XElement("DurationMinute", RentalDurationInMinutes.ToString()),
-                        new XElement("Hash", Hash.ToString()),
-                        new XElement("Icon", IconString),
-                        new XElement("Level", LevelLimit.ToString()),
-                        new XElement("LongDescription", TooltipDescription),
-                        new XElement("Price", Price.ToString()),
-                        new XElement("Priority", PriorityNumber.ToString()),
-                        new XElement("ProductId", String.Format("ItemEntry{0}-{1}", SType.GetString(), Id.ToString())),
-                        new XElement("ProductTitle", Title),
-                        new XElement("ProductType", GType.GetString()),
-                        new XElement("SecondaryIcon", ExtraDetail.GetString()),
+                        new XElement("Currency", currencyType.GetString()),
+                        new XElement("Description", description),
+                        new XElement("DurationMinute", rentalDurationInMinutes.ToString()),
+                        new XElement("Hash", hash.ToString()),
+                        new XElement("Icon", iconString),
+                        new XElement("Level", levelLimit.ToString()),
+                        new XElement("LongDescription", tooltipDescription),
+                        new XElement("Price", price.ToString()),
+                        new XElement("Priority", priorityNumber.ToString()),
+                        new XElement("ProductId", id),
+                        new XElement("ProductTitle", title),
+                        new XElement("ProductType", itemType.GetString()),
+                        new XElement("SecondaryIcon", extraDetail.GetString()),
                         new XElement("UseCount", "1")
                     );
                 return ProductNode;

@@ -304,20 +304,20 @@ namespace OfflineServer
         /// <returns>A string instance containing all of the persona's cars in indented XML.</returns>
         public String getCompleteGarage()
         {
-            XElement CarEntries = new XElement("CarsOwnedByPersona");
-            foreach (Car CarEntry in Cars)
+            XElement carEntries = new XElement("CarsOwnedByPersona");
+            foreach (Car carEntry in cars)
             {
-                CarEntries.Add(CarEntry.getCarEntry());
+                carEntries.Add(carEntry.getCarEntry());
             }
 
             XDocument docAllCars = new XDocument(
                 new XDeclaration("1.0", Encoding.UTF8.HeaderName, String.Empty),
                 new XElement("CarSlotInfoTrans",
                     new XAttribute(XNamespace.Xmlns + "i", ServerAttributes.nilNS),
-                    CarEntries,
+                    carEntries,
                     new XElement("DefaultOwnedCarIndex", currentCarIndex),
                     new XElement("ObtainableSlots",
-                        Economy.Basket.GetProductTransactionEntry
+                        Economy.Basket.getProductTransactionEntry
                         (
                             Economy.Currency.Boost,
                             "Grants you 1 extra car slot.",
@@ -328,8 +328,7 @@ namespace OfflineServer
                             "Only for 100 boost you will get new a car slot instantly!",
                             100,
                             0,
-                            Economy.ServerItemType.CarSlot,
-                            0,
+                            "CARSLOT",
                             "Car Slot",
                             Economy.GameItemType.CarSlot,
                             Economy.Special.None
