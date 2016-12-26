@@ -37,7 +37,7 @@ namespace OfflineServer.Data.Settings
                             if (Access.mainWindow != null && value == "CustomAccentSample" && !haveSeenCustomAccentSampleMessage)
                             {
                                 Access.mainWindow.informUser(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
-                                            Access.dataAccess.appSettings.uiSettings.language.InformationSampleAccent);
+                                            String.Format(Access.dataAccess.appSettings.uiSettings.language.InformationSampleAccent, DataEx.dir_Accents));
                                 haveSeenCustomAccentSampleMessage = true;
                             }
                             accent = ThemeManager.GetAccent(value);
@@ -61,7 +61,7 @@ namespace OfflineServer.Data.Settings
                             if (Access.mainWindow != null && value == "CustomThemeSample" && !haveSeenCustomThemeSampleMessage)
                             {
                                 Access.mainWindow.informUser(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
-                                            Access.dataAccess.appSettings.uiSettings.language.InformationSampleTheme);
+                                            String.Format(Access.dataAccess.appSettings.uiSettings.language.InformationSampleTheme, DataEx.dir_Themes));
                                 haveSeenCustomThemeSampleMessage = true;
                             }
                             theme = ThemeManager.GetAppTheme(value);
