@@ -61,12 +61,12 @@ namespace AddonManager
             }
 
             if (String.IsNullOrWhiteSpace(AddonEx.dir_HttpServerCatalogs)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_HttpServerBaskets)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_Accents)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_Themes)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_Languages)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_MemoryPatches)
-                && String.IsNullOrWhiteSpace(AddonEx.dir_Logs))
+                || String.IsNullOrWhiteSpace(AddonEx.dir_HttpServerBaskets)
+                || String.IsNullOrWhiteSpace(AddonEx.dir_Accents)
+                || String.IsNullOrWhiteSpace(AddonEx.dir_Themes)
+                || String.IsNullOrWhiteSpace(AddonEx.dir_Languages)
+                || String.IsNullOrWhiteSpace(AddonEx.dir_MemoryPatches)
+                || String.IsNullOrWhiteSpace(AddonEx.dir_Logs))
             {
                 Console.WriteLine("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\nArgument order isn't important.\r\n{2}",
                     @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path'",

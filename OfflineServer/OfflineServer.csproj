@@ -437,6 +437,7 @@
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /restore "$(ProjectDir)"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Settings\UI\*" "$(ProjectDir)$(OutDir)Data\UI"
+xcopy /i /e /s /y /f "$(ProjectDir)Data\Server\*" "$(ProjectDir)$(OutDir)Data\Server"
 xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\$(OutDir)AddonManager.exe" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
