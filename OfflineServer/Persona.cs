@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml.Linq;
+using NHibernate;
 
 namespace OfflineServer
 {
@@ -239,23 +240,23 @@ namespace OfflineServer
         /// </summary>
         public Persona(PersonaEntity persona)
         {
-            Id = persona.id;
-            IconIndex = persona.iconIndex;
-            Name = persona.name;
-            Motto = persona.motto;
-            Level = persona.level;
-            Cash = persona.cash;
-            Boost = persona.boost;
-            PercentageOfLevelCompletion = persona.percentageOfLevelCompletion;
-            ReputationInLevel = persona.reputationInLevel;
-            ReputationInTotal = persona.reputationInTotal;
-            CurrentCarIndex = persona.currentCarIndex;
+            id = persona.id;
+            iconIndex = persona.iconIndex;
+            name = persona.name;
+            motto = persona.motto;
+            level = persona.level;
+            cash = persona.cash;
+            boost = persona.boost;
+            percentageOfLevelCompletion = persona.percentageOfLevelCompletion;
+            reputationInLevel = persona.reputationInLevel;
+            reputationInTotal = persona.reputationInTotal;
+            currentCarIndex = persona.currentCarIndex;
 
             foreach (CarEntity car in persona.garage)
             {
-                Cars.Add(new Car(car));
+                cars.Add(new Car(car));
             }
-            SelectedCar = cars[currentCarIndex];
+            selectedCar = cars[currentCarIndex];
         }
 
         /// <summary>
@@ -282,20 +283,17 @@ namespace OfflineServer
         /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
-            ObservableCollection<Persona> listPersona = new ObservableCollection<Persona>();
+            ObservableCollection<Persona> listPersonas = new ObservableCollection<Persona>();
+            IList<PersonaEntity> personas;
 
             using (var session = SessionManager.getSessionFactory().OpenSession())
             using (session.BeginTransaction())
-            {
-                IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
+                personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
 
-                foreach (PersonaEntity persona in personas)
-                {
-                    listPersona.Add(new Persona(persona));
-                }
-            }
+            foreach (PersonaEntity persona in personas)
+                listPersonas.Add(new Persona(persona));
 
-            return listPersona;
+            return listPersonas;
         }
 
         /// <summary>

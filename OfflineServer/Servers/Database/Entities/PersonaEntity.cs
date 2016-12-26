@@ -5,7 +5,7 @@ namespace OfflineServer.Servers.Database.Entities
 {
     public class PersonaEntity
     {
-        public virtual Int32 id { get; set; }
+        public virtual Int32 id { get; protected set; }
         public virtual Int16 iconIndex { get; set; }
         public virtual String name { get; set; }
         public virtual String motto { get; set; }
@@ -18,7 +18,7 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual Int32 currentCarIndex { get; set; }
         public virtual Int32 score { get; set; }
         public virtual Int32 rating { get; set; }
-        public virtual IList<CarEntity> garage { get; set; }
+        public virtual IList<CarEntity> garage { get; protected set; }
 
         public PersonaEntity()
         {

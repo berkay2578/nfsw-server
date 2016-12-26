@@ -203,6 +203,8 @@ namespace OfflineServer
             selectButton.Width = 80d;
             selectButton.Click += (object sender, RoutedEventArgs routedEventArgs) =>
             {
+                selectButton.IsEnabled = false;
+
                 CarEntity carEntity = new CarEntity();
                 carEntity.baseCarId = CarDefinitions.baseCarId.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
                 carEntity.carId = Access.CurrentSession.ActivePersona.Cars.Last().CarId + 1;
@@ -470,10 +472,7 @@ namespace OfflineServer
 
                 Access.sXmpp.shutdown();
             }
-
-            NfswSession.dbConnection.Close();
-            NfswSession.dbConnection.Dispose();
-
+            
             SessionManager.getSessionFactory().Close();
 
             log.Info("Killing main thread.");

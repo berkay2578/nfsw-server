@@ -196,7 +196,7 @@
                                 <Grid x:Name="Grid" Background="{TemplateBinding Background}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -204,12 +204,12 @@
                                     </Grid.RowDefinitions>
                                     <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
                                     <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
-                                    <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Margin="10,0,0,0"/>
+                                    <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Margin="5,0,0,0"/>
                                     <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
                                 </Grid>
                             </ControlTemplate>
                         </ScrollViewer.Template>
-                        <StackPanel Orientation="Horizontal" Width="270">
+                        <StackPanel Orientation="Horizontal" Width="250">
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Base Car Id:"/>
                                 <Label Margin="0,5,0,0" Content="Car Class:"/>
@@ -226,7 +226,7 @@
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
                                 <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="140" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
+                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="130" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
                                 <StackPanel.Resources>
                                     <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                                         <ObjectDataProvider.MethodParameters>
@@ -249,13 +249,13 @@
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="999" Value="{Binding Rating}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Resale Price" Text="{Binding ResalePrice, StringFormat=\{0:C0\}}" xml:lang="en-US"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="999" Value="{Binding Rating}" TextAlignment="Left"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Controls:TextBoxHelper.Watermark="Resale Price" Value="{Binding ResalePrice}" StringFormat="{}{0:C0}" TextAlignment="Left" xml:lang="en-US"/>
                                 <Button Name="buttonSkillModParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonVinyls" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" TextAlignment="Left" Minimum="1" Maximum="7" Value="{Binding HeatLevel}"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%" TextAlignment="Left"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="1" Maximum="7" Value="{Binding HeatLevel}" TextAlignment="Left"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Car Id" Text="{Binding CarId}" IsReadOnly="True" IsEnabled="False"/>
                             </StackPanel>
                         </StackPanel>

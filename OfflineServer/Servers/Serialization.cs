@@ -50,9 +50,6 @@ namespace OfflineServer.Servers
                     Access.sXmpp.shutdown();
                 }
 
-                NfswSession.dbConnection.Close();
-                NfswSession.dbConnection.Dispose();
-
                 log.Info("Killing main thread.");
                 Environment.Exit(0);
             }
@@ -88,9 +85,6 @@ namespace OfflineServer.Servers
 
                     Access.sXmpp.shutdown();
                 }
-
-                NfswSession.dbConnection.Close();
-                NfswSession.dbConnection.Dispose();
 
                 log.Info("Killing main thread.");
                 Environment.Exit(0);

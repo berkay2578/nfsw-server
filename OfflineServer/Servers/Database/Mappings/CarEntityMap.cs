@@ -9,7 +9,7 @@ namespace OfflineServer.Servers.Database.Mappings
         {
             Table("Garages");
             Id(c => c.id)
-                .Column("pkCarId");
+                .GeneratedBy.Native();
             Map(c => c.baseCarId);
             Map(c => c.raceClass);
             Map(c => c.paints);
@@ -25,7 +25,9 @@ namespace OfflineServer.Servers.Database.Mappings
                 .Nullable();
             Map(c => c.heatLevel);
             Map(c => c.carId);
-            References(c => c.ownerPersona);
+            References(c => c.ownerPersona)
+                .Not.Nullable()
+                .Cascade.All();
         }
     }
 }

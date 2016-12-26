@@ -260,22 +260,22 @@ namespace OfflineServer
 
         public Car(CarEntity car)
         {
-            Id = car.id;
-            BaseCarId = car.baseCarId;
-            RaceClass = car.raceClass;
-            Paints = XElement.Parse(car.paints);
-            PerformanceParts = XElement.Parse(car.performanceParts);
-            PhysicsProfileHash = car.physicsProfileHash;
-            Rating = car.rating;
-            ResalePrice = car.resalePrice;
-            SkillModParts = XElement.Parse(car.skillModParts);
-            Vinyls = XElement.Parse(car.vinyls);
-            VisualParts = XElement.Parse(car.visualParts);
-            Durability = car.durability;
-            ExpirationDate = car.expirationDate;
-            HeatLevel = car.heatLevel;
-            CarId = car.carId;
-            PersonaId = car.ownerPersona.id;
+            id = car.id;
+            baseCarId = car.baseCarId;
+            raceClass = car.raceClass;
+            paints = XElement.Parse(car.paints);
+            performanceParts = XElement.Parse(car.performanceParts);
+            physicsProfileHash = car.physicsProfileHash;
+            rating = car.rating;
+            resalePrice = car.resalePrice;
+            skillModParts = XElement.Parse(car.skillModParts);
+            vinyls = XElement.Parse(car.vinyls);
+            visualParts = XElement.Parse(car.visualParts);
+            durability = car.durability;
+            expirationDate = car.expirationDate;
+            heatLevel = car.heatLevel;
+            carId = car.carId;
+            personaId = car.ownerPersona.id;
         }
         
         public String getCarPreset()

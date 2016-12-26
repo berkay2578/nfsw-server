@@ -1,24 +1,21 @@
-﻿using NHibernate;
-using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Servers.Database.Entities;
 
 namespace OfflineServer.Servers.Database.Management
 {
     public static class CarManagement
     {
-        private static ISession session;
-        private static CarEntity dummyEntity = new CarEntity();
-        static CarManagement()
-        {
-            session = SessionManager.getSessionFactory().OpenSession();
-        }
-
         public static CarEntity car
         {
             get
             {
                 if (Access.CurrentSession.ActivePersona != null)
-                    return session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
-                return dummyEntity; // to ensure no NullReferenceExceptions, it's just a dummy
+                {
+                    using (var session = SessionManager.getSessionFactory().OpenSession())
+                    {
+                        return session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
+                    }
+                }
+                return null;
             }
             set
             {
@@ -26,11 +23,12 @@ namespace OfflineServer.Servers.Database.Management
                 {
                     if (car != value && value != null)
                     {
-                        using (ITransaction transaction = session.BeginTransaction())
+                        using (var session = SessionManager.getSessionFactory().OpenSession())
+                        using (var transaction = session.BeginTransaction())
                         {
-                            CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
-                            CarEntity = value;
-                            session.Update(CarEntity);
+                            CarEntity carEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
+                            carEntity = value;
+                            session.SaveOrUpdate(carEntity);
                             transaction.Commit();
                         }
                     }
@@ -41,9 +39,11 @@ namespace OfflineServer.Servers.Database.Management
         public static void update(this CarEntity newCar)
         {
             if (Access.CurrentSession.ActivePersona != null)
+            {
                 if (newCar != null)
                 {
-                    using (ITransaction transaction = session.BeginTransaction())
+                    using (var session = SessionManager.getSessionFactory().OpenSession())
+                    using (var transaction = session.BeginTransaction())
                     {
                         CarEntity CarEntity = session.Load<CarEntity>(newCar.id);
                         CarEntity = newCar;
@@ -51,6 +51,7 @@ namespace OfflineServer.Servers.Database.Management
                         transaction.Commit();
                     }
                 }
+            }
         }
     }
 }

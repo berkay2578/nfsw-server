@@ -9,7 +9,7 @@ namespace OfflineServer.Servers.Database.Mappings
         {
             Table("Personas");
             Id(p => p.id)
-                .Column("pkPersonaId");
+                .GeneratedBy.Increment();
             Map(p => p.iconIndex);
             Map(p => p.name);
             Map(p => p.motto);
@@ -23,7 +23,11 @@ namespace OfflineServer.Servers.Database.Mappings
             Map(p => p.score);
             Map(p => p.rating);
             HasMany(p => p.garage)
-                .Cascade.All();
+                .AsBag()
+                .Inverse()
+                .Cascade.All()
+                .Fetch.Join()
+                .OrderBy("id asc");
         }
     }
 }

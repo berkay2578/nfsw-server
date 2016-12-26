@@ -1,6 +1,4 @@
-﻿using OfflineServer.Data;
-using System.Collections.ObjectModel;
-using System.Data.SQLite;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
@@ -8,7 +6,6 @@ namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
-        public static SQLiteConnection dbConnection = new SQLiteConnection("Data Source=\"" + DataEx.db_Server + "\";Version=3;");
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();
@@ -16,7 +13,10 @@ namespace OfflineServer
         private ObservableCollection<Persona> personaList;
         public Persona ActivePersona
         {
-            get { return activePersona; }
+            get
+            {
+                return activePersona;
+            }
             set
             {
                 if (activePersona != value)
@@ -29,7 +29,10 @@ namespace OfflineServer
         }
         public ObservableCollection<Persona> PersonaList
         {
-            get { return personaList; }
+            get
+            {
+                return personaList;
+            }
             set
             {
                 if (personaList != value)
@@ -42,8 +45,6 @@ namespace OfflineServer
 
         public void startSession()
         {
-            dbConnection.Open();
-
             PersonaList = Persona.getCurrentPersonaList();
             ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
 
