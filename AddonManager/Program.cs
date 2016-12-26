@@ -68,10 +68,10 @@ namespace AddonManager
                 || String.IsNullOrWhiteSpace(AddonEx.dir_MemoryPatches)
                 || String.IsNullOrWhiteSpace(AddonEx.dir_Logs))
             {
-                Console.WriteLine("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\nArgument order isn't important.\r\n{2}",
+                Console.WriteLine("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\n{2}",
                     @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path'",
                     @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path' /installAddon 'path'",
-                    @"Each variable 'path' do not need to be escaped."
+                    @"Argument order isn't important. Each variable 'path' needs to be escaped."
                     );
                 Environment.Exit(0);
                 return;
