@@ -136,8 +136,8 @@ namespace OfflineServer.Data.Settings
                 public String Cash { get; set; }
                 public String DetailedPersonaInfo { get; set; }
                 public String PersonaList { get; set; }
-                public String LevelXP { get; set; }
-                public String LevelToolTip { get; set; }
+                public String LevelUpXPLeft { get; set; }
+                public String LevelUpTooltip { get; set; }
                 public String CashToolTip { get; set; }
                 public String BoostToolTip { get; set; }
                 public String AmountOfCars { get; set; }
