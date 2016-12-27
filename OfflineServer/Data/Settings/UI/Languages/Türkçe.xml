@@ -9,7 +9,7 @@
    <Cash>Para</Cash>
    <DetailedPersonaInfo>Ekstra Bilgiler</DetailedPersonaInfo>
    <PersonaList>Yarışçı Listesi</PersonaList>
-   <LevelXP>EXP kaldı</LevelXP>
+   <LevelUpXPLeft>EXP kaldı</LevelUpXPLeft>
    <LevelToolTip>{0} seviye {1}.</LevelToolTip>
    <CashToolTip>{0}, {1} paraya sahip.</CashToolTip>
    <BoostToolTip>{0}, {1} boosta sahip.</BoostToolTip>

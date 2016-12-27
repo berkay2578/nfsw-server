@@ -9,7 +9,7 @@
    <Cash>Cash</Cash>
    <DetailedPersonaInfo>Detailed Info</DetailedPersonaInfo>
    <PersonaList>Persona List</PersonaList>
-   <LevelXP>XP Left</LevelXP>
+   <LevelUpXPLeft>XP Left</LevelUpXPLeft>
    <LevelToolTip>{0} is level {1}.</LevelToolTip>
    <CashToolTip>{0} has {1} cash.</CashToolTip>
    <BoostToolTip>{0} has {1} boost.</BoostToolTip>
