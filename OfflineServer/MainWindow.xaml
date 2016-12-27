@@ -124,7 +124,7 @@
                             </StackPanel>
                             <Grid Margin="127,0,3,110" Background="#FF303030">
                                 <Grid.ToolTip>
-                                    <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelUpToolTip}"/>
+                                    <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelToolTip}"/>
                                 </Grid.ToolTip>
                                 <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
                                 <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFDDDDDD" Width="72" Height="32" Margin="3,0,0,0">
