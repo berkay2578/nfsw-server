@@ -135,7 +135,6 @@ namespace OfflineServer.Servers.Xmpp
         {
             String sourceText = String.Format("{0}.{1}@127.0.0.1{2}", jidPrepender, personaId, messageResponse);
             Int64 multiplier = 4294967295L & 0xffffffffL;
-            Int64 oldMultiplier = 0L;
             Boolean cFlag = true;
 
             foreach (char c in sourceText)
@@ -144,12 +143,10 @@ namespace OfflineServer.Servers.Xmpp
                 Int64 hiHash = (hash >> 32) & 0xffffffffL;
                 Int64 loHash = ((hash << 32) >> 32) & 0xffffffffL;
 
-                long newHiMultiplier = ((hiHash) + (cFlag ? 1 : 0)) & 0xffffffffL;
-                long newLoMultiplier = (((loHash << 32) >> 32) + c) & 0xffffffffL;
+                Int64 newHiMultiplier = ((hiHash) + (cFlag ? 1 : 0)) & 0xffffffffL;
+                Int64 newLoMultiplier = (((loHash << 32) >> 32) + c) & 0xffffffffL;
 
                 cFlag = hiHash > newHiMultiplier;
-                oldMultiplier = multiplier;
-
                 multiplier = newHiMultiplier << 32 | newLoMultiplier;
             }
 
