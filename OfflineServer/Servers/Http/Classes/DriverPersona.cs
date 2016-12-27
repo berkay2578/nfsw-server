@@ -1,6 +1,7 @@
 ﻿using OfflineServer.Servers.Http.Responses;
 using System;
 using System.Text.RegularExpressions;
+using OfflineServer.Servers.Database.Management;
 
 namespace OfflineServer.Servers.Http.Classes
 {
@@ -48,6 +49,14 @@ namespace OfflineServer.Servers.Http.Classes
                 }
             }
             return "";
+        }
+
+        public static String updateStatusMessage()
+        {
+            String mottoXml = Access.sHttp.getPostData();
+            PersonaMotto personaMotto = mottoXml.DeserializeObject<PersonaMotto>();
+            Access.CurrentSession.ActivePersona.Motto = personaMotto.message;
+            return mottoXml;
         }
     }
 }

@@ -216,6 +216,7 @@
     <Compile Include="Servers\Http\Responses\CommerceSessionTrans.cs" />
     <Compile Include="Servers\Http\Responses\CustomCar.cs" />
     <Compile Include="Servers\Http\Responses\PersonaBase.cs" />
+    <Compile Include="Servers\Http\Responses\PersonaMotto.cs" />
     <Compile Include="Servers\Http\Responses\ProfileData.cs" />
     <Compile Include="Servers\Http\Responses\UpdatedCar.cs" />
     <Compile Include="Servers\Http\Responses\User.cs" />
