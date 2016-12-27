@@ -292,12 +292,12 @@
                     <TextBlock Text="Literally no idea what to put here. Do I add the ReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutPersonaList" Header="{Binding dataAccess.appSettings.uiSettings.language.PersonaList}" Position="Right" Width="480" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutPersonaList" Header="{Binding dataAccess.appSettings.uiSettings.language.PersonaList}" Position="Right" Width="490" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
-                    <DataGrid Name="datagridPersonaList" Margin="10,0,10,0" Height="314" Style="{StaticResource AzureDataGrid}" 
-                              CanUserReorderColumns="False" AutoGenerateColumns="False" IsReadOnly = "True"
+                    <DataGrid Name="datagridPersonaList" Margin="7,0,7,0" Height="314" Style="{StaticResource AzureDataGrid}" 
+                              CanUserReorderColumns="True" AutoGenerateColumns="False" IsReadOnly="True"
                               SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding CurrentSession.PersonaList, Mode=OneWay}"
-                              MouseDoubleClick="datagridPersonaList_MouseDoubleClick" IsTextSearchCaseSensitive="True" TextOptions.TextFormattingMode="Display">
+                              MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}">
                                 <DataGridTextColumn.Header>
@@ -319,7 +319,7 @@
                                     <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Cash, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Boost" Binding="{Binding Boost}" FontWeight="Bold"/>
+                            <DataGridTextColumn Header="Boost" Binding="{Binding Boost}"/>
                             <DataGridTextColumn Binding="{Binding Cars.Count}">
                                 <DataGridTextColumn.Header>
                                     <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding AmountOfCars, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
