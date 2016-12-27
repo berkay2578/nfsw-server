@@ -25,7 +25,7 @@ namespace OfflineServer.Servers.Database.Mappings
             HasMany(p => p.garage)
                 .AsBag()
                 .Inverse()
-                .Cascade.All()
+                .Cascade.AllDeleteOrphan()
                 .Fetch.Join()
                 .OrderBy("id asc");
         }

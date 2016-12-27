@@ -1,12 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using NHibernate;
-using OfflineServer.Data;
-using OfflineServer.Servers.Database;
-using OfflineServer.Servers.Database.Entities;
-using OfflineServer.Servers.Database.Management;
-using OfflineServer.Servers.IPC;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -24,6 +16,14 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using NHibernate;
+using OfflineServer.Data;
+using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.IPC;
 using static OfflineServer.Servers.IPC.AddonManagerTalk;
 
 namespace OfflineServer
@@ -82,7 +82,6 @@ namespace OfflineServer
                     insertSQL.ExecuteNonQuery();
                     sqliteConnection.Close();
                 }
-
 
                 log.Info("Inserting filler entries.");
                 using (var session = sessionFactory.OpenSession())
@@ -385,7 +384,7 @@ namespace OfflineServer
             }
         }
 
-        #region PersonaList related events
+        #region Persona flyout events
         private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;

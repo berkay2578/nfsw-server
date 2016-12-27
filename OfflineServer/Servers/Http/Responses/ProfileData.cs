@@ -14,7 +14,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("Cash")]
         public Int32 cash = 0;
         [XmlElement("IconIndex")]
-        public Int16 iconIndex = 27;
+        public Int16 iconIndex = 0;
         [XmlElement("Level")]
         public Int32 level = 0;
         [XmlElement("Motto")]
