@@ -8,8 +8,7 @@ namespace OfflineServer.Servers.Database.Mappings
         public PersonaEntityMap()
         {
             Table("Personas");
-            Id(p => p.id)
-                .GeneratedBy.Increment();
+            Id(p => p.id);
             Map(p => p.iconIndex);
             Map(p => p.name);
             Map(p => p.motto);

@@ -157,6 +157,7 @@ namespace OfflineServer
                 Path = new PropertyPath("ActivePersona.IconIndex"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.TwoWay,
+                Delay = 1000,
                 Source = Access.CurrentSession
             };
             BindingOperations.SetBinding(FlipViewPersonaImage, FlipView.SelectedIndexProperty, indexBind);

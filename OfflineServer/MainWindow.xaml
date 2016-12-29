@@ -97,8 +97,8 @@
                     </Button>
                     <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
                         <Grid>
-                            <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="Left"
-                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave"
+                            <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="LeftReplace" RightTransition="RightReplace"
+                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True"
                                 HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="1" BorderBrush="#FF505050" Background="#FF303030"/>
                             <StackPanel Orientation="Vertical" Margin="10,130,215,0" Width="48">
                                 <StackPanel.ToolTip>
@@ -243,20 +243,20 @@
                                         <Setter Property="Foreground" Value="White"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, UpdateSourceTrigger=PropertyChanged}"/>
-                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass}"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id}" IsReadOnly="True" IsEnabled="False"/>
+                                <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, Delay=1000}"/>
+                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass, Delay=1000}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="999" Value="{Binding Rating}" TextAlignment="Left"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Controls:TextBoxHelper.Watermark="Resale Price" Value="{Binding ResalePrice}" StringFormat="{}{0:C0}" TextAlignment="Left" xml:lang="en-US"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, Delay=1000}"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="999" Value="{Binding Rating, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Value="{Binding ResalePrice, Delay=1000}" StringFormat="{}{0:C0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True" xml:lang="en-US"/>
                                 <Button Name="buttonSkillModParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonVinyls" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="100" Value="{Binding Durability}" StringFormat="{}{0}%" TextAlignment="Left"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="1" Maximum="7" Value="{Binding HeatLevel}" TextAlignment="Left"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Car Id" Text="{Binding CarId}" IsReadOnly="True" IsEnabled="False"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="100" Value="{Binding Durability, Delay=1000}" StringFormat="{}{0}%" TextAlignment="Left" Interval="5" IsTabStop="False"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="1" Maximum="7" Value="{Binding HeatLevel, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Car Id" Text="{Binding CarId, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -279,11 +279,11 @@
                         <Label Margin="5" Content="Boost" Foreground="White"/>
                     </StackPanel>
                     <StackPanel Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190" DataContext="{Binding CurrentSession.ActivePersona}">
-                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14" LostFocus="textboxPersonaName_LostFocus"/>
-                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="0" Value="{Binding Level}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Left" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost}" TrackMouseWheelWhenMouseOver="True" TextAlignment="Justify" />
+                        <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14" LostFocus="textboxPersonaName_LostFocus"/>
+                        <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="1" Value="{Binding Level, Delay=1000}" TextAlignment="Left" InterceptMouseWheel="False" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash, Delay=1000}" StringFormat="{}{0:C0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True" xml:lang="en-US" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>

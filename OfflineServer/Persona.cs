@@ -48,8 +48,9 @@ namespace OfflineServer
         {
             get { return id; }
             set
-            { 
-                if (id != value) { 
+            {
+                if (id != value)
+                {
                     id = value;
                     RaisePropertyChangedEvent("Id");
                 }
@@ -211,7 +212,8 @@ namespace OfflineServer
                 }
             }
         }
-        public Car SelectedCar {
+        public Car SelectedCar
+        {
             get { return selectedCar; }
             set
             {
@@ -284,14 +286,13 @@ namespace OfflineServer
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersonas = new ObservableCollection<Persona>();
-            IList<PersonaEntity> personas;
 
             using (var session = SessionManager.getSessionFactory().OpenSession())
-            using (session.BeginTransaction())
-                personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
-
-            foreach (PersonaEntity persona in personas)
-                listPersonas.Add(new Persona(persona));
+            {
+                IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
+                foreach (PersonaEntity persona in personas)
+                    listPersonas.Add(new Persona(persona));
+            }
 
             return listPersonas;
         }

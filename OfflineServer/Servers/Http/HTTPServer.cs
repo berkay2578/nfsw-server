@@ -13,7 +13,7 @@ namespace OfflineServer.Servers.Http
     public class HttpServer
     {
         // for easy development and debug, will be removed later when everything is coded
-        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar", "categories", "productsInCategory", "systeminfo", "activated" };
+        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar", "categories", "productsInCategory", "systeminfo", "activated", "updateStatusMessage", "createPersona", "deletePersona", "reserveName" };
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();
@@ -40,7 +40,7 @@ namespace OfflineServer.Servers.Http
             Byte[] baResponseArray = null;
             List<String> splittedPath = new List<String>(e.Request.Path.Split('/'));
 
-            String ioPath = Path.Combine(DataEx.dir_Server, e.Request.Path.Substring(1) + ".xml");
+            String ioPath = Path.Combine(DataEx.dir_ServerFilesFallback, e.Request.Path.Substring(1) + ".xml");
 
             if (splittedPath.Count >= 3)
             {
@@ -53,7 +53,15 @@ namespace OfflineServer.Servers.Http
                 Double dummy;
                 Boolean isNumber = Double.TryParse(splittedPath[3], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dummy);
                 String targetMethodString = changeCaseFirst(isNumber ? splittedPath[4] : splittedPath[3], false);
-                if (!supportedMethods.Contains(targetMethodString))
+                if (supportedMethods.Contains(targetMethodString))
+                {
+                    Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
+                    MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
+                    request = e.Request;
+                    log.Info(String.Format("Processing OfflineServer.HttpServer.Classes.{0}.{1}().", targetClassString, targetMethodString));
+                    baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
+                }
+                else
                 {
                     log.Warn(String.Format("Method for {0} wasn't found, using fallback XML method.", targetMethodString));
                     if (File.Exists(ioPath))
@@ -65,14 +73,6 @@ namespace OfflineServer.Servers.Http
                     {
                         log.Warn(String.Format("File {0} wasn't found, sending only 200OK.", ioPath));
                     }
-                }
-                else
-                {
-                    Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
-                    MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
-                    request = e.Request;
-                    log.Info(String.Format("Processing OfflineServer.HttpServer.Classes.{0}.{1}().", targetClassString, targetMethodString));
-                    baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
                 }
             }
             else
@@ -88,7 +88,7 @@ namespace OfflineServer.Servers.Http
                 }
             }
 
-            if (baResponseArray == null) baResponseArray = getResponseData(" ");
+            if (baResponseArray == null) baResponseArray = getResponseData("");
             e.Response.OutputStream.Write(baResponseArray, 0, baResponseArray.Length);
             e.Response.OutputStream.Flush();
 
@@ -101,10 +101,9 @@ namespace OfflineServer.Servers.Http
 
         private Byte[] getResponseData(String responseText)
         {
-            Byte[] baAnswerData = Encoding.UTF8.GetBytes(responseText);
-
             using (MemoryStream msResponse = new MemoryStream())
             {
+                Byte[] baAnswerData = Encoding.UTF8.GetBytes(responseText);
                 using (GZipStream gzip = new GZipStream(msResponse, CompressionMode.Compress, true))
                     gzip.Write(baAnswerData, 0, baAnswerData.Length);
 

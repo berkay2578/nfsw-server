@@ -69,6 +69,11 @@ namespace OfflineServer.Servers.Http.Classes
             return "<long>0</long>";
         }
 
+        public static String reserveName()
+        {
+            return "<ArrayOfstring></ArrayOfstring>";
+        }
+
         public static String getPersonaInfo()
         {
             ProfileData profileData = new ProfileData();
