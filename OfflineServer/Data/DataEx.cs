@@ -1,8 +1,8 @@
-﻿using OfflineServer.Data.Settings;
-using OfflineServer.Servers;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+using OfflineServer.Data.Settings;
+using OfflineServer.Servers;
 using static OfflineServer.Data.Settings.AppSettings.UISettings;
 
 namespace OfflineServer.Data
@@ -28,6 +28,9 @@ namespace OfflineServer.Data
 
         public static readonly String dir_Others = Path.Combine(dir_Data, @"Others\");
         public static readonly String dir_MemoryPatches = Path.Combine(dir_Others, @"Memory Patches\");
+        public static readonly String dir_GameplayMods = Path.Combine(dir_Others, @"Gameplay Mods\");
+
+        public static String dir_CurrentGameplayMod;
 
         public static readonly String dir_UI = Path.Combine(dir_Data, @"UI\");
         public static readonly String dir_Accents = Path.Combine(dir_UI, @"Accents\");
@@ -68,6 +71,16 @@ namespace OfflineServer.Data
                     dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
                     dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
                     dir_CurrentHttpServerBaskets = Path.Combine(dir_HttpServerBaskets, value + "\\");
+                }
+            }
+        }
+        public static String currentGameplayMod
+        {
+            set
+            {
+                if (!String.IsNullOrWhiteSpace(value))
+                {
+                    dir_CurrentGameplayMod = Path.Combine(dir_GameplayMods, value + "\\");
                 }
             }
         }

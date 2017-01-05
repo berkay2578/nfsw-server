@@ -90,7 +90,7 @@ namespace OfflineServer
                     UserEntity userEntity = new UserEntity();
                     userEntity.defaultPersonaIdx = 0;
 
-                    for (int i = 0; i < 20; i++)
+                    for (int i = 0; i <= 20; i++)
                     {
                         PersonaEntity personaEntity = new PersonaEntity();
                         personaEntity.boost = 7331;
@@ -105,7 +105,7 @@ namespace OfflineServer
                         personaEntity.reputationInLevel = 0;
                         personaEntity.reputationInTotal = 99999999;
                         personaEntity.score = 2578;
-
+                        
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = 1816139026L;
                         carEntity.durability = 100;

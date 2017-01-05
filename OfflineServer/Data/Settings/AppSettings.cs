@@ -1,12 +1,12 @@
-﻿using MahApps.Metro;
-using OfflineServer.Servers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using MahApps.Metro;
+using OfflineServer.Servers;
 
 namespace OfflineServer.Data.Settings
 {
@@ -18,6 +18,11 @@ namespace OfflineServer.Data.Settings
 
             public class Style : ObservableObject
             {
+                [XmlElement("SeenCustomAccentMessage")]
+                public Boolean haveSeenCustomAccentSampleMessage = false;
+                [XmlElement("SeenCustomThemeMessage")]
+                public Boolean haveSeenCustomThemeSampleMessage = false;
+
                 [XmlIgnore]
                 public List<String> list_Accents { get; set; } = new List<String>();
                 [XmlIgnore]
@@ -72,15 +77,6 @@ namespace OfflineServer.Data.Settings
                     }
                 }
 
-                public Boolean haveSeenCustomAccentSampleMessage = false;
-                public Boolean haveSeenCustomThemeSampleMessage = false;
-
-                public void applyNewStyle()
-                {
-                    ThemeManager.ChangeAppStyle(Application.Current, accent, theme);
-                    if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
-                }
-
                 public void loadStyles()
                 {
                     list_Accents.Clear();
@@ -105,6 +101,12 @@ namespace OfflineServer.Data.Settings
                         ThemeManager.AddAppTheme(themeName, new Uri(themeXaml, UriKind.Absolute));
                         list_Themes.Add(themeName);
                     }
+                }
+
+                public void applyNewStyle()
+                {
+                    ThemeManager.ChangeAppStyle(Application.Current, accent, theme);
+                    if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
                 }
 
                 public void doDefault()
@@ -169,6 +171,7 @@ namespace OfflineServer.Data.Settings
                 public String DisplayLanguage { get; set; }
                 public String HttpServerSettings { get; set; }
                 public String Catalog { get; set; }
+                public String GameplayMod { get; set; }
                 public String Select { get; set; }
                 public String Cancel { get; set; }
                 #endregion
@@ -200,6 +203,7 @@ namespace OfflineServer.Data.Settings
                 }
             }
 
+            [XmlElement("Style")]
             public Style style { get; set; }
             [XmlIgnore]
             public Language language { get; set; }
@@ -260,7 +264,6 @@ namespace OfflineServer.Data.Settings
                     }
                 }
             }
-            #endregion
 
             public void loadCatalogs()
             {
@@ -275,20 +278,63 @@ namespace OfflineServer.Data.Settings
                     list_Catalogs.Add(catalogName);
                 }
             }
+            #endregion
+            #region Gameplay Mod
+            [XmlIgnore]
+            public List<String> list_GameplayMods { get; set; } = new List<String>();
+
+            private String selectedGameplayMod;
+            public String SelectedGameplayMod
+            {
+                get
+                {
+                    return selectedGameplayMod;
+                }
+                set
+                {
+                    if (selectedGameplayMod != value)
+                    {
+                        if (!Directory.Exists(Path.Combine(DataEx.dir_GameplayMods, value))) value = "Default";
+                        selectedGameplayMod = value;
+                        DataEx.currentGameplayMod = value;
+                        if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                        RaisePropertyChangedEvent("SelectedGameplayMod");
+                    }
+                }
+            }
+
+            public void loadGameplayMods()
+            {
+                list_GameplayMods.Clear();
+
+                String currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                String gamePlayModsDir = Path.Combine(currentDir, DataEx.dir_GameplayMods);
+
+                foreach (String dirGamePlayMod in Directory.GetDirectories(gamePlayModsDir))
+                {
+                    String gameplayModName = dirGamePlayMod.Replace(gamePlayModsDir, String.Empty);
+                    list_GameplayMods.Add(gameplayModName);
+                }
+            }
+            #endregion
 
             public void doDefault()
             {
                 SelectedCatalog = "Default";
+                SelectedGameplayMod = "Default";
             }
 
             public HttpServerSettings()
             {
                 loadCatalogs();
+                loadGameplayMods();
                 doDefault();
             }
         }
 
+        [XmlElement("UISettings")]
         public UISettings uiSettings { get; set; }
+        [XmlElement("HttpServerSettings")]
         public HttpServerSettings httpServerSettings { get; set; }
 
         public void reloadAllLists()

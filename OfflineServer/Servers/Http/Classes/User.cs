@@ -1,31 +1,15 @@
-﻿using OfflineServer.Servers.Http.Responses;
-using System;
+﻿using System;
 using System.Linq;
+using OfflineServer.Servers.Http.Responses;
 
 namespace OfflineServer.Servers.Http.Classes
 {
     public static class User
     {
-        public static String secureLoginPersona()
-        {
-            Int32 newPersonaId = Int32.Parse(Access.sHttp.request.Params.Get("personaId"));
-            Int32 newPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(p => p.Id == newPersonaId));
-            Access.CurrentSession.ActivePersona = Access.CurrentSession.PersonaList[newPersonaIndex];
-
-            Access.sXmpp.initialize();
-            Access.sXmpp.doLogin(Access.CurrentSession.ActivePersona.Id);
-            return "";
-        }
-        public static String secureLogout()
-        {
-            Access.sXmpp = new Xmpp.BasicXmppServer();
-            return "";
-        }
-
         public static String getPermanentSession()
         {
             UserInfo userInfo = new UserInfo();
-            foreach(Persona persona in Access.CurrentSession.PersonaList)
+            foreach (Persona persona in Access.CurrentSession.PersonaList)
             {
                 ProfileData profileData = new ProfileData();
                 profileData.boost = persona.Boost;
@@ -45,6 +29,23 @@ namespace OfflineServer.Servers.Http.Classes
 
             userInfo.defaultPersonaIdx = Engine.getDefaultPersonaIdx();
             return userInfo.SerializeObject();
+        }
+
+        public static String secureLoginPersona()
+        {
+            Int32 newPersonaId = Int32.Parse(Access.sHttp.request.Params.Get("personaId"));
+            Int32 newPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(p => p.Id == newPersonaId));
+            Access.CurrentSession.ActivePersona = Access.CurrentSession.PersonaList[newPersonaIndex];
+
+            Access.sXmpp.initialize();
+            Access.sXmpp.doLogin(Access.CurrentSession.ActivePersona.Id);
+            return "";
+        }
+
+        public static String secureLogout()
+        {
+            Access.sXmpp = new Xmpp.BasicXmppServer();
+            return "";
         }
     }
 }

@@ -1,47 +1,48 @@
 <Language>
-   <Persona>Persona</Persona>
-   <AchievementTreasureHunt>Your longest recorded TH streak is {0}, on persona '{1}'.</AchievementTreasureHunt>
-   <AchievementJumpDistance>Your farthest jump distance was {0} meters, on persona '{1}'.</AchievementJumpDistance>
-   <PersonaInfo>Persona Info</PersonaInfo>
-   <Name>Name</Name>
-   <Motto>Motto</Motto>
-   <Level>Level</Level>
-   <Cash>Cash</Cash>
-   <DetailedPersonaInfo>Detailed Info</DetailedPersonaInfo>
-   <PersonaList>Persona List</PersonaList>
-   <LevelUpXPLeft>XP Left</LevelUpXPLeft>
-   <LevelToolTip>{0} is level {1}.</LevelToolTip>
-   <CashToolTip>{0} has {1} cash.</CashToolTip>
-   <BoostToolTip>{0} has {1} boost.</BoostToolTip>
-   <AmountOfCars>Amount of Cars</AmountOfCars>
-   <GarageToolTip>{0} has {1} cars.</GarageToolTip>
-   <TimePlayedToolTip>{0} has played for {1} hours.</TimePlayedToolTip>
-   <Garage>Garage</Garage>
-   <BaseCarIdDefinition>BaseCarId Definition:</BaseCarIdDefinition>
-   <NoBaseCarIdDefinition>Definition isn't present.</NoBaseCarIdDefinition>
-   <AddACar>Add A Car</AddACar>
-   <AddACarText>Select the car you wish to add</AddACarText>
-   <RemoveCar>Remove Car</RemoveCar>
-   <RemoveCarLastCarError>Cannot remove the last car in a persona!</RemoveCarLastCarError>
-   <RemoveCarNoSelectedCarError>Please select a car first.</RemoveCarNoSelectedCarError>
-   <LoadXElement>Load XElement</LoadXElement>
-   <InformUserError>Beep boop, I done goofed</InformUserError>
-   <InformUserWarning>Hold your horses there, big guy</InformUserWarning>
-   <InformUserInformation>Just to let you know...</InformUserInformation>
-   <InformUserOther>Oops!</InformUserOther>
-   <ErrorEmptyPersonaName>You can't leave the persona name empty!</ErrorEmptyPersonaName>
-   <InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to '{0}' and get creative!</InformationSampleAccent>
-   <InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
-   <Settings>Settings</Settings>
-   <AddonManager>Addon Manager</AddonManager>
-   <AddonManagerNotFoundError>Offline Server couldn't locate AddonManager. Have you moved or deleted it? It should be next to the Offline Server.</AddonManagerNotFoundError>
-   <AddonManagerAddonInstalled>The addon '{0}' was installed.</AddonManagerAddonInstalled>
-   <UISettings>UI Settings</UISettings>
-   <Accent>Accent</Accent>
-   <Theme>Theme</Theme>
-   <DisplayLanguage>Language</DisplayLanguage>
-   <HttpServerSettings>Server Settings</HttpServerSettings>
-   <Catalog>Catalog</Catalog>
-   <Select>Select</Select>
-   <Cancel>Cancel</Cancel>
+	<Persona>Persona</Persona>
+	<AchievementTreasureHunt>Your longest recorded TH streak is {0}, on persona '{1}'.</AchievementTreasureHunt>
+	<AchievementJumpDistance>Your farthest jump distance was {0} meters, on persona '{1}'.</AchievementJumpDistance>
+	<PersonaInfo>Persona Info</PersonaInfo>
+	<Name>Name</Name>
+	<Motto>Motto</Motto>
+	<Level>Level</Level>
+	<Cash>Cash</Cash>
+	<DetailedPersonaInfo>Detailed Info</DetailedPersonaInfo>
+	<PersonaList>Persona List</PersonaList>
+	<LevelUpXPLeft>XP Left</LevelUpXPLeft>
+	<LevelToolTip>{0} is level {1}.</LevelToolTip>
+	<CashToolTip>{0} has {1} cash.</CashToolTip>
+	<BoostToolTip>{0} has {1} boost.</BoostToolTip>
+	<AmountOfCars>Amount of Cars</AmountOfCars>
+	<GarageToolTip>{0} owns {1} cars.</GarageToolTip>
+	<TimePlayedToolTip>{0} has played for {1} hours.</TimePlayedToolTip>
+	<Garage>Garage</Garage>
+	<BaseCarIdDefinition>BaseCarId Definition:</BaseCarIdDefinition>
+	<NoBaseCarIdDefinition>Definition isn't present.</NoBaseCarIdDefinition>
+	<AddACar>Add A Car</AddACar>
+	<AddACarText>Select the car you wish to add</AddACarText>
+	<RemoveCar>Remove Car</RemoveCar>
+	<RemoveCarLastCarError>Cannot remove the last car in a persona!</RemoveCarLastCarError>
+	<RemoveCarNoSelectedCarError>Please select a car first.</RemoveCarNoSelectedCarError>
+	<LoadXElement>Load XElement</LoadXElement>
+	<InformUserError>Beep boop, I done goofed</InformUserError>
+	<InformUserWarning>Hold your horses there, big guy</InformUserWarning>
+	<InformUserInformation>Just to let you know...</InformUserInformation>
+	<InformUserOther>Oops!</InformUserOther>
+	<ErrorEmptyPersonaName>You can't leave the persona name empty!</ErrorEmptyPersonaName>
+	<InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to '{0}' and get creative!</InformationSampleAccent>
+	<InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
+	<Settings>Settings</Settings>
+	<AddonManager>Addon Manager</AddonManager>
+	<AddonManagerNotFoundError>Offline Server couldn't locate AddonManager. Have you moved or deleted it? It should be next to the Offline Server.</AddonManagerNotFoundError>
+	<AddonManagerAddonInstalled>The addon '{0}' was installed.</AddonManagerAddonInstalled>
+	<UISettings>UI Settings</UISettings>
+	<Accent>Accent</Accent>
+	<Theme>Theme</Theme>
+	<DisplayLanguage>Language</DisplayLanguage>
+	<HttpServerSettings>Server Settings</HttpServerSettings>
+	<Catalog>Catalog</Catalog>
+	<GameplayMod>Gameplay</GameplayMod>
+	<Select>Select</Select>
+	<Cancel>Cancel</Cancel>
 </Language>

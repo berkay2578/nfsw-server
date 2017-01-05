@@ -356,9 +356,11 @@
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" MinWidth="80" MaxWidth="110" DataContext="{Binding uiSettings.language}">
                                 <Label Margin="5" Content="{Binding Catalog}" Foreground="White"/>
+                                <Label Margin="5" Content="{Binding GameplayMod}" Foreground="White"/>
                             </StackPanel>
                             <StackPanel Name="stackpanelHttpServerSettings" Orientation="Vertical" MinWidth="140" MaxWidth="190" DataContext="{Binding httpServerSettings}">
                                 <ComboBox Name="comboBoxCatalog" Margin="5" ItemsSource="{Binding list_Catalogs}" SelectedValue="{Binding SelectedCatalog, Mode=TwoWay}"/>
+                                <ComboBox Name="comboBoxGameplayMod" Margin="5" ItemsSource="{Binding list_GameplayMods}" SelectedValue="{Binding SelectedGameplayMod, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

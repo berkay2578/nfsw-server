@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using OfflineServer.Data;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Http.Responses;
@@ -69,9 +72,13 @@ namespace OfflineServer.Servers.Http.Classes
             return "<long>0</long>";
         }
 
-        public static String reserveName()
+        public static String getExpLevelPointsMap()
         {
-            return "<ArrayOfstring></ArrayOfstring>";
+            String targetLocalFile = Path.Combine(DataEx.dir_CurrentGameplayMod, "GetExpLevelPointsMap.xml");
+            if (File.Exists(targetLocalFile))
+                return File.ReadAllText(targetLocalFile, Encoding.UTF8);
+
+            return "<ArrayOfint/>";
         }
 
         public static String getPersonaInfo()
@@ -99,23 +106,30 @@ namespace OfflineServer.Servers.Http.Classes
             Match match = Regex.Match(Access.sHttp.getPostData(), "<array:long>(\\d+)</array:long>");
             Int32 personaId = Int32.Parse(match.Groups[1].Value);
 
-            foreach (Persona persona in Access.CurrentSession.PersonaList)
+            try
             {
-                if (persona.Id == personaId)
-                {
-                    ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
-                    PersonaBase personaBase = new PersonaBase();
-                    personaBase.iconIndex = persona.IconIndex;
-                    personaBase.level = persona.Level;
-                    personaBase.motto = persona.Motto;
-                    personaBase.name = persona.Name;
-                    personaBase.personaId = personaId;
-                    personaBase.score = persona.score;
-                    arrayOfPersonaBase.personaBase = personaBase;
-                    return arrayOfPersonaBase.SerializeObject();
-                }
+                Persona persona = Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == personaId);
+
+                ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
+                PersonaBase personaBase = new PersonaBase();
+                personaBase.iconIndex = persona.IconIndex;
+                personaBase.level = persona.Level;
+                personaBase.motto = persona.Motto;
+                personaBase.name = persona.Name;
+                personaBase.personaId = personaId;
+                personaBase.score = persona.score;
+                arrayOfPersonaBase.personaBase = personaBase;
+                return arrayOfPersonaBase.SerializeObject();
             }
-            return "";
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        public static String reserveName()
+        {
+            return "<ArrayOfstring></ArrayOfstring>";
         }
 
         public static String updateStatusMessage()

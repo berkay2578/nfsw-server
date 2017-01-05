@@ -13,7 +13,15 @@ namespace OfflineServer.Servers.Http
     public class HttpServer
     {
         // for easy development and debug, will be removed later when everything is coded
-        private List<String> supportedMethods = new List<string>() { "secureLoginPersona", "secureLogout", "getChatInfo", "carslots", "getPersonaInfo", "getPersonaBaseFromList", "getPermanentSession", "commerce", "defaultcar", "categories", "productsInCategory", "systeminfo", "activated", "updateStatusMessage", "createPersona", "deletePersona", "reserveName" };
+        private List<String> supportedMethods = new List<string>() {
+            /* Catalog */ "categories", "productsInCategory",
+            /* DriverPersona */ "createPersona", "deletePersona", "getExpLevelPointsMap", "getPersonaInfo", "getPersonaBaseFromList", "reserveName", "updateStatusMessage",
+            /* Personas */ "carslots", "commerce", "defaultcar",
+            /* Powerups */ "activated", "getrebroadcasters", "getregioninfo", "loginAnnouncements",
+            /* Root */ "carclasses", "systeminfo",
+            /* Session */ "getChatInfo",
+            /* User */ "getPermanentSession", "secureLoginPersona", "secureLogout"
+        };
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public NHttp.HttpServer nServer = new NHttp.HttpServer();

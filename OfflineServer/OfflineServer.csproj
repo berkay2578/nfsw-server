@@ -209,12 +209,15 @@
     <Compile Include="Economy.cs" />
     <Compile Include="Servers\Http\Classes\User.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfPersonaBase.cs" />
+    <Compile Include="Servers\Http\Responses\ArrayOfUdpRelayInfo.cs" />
     <Compile Include="Servers\Http\Responses\CommerceSessionResultTrans.cs" />
     <Compile Include="Servers\Http\Responses\CommerceSessionTrans.cs" />
     <Compile Include="Servers\Http\Responses\CustomCar.cs" />
     <Compile Include="Servers\Http\Responses\PersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\PersonaMotto.cs" />
     <Compile Include="Servers\Http\Responses\ProfileData.cs" />
+    <Compile Include="Servers\Http\Responses\RegionInfo.cs" />
+    <Compile Include="Servers\Http\Responses\UdpRelayInfo.cs" />
     <Compile Include="Servers\Http\Responses\UpdatedCar.cs" />
     <Compile Include="Servers\Http\Responses\User.cs" />
     <Compile Include="Servers\Http\Responses\UserInfo.cs" />
@@ -426,6 +429,7 @@
     <PostBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /restore "$(ProjectDir)"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Settings\UI\*" "$(ProjectDir)$(OutDir)Data\UI"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Server\*" "$(ProjectDir)$(OutDir)Data\Server"
+xcopy /i /e /s /y /f "$(ProjectDir)Data\Others\*" "$(ProjectDir)$(OutDir)Data\Others"
 xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\$(OutDir)AddonManager.exe" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

@@ -51,13 +51,13 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("remoteUserId")]
         public Int32 remoteUserId = 1;
         [XmlElement("securityToken")]
-        public String securityToken = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb";
-        [XmlElement("starterPackEntitlementTag")]
+        public String securityToken = "a";
+        [XmlElement("starterPackEntitlementTag", IsNullable = true)]
         public String starterPackEntitlementTag = null;
         [XmlElement("status")]
         public String status = null;
         [XmlElement("subscribeMsg")]
-        public Boolean subscribeMsg = true;
+        public Boolean subscribeMsg = false;
         [XmlElement("tosVersion")]
         public String tosVersion = null;
         [XmlElement("userId")]

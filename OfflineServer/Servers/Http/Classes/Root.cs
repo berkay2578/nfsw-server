@@ -1,13 +1,41 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using OfflineServer.Data;
+using OfflineServer.Servers.Http.Responses;
 
 namespace OfflineServer.Servers.Http.Classes
 {
     public static class Root
     {
+        public static String carclasses()
+        {
+            String targetLocalFile = Path.Combine(DataEx.dir_CurrentGameplayMod, "carclasses.xml");
+            if (File.Exists(targetLocalFile))
+                return File.ReadAllText(targetLocalFile, Encoding.UTF8);
+
+            return "<ArrayOfCarClass/>";
+        }
+
+        public static String getrebroadcasters()
+        {
+            return new ArrayOfUdpRelayInfo().SerializeObject();
+        }
+
+        public static String getregioninfo()
+        {
+            return new Responses.RegionInfo().SerializeObject();
+        }
+
+        public static String loginAnnouncements()
+        {
+            return "<LoginAnnouncementsDefinition/>";
+        }
+
         public static String systeminfo()
         {
-            return 
+            return
                 "<SystemInfo xmlns=\"http://schemas.datacontract.org/2004/07/EA.NFSWO.ENGINE.Service\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">" +
                     "<Branch>D4</Branch>" +
                     "<ChangeList>513698</ChangeList>" +
