@@ -421,6 +421,10 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
+    <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
     <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
@@ -430,7 +434,10 @@
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Settings\UI\*" "$(ProjectDir)$(OutDir)Data\UI"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Server\*" "$(ProjectDir)$(OutDir)Data\Server"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Others\*" "$(ProjectDir)$(OutDir)Data\Others"
-xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\$(OutDir)AddonManager.exe" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
+xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\$(OutDir)AddonManager.exe" "$(ProjectDir)$(OutDir)"
+IF EXIST "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" xcopy /i /e /s /y /f "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" "$(ProjectDir)costura32\*"
+IF EXIST "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" xcopy /i /e /s /y /f "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" "$(ProjectDir)costura64\*"
+rd /s /q "$(ProjectDir)$(OutDir)x86" ""$(ProjectDir)$(OutDir)x64"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /info /patch "$(ProjectDir)"</PreBuildEvent>

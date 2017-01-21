@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Exclusively made for elitepvpers.com")]
 [assembly: AssemblyProduct("Server Emulator and Launcher")]
-[assembly: AssemblyCopyright("Copyright © berkay2578 2016")]
+[assembly: AssemblyCopyright("Copyright © berkay2578 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

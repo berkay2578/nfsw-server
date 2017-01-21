@@ -27,6 +27,13 @@
             <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
             <Setter Property="Controls:ButtonHelper.PreserveTextCase" Value="True"/>
             <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
         </Style>
         <local:ToUpperValueConverter x:Key="DataGridConverter"/>
     </Controls:MetroWindow.Resources>
@@ -95,12 +102,12 @@
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="170,147,0,0" VerticalAlignment="Top" Height="213" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
+                    <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="170,147,-16,0" VerticalAlignment="Top" Height="220" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
                         <Grid>
-                            <Controls:FlipView Name="FlipViewPersonaImage" IsBannerEnabled="False" LeftTransition="LeftReplace" RightTransition="RightReplace"
-                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True"
-                                HorizontalAlignment="Left" Width="120" Height="120" VerticalAlignment="Top" MouseOverGlowEnabled="False" BorderThickness="1" BorderBrush="#FF505050" Background="#FF303030"/>
-                            <StackPanel Orientation="Vertical" Margin="10,130,215,0" Width="48">
+                            <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0"
+                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="False"
+                                HorizontalAlignment="Left" Width="126" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
+                            <StackPanel Orientation="Vertical" Margin="11,131,216,-1" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.GarageToolTip}"/>
                                 </StackPanel.ToolTip>
@@ -111,7 +118,7 @@
                                 </Rectangle>
                                 <TextBlock DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="63,130,162,0" Width="48">
+                            <StackPanel Orientation="Vertical" Margin="64,131,163,-1" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.TimePlayedToolTip}"/>
                                 </StackPanel.ToolTip>
@@ -122,7 +129,7 @@
                                 </Rectangle>
                                 <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
-                            <Grid Margin="127,0,3,110" Background="#FF303030">
+                            <Grid Margin="127,0,0,113" Background="#FF303030">
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelToolTip}"/>
                                 </Grid.ToolTip>
@@ -133,29 +140,29 @@
                                     <Run FontFamily="Segoe UI Light" FontSize="8pt" Text="{Binding dataAccess.appSettings.uiSettings.language.LevelUpXPLeft}"/>
                                 </TextBlock>
                             </Grid>
-                            <Grid Margin="127,69,77,0">
+                            <Grid Margin="127,69,78,0">
                                 <Grid.Background>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource Cash}"/>
                                 </Grid.Background>
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.CashToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,0" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,4" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
+                                        <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>
                                 </TextBlock>
                             </Grid>
-                            <Grid Margin="201,69,3,0">
+                            <Grid Margin="201,69,4,0">
                                 <Grid.Background>
                                     <VisualBrush Stretch="Uniform" Visual="{StaticResource Boost}"/>
                                 </Grid.Background>
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.BoostToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="15,0,2,0" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White">
+                                <TextBlock VerticalAlignment="Bottom" Margin="14,0,8,4" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
                                     <TextBlock.Effect>
-                                        <DropShadowEffect ShadowDepth="0" Opacity="1" BlurRadius="4" Color="#FF303030"/>
+                                        <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>
                                 </TextBlock>
                             </Grid>
@@ -185,9 +192,9 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
+                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
                                 ToolTip="{Binding dataAccess.appSettings.uiSettings.language.AddACar}"/>
-                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" TextOptions.TextFormattingMode="Display" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
+                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
                                 ToolTip="{Binding dataAccess.appSettings.uiSettings.language.RemoveCar}"/>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">

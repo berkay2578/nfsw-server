@@ -139,7 +139,7 @@ namespace OfflineServer.Data.Settings
                 public String DetailedPersonaInfo { get; set; }
                 public String PersonaList { get; set; }
                 public String LevelUpXPLeft { get; set; }
-                public String LevelTooltip { get; set; }
+                public String LevelToolTip { get; set; }
                 public String CashToolTip { get; set; }
                 public String BoostToolTip { get; set; }
                 public String AmountOfCars { get; set; }

@@ -25,6 +25,7 @@ using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using OfflineServer.Servers.IPC;
 using static OfflineServer.Servers.IPC.AddonManagerTalk;
+using Microsoft.Win32;
 
 namespace OfflineServer
 {
@@ -105,7 +106,7 @@ namespace OfflineServer
                         personaEntity.reputationInLevel = 0;
                         personaEntity.reputationInTotal = 99999999;
                         personaEntity.score = 2578;
-                        
+
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = 1816139026L;
                         carEntity.durability = 100;
@@ -137,18 +138,18 @@ namespace OfflineServer
             #region FlipViewPersona
             FlipViewPersonaImage.HideControlButtons();
 
-            Grid[] aFlipViewAvatarArray = new Grid[28];
+            Image[] aFlipViewAvatarArray = new Image[28];
             for (int i = 0; i < 28; i++)
             {
-                Grid Grid_FlipViewDummy;
-                Image Image_FlipViewDummy;
-                Image_FlipViewDummy = new Image() { Margin = new Thickness(5.5d), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Stretch = Stretch.Uniform, Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute)) };
-                Grid_FlipViewDummy = new Grid() { Margin = new Thickness(0.4d) };
-                Grid_FlipViewDummy.Children.Add(Image_FlipViewDummy);
-                Image t1 = new Image() { Source = Image_FlipViewDummy.Source };
-                t1.Effect = new BlurEffect() { Radius = 4.5d, RenderingBias = RenderingBias.Quality, KernelType = KernelType.Gaussian };
-                Grid_FlipViewDummy.Background = new VisualBrush(t1);
-                aFlipViewAvatarArray[i] = Grid_FlipViewDummy;
+                Image avatarImage = new Image()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Stretch = Stretch.UniformToFill,
+                    RenderSize = new Size(126, 128),
+                    Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute))
+                };
+                aFlipViewAvatarArray[i] = avatarImage;
             }
             FlipViewPersonaImage.ItemsSource = aFlipViewAvatarArray;
 
@@ -258,16 +259,74 @@ namespace OfflineServer
         {
             // not implemented for internationalization on purpose
 
-            Access.sHttp = new Servers.Http.HttpServer();
-            Access.sXmpp = new Servers.Xmpp.BasicXmppServer(true);
+            if (Access.sHttp == null)
+                Access.sHttp = new Servers.Http.HttpServer();
+            if (Access.sXmpp == null)
+                Access.sXmpp = new Servers.Xmpp.BasicXmppServer(true);
 
-            MetroDialogSettings messageBoxStyle = new MetroDialogSettings()
+            String nfsw_exe = String.Empty;
+            using (RegistryKey reg32 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+            using (RegistryKey nfswKey32 = reg32.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false))
             {
-                AffirmativeButtonText = "Right away!"
-            };
+                if (nfswKey32 == null)
+                {
+                    using (RegistryKey reg64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                    using (RegistryKey nfswKey64 = reg64.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false))
+                    {
+                        if (nfswKey64 == null)
+                        {
+                            OpenFileDialog findNfswDialog = new OpenFileDialog()
+                            {
+                                CheckFileExists = true,
+                                CheckPathExists = true,
+                                DefaultExt = ".exe",
+                                AddExtension = true,
+                                Multiselect = false,
+                                Title = "Please select nfsw.exe"
+                            };
+                            if (findNfswDialog.ShowDialog() == true)
+                            {
+                                String selectedExe = findNfswDialog.FileName;
+                                if (File.Exists(selectedExe))
+                                    nfsw_exe = selectedExe;
+                            }
+                        }
+                        else
+                        {
+                            Object installDir = nfswKey64.GetValue("GameInstallDir");
+                            if (installDir != null)
+                                nfsw_exe = Path.Combine(installDir.ToString(), "Data", "nfsw.exe");
+                        }
+                    }
+                }
+                else
+                {
+                    Object installDir = nfswKey32.GetValue("GameInstallDir");
+                    if (installDir != null)
+                        nfsw_exe = Path.Combine(installDir.ToString(), "Data", "nfsw.exe");
+                }
 
-            // gonna keep this until I add nfs:w launching support
-            await this.ShowMessageAsync("Servers are up and running!", "Go ahead and launch NFS: World now.", MessageDialogStyle.Affirmative, messageBoxStyle);
+            }
+
+            if (String.IsNullOrWhiteSpace(nfsw_exe))
+            {
+                await this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserError,
+                                            "NFSW.exe wasn't located.", MessageDialogStyle.Affirmative);
+                return;
+            }
+
+            try
+            {
+                Process.Start(nfsw_exe, String.Format("EU http://127.0.0.1:{0}/ a 1", Access.sHttp.port));
+                await this.ShowMessageAsync("Servers are up and running!", "NFS: World should launch in a moment.", MessageDialogStyle.Affirmative);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception occured while trying to start " + nfsw_exe, ex);
+                await this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserError,
+                                "An exception occured while trying to start NFS: World. The exception was logged.", MessageDialogStyle.Affirmative);
+            }
+
         }
 
         private void Button_ClickHandler(object sender, RoutedEventArgs e)
@@ -419,6 +478,7 @@ namespace OfflineServer
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Access.dataAccess.appSettings.uiSettings.style.applyNewStyle();
+            FlipViewPersonaImage.IsNavigationEnabled = true;
         }
         #endregion
 
@@ -472,7 +532,7 @@ namespace OfflineServer
 
                 Access.sXmpp.shutdown();
             }
-            
+
             SessionManager.getSessionFactory().Close();
 
             log.Info("Killing main thread.");

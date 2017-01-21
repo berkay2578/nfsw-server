@@ -30,7 +30,6 @@ namespace OfflineServer.Servers.Http
         public HttpServer()
         {
             nServer.RequestReceived += nServer_RequestReceived;
-            nServer.EndPoint.Port = 1337; // debug
             nServer.Start();
             port = nServer.EndPoint.Port;
             log.Info(String.Format("Successfully setup HttpServer on port {0}.", port));
