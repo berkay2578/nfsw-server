@@ -129,7 +129,7 @@
                                 </Rectangle>
                                 <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
-                            <Grid Margin="127,0,0,113" Background="#FF303030">
+                            <Grid Margin="127,0,0,115" Background="#FF303030">
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelToolTip}"/>
                                 </Grid.ToolTip>
@@ -233,7 +233,7 @@
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
                                 <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="130" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
+                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="128" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
                                 <StackPanel.Resources>
                                     <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                                         <ObjectDataProvider.MethodParameters>
