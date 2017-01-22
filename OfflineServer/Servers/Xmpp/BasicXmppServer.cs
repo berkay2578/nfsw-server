@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OfflineServer.Servers.Database.Management;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -14,6 +16,7 @@ namespace OfflineServer.Servers.Xmpp
     {
         private Int32 amountRead = -1;
         private List<String> packets = new List<String>();
+        public Stopwatch personaStopwatch = new Stopwatch();
 
         public BasicXmppServer(Boolean ssl = false, Int32 port = 0)
         {
@@ -109,6 +112,7 @@ namespace OfflineServer.Servers.Xmpp
 
         public override async void listenLoop()
         {
+            personaStopwatch.Start();
             while (!ct.IsCancellationRequested)
             {
                 string packet = await read();
@@ -116,6 +120,10 @@ namespace OfflineServer.Servers.Xmpp
                 {
                     await write("</stream:stream>");
                     log.Info(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()));
+                    personaStopwatch.Stop();
+                    PersonaManagement.persona.timePlayed += (UInt64)personaStopwatch.ElapsedMilliseconds;
+                    PersonaManagement.persona.update();
+                    Access.CurrentSession.ActivePersona.TimePlayed = "";
                     shutdown();
                     break;
                 }
@@ -124,6 +132,7 @@ namespace OfflineServer.Servers.Xmpp
 
         public override void shutdown()
         {
+            if (personaStopwatch.IsRunning) personaStopwatch.Stop();
             if (cts != null) cts.Cancel();
             if (isSsl && sslStream != null) sslStream.Close();
             if (client != null) client.Close();

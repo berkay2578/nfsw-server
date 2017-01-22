@@ -129,6 +129,7 @@ namespace OfflineServer.Data.Settings
             {
                 #region ViewModel
                 private String persona;
+                private String nfsWorldRunningOverlayText;
                 private String achievementTreasureHunt;
                 private String achievementJumpDistance;
                 private String personaInfo;
@@ -187,6 +188,21 @@ namespace OfflineServer.Data.Settings
                         {
                             persona = value;
                             RaisePropertyChangedEvent("Persona");
+                        }
+                    }
+                }
+                public String NFSWorldRunningOverlayText
+                {
+                    get
+                    {
+                        return nfsWorldRunningOverlayText;
+                    }
+                    set
+                    {
+                        if (nfsWorldRunningOverlayText != value)
+                        {
+                            nfsWorldRunningOverlayText = value;
+                            RaisePropertyChangedEvent("NFSWorldRunningOverlayText");
                         }
                     }
                 }
@@ -434,7 +450,7 @@ namespace OfflineServer.Data.Settings
                     get
                     {
                         if (activePersonaProxy != null)
-                            return String.Format(timePlayedToolTip, activePersonaProxy.Name, "dummy1");
+                            return String.Format(timePlayedToolTip, activePersonaProxy.Name, activePersonaProxy.TimePlayed);
                         return String.Empty;
                     }
                     set
@@ -1043,6 +1059,8 @@ namespace OfflineServer.Data.Settings
         public UISettings uiSettings { get; set; }
         [XmlElement("HttpServerSettings")]
         public HttpServerSettings httpServerSettings { get; set; }
+        [XmlElement("NFSWorldExePath")]
+        public String nfsw_exe { get; set; }
 
         public void reloadAllLists()
         {

@@ -38,6 +38,16 @@
         <local:ToUpperValueConverter x:Key="DataGridConverter"/>
     </Controls:MetroWindow.Resources>
     <Grid DataContext="{Binding Access}">
+        <Grid x:Name="NFSWRunningOverlay" Panel.ZIndex="1000" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".90"/>
+            </Grid.Background>
+
+            <Viewbox x:Name="ActualNFSWRunningOverlay" Visibility="Collapsed" Stretch="Uniform">
+                <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.NFSWorldRunningOverlayText}" TextAlignment="Center" FontSize="72pt" Foreground="{DynamicResource WhiteBrush}" Margin="60"/>
+            </Viewbox>
+        </Grid>
+        
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
             <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona}">
                 <Grid Margin="25,0,0,0">
@@ -127,7 +137,7 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_timer}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="12.40" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding TimePlayed}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
                             <Grid Margin="127,0,0,115" Background="#FF303030">
                                 <Grid.ToolTip>

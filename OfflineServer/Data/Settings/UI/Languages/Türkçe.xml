@@ -1,5 +1,6 @@
 <Language>
 	<Persona>Yarışçı</Persona>
+	<NFSWorldRunningOverlayText>NFS: World&#10;çalışıyor</NFSWorldRunningOverlayText> <!-- &#10; is a line break -->
 	<AchievementTreasureHunt>Hazine Avı'nda en çok {0} güne '{1}' ile geldin.</AchievementTreasureHunt>
 	<AchievementJumpDistance>{0} metrelik en uzun uçuşunu '{1}' ile yaptın.</AchievementJumpDistance>
 	<PersonaInfo>Yarışçı Bilgileri</PersonaInfo>

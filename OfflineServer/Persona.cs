@@ -56,6 +56,17 @@ namespace OfflineServer
                 }
             }
         }
+        public String TimePlayed
+        {
+            get
+            {
+                return TimeSpan.FromMilliseconds(PersonaManagement.persona.timePlayed).ToString(@"hh\:mm\.ss");
+            }
+            set
+            {
+                RaisePropertyChangedEvent("TimePlayed");
+            }
+        }
         public Int16 IconIndex
         {
             get { return iconIndex; }

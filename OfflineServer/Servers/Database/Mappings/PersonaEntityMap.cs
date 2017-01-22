@@ -9,6 +9,7 @@ namespace OfflineServer.Servers.Database.Mappings
         {
             Table("Personas");
             Id(p => p.id);
+            Map(p => p.timePlayed);
             Map(p => p.iconIndex);
             Map(p => p.name);
             Map(p => p.motto);

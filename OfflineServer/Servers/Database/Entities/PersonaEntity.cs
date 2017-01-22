@@ -6,6 +6,7 @@ namespace OfflineServer.Servers.Database.Entities
     public class PersonaEntity
     {
         public virtual Int32 id { get; protected set; }
+        public virtual UInt64 timePlayed { get; set; }
         public virtual Int16 iconIndex { get; set; }
         public virtual String name { get; set; }
         public virtual String motto { get; set; }

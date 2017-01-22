@@ -1,4 +1,13 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Win32;
+using NHibernate;
+using OfflineServer.Data;
+using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.IPC;
+using System;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -13,19 +22,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using NHibernate;
-using OfflineServer.Data;
-using OfflineServer.Servers.Database;
-using OfflineServer.Servers.Database.Entities;
-using OfflineServer.Servers.Database.Management;
-using OfflineServer.Servers.IPC;
 using static OfflineServer.Servers.IPC.AddonManagerTalk;
-using Microsoft.Win32;
 
 namespace OfflineServer
 {
@@ -33,6 +32,7 @@ namespace OfflineServer
     {
         private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
         private CustomDialog carDialog;
+        private Process nfsWorldProcess;
         public Access Access { get; set; }
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -264,51 +264,57 @@ namespace OfflineServer
             if (Access.sXmpp == null)
                 Access.sXmpp = new Servers.Xmpp.BasicXmppServer(true);
 
-            String nfsw_exe = String.Empty;
-            using (RegistryKey reg32 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
-            using (RegistryKey nfswKey32 = reg32.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false))
+            #region NFS World Path checking
+            if (String.IsNullOrWhiteSpace(Access.dataAccess.appSettings.nfsw_exe))
             {
-                if (nfswKey32 == null)
+                RegistryKey regBaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                RegistryKey nfswKey = regBaseKey.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false);
+
+                if (nfswKey == null)
                 {
-                    using (RegistryKey reg64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-                    using (RegistryKey nfswKey64 = reg64.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false))
+                    regBaseKey.Dispose();
+                    nfswKey.Dispose();
+                    regBaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                    nfswKey = regBaseKey.OpenSubKey(@"Software\Electronic Arts\Need For Speed World\", false);
+                }
+
+                if (nfswKey == null)
+                {
+                    OpenFileDialog findNfswDialog = new OpenFileDialog()
                     {
-                        if (nfswKey64 == null)
+                        CheckFileExists = true,
+                        CheckPathExists = true,
+                        DefaultExt = ".exe",
+                        AddExtension = true,
+                        Multiselect = false,
+                        Title = "Please select nfsw.exe"
+                    };
+                    if (findNfswDialog.ShowDialog() == true)
+                    {
+                        String selectedExe = findNfswDialog.FileName;
+                        if (File.Exists(selectedExe))
                         {
-                            OpenFileDialog findNfswDialog = new OpenFileDialog()
-                            {
-                                CheckFileExists = true,
-                                CheckPathExists = true,
-                                DefaultExt = ".exe",
-                                AddExtension = true,
-                                Multiselect = false,
-                                Title = "Please select nfsw.exe"
-                            };
-                            if (findNfswDialog.ShowDialog() == true)
-                            {
-                                String selectedExe = findNfswDialog.FileName;
-                                if (File.Exists(selectedExe))
-                                    nfsw_exe = selectedExe;
-                            }
-                        }
-                        else
-                        {
-                            Object installDir = nfswKey64.GetValue("GameInstallDir");
-                            if (installDir != null)
-                                nfsw_exe = Path.Combine(installDir.ToString(), "Data", "nfsw.exe");
+                            Access.dataAccess.appSettings.nfsw_exe = selectedExe;
+                            Access.dataAccess.appSettings.saveInstance();
                         }
                     }
                 }
                 else
                 {
-                    Object installDir = nfswKey32.GetValue("GameInstallDir");
+                    Object installDir = nfswKey.GetValue("GameInstallDir");
                     if (installDir != null)
-                        nfsw_exe = Path.Combine(installDir.ToString(), "Data", "nfsw.exe");
+                    {
+                        Access.dataAccess.appSettings.nfsw_exe = Path.Combine(installDir.ToString(), "Data", "nfsw.exe");
+                        Access.dataAccess.appSettings.saveInstance();
+                    }
+
                 }
-
+                regBaseKey.Dispose();
+                nfswKey.Dispose();
             }
+            #endregion
 
-            if (String.IsNullOrWhiteSpace(nfsw_exe))
+            if (String.IsNullOrWhiteSpace(Access.dataAccess.appSettings.nfsw_exe))
             {
                 await this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserError,
                                             "NFSW.exe wasn't located.", MessageDialogStyle.Affirmative);
@@ -317,12 +323,37 @@ namespace OfflineServer
 
             try
             {
-                Process.Start(nfsw_exe, String.Format("EU http://127.0.0.1:{0}/ a 1", Access.sHttp.port));
-                await this.ShowMessageAsync("Servers are up and running!", "NFS: World should launch in a moment.", MessageDialogStyle.Affirmative);
+                nfsWorldProcess = new Process();
+                nfsWorldProcess.StartInfo.FileName = Access.dataAccess.appSettings.nfsw_exe;
+                nfsWorldProcess.StartInfo.Arguments = String.Format("EU http://127.0.0.1:{0}/ a 1", Access.sHttp.port);
+                nfsWorldProcess.EnableRaisingEvents = true;
+                nfsWorldProcess.Exited += (object o, EventArgs eArgs) =>
+                {
+                    if (Access.sXmpp != null)
+                        Access.sXmpp.shutdown();
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        NFSWRunningOverlay.Visibility = Visibility.Collapsed;
+                        ActualNFSWRunningOverlay.Visibility = Visibility.Collapsed;
+                    }));
+                    Access.CurrentSession.ActivePersona.TimePlayed = "";
+                    nfsWorldProcess.Dispose();
+                };
+                if (nfsWorldProcess.Start())
+                {
+                    NFSWRunningOverlay.Visibility = Visibility.Visible;
+                    await this.ShowMessageAsync("Servers are up and running!", "NFS: World should launch in a moment.", MessageDialogStyle.Affirmative);
+                    ActualNFSWRunningOverlay.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    nfsWorldProcess.Dispose();
+                    throw new Exception("NFS: World couldn't be started, maybe it's already running?");
+                }
             }
             catch (Exception ex)
             {
-                log.Error("Exception occured while trying to start " + nfsw_exe, ex);
+                log.Error("Exception occured while trying to start " + Access.dataAccess.appSettings.nfsw_exe, ex);
                 await this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserError,
                                 "An exception occured while trying to start NFS: World. The exception was logged.", MessageDialogStyle.Affirmative);
             }
