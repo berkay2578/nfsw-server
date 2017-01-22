@@ -33,9 +33,6 @@
 	<InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Gözlerini bi '{0}'ya çevir derim.</InformationSampleAccent>
 	<InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
 	<Settings>Ayarlar</Settings>
-	<AddonManager>Eklenti Düzenleyicisi</AddonManager>
-	<AddonManagerNotFoundError>Eklenti düzenleyicisi (AddonManager.exe) bulunamadı, OfflineServer'ın hemen yanında olmadan açamazsın.</AddonManagerNotFoundError>
-	<AddonManagerAddonInstalled>'{0}' eklentisi yüklendi.</AddonManagerAddonInstalled>
 	<UISettings>Arayüz Ayarları</UISettings>
 	<Accent>Renk</Accent>
 	<Theme>Tema</Theme>
@@ -43,6 +40,9 @@
 	<HttpServerSettings>Server Ayarları</HttpServerSettings>
 	<Catalog>Fiyatlandırmalar</Catalog>
 	<GameplayMod>Oyun Verileri</GameplayMod>
+	<AddonManager>Eklenti Düzenleyicisi</AddonManager>
+	<AddonManagerNotFoundError>Eklenti düzenleyicisi (AddonManager.exe) bulunamadı, OfflineServer'ın hemen yanında olmadan açamazsın.</AddonManagerNotFoundError>
+	<AddonManagerAddonInstalled>'{0}' eklentisi yüklendi.</AddonManagerAddonInstalled>
 	<Select>Seç</Select>
 	<Cancel>İptal</Cancel>
 </Language>
