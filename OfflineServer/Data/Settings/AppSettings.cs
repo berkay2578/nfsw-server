@@ -90,7 +90,7 @@ namespace OfflineServer.Data.Settings
                                 return background;
                             }
                         }
-                        return null;
+                        return String.Empty;
                     }
                     set
                     {
@@ -102,6 +102,12 @@ namespace OfflineServer.Data.Settings
                                 if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
                                 RaisePropertyChangedEvent("Background");
                             }
+                        }
+                        else
+                        {
+                            background = String.Empty;
+                            if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                            RaisePropertyChangedEvent("Background");
                         }
                     }
                 }

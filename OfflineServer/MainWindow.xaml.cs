@@ -442,6 +442,11 @@ namespace OfflineServer
                         }
                     }
                     break;
+                case "buttonResetBackground":
+                    {
+                        Access.dataAccess.appSettings.uiSettings.style.Background = null;
+                    }
+                    break;
                 case "buttonAddonManager":
                     if (!AddonManagerTalk.isAddonManagerRunning && AddonManagerTalk.isWaitingForClient)
                     {

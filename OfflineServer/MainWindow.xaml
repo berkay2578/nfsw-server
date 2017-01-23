@@ -358,7 +358,7 @@
                     <local:MVVMSyntax SyntaxHighlighting="XML" ShowLineNumbers="True" WordWrap="True" Background="White" x:Name="tbGaragePartInfo" Width="420" Height="320" FontSize="10pt"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutSettings" DataContext="{Binding dataAccess.appSettings}" Header="{Binding uiSettings.language.Settings}" Position="Right" Width="300" Theme="Dark" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutSettings" DataContext="{Binding dataAccess.appSettings}" Header="{Binding uiSettings.language.Settings}" Position="Right" Width="280" Theme="Dark" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <StackPanel Orientation="Vertical" DataContext="{Binding uiSettings}">
                         <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="{Binding language.UISettings}" Margin="3,0,0,5"/>
@@ -370,7 +370,10 @@
                                 <Label Margin="5" Content="{Binding DisplayLanguage}" Foreground="White"/>
                             </StackPanel>
                             <StackPanel Name="stackpanelUISettings" Orientation="Vertical" MinWidth="140" MaxWidth="190">
-                                <Button Name="buttonBackground" Margin="5" Content="{Binding language.Browse}" Click="Button_ClickHandler"/>
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Button Name="buttonBackground" Content="{Binding language.Browse}"  Width="120" Click="Button_ClickHandler"/>
+                                    <Button Name="buttonResetBackground" Content="X" Background="Red" Width="25" Margin="5,0,0,0" Click="Button_ClickHandler"/>
+                                </StackPanel>
                                 <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding style.list_Themes}" SelectedValue="{Binding style.Theme, Mode=TwoWay}"/>
                                 <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding style.list_Accents}" SelectedValue="{Binding style.Accent, Mode=TwoWay}"/>
                                 <ComboBox Name="comboBoxLanguage" Margin="5" ItemsSource="{Binding language.list_Languages}" SelectedValue="{Binding LanguageFile, Mode=TwoWay}"/>
