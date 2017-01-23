@@ -77,6 +77,35 @@ namespace OfflineServer.Data.Settings
                     }
                 }
 
+                private String background;
+                [XmlElement("MainWindowBackground")]
+                public String Background
+                {
+                    get
+                    {
+                        if (!String.IsNullOrWhiteSpace(background))
+                        {
+                            if (File.Exists(background))
+                            {
+                                return background;
+                            }
+                        }
+                        return null;
+                    }
+                    set
+                    {
+                        if (!String.IsNullOrWhiteSpace(value))
+                        {
+                            if (File.Exists(value))
+                            {
+                                background = value;
+                                if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                                RaisePropertyChangedEvent("Background");
+                            }
+                        }
+                    }
+                }
+
                 public void loadStyles()
                 {
                     list_Accents.Clear();
@@ -164,6 +193,7 @@ namespace OfflineServer.Data.Settings
                 private String informationSampleTheme;
                 private String settings;
                 private String uISettings;
+                private String background;
                 private String accent;
                 private String theme;
                 private String displayLanguage;
@@ -173,6 +203,7 @@ namespace OfflineServer.Data.Settings
                 private String addonManager;
                 private String addonManagerNotFoundError;
                 private String addonManagerAddonInstalled;
+                private String browse;
                 private String select;
                 private String cancel;
 
@@ -732,6 +763,21 @@ namespace OfflineServer.Data.Settings
                         }
                     }
                 }
+                public String Background
+                {
+                    get
+                    {
+                        return background;
+                    }
+                    set
+                    {
+                        if (background != value)
+                        {
+                            background = value;
+                            RaisePropertyChangedEvent("Background");
+                        }
+                    }
+                }
                 public String Accent
                 {
                     get
@@ -864,6 +910,21 @@ namespace OfflineServer.Data.Settings
                         {
                             addonManagerAddonInstalled = value;
                             RaisePropertyChangedEvent("AddonManagerAddonInstalled");
+                        }
+                    }
+                }
+                public String Browse
+                {
+                    get
+                    {
+                        return browse;
+                    }
+                    set
+                    {
+                        if (browse != value)
+                        {
+                            browse = value;
+                            RaisePropertyChangedEvent("Browse");
                         }
                     }
                 }

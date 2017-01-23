@@ -38,6 +38,13 @@
         <local:ToUpperValueConverter x:Key="DataGridConverter"/>
     </Controls:MetroWindow.Resources>
     <Grid DataContext="{Binding Access}">
+        <Grid.Background>
+            <VisualBrush Stretch="UniformToFill">
+                <VisualBrush.Visual>
+                    <Image Source="{Binding dataAccess.appSettings.uiSettings.style.Background}"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+        </Grid.Background>
         <Grid x:Name="NFSWRunningOverlay" Panel.ZIndex="1000" Visibility="Collapsed">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity=".87"/>
@@ -357,11 +364,13 @@
                         <TextBlock FontSize="13pt" FontFamily="Segoe UI Semibold" Text="{Binding language.UISettings}" Margin="3,0,0,5"/>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" MinWidth="80" MaxWidth="110" DataContext="{Binding language}">
+                                <Label Margin="5" Content="{Binding Background}" Foreground="White"/>
                                 <Label Margin="5" Content="{Binding Theme}" Foreground="White"/>
                                 <Label Margin="5" Content="{Binding Accent}" Foreground="White"/>
                                 <Label Margin="5" Content="{Binding DisplayLanguage}" Foreground="White"/>
                             </StackPanel>
                             <StackPanel Name="stackpanelUISettings" Orientation="Vertical" MinWidth="140" MaxWidth="190">
+                                <Button Name="buttonBackground" Margin="5" Content="{Binding language.Browse}" Click="Button_ClickHandler"/>
                                 <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding style.list_Themes}" SelectedValue="{Binding style.Theme, Mode=TwoWay}"/>
                                 <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding style.list_Accents}" SelectedValue="{Binding style.Accent, Mode=TwoWay}"/>
                                 <ComboBox Name="comboBoxLanguage" Margin="5" ItemsSource="{Binding language.list_Languages}" SelectedValue="{Binding LanguageFile, Mode=TwoWay}"/>

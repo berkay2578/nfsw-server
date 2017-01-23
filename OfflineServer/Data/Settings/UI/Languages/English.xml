@@ -35,6 +35,7 @@
 	<InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
 	<Settings>Settings</Settings>
 	<UISettings>UI Settings</UISettings>
+	<Background>Background</Background>
 	<Accent>Accent</Accent>
 	<Theme>Theme</Theme>
 	<DisplayLanguage>Language</DisplayLanguage>
@@ -44,6 +45,7 @@
 	<AddonManager>Addon Manager</AddonManager>
 	<AddonManagerNotFoundError>Offline Server couldn't locate AddonManager. Have you moved or deleted it? It should be next to the Offline Server.</AddonManagerNotFoundError>
 	<AddonManagerAddonInstalled>The addon '{0}' was installed.</AddonManagerAddonInstalled>
+	<Browse>Browse...</Browse>
 	<Select>Select</Select>
 	<Cancel>Cancel</Cancel>
 </Language>

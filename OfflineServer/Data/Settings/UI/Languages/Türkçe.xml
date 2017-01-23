@@ -35,6 +35,7 @@
 	<InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
 	<Settings>Ayarlar</Settings>
 	<UISettings>Arayüz Ayarları</UISettings>
+	<Background>Arkaplan</Background>
 	<Accent>Renk</Accent>
 	<Theme>Tema</Theme>
 	<DisplayLanguage>Dil</DisplayLanguage>
@@ -44,6 +45,7 @@
 	<AddonManager>Eklenti Düzenleyicisi</AddonManager>
 	<AddonManagerNotFoundError>Eklenti düzenleyicisi (AddonManager.exe) bulunamadı, OfflineServer'ın hemen yanında olmadan açamazsın.</AddonManagerNotFoundError>
 	<AddonManagerAddonInstalled>'{0}' eklentisi yüklendi.</AddonManagerAddonInstalled>
+	<Browse>Seç...</Browse>
 	<Select>Seç</Select>
 	<Cancel>İptal</Cancel>
 </Language>

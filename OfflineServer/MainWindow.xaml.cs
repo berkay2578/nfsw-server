@@ -420,6 +420,28 @@ namespace OfflineServer
                 case "buttonSettings":
                     flyoutSettings.IsOpen = !flyoutSettings.IsOpen;
                     break;
+                case "buttonBackground":
+                    {
+                        OpenFileDialog backgroundDialog = new OpenFileDialog()
+                        {
+                            CheckFileExists = true,
+                            CheckPathExists = true,
+                            DefaultExt = ".png",
+                            Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png",
+                            AddExtension = true,
+                            Multiselect = false,
+                            Title = "Please select an image"
+                        };
+                        if (backgroundDialog.ShowDialog() == true)
+                        {
+                            String selectedBackground = backgroundDialog.FileName;
+                            if (File.Exists(selectedBackground))
+                            {
+                                Access.dataAccess.appSettings.uiSettings.style.Background = selectedBackground;
+                            }
+                        }
+                    }
+                    break;
                 case "buttonAddonManager":
                     if (!AddonManagerTalk.isAddonManagerRunning && AddonManagerTalk.isWaitingForClient)
                     {
