@@ -40,11 +40,11 @@
     <Grid DataContext="{Binding Access}">
         <Grid x:Name="NFSWRunningOverlay" Panel.ZIndex="1000" Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".90"/>
+                <SolidColorBrush Color="Black" Opacity=".87"/>
             </Grid.Background>
 
             <Viewbox x:Name="ActualNFSWRunningOverlay" Visibility="Collapsed" Stretch="Uniform">
-                <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.NFSWorldRunningOverlayText}" TextAlignment="Center" FontSize="72pt" Foreground="{DynamicResource WhiteBrush}" Margin="60"/>
+                <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.NFSWorldRunningOverlayText}" TextAlignment="Center" FontSize="72pt" Foreground="White" Margin="60"/>
             </Viewbox>
         </Grid>
 
