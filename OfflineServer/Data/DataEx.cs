@@ -4,6 +4,8 @@ using System.Text;
 using OfflineServer.Data.Settings;
 using OfflineServer.Servers;
 using static OfflineServer.Data.Settings.AppSettings.UISettings;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace OfflineServer.Data
 {
@@ -101,6 +103,15 @@ namespace OfflineServer.Data
 
             String plainXml = File.ReadAllText(xmlPath, Encoding.UTF8);
             return Serialization.DeserializeObject<T>(plainXml);
+        }
+        public static Int32 getRequiredLexelXP(Int32 level, Int32 xpInLevel)
+        {
+            String xmlPath = Path.Combine(dir_CurrentGameplayMod, "GetExpLevelPointsMap.xml");
+            XDocument xDoc = XDocument.Load(xmlPath);
+            XNamespace nsArray = "http://schemas.microsoft.com/2003/10/Serialization/Arrays";
+            Int32 levelExp = (Int32)xDoc.Root.Elements(nsArray + "int").ElementAt(level - 1);
+            Int32 requiredExp = Math.Max(0, levelExp - xpInLevel);
+            return requiredExp;
         }
         public static String getDataHierarchy()
         {

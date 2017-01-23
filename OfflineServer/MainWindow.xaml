@@ -117,7 +117,7 @@
                             <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="False"
                                 HorizontalAlignment="Left" Width="126" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
-                            <StackPanel Orientation="Vertical" Margin="11,131,216,-1" Width="48">
+                            <StackPanel Orientation="Vertical" Margin="7,134,216,-1" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.GarageToolTip}"/>
                                 </StackPanel.ToolTip>
@@ -126,9 +126,9 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock Text="{Binding CurrentSession.ActivePersona.Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="64,131,163,-1" Width="48">
+                            <StackPanel Orientation="Vertical" Margin="60,134,163,-1" Width="48">
                                 <StackPanel.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.TimePlayedToolTip}"/>
                                 </StackPanel.ToolTip>
@@ -137,15 +137,15 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_timer}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding TimePlayed}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock Text="{Binding CurrentSession.ActivePersona.TimePlayed}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
                             </StackPanel>
                             <Grid Margin="127,0,0,115" Background="#FF303030">
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
+                                <TextBlock Padding="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Text="{Binding CurrentSession.ActivePersona.Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54"/>
                                 <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFDDDDDD" Width="72" Height="32" Margin="3,0,0,0">
-                                    <Run FontFamily="Segoe UI Semilight" FontSize="10pt" Text="17862254"/>
+                                    <Run FontFamily="Segoe UI Semilight" FontSize="10pt" Text="{Binding CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel, Mode=OneWay}"/>
                                     <LineBreak/>
                                     <Run FontFamily="Segoe UI Light" FontSize="8pt" Text="{Binding dataAccess.appSettings.uiSettings.language.LevelUpXPLeft}"/>
                                 </TextBlock>
@@ -157,7 +157,7 @@
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.CashToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,4" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <TextBlock VerticalAlignment="Bottom" Margin="2,0,15,4" Text="{Binding CurrentSession.ActivePersona.CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>
@@ -170,7 +170,7 @@
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.BoostToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="14,0,8,4" DataContext="{Binding Path=CurrentSession.ActivePersona}" Text="{Binding BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <TextBlock VerticalAlignment="Bottom" Margin="14,0,8,4" Text="{Binding CurrentSession.ActivePersona.BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="20" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>

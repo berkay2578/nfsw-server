@@ -103,7 +103,7 @@ namespace OfflineServer
                         personaEntity.name = "DEBUG Id" + (i + 100);
                         personaEntity.percentageOfLevelCompletion = 100;
                         personaEntity.rating = 8752;
-                        personaEntity.reputationInLevel = 0;
+                        personaEntity.reputationInLevel = 9999;
                         personaEntity.reputationInTotal = 99999999;
                         personaEntity.score = 2578;
 

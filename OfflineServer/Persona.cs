@@ -192,6 +192,7 @@ namespace OfflineServer
                     PersonaManagement.persona.reputationInLevel = value;
                     PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInLevel");
+                    RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
             }
         }
@@ -206,7 +207,15 @@ namespace OfflineServer
                     PersonaManagement.persona.reputationInTotal = value;
                     PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInTotal");
+                    RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
+            }
+        }
+        public Int32 ReputationRequiredToPassTheLevel
+        {
+            get
+            {
+                return Data.DataEx.getRequiredLexelXP(level, reputationInLevel);
             }
         }
         public Int32 CurrentCarIndex
