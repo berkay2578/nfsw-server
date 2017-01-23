@@ -934,11 +934,10 @@ namespace AddonManager
             }
             else
             {
+                if (setupIPCTalk && port != -1)
+                    offlineServerTalk.initialize(port);
                 if (isFirstRun)
                 {
-                    if (setupIPCTalk && port != -1)
-                        offlineServerTalk.initialize(port);
-
                     BeginInvoke(new MethodInvoker(delegate
                     {
                         Hide();

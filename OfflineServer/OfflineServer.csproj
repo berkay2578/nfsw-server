@@ -434,7 +434,7 @@
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Settings\UI\*" "$(ProjectDir)$(OutDir)Data\UI"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Server\*" "$(ProjectDir)$(OutDir)Data\Server"
 xcopy /i /e /s /y /f "$(ProjectDir)Data\Others\*" "$(ProjectDir)$(OutDir)Data\Others"
-xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\$(OutDir)AddonManager.exe" "$(ProjectDir)$(OutDir)"
+xcopy /i /e /s /y /f "$(SolutionDir)AddonManager\bin\Release\AddonManager.exe" "$(ProjectDir)$(OutDir)"
 IF EXIST "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" xcopy /i /e /s /y /f "$(ProjectDir)$(OutDir)x86\SQLite.Interop.dll" "$(ProjectDir)costura32\*"
 IF EXIST "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" xcopy /i /e /s /y /f "$(ProjectDir)$(OutDir)x64\SQLite.Interop.dll" "$(ProjectDir)costura64\*"
 rd /s /q "$(ProjectDir)$(OutDir)x86" ""$(ProjectDir)$(OutDir)x64"</PostBuildEvent>

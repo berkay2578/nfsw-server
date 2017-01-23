@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OfflineServer.Servers.IPC
 {
@@ -52,13 +53,13 @@ namespace OfflineServer.Servers.IPC
             }
         }
 
-        public async void notify(String ipcPacketType)
+        public async Task notify(String ipcPacketType)
         {
             if (!isWaitingForClient)
                 await write(ipcPacketType);
         }
 
-        public async void notify(String ipcPacketType, String message)
+        public async Task notify(String ipcPacketType, String message)
         {
             if (!isWaitingForClient)
                 await write(String.Format("{0}|{1}", ipcPacketType, message));

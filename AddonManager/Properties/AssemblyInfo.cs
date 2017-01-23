@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AddonManager")]
-[assembly: AssemblyCopyright("Copyright © berkay2578 2016")]
+[assembly: AssemblyCopyright("Copyright © berkay2578 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

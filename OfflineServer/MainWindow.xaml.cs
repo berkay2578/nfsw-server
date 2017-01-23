@@ -566,26 +566,27 @@ namespace OfflineServer
         }
         #endregion
 
-        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        private async void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
             log.Info("Shutting down offline server.");
 
-            if (AddonManagerTalk.isAddonManagerRunning || AddonManagerTalk.isWaitingForClient)
+            if (AddonManagerTalk.isAddonManagerRunning && !AddonManagerTalk.isWaitingForClient)
             {
                 log.Info("Closing existing AddonManager IPC Talk.");
-                Access.addonManagerTalk.notify(IPCPacketType.offlineServerClosing);
+                await Access.addonManagerTalk.notify(IPCPacketType.offlineServerClosing);
                 Access.addonManagerTalk.shutdown();
             }
 
-            if (Access.sHttp != null && Access.sXmpp != null)
+            if (Access.sHttp != null)
             {
                 // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
                 Access.sHttp.nServer.Stop();
                 Access.sHttp.nServer.Dispose();
                 log.Info("Shutdown of HttpServer has been completed.");
-
-                Access.sXmpp.shutdown();
             }
+
+            if (Access.sXmpp != null)
+                Access.sXmpp.shutdown();
 
             SessionManager.getSessionFactory().Close();
 
