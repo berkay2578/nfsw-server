@@ -147,8 +147,9 @@ namespace OfflineServer
                     VerticalAlignment = VerticalAlignment.Center,
                     Stretch = Stretch.UniformToFill,
                     RenderSize = new Size(126, 128),
-                    Source = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute))
+                    Source = BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand)
                 };
+                
                 aFlipViewAvatarArray[i] = avatarImage;
             }
             FlipViewPersonaImage.ItemsSource = aFlipViewAvatarArray;
