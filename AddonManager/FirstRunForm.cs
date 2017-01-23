@@ -11,8 +11,8 @@ namespace AddonManager
 
             okButton.Click += (s, e) => 
             {
-                Properties.Settings.Default["hasRunManagerBefore"] = true;
-                Properties.Settings.Default.Save();
+                Access.appSettings.hasRunAddonManagerBefore = true;
+                Access.appSettings.saveInstance();
                 if (parentForm != null)
                 {
                     parentForm.Opacity = 1d;

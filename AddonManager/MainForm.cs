@@ -892,7 +892,7 @@ namespace AddonManager
             offlineServerTalk.shutdown();
         }
 
-        public MainForm(Boolean isFirstRun = false, String installAddonPath = null, Boolean setupIPCTalk = false, Int32 port = -1)
+        public MainForm(String installAddonPath = null, Boolean setupIPCTalk = false, Int32 port = -1)
         {
             Logger.Setup();
 
@@ -936,7 +936,7 @@ namespace AddonManager
             {
                 if (setupIPCTalk && port != -1)
                     offlineServerTalk.initialize(port);
-                if (isFirstRun)
+                if (!Access.appSettings.hasRunAddonManagerBefore)
                 {
                     BeginInvoke(new MethodInvoker(delegate
                     {
@@ -944,6 +944,11 @@ namespace AddonManager
                         FirstRunForm frForm = new FirstRunForm(this);
                         frForm.Show();
                     }));
+                } else
+                {
+                    this.Opacity = 1d;
+                    this.Show();
+                    this.BringToFront();
                 }
             }
         }

@@ -22,17 +22,5 @@ namespace AddonManager.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool hasRunManagerBefore {
-            get {
-                return ((bool)(this["hasRunManagerBefore"]));
-            }
-            set {
-                this["hasRunManagerBefore"] = value;
-            }
-        }
     }
 }

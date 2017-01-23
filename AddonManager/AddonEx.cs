@@ -18,6 +18,7 @@ namespace AddonManager
         internal static String dir_Languages;
         internal static String dir_MemoryPatches;
         internal static String dir_Logs;
+        internal static String xml_Settings = @"Data\AddonManagerSettings.xml";
 
         internal static dynamic readAddonProperty(this String filePath, dynamic[] typeDef)
         {

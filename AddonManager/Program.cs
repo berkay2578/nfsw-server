@@ -76,8 +76,8 @@ namespace AddonManager
                 Environment.Exit(0);
                 return;
             }
-
-            Application.Run(new MainForm(Properties.Settings.Default.hasRunManagerBefore, addonPath, setupIPCTalk, port));
+            
+            Application.Run(new MainForm(addonPath, setupIPCTalk, port));
 #else
             AddonEx.dir_HttpServerCatalogs = @"Data\Server\Catalogs\";
             AddonEx.dir_HttpServerBaskets = @"Data\Server\Baskets\";

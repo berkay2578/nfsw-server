@@ -111,6 +111,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Access.cs" />
     <Compile Include="Addon.cs" />
     <Compile Include="AddonDetailsDialog.cs">
       <SubType>Form</SubType>
@@ -119,6 +120,7 @@
       <DependentUpon>AddonDetailsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="AddonEx.cs" />
+    <Compile Include="AppSettings.cs" />
     <Compile Include="AvalonEditProxy.xaml.cs">
       <DependentUpon>AvalonEditProxy.xaml</DependentUpon>
     </Compile>
