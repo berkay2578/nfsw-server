@@ -37,21 +37,6 @@ namespace OfflineServer.Servers
             {
                 log.Error("An exception occured while serializing the following object: " + obj.GetType().AssemblyQualifiedName, ex);
                 MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                log.Info("Shutting down offline server.");
-
-                if (Access.sHttp != null && Access.sXmpp != null)
-                {
-                    // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
-                    Access.sHttp.nServer.Stop();
-                    Access.sHttp.nServer.Dispose();
-                    log.Info("Shutdown of HttpServer has been completed.");
-
-                    Access.sXmpp.shutdown();
-                }
-
-                log.Info("Killing main thread.");
-                Environment.Exit(0);
             }
             return "";
         }
@@ -73,21 +58,6 @@ namespace OfflineServer.Servers
             {
                 log.Error("An exception occured while deserializing the following xml: " + plainXml, ex);
                 MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                log.Info("Shutting down offline server.");
-
-                if (Access.sHttp != null && Access.sXmpp != null)
-                {
-                    // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
-                    Access.sHttp.nServer.Stop();
-                    Access.sHttp.nServer.Dispose();
-                    log.Info("Shutdown of HttpServer has been completed.");
-
-                    Access.sXmpp.shutdown();
-                }
-
-                log.Info("Killing main thread.");
-                Environment.Exit(0);
             }
             return default(T);
         }

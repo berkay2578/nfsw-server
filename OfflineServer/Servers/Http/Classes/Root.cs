@@ -1,9 +1,9 @@
-﻿using System;
+﻿using OfflineServer.Data;
+using OfflineServer.Servers.Http.Responses;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using OfflineServer.Data;
-using OfflineServer.Servers.Http.Responses;
 
 namespace OfflineServer.Servers.Http.Classes
 {

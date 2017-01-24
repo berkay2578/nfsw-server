@@ -10,13 +10,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfflineServer"
         mc:Ignorable="d"
-        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" SnapsToDevicePixels="False"
+        Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
         IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded" Icon="LauncherIcon.ico">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands Controls:ControlsHelper.ContentCharacterCasing="Lower">
-            <Button Name="buttonAddonManager" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.AddonManager}" Click="Button_ClickHandler"/>
-            <Button Name="buttonSettings" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.Settings}" Click="Button_ClickHandler"/>
+            <Button Name="buttonAddonManager" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.AddonManager}" Click="button_ClickHandler"/>
+            <Button Name="buttonSettings" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.Settings}" Click="button_ClickHandler"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.Resources>
@@ -39,11 +39,7 @@
     </Controls:MetroWindow.Resources>
     <Grid DataContext="{Binding Access}">
         <Grid.Background>
-            <VisualBrush Stretch="UniformToFill">
-                <VisualBrush.Visual>
-                    <Image Source="{Binding dataAccess.appSettings.uiSettings.style.Background}"/>
-                </VisualBrush.Visual>
-            </VisualBrush>
+            <ImageBrush x:Name="BackgroundImage" Stretch="UniformToFill" ImageSource="{Binding dataAccess.appSettings.uiSettings.style.Background}"/>
         </Grid.Background>
         <Grid x:Name="NFSWRunningOverlay" Panel.ZIndex="1000" Visibility="Collapsed">
             <Grid.Background>
@@ -55,17 +51,22 @@
             </Viewbox>
         </Grid>
 
-        <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left" SnapsToDevicePixels="False">
+        <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
             <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona}">
                 <Grid Margin="25,0,0,0">
-                    <Button Name="buttonStartServer" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="147" PreviewMouseDown="buttonStartServer_PreviewMouseDown" Height="48" Cursor="Hand" ToolTip="Start the Offline Server" Background="{x:Null}">
-                        <Rectangle Width="50" Height="40">
-                            <Rectangle.Fill>
-                                <VisualBrush Stretch="Uniform" Visual="{StaticResource EngineStart}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </Button>
-                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
+                    <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}">
+                        <Controls:DropDownButton.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" MouseDown="executable_ClickHandler"/>
+                            </DataTemplate>
+                        </Controls:DropDownButton.ItemTemplate>
+                        <Controls:DropDownButton.Content>
+                            <Viewbox StretchDirection="DownOnly" Width="96pt">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="96pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.StartNFSWorld}" TextAlignment="Center" FontSize="12pt"/>
+                            </Viewbox>
+                        </Controls:DropDownButton.Content>
+                    </Controls:DropDownButton>
+                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -78,12 +79,12 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="55pt">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaInfo}" TextAlignment="Center" FontSize="12pt"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
                                 </Viewbox>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -96,12 +97,12 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="55pt">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInfo}" TextAlignment="Center" FontSize="12pt"/>
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
                                 </Viewbox>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="Button_ClickHandler">
+                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -185,7 +186,7 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
-                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="445" Height="127" Margin="10,10,0,0" Click="Button_ClickHandler">
+                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="445" Height="127" Margin="10,10,0,0" Click="button_ClickHandler">
                         <Grid>
                             <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="445 " Height="127" Transition="Up" />
                         </Grid>
@@ -209,9 +210,9 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <Button Name="buttonAddCar" Content="+" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
+                        <Button Name="buttonAddCar" Content="+" Click="button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
                                 ToolTip="{Binding dataAccess.appSettings.uiSettings.language.AddACar}"/>
-                        <Button Name="buttonRemoveCar" Content="-" Click="Button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
+                        <Button Name="buttonRemoveCar" Content="-" Click="button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
                                 ToolTip="{Binding dataAccess.appSettings.uiSettings.language.RemoveCar}"/>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -270,14 +271,14 @@
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, Delay=1000}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass, Delay=1000}"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
-                                <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
+                                <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
+                                <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, Delay=1000}"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="999" Value="{Binding Rating, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Value="{Binding ResalePrice, Delay=1000}" StringFormat="{}{0:C0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True" xml:lang="en-US"/>
-                                <Button Name="buttonSkillModParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <Button Name="buttonVinyls" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
-                                <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="Button_ClickHandler"/>
+                                <Button Name="buttonSkillModParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
+                                <Button Name="buttonVinyls" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
+                                <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="100" Value="{Binding Durability, Delay=1000}" StringFormat="{}{0}%" TextAlignment="Left" Interval="5" IsTabStop="False"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="1" Maximum="7" Value="{Binding HeatLevel, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Car Id" Text="{Binding CarId, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
@@ -293,7 +294,7 @@
     </Grid>
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl DataContext="{Binding Access}">
-            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="{Binding dataAccess.appSettings.uiSettings.language.PersonaInfo}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
+            <Controls:Flyout Name="flyoutBasicPersonaInfo" Header="{Binding dataAccess.appSettings.uiSettings.language.PersonaInformation}" Position="Right" Width="280" Theme="Accent" IsModal="True" IsPinned="False" IsOpenChanged="flyoutBasicPersonaInfo_IsOpenChanged">
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <StackPanel Orientation="Vertical" DataContext="{Binding dataAccess.appSettings.uiSettings.language}">
                         <Label Margin="5" Content="{Binding Name}" Foreground="White"/>
@@ -311,7 +312,7 @@
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInfo}" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
+            <Controls:Flyout Name="flyoutDetailedPersonaInfo" Header="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInformation}" Position="Right" Width="300" Theme="Accent" IsModal="True" IsPinned="False">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <TextBlock Text="Literally no idea what to put here. Do I add the ReputationInTotal stuff, do I make a graph of the user experience so far, WHAT DO I DO??????????????" TextWrapping="WrapWithOverflow" Margin="5"/>
                 </StackPanel>
@@ -371,8 +372,8 @@
                             </StackPanel>
                             <StackPanel Name="stackpanelUISettings" Orientation="Vertical" MinWidth="140" MaxWidth="190">
                                 <StackPanel Orientation="Horizontal" Margin="5">
-                                    <Button Name="buttonBackground" Content="{Binding language.Browse}"  Width="120" Click="Button_ClickHandler"/>
-                                    <Button Name="buttonResetBackground" Content="X" Background="Red" Width="25" Margin="5,0,0,0" Click="Button_ClickHandler"/>
+                                    <Button Name="buttonBackground" Content="{Binding language.Browse}" MinWidth="100" MaxWidth="120" Click="button_ClickHandler"/>
+                                    <Button Name="buttonResetBackground" Content="X" Background="Red" Width="25" Margin="5,0,0,0" Click="button_ClickHandler"/>
                                 </StackPanel>
                                 <ComboBox Name="comboBoxTheme" Margin="5" ItemsSource="{Binding style.list_Themes}" SelectedValue="{Binding style.Theme, Mode=TwoWay}"/>
                                 <ComboBox Name="comboBoxAccent" Margin="5" ItemsSource="{Binding style.list_Accents}" SelectedValue="{Binding style.Accent, Mode=TwoWay}"/>

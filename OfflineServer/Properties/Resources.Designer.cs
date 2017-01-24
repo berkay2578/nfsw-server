@@ -373,29 +373,9 @@ namespace OfflineServer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap EngineStart {
-            get {
-                object obj = ResourceManager.GetObject("EngineStart", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap JumpDistance {
             get {
                 object obj = ResourceManager.GetObject("JumpDistance", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Level_Background {
-            get {
-                object obj = ResourceManager.GetObject("Level_Background", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

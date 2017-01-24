@@ -1,5 +1,5 @@
-﻿using System;
-using OfflineServer.Servers.Xmpp.Responses;
+﻿using OfflineServer.Servers.Xmpp.Responses;
+using System;
 
 namespace OfflineServer.Servers.Http.Classes
 {

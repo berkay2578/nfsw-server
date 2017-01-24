@@ -1,15 +1,17 @@
-﻿using System;
+﻿using MahApps.Metro;
+using OfflineServer.Servers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using MahApps.Metro;
-using OfflineServer.Servers;
 
 namespace OfflineServer.Data.Settings
 {
+    [Serializable()]
+    [XmlRoot("OfflineServerSettings")]
     public sealed class AppSettings : ObservableObject
     {
         public sealed class UISettings : ObservableObject
@@ -163,86 +165,62 @@ namespace OfflineServer.Data.Settings
             public class Language : ObservableObject
             {
                 #region ViewModel
-                private String persona;
-                private String nfsWorldRunningOverlayText;
+                public String Persona { get; set; }
+                public String PersonaInformation { get; set; }
+                public String Name { get; set; }
+                public String Motto { get; set; }
+                public String Level { get; set; }
+                public String Cash { get; set; }
+                public String DetailedPersonaInformation { get; set; }
+                public String PersonaList { get; set; }
+                public String StartNFSWorld { get; set; }
+                public String AddNew { get; set; }
+                public String NFSWorldLaunchingMessage { get; set; }
+                public String NFSWorldRunningOverlayText { get; set; }
+                public String AmountOfCars { get; set; }
+                public String Garage { get; set; }
+                public String BaseCarIdDefinition { get; set; }
+                public String NoBaseCarIdDefinition { get; set; }
+                public String AddACar { get; set; }
+                public String AddACarText { get; set; }
+                public String RemoveCar { get; set; }
+                public String RemoveCarLastCarError { get; set; }
+                public String RemoveCarNoSelectedCarError { get; set; }
+                public String LoadXElement { get; set; }
+                public String InformUserError { get; set; }
+                public String InformUserWarning { get; set; }
+                public String InformUserInformation { get; set; }
+                public String InformUserOther { get; set; }
+                public String ErrorEmptyPersonaName { get; set; }
+                public String ErrorEmptyNFSWorldPath { get; set; }
+                public String ErrorNFSWorldLaunch { get; set; }
+                public String Settings { get; set; }
+                public String UISettings { get; set; }
+                public String Background { get; set; }
+                public String Accent { get; set; }
+                public String Theme { get; set; }
+                public String DisplayLanguage { get; set; }
+                public String HttpServerSettings { get; set; }
+                public String Catalog { get; set; }
+                public String GameplayMod { get; set; }
+                public String AddonManager { get; set; }
+                public String AddonManagerNotFoundError { get; set; }
+                public String AddonManagerAddonInstalled { get; set; }
+                public String Browse { get; set; }
+                public String Select { get; set; }
+                public String Cancel { get; set; }
+
                 private String achievementTreasureHunt;
                 private String achievementJumpDistance;
-                private String personaInfo;
-                private String name;
-                private String motto;
-                private String level;
-                private String cash;
-                private String detailedPersonaInfo;
-                private String personaList;
                 private String levelUpXPLeft;
                 private String levelToolTip;
                 private String cashToolTip;
                 private String boostToolTip;
-                private String amountOfCars;
                 private String garageToolTip;
                 private String timePlayedToolTip;
-                private String garage;
-                private String baseCarIdDefinition;
-                private String noBaseCarIdDefinition;
-                private String addACar;
-                private String addACarText;
-                private String removeCar;
-                private String removeCarLastCarError;
-                private String removeCarNoSelectedCarError;
-                private String loadXElement;
-                private String informUserError;
-                private String informUserWarning;
-                private String informUserInformation;
-                private String informUserOther;
-                private String errorEmptyPersonaName;
                 private String informationSampleAccent;
                 private String informationSampleTheme;
-                private String settings;
-                private String uISettings;
-                private String background;
-                private String accent;
-                private String theme;
-                private String displayLanguage;
-                private String httpServerSettings;
-                private String catalog;
-                private String gameplayMod;
-                private String addonManager;
-                private String addonManagerNotFoundError;
-                private String addonManagerAddonInstalled;
-                private String browse;
-                private String select;
-                private String cancel;
 
-                public String Persona
-                {
-                    get
-                    {
-                        return persona;
-                    }
-                    set
-                    {
-                        if (persona != value)
-                        {
-                            persona = value;
-                            RaisePropertyChangedEvent("Persona");
-                        }
-                    }
-                }
-                public String NFSWorldRunningOverlayText
-                {
-                    get
-                    {
-                        return nfsWorldRunningOverlayText;
-                    }
-                    set
-                    {
-                        if (nfsWorldRunningOverlayText != value)
-                        {
-                            nfsWorldRunningOverlayText = value;
-                            RaisePropertyChangedEvent("NFSWorldRunningOverlayText");
-                        }
-                    }
-                }
                 public String AchievementTreasureHunt
                 {
                     get
@@ -274,111 +252,6 @@ namespace OfflineServer.Data.Settings
                         {
                             achievementJumpDistance = value;
                             RaisePropertyChangedEvent("AchievementJumpDistance");
-                        }
-                    }
-                }
-                public String PersonaInfo
-                {
-                    get
-                    {
-                        return personaInfo;
-                    }
-                    set
-                    {
-                        if (personaInfo != value)
-                        {
-                            personaInfo = value;
-                            RaisePropertyChangedEvent("PersonaInfo");
-                        }
-                    }
-                }
-                public String Name
-                {
-                    get
-                    {
-                        return name;
-                    }
-                    set
-                    {
-                        if (name != value)
-                        {
-                            name = value;
-                            RaisePropertyChangedEvent("Name");
-                        }
-                    }
-                }
-                public String Motto
-                {
-                    get
-                    {
-                        return motto;
-                    }
-                    set
-                    {
-                        if (motto != value)
-                        {
-                            motto = value;
-                            RaisePropertyChangedEvent("Motto");
-                        }
-                    }
-                }
-                public String Level
-                {
-                    get
-                    {
-                        return level;
-                    }
-                    set
-                    {
-                        if (level != value)
-                        {
-                            level = value;
-                            RaisePropertyChangedEvent("Level");
-                        }
-                    }
-                }
-                public String Cash
-                {
-                    get
-                    {
-                        return cash;
-                    }
-                    set
-                    {
-                        if (cash != value)
-                        {
-                            cash = value;
-                            RaisePropertyChangedEvent("Cash");
-                        }
-                    }
-                }
-                public String DetailedPersonaInfo
-                {
-                    get
-                    {
-                        return detailedPersonaInfo;
-                    }
-                    set
-                    {
-                        if (detailedPersonaInfo != value)
-                        {
-                            detailedPersonaInfo = value;
-                            RaisePropertyChangedEvent("DetailedPersonaInfo");
-                        }
-                    }
-                }
-                public String PersonaList
-                {
-                    get
-                    {
-                        return personaList;
-                    }
-                    set
-                    {
-                        if (personaList != value)
-                        {
-                            personaList = value;
-                            RaisePropertyChangedEvent("PersonaList");
                         }
                     }
                 }
@@ -450,21 +323,6 @@ namespace OfflineServer.Data.Settings
                         }
                     }
                 }
-                public String AmountOfCars
-                {
-                    get
-                    {
-                        return amountOfCars;
-                    }
-                    set
-                    {
-                        if (amountOfCars != value)
-                        {
-                            amountOfCars = value;
-                            RaisePropertyChangedEvent("AmountOfCars");
-                        }
-                    }
-                }
                 public String GarageToolTip
                 {
                     get
@@ -499,216 +357,6 @@ namespace OfflineServer.Data.Settings
                         }
                     }
                 }
-                public String Garage
-                {
-                    get
-                    {
-                        return garage;
-                    }
-                    set
-                    {
-                        if (garage != value)
-                        {
-                            garage = value;
-                            RaisePropertyChangedEvent("Garage");
-                        }
-                    }
-                }
-                public String BaseCarIdDefinition
-                {
-                    get
-                    {
-                        return baseCarIdDefinition;
-                    }
-                    set
-                    {
-                        if (baseCarIdDefinition != value)
-                        {
-                            baseCarIdDefinition = value;
-                            RaisePropertyChangedEvent("BaseCarIdDefinition");
-                        }
-                    }
-                }
-                public String NoBaseCarIdDefinition
-                {
-                    get
-                    {
-                        return noBaseCarIdDefinition;
-                    }
-                    set
-                    {
-                        if (noBaseCarIdDefinition != value)
-                        {
-                            noBaseCarIdDefinition = value;
-                            RaisePropertyChangedEvent("NoBaseCarIdDefinition");
-                        }
-                    }
-                }
-                public String AddACar
-                {
-                    get
-                    {
-                        return addACar;
-                    }
-                    set
-                    {
-                        if (addACar != value)
-                        {
-                            addACar = value;
-                            RaisePropertyChangedEvent("AddACar");
-                        }
-                    }
-                }
-                public String AddACarText
-                {
-                    get
-                    {
-                        return addACarText;
-                    }
-                    set
-                    {
-                        if (addACarText != value)
-                        {
-                            addACarText = value;
-                            RaisePropertyChangedEvent("AddACarText");
-                        }
-                    }
-                }
-                public String RemoveCar
-                {
-                    get
-                    {
-                        return removeCar;
-                    }
-                    set
-                    {
-                        if (removeCar != value)
-                        {
-                            removeCar = value;
-                            RaisePropertyChangedEvent("RemoveCar");
-                        }
-                    }
-                }
-                public String RemoveCarLastCarError
-                {
-                    get
-                    {
-                        return removeCarLastCarError;
-                    }
-                    set
-                    {
-                        if (removeCarLastCarError != value)
-                        {
-                            removeCarLastCarError = value;
-                            RaisePropertyChangedEvent("RemoveCarLastCarError");
-                        }
-                    }
-                }
-                public String RemoveCarNoSelectedCarError
-                {
-                    get
-                    {
-                        return removeCarNoSelectedCarError;
-                    }
-                    set
-                    {
-                        if (removeCarNoSelectedCarError != value)
-                        {
-                            removeCarNoSelectedCarError = value;
-                            RaisePropertyChangedEvent("RemoveCarNoSelectedCarError");
-                        }
-                    }
-                }
-                public String LoadXElement
-                {
-                    get
-                    {
-                        return loadXElement;
-                    }
-                    set
-                    {
-                        if (loadXElement != value)
-                        {
-                            loadXElement = value;
-                            RaisePropertyChangedEvent("LoadXElement");
-                        }
-                    }
-                }
-                public String InformUserError
-                {
-                    get
-                    {
-                        return informUserError;
-                    }
-                    set
-                    {
-                        if (informUserError != value)
-                        {
-                            informUserError = value;
-                            RaisePropertyChangedEvent("InformUserError");
-                        }
-                    }
-                }
-                public String InformUserWarning
-                {
-                    get
-                    {
-                        return informUserWarning;
-                    }
-                    set
-                    {
-                        if (informUserWarning != value)
-                        {
-                            informUserWarning = value;
-                            RaisePropertyChangedEvent("InformUserWarning");
-                        }
-                    }
-                }
-                public String InformUserInformation
-                {
-                    get
-                    {
-                        return informUserInformation;
-                    }
-                    set
-                    {
-                        if (informUserInformation != value)
-                        {
-                            informUserInformation = value;
-                            RaisePropertyChangedEvent("InformUserInformation");
-                        }
-                    }
-                }
-                public String InformUserOther
-                {
-                    get
-                    {
-                        return informUserOther;
-                    }
-                    set
-                    {
-                        if (informUserOther != value)
-                        {
-                            informUserOther = value;
-                            RaisePropertyChangedEvent("InformUserOther");
-                        }
-                    }
-                }
-                public String ErrorEmptyPersonaName
-                {
-                    get
-                    {
-                        return errorEmptyPersonaName;
-                    }
-                    set
-                    {
-                        if (errorEmptyPersonaName != value)
-                        {
-                            errorEmptyPersonaName = value;
-                            RaisePropertyChangedEvent("ErrorEmptyPersonaName");
-                        }
-                    }
-                }
                 public String InformationSampleAccent
                 {
                     get
@@ -736,231 +384,6 @@ namespace OfflineServer.Data.Settings
                         {
                             informationSampleTheme = value;
                             RaisePropertyChangedEvent("InformationSampleTheme");
-                        }
-                    }
-                }
-                public String Settings
-                {
-                    get
-                    {
-                        return settings;
-                    }
-                    set
-                    {
-                        if (settings != value)
-                        {
-                            settings = value;
-                            RaisePropertyChangedEvent("Settings");
-                        }
-                    }
-                }
-                public String UISettings
-                {
-                    get
-                    {
-                        return uISettings;
-                    }
-                    set
-                    {
-                        if (uISettings != value)
-                        {
-                            uISettings = value;
-                            RaisePropertyChangedEvent("UISettings");
-                        }
-                    }
-                }
-                public String Background
-                {
-                    get
-                    {
-                        return background;
-                    }
-                    set
-                    {
-                        if (background != value)
-                        {
-                            background = value;
-                            RaisePropertyChangedEvent("Background");
-                        }
-                    }
-                }
-                public String Accent
-                {
-                    get
-                    {
-                        return accent;
-                    }
-                    set
-                    {
-                        if (accent != value)
-                        {
-                            accent = value;
-                            RaisePropertyChangedEvent("Accent");
-                        }
-                    }
-                }
-                public String Theme
-                {
-                    get
-                    {
-                        return theme;
-                    }
-                    set
-                    {
-                        if (theme != value)
-                        {
-                            theme = value;
-                            RaisePropertyChangedEvent("Theme");
-                        }
-                    }
-                }
-                public String DisplayLanguage
-                {
-                    get
-                    {
-                        return displayLanguage;
-                    }
-                    set
-                    {
-                        if (displayLanguage != value)
-                        {
-                            displayLanguage = value;
-                            RaisePropertyChangedEvent("DisplayLanguage");
-                        }
-                    }
-                }
-                public String HttpServerSettings
-                {
-                    get
-                    {
-                        return httpServerSettings;
-                    }
-                    set
-                    {
-                        if (httpServerSettings != value)
-                        {
-                            httpServerSettings = value;
-                            RaisePropertyChangedEvent("HttpServerSettings");
-                        }
-                    }
-                }
-                public String Catalog
-                {
-                    get
-                    {
-                        return catalog;
-                    }
-                    set
-                    {
-                        if (catalog != value)
-                        {
-                            catalog = value;
-                            RaisePropertyChangedEvent("Catalog");
-                        }
-                    }
-                }
-                public String GameplayMod
-                {
-                    get
-                    {
-                        return gameplayMod;
-                    }
-                    set
-                    {
-                        if (gameplayMod != value)
-                        {
-                            gameplayMod = value;
-                            RaisePropertyChangedEvent("GameplayMod");
-                        }
-                    }
-                }
-                public String AddonManager
-                {
-                    get
-                    {
-                        return addonManager;
-                    }
-                    set
-                    {
-                        if (addonManager != value)
-                        {
-                            addonManager = value;
-                            RaisePropertyChangedEvent("AddonManager");
-                        }
-                    }
-                }
-                public String AddonManagerNotFoundError
-                {
-                    get
-                    {
-                        return addonManagerNotFoundError;
-                    }
-                    set
-                    {
-                        if (addonManagerNotFoundError != value)
-                        {
-                            addonManagerNotFoundError = value;
-                            RaisePropertyChangedEvent("AddonManagerNotFoundError");
-                        }
-                    }
-                }
-                public String AddonManagerAddonInstalled
-                {
-                    get
-                    {
-                        return addonManagerAddonInstalled;
-                    }
-                    set
-                    {
-                        if (addonManagerAddonInstalled != value)
-                        {
-                            addonManagerAddonInstalled = value;
-                            RaisePropertyChangedEvent("AddonManagerAddonInstalled");
-                        }
-                    }
-                }
-                public String Browse
-                {
-                    get
-                    {
-                        return browse;
-                    }
-                    set
-                    {
-                        if (browse != value)
-                        {
-                            browse = value;
-                            RaisePropertyChangedEvent("Browse");
-                        }
-                    }
-                }
-                public String Select
-                {
-                    get
-                    {
-                        return select;
-                    }
-                    set
-                    {
-                        if (select != value)
-                        {
-                            select = value;
-                            RaisePropertyChangedEvent("Select");
-                        }
-                    }
-                }
-                public String Cancel
-                {
-                    get
-                    {
-                        return cancel;
-                    }
-                    set
-                    {
-                        if (cancel != value)
-                        {
-                            cancel = value;
-                            RaisePropertyChangedEvent("Cancel");
                         }
                     }
                 }
@@ -1016,7 +439,11 @@ namespace OfflineServer.Data.Settings
                             languageFile = "English";
                             language = Language.loadFromLanguageFile("English");
                         }
-                        if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                        if (Access.dataAccess != null)
+                        {
+                            Access.dataAccess.executablesAddNew();
+                            Access.dataAccess.appSettings.saveInstance();
+                        }
                         RaisePropertyChangedEvent("language");
                         RaisePropertyChangedEvent("LanguageFile");
                     }
@@ -1126,8 +553,9 @@ namespace OfflineServer.Data.Settings
         public UISettings uiSettings { get; set; }
         [XmlElement("HttpServerSettings")]
         public HttpServerSettings httpServerSettings { get; set; }
-        [XmlElement("NFSWorldExePath")]
-        public String nfsw_exe { get; set; }
+        [XmlArray("NFSWorldExecutables")]
+        [XmlArrayItem("Executable")]
+        public List<String> NFSWorldExecutables { get; set; } = new List<String>();
 
         public void reloadAllLists()
         {

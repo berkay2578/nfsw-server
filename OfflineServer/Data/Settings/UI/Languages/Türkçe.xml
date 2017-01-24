@@ -1,15 +1,18 @@
 <Language>
 	<Persona>Yarışçı</Persona>
-	<NFSWorldRunningOverlayText>NFS: World&#10;çalışıyor</NFSWorldRunningOverlayText> <!-- &#10; is a line break -->
 	<AchievementTreasureHunt>Hazine Avı'nda en çok {0} güne '{1}' ile geldin.</AchievementTreasureHunt>
 	<AchievementJumpDistance>{0} metrelik en uzun uçuşunu '{1}' ile yaptın.</AchievementJumpDistance>
-	<PersonaInfo>Yarışçı Bilgileri</PersonaInfo>
+	<PersonaInformation>Yarışçı Bilgileri</PersonaInformation>
 	<Name>Nick</Name>
 	<Motto>Durum</Motto>
 	<Level>Seviye</Level>
 	<Cash>Para</Cash>
-	<DetailedPersonaInfo>Ekstra Bilgiler</DetailedPersonaInfo>
+	<DetailedPersonaInformation>Ekstra Bilgiler</DetailedPersonaInformation>
 	<PersonaList>Yarışçı Listesi</PersonaList>
+	<StartNFSWorld>NFS: World'ü&#10;başlat</StartNFSWorld>
+	<AddNew>Yeni Ekle</AddNew>
+	<NFSWorldLaunchingMessage>NFS: World birazdan açılacak.</NFSWorldLaunchingMessage>
+	<NFSWorldRunningOverlayText>NFS: World&#10;çalışıyor</NFSWorldRunningOverlayText>
 	<LevelUpXPLeft>EXP kaldı</LevelUpXPLeft>
 	<LevelToolTip>{0} seviye {1}.</LevelToolTip>
 	<CashToolTip>{0}, {1} paraya sahip.</CashToolTip>
@@ -31,6 +34,8 @@
 	<InformUserInformation>Haberin olsun bak...</InformUserInformation>
 	<InformUserOther>Hooayda</InformUserOther>
 	<ErrorEmptyPersonaName>Yarışçı ismini boş bırakamazsın!</ErrorEmptyPersonaName>
+	<ErrorEmptyNFSWorldPath>NFS: World seçilmedi.</ErrorEmptyNFSWorldPath>
+	<ErrorNFSWorldLaunch>NFS: World'ü başlatırken birşeyler yanlış gitti, hata hakkında tutanak tutuldu.</ErrorNFSWorldLaunch>
 	<InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Gözlerini bi '{0}'ya çevir derim.</InformationSampleAccent>
 	<InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
 	<Settings>Ayarlar</Settings>

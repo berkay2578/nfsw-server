@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using OfflineServer.Data.Settings;
+﻿using OfflineServer.Data.Settings;
 using OfflineServer.Servers;
-using static OfflineServer.Data.Settings.AppSettings.UISettings;
-using System.Xml.Linq;
+using System;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+using static OfflineServer.Data.Settings.AppSettings.UISettings;
 
 namespace OfflineServer.Data
 {
@@ -43,7 +43,7 @@ namespace OfflineServer.Data
         public static readonly String db_Server = Path.Combine(dir_Database, "Server.db");
         #endregion
         #region xmls
-        public static readonly String xml_Settings = Path.Combine(dir_Data, "AppSettings.xml");
+        public static readonly String xml_Settings = Path.Combine(dir_Data, "OfflineServerSettings.xml");
         #endregion
         #region logs
         public static readonly String log_Events = Path.Combine(dir_Logs, "EventLog.log");

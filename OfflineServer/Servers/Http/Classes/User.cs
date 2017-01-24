@@ -1,6 +1,6 @@
-﻿using System;
+﻿using OfflineServer.Servers.Http.Responses;
+using System;
 using System.Linq;
-using OfflineServer.Servers.Http.Responses;
 
 namespace OfflineServer.Servers.Http.Classes
 {

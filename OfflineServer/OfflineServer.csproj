@@ -291,9 +291,6 @@
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\EngineStart.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\NFSW_Avatars\Avatar_0.png" />
   </ItemGroup>
   <ItemGroup>
@@ -384,9 +381,6 @@
     <Resource Include="images\NFSW_Currencies\Currency_Cash.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\UI_Resources\Level_Background.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\NFSW_Achievements\TreasureHuntStreak.png" />
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +418,9 @@
   <ItemGroup>
     <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
     <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\UI_Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths">
