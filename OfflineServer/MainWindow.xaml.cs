@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -369,13 +368,117 @@ namespace OfflineServer
                     break;
             }
         }
-        private async void executable_ClickHandler(object sender, MouseButtonEventArgs e)
-        {
-            TextBlock _sender = (TextBlock)sender;
-            String nfsw_exe = _sender.Text;
 
-            if (e.ChangedButton == MouseButton.Left)
+        public class STEditConverter : IValueConverter
+        {
+            private MainWindow _Window;
+            public STEditConverter(MainWindow dlWindow)
             {
+                _Window = dlWindow;
+            }
+
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                return value.ToString();
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                try
+                {
+                    return System.Xml.Linq.XElement.Parse(value.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Clipboard.SetText(value.ToString(), TextDataFormat.UnicodeText);
+                    BindingOperations.ClearBinding(_Window.tbGaragePartInfo, MVVMSyntax._TextProperty);
+                    _Window.flyoutGaragePartInfo.IsOpen = false;
+                    MessageBox.Show(String.Format("{0}\r\n\r\nNote: Your input is copied to your clipboard.", ex.Message), "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return null;
+                }
+            }
+        }
+
+        #region Persona flyout events
+        private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
+            Access.CurrentSession.ActivePersona = mSelectedPersona;
+        }
+
+        private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
+        {
+            if (!flyoutBasicPersonaInfo.IsOpen)
+            {
+                textboxPersonaName.Text = textboxPersonaName.Text.Trim();
+                Int32 iPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == Access.CurrentSession.ActivePersona.Id));
+                Access.CurrentSession.PersonaList[iPersonaIndex] = Access.CurrentSession.ActivePersona;
+            }
+        }
+        #endregion
+
+        #region FlipViewPersonaImage events
+        private void FlipViewPersonaImage_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (sender as FlipView).ShowControlButtons();
+        }
+
+        private void FlipViewPersonaImage_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (sender as FlipView).HideControlButtons();
+        }
+        #endregion
+
+        #region ExecutablesDropDownButton stuff
+        public class RelayCommand : ICommand
+        {
+            #region Fields 
+            readonly Action<object> _execute;
+            readonly Predicate<object> _canExecute;
+            #endregion // Fields 
+            #region Constructors 
+            public RelayCommand(Action<object> execute) : this(execute, null) { }
+            public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+            {
+                if (execute == null)
+                    throw new ArgumentNullException("execute");
+                _execute = execute; _canExecute = canExecute;
+            }
+            #endregion // Constructors 
+            #region ICommand Members 
+            [DebuggerStepThrough]
+            public bool CanExecute(object parameter)
+            {
+                return _canExecute == null ? true : _canExecute(parameter);
+            }
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+            public void Execute(object parameter) { _execute(parameter); }
+            #endregion // ICommand Members 
+        }
+
+        private RelayCommand executableClick;
+
+        public ICommand ExecutableClick
+        {
+            get
+            {
+                if (executableClick == null)
+                    executableClick = new RelayCommand(clickEvent, (o) => { return true; });
+
+                return executableClick;
+            }
+        }
+
+        public async void clickEvent(object obj)
+        {
+            if (obj != null)
+            {
+                String nfsw_exe = (String)obj;
+
                 if (nfsw_exe == Access.dataAccess.appSettings.uiSettings.language.AddNew)
                 {
                     OpenFileDialog findNfswDialog = new OpenFileDialog()
@@ -481,65 +584,6 @@ namespace OfflineServer
                                     Access.dataAccess.appSettings.uiSettings.language.ErrorNFSWorldLaunch, MessageDialogStyle.Affirmative);
                 }
             }
-        }
-
-        public class STEditConverter : IValueConverter
-        {
-            private MainWindow _Window;
-            public STEditConverter(MainWindow dlWindow)
-            {
-                _Window = dlWindow;
-            }
-
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                return value.ToString();
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                try
-                {
-                    return System.Xml.Linq.XElement.Parse(value.ToString());
-                }
-                catch (Exception ex)
-                {
-                    Clipboard.SetText(value.ToString(), TextDataFormat.UnicodeText);
-                    BindingOperations.ClearBinding(_Window.tbGaragePartInfo, MVVMSyntax._TextProperty);
-                    _Window.flyoutGaragePartInfo.IsOpen = false;
-                    MessageBox.Show(String.Format("{0}\r\n\r\nNote: Your input is copied to your clipboard.", ex.Message), "ERROR: Not valid input", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return null;
-                }
-            }
-        }
-
-        #region Persona flyout events
-        private void datagridPersonaList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Persona mSelectedPersona = datagridPersonaList.SelectedItem as Persona;
-            Access.CurrentSession.ActivePersona = mSelectedPersona;
-        }
-
-        private void flyoutBasicPersonaInfo_IsOpenChanged(object sender, RoutedEventArgs e)
-        {
-            if (!flyoutBasicPersonaInfo.IsOpen)
-            {
-                textboxPersonaName.Text = textboxPersonaName.Text.Trim();
-                Int32 iPersonaIndex = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == Access.CurrentSession.ActivePersona.Id));
-                Access.CurrentSession.PersonaList[iPersonaIndex] = Access.CurrentSession.ActivePersona;
-            }
-        }
-        #endregion
-
-        #region FlipViewPersonaImage events
-        private void FlipViewPersonaImage_MouseEnter(object sender, MouseEventArgs e)
-        {
-            (sender as FlipView).ShowControlButtons();
-        }
-
-        private void FlipViewPersonaImage_MouseLeave(object sender, MouseEventArgs e)
-        {
-            (sender as FlipView).HideControlButtons();
         }
         #endregion
 

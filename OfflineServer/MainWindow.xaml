@@ -54,12 +54,18 @@
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
             <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona}">
                 <Grid Margin="25,0,0,0">
-                    <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}">
-                        <Controls:DropDownButton.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" MouseDown="executable_ClickHandler"/>
-                            </DataTemplate>
-                        </Controls:DropDownButton.ItemTemplate>
+                    <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}" >
+                        <Controls:DropDownButton.Resources>
+                            <Style TargetType="Controls:DropDownButton">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}" />
+                            </Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                                <Setter Property="Command" Value="{Binding ExecutableClick, RelativeSource={RelativeSource AncestorType={x:Type Controls:MetroWindow}}}" />
+                                <Setter Property="CommandParameter" Value="{Binding}" />
+                            </Style>
+                        </Controls:DropDownButton.Resources>
                         <Controls:DropDownButton.Content>
                             <Viewbox StretchDirection="DownOnly" Width="96pt">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="96pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.StartNFSWorld}" TextAlignment="Center" FontSize="12pt"/>
