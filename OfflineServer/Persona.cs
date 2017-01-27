@@ -119,6 +119,7 @@ namespace OfflineServer
                     PersonaManagement.persona.level = value;
                     PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Level");
+                    RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
             }
         }

@@ -591,7 +591,6 @@ namespace OfflineServer
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Access.dataAccess.appSettings.uiSettings.style.applyNewStyle();
-            FlipViewPersonaImage.IsNavigationEnabled = true;
         }
         #endregion
 

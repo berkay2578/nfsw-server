@@ -17,7 +17,7 @@
 	<LevelToolTip>{0} is level {1}.</LevelToolTip>
 	<CashToolTip>{0} has {1} cash.</CashToolTip>
 	<BoostToolTip>{0} has {1} boost.</BoostToolTip>
-	<AmountOfCars>Amount of Cars</AmountOfCars>
+	<AmountOfCars>Cars</AmountOfCars>
 	<GarageToolTip>{0} owns {1} cars.</GarageToolTip>
 	<TimePlayedToolTip>{0} has played for {1} hours.</TimePlayedToolTip>
 	<Garage>Garage</Garage>

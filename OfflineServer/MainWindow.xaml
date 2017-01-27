@@ -27,13 +27,6 @@
             <Setter Property="Controls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
             <Setter Property="Controls:ButtonHelper.PreserveTextCase" Value="True"/>
             <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
-            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
-        </Style>
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
         </Style>
         <local:ToUpperValueConverter x:Key="DataGridConverter"/>
     </Controls:MetroWindow.Resources>
@@ -52,9 +45,9 @@
         </Canvas>
 
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
-            <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona}">
+            <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona, FallbackValue='Persona'}" Width="130">
                 <Canvas Width="439" Height="377" Margin="25,0,0,0">
-                    <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}" >
+                    <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}" Canvas.Left="10" Canvas.Top="312" >
                         <Controls:DropDownButton.Resources>
                             <Style TargetType="Controls:DropDownButton">
                                 <Setter Property="BorderThickness" Value="0"/>
@@ -67,69 +60,69 @@
                             </Style>
                         </Controls:DropDownButton.Resources>
                         <Controls:DropDownButton.Content>
-                            <Viewbox StretchDirection="DownOnly" Width="96pt">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="96pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.StartNFSWorld}" TextAlignment="Center" FontSize="12pt"/>
+                            <Viewbox StretchDirection="DownOnly" Width="90pt">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="90pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.StartNFSWorld}" TextAlignment="Center" FontSize="12pt"/>
                             </Viewbox>
                         </Controls:DropDownButton.Content>
                     </Controls:DropDownButton>
-                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
+                    <Button Name="buttonOpenBasicPersonaInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler" Canvas.Left="10" Canvas.Top="147">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25pt"/>
                                     <ColumnDefinition Width="*" MinWidth="90"/>
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
+                                <Rectangle Margin="-5,0,0,0" Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="55pt">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
+                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="70pt">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="70pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
                                 </Viewbox>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
+                    <Button Name="buttonOpenDetailedPersonaInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler" Canvas.Left="10" Canvas.Top="202">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25pt"/>
                                     <ColumnDefinition Width="*" MinWidth="90"/>
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
+                                <Rectangle Margin="-5,0,0,0" Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_text}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="55pt">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
+                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="70pt">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="70pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.DetailedPersonaInformation}" TextAlignment="Center" FontSize="12pt"/>
                                 </Viewbox>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" Margin="10,257,0,0" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler">
+                    <Button Name="buttonOpenPersonaList" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="50" Click="button_ClickHandler" Canvas.Left="10" Canvas.Top="257">
                         <Button.Content>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25pt"/>
                                     <ColumnDefinition Width="*" MinWidth="90"/>
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Width="20pt" Height="25pt" Grid.Column="0">
+                                <Rectangle Margin="-5,0,0,0" Width="20pt" Height="25pt" Grid.Column="0">
                                     <Rectangle.Fill>
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_page_multiple}" />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="55pt">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="55pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaList}" TextAlignment="Center" FontSize="12pt"/>
+                                <Viewbox Grid.Column="1" StretchDirection="DownOnly" Width="70pt">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="70pt" TextWrapping="Wrap" Text="{Binding dataAccess.appSettings.uiSettings.language.PersonaList}" TextAlignment="Center" FontSize="12pt"/>
                                 </Viewbox>
                             </Grid>
                         </Button.Content>
                     </Button>
-                    <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="170,147,-16,0" VerticalAlignment="Top" Height="220" Width="285" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}">
+                    <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Height="220" Width="269" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}" Canvas.Left="170" Canvas.Top="147">
                         <Canvas>
                             <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0"
-                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="False"
+                            	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="True"
                                 HorizontalAlignment="Left" Width="126" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
                             <StackPanel Orientation="Vertical" Width="48" Canvas.Left="9" Canvas.Top="134">
                                 <StackPanel.ToolTip>
@@ -140,7 +133,7 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_home_garage}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding CurrentSession.ActivePersona.Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock Text="{Binding CurrentSession.ActivePersona.Cars.Count}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"  TextOptions.TextFormattingMode="Display"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Width="48" Canvas.Left="62" Canvas.Top="134">
                                 <StackPanel.ToolTip>
@@ -151,14 +144,14 @@
                                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_timer}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock Text="{Binding CurrentSession.ActivePersona.TimePlayed}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"/>
+                                <TextBlock Text="{Binding CurrentSession.ActivePersona.TimePlayed}" TextTrimming="CharacterEllipsis" TextAlignment="Center" Margin="0,3,0,0"  TextOptions.TextFormattingMode="Display"/>
                             </StackPanel>
-                            <Canvas Margin="127,0,0,115" Width="148" Height="69" Background="#FF303030">
+                            <Canvas Width="138" Height="69" Background="#FF303030" Canvas.Left="127">
                                 <Canvas.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.LevelToolTip}"/>
                                 </Canvas.ToolTip>
-                                <TextBlock Text="{Binding CurrentSession.ActivePersona.Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Width="61" Height="54" Canvas.Left="87" Canvas.Top="18"/>
-                                <TextBlock Foreground="#FFDDDDDD" Width="72" Height="32" Canvas.Top="38" Canvas.Left="2">
+                                <TextBlock Text="{Binding CurrentSession.ActivePersona.Level}" TextAlignment="Right" Foreground="#FFD5D5D5" FontFamily="Segoe UI Semibold" FontSize="50.667" Padding="6,1,0,0" Width="57" Height="52" Canvas.Left="81" Canvas.Top="18"/>
+                                <TextBlock Foreground="#FFDDDDDD" Width="72" Height="32" Canvas.Top="38" Canvas.Left="2" TextOptions.TextFormattingMode="Display">
                                     <Run FontFamily="Segoe UI" FontSize="10pt" Text="{Binding CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel, Mode=OneWay}"/>
                                     <LineBreak/>
                                     <Run FontFamily="Segoe UI Semilight" FontSize="8pt" Text="{Binding dataAccess.appSettings.uiSettings.language.LevelUpXPLeft}"/>
@@ -171,7 +164,7 @@
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.CashToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="3,0,14,1" Text="{Binding CurrentSession.ActivePersona.CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="18" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <TextBlock VerticalAlignment="Bottom" Margin="3,0,14,1" Text="{Binding CurrentSession.ActivePersona.CashForView}" TextAlignment="Left" LineStackingStrategy="BlockLineHeight" LineHeight="18" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor" TextOptions.TextFormattingMode="Display">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>
@@ -184,7 +177,7 @@
                                 <Grid.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.BoostToolTip}"/>
                                 </Grid.ToolTip>
-                                <TextBlock VerticalAlignment="Bottom" Margin="19,0,3,1" Text="{Binding CurrentSession.ActivePersona.BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="16" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <TextBlock VerticalAlignment="Bottom" Margin="19,0,3,1" Text="{Binding CurrentSession.ActivePersona.BoostForView}" TextAlignment="Right" LineStackingStrategy="BlockLineHeight" LineHeight="16" FontSize="14pt" FontFamily="Segoe UI Semilight" Foreground="White" RenderOptions.BitmapScalingMode="NearestNeighbor"  TextOptions.TextFormattingMode="Display">
                                     <TextBlock.Effect>
                                         <DropShadowEffect ShadowDepth="1" BlurRadius="2" Color="#FF303030" RenderingBias="Quality"/>
                                     </TextBlock.Effect>
@@ -192,18 +185,18 @@
                             </Grid>
                         </Canvas>
                     </GroupBox>
-                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="419" Height="127" Margin="0" Click="button_ClickHandler" Canvas.Left="8" Canvas.Top="10">
-                        <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="419" Height="127" Transition="Up"/>
+                    <Controls:Tile Name="buttonUpdatePersonaInfoTile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="431" Height="127" Margin="0" Click="button_ClickHandler" Canvas.Left="8" Canvas.Top="10">
+                        <Controls:TransitioningContentControl Name="metrotileRandomPersonaInfo" Width="431" Height="127" Transition="Up"/>
                     </Controls:Tile>
                 </Canvas>
             </Controls:MetroTabItem>
-            <Controls:MetroTabItem Name="GarageTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Garage}">
+            <Controls:MetroTabItem Name="GarageTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Garage, FallbackValue='Garage'}">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
                     <Canvas Width="170" Height="377">
                         <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding CurrentSession.ActivePersona.Cars}" SelectedItem="{Binding CurrentSession.ActivePersona.SelectedCar}" SelectedIndex="{Binding CurrentSession.ActivePersona.CurrentCarIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type local:Car}">
-                                    <TextBlock Text="{Binding MakeModel}" TextWrapping="Wrap">
+                                    <TextBlock Text="{Binding MakeModel}" TextWrapping="Wrap" TextOptions.TextFormattingMode="Display">
                                         <TextBlock.ToolTip>
                                             <StackPanel Orientation="Vertical">
                                                 <TextBlock Text="{Binding Source={x:Reference GarageTab}, Path=DataContext.dataAccess.appSettings.uiSettings.language.BaseCarIdDefinition}" FontWeight="Bold"/>
@@ -215,9 +208,9 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <Button Name="buttonAddCar" Content="+" Click="button_ClickHandler" HorizontalAlignment="Left" Margin="6,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
-                                ToolTip="{Binding dataAccess.appSettings.uiSettings.language.AddACar}"/>
+                                ToolTip="{Binding dataAccess.appSettings.uiSettings.language.AddACar}" TextOptions.TextFormattingMode="Display"/>
                         <Button Name="buttonRemoveCar" Content="-" Click="button_ClickHandler" HorizontalAlignment="Left" Margin="34,355,0,0" VerticalAlignment="Top" Width="24" Height="20" MinHeight="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="10pt"
-                                ToolTip="{Binding dataAccess.appSettings.uiSettings.language.RemoveCar}"/>
+                                ToolTip="{Binding dataAccess.appSettings.uiSettings.language.RemoveCar}" TextOptions.TextFormattingMode="Display"/>
                     </Canvas>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ScrollViewer.Template>
@@ -238,7 +231,7 @@
                                 </Grid>
                             </ControlTemplate>
                         </ScrollViewer.Template>
-                        <StackPanel Orientation="Horizontal" Width="250">
+                        <StackPanel Orientation="Horizontal" Width="256">
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Base Car Id:"/>
                                 <Label Margin="0,5,0,0" Content="Car Class:"/>
@@ -255,7 +248,7 @@
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
                                 <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="128" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
+                            <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="136" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
                                 <StackPanel.Resources>
                                     <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
                                         <ObjectDataProvider.MethodParameters>
@@ -279,7 +272,7 @@
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="PhysicsProfileHash" Text="{Binding PhysicsProfileHash, Delay=1000}"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="999" Value="{Binding Rating, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
-                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Value="{Binding ResalePrice, Delay=1000}" StringFormat="{}{0:C0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True" xml:lang="en-US"/>
+                                <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="1000000000" Value="{Binding ResalePrice, Delay=1000}" StringFormat="{}{0:0,0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
                                 <Button Name="buttonSkillModParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <Button Name="buttonVinyls" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
@@ -290,9 +283,6 @@
                         </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
-            </Controls:MetroTabItem>
-            <Controls:MetroTabItem Header="Something">
-                <Canvas Margin="25,0,0,0"/>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </Canvas>
@@ -311,8 +301,8 @@
                         <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14" LostFocus="textboxPersonaName_LostFocus"/>
                         <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="1" Value="{Binding Level, Delay=1000}" TextAlignment="Left" InterceptMouseWheel="False" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash, Delay=1000}" StringFormat="{}{0:C0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True" xml:lang="en-US" />
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash, Delay=1000}" StringFormat="{}{0:0,0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost, Delay=1000}" StringFormat="{}{0:0,0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
                     </StackPanel>
                 </StackPanel>
             </Controls:Flyout>
@@ -327,31 +317,36 @@
                               CanUserReorderColumns="True" AutoGenerateColumns="False" IsReadOnly="True"
                               SelectionMode="Single" FrozenColumnCount="1" ItemsSource="{Binding CurrentSession.PersonaList, Mode=OneWay}"
                               MouseDoubleClick="datagridPersonaList_MouseDoubleClick">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Name, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  Text="{Binding Name, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Motto}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Motto, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Motto, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Level}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Level, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Level, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Cash}">
+                            <DataGridTextColumn Binding="{Binding Cash, StringFormat='{}{0:0,0}'}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Cash, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Cash, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Boost" Binding="{Binding Boost}"/>
+                            <DataGridTextColumn Header="Boost" Binding="{Binding Boost, StringFormat='{}{0:0,0}'}"/>
                             <DataGridTextColumn Binding="{Binding Cars.Count}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding AmountOfCars, Converter={StaticResource DataGridConverter}}" FontWeight="Bold" TextAlignment="Left"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding AmountOfCars, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                         </DataGrid.Columns>
