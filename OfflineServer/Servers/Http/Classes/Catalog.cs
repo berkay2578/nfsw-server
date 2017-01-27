@@ -15,7 +15,7 @@ namespace OfflineServer.Servers.Http.Classes
         public static String categories()
         {
             String targetCategoryName = Access.sHttp.request.Params.Get("categoryName");
-            if (!String.IsNullOrWhiteSpace(targetCategoryName))
+            if (String.IsNullOrWhiteSpace(targetCategoryName))
                 return "<ArrayOfCategoryTrans/>";
 
             String targetLocalFile = Path.Combine(DataEx.dir_CurrentHttpServerCategories, targetCategoryName + ".xml");
@@ -28,7 +28,7 @@ namespace OfflineServer.Servers.Http.Classes
         public static String productsInCategory()
         {
             String targetProductName = Access.sHttp.request.Params.Get("categoryName");
-            if (!String.IsNullOrWhiteSpace(targetProductName))
+            if (String.IsNullOrWhiteSpace(targetProductName))
                 return "<ArrayOfProductTrans/>";
 
             String targetLocalFile = Path.Combine(DataEx.dir_CurrentHttpServerProducts, targetProductName + ".xml");
