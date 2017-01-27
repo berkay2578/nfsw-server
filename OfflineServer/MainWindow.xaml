@@ -13,6 +13,9 @@
         Title="Offline Server" Height="426" Width="628" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
         IsMaxRestoreButtonEnabled="False" ShowSystemMenuOnRightClick="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False" GlowBrush="{DynamicResource AccentColorBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="MetroWindow_Closing" Loaded="MetroWindow_Loaded" Icon="LauncherIcon.ico">
+    <Controls:MetroWindow.WindowButtonCommands>
+        <Controls:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
+    </Controls:MetroWindow.WindowButtonCommands>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands Controls:ControlsHelper.ContentCharacterCasing="Lower">
             <Button Name="buttonAddonManager" Content="{Binding Access.dataAccess.appSettings.uiSettings.language.AddonManager}" Click="button_ClickHandler"/>
