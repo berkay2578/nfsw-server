@@ -116,6 +116,16 @@ namespace OfflineServer.Servers.Xmpp
             while (!ct.IsCancellationRequested)
             {
                 string packet = await read();
+                if (packet.Contains("ExceptionOccured"))
+                {
+                    log.Warn("Shutting down after exception.");
+                    personaStopwatch.Stop();
+                    PersonaManagement.persona.timePlayed += (UInt64)personaStopwatch.ElapsedMilliseconds;
+                    PersonaManagement.persona.update();
+                    Access.CurrentSession.ActivePersona.TimePlayed = "";
+                    shutdown();
+                    break;
+                }
                 if (packet.Contains("</stream:stream>"))
                 {
                     await write("</stream:stream>");
