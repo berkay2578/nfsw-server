@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using static OfflineServer.Economy.Basket;
 
 namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
-    [XmlRoot("CommerceSessionResultTrans", IsNullable = true)]
+    [XmlRoot("CommerceSessionResultTrans", Namespace = "http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization", IsNullable = true)]
     public class CommerceSessionResultTrans
     {
-        [XmlElement("InvalidBasket")]
-        public String invalidBasket;
-        [XmlElement("InventoryItems")]
-        public String inventoryItems;
+        [XmlElement("InvalidBasket", IsNullable = false)]
+        public String invalidBasket = "";
+        [XmlArray("InventoryItems")]
+        [XmlArrayItem("InventoryItemTrans")]
+        public List<InventoryItemTrans> inventoryItems;
         [XmlElement("UpdatedCar")]
         public UpdatedCar updatedCar;
         [XmlElement("Status")]

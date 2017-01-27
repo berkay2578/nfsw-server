@@ -234,14 +234,9 @@ namespace OfflineServer
         }
         public Car SelectedCar
         {
-            get { return selectedCar; }
-            set
+            get
             {
-                if (selectedCar != value)
-                {
-                    selectedCar = value;
-                    RaisePropertyChangedEvent("SelectedCar");
-                }
+                return cars[currentCarIndex];
             }
         }
         public ObservableCollection<Car> Cars

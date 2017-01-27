@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Servers.Database.Entities;
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace OfflineServer.Servers.Http.Responses
@@ -20,24 +21,29 @@ namespace OfflineServer.Servers.Http.Responses
         public String name;
         [XmlElement("Id")]
         public Int64 id;
-        [XmlElement("Paints")]
-        public String paints;
-        [XmlElement("PerformanceParts")]
-        public String performanceParts;
+        [XmlArray("Paints")]
+        [XmlArrayItem("CustomPaintTrans")]
+        public List<CustomPaintTrans> paints;
+        [XmlArray("PerformanceParts")]
+        [XmlArrayItem("PerformancePartTrans")]
+        public List<PerformancePartTrans> performanceParts;
         [XmlElement("PhysicsProfileHash")]
         public Int64 physicsProfileHash;
         [XmlElement("Rating")]
         public Int32 rating;
         [XmlElement("ResalePrice")]
         public Int32 resalePrice;
-        [XmlElement("SkillModParts")]
-        public String skillModParts;
+        [XmlArray("SkillModParts")]
+        [XmlArrayItem("SkillModPartTrans")]
+        public List<SkillModPartTrans> skillModParts;
         [XmlElement("SkillModSlotCount")]
         public Int16 skillModSlotCount;
-        [XmlElement("Vinyls")]
-        public String vinyls;
-        [XmlElement("VisualParts")]
-        public String visualParts;
+        [XmlArray("Vinyls")]
+        [XmlArrayItem("CustomVinylTrans")]
+        public List<CustomVinylTrans> vinyls;
+        [XmlArray("VisualParts")]
+        [XmlArrayItem("VisualPartTrans")]
+        public List<VisualPartTrans> visualParts;
 
         public static CustomCar getCustomCar(CarEntity carEntity)
         {
@@ -48,15 +54,15 @@ namespace OfflineServer.Servers.Http.Responses
             customCar.isPreset = false;
             customCar.level = 0;
             customCar.name = null;
-            customCar.paints = carEntity.paints;
-            customCar.performanceParts = carEntity.performanceParts;
+            customCar.paints = carEntity.paints.DeserializeObject<List<CustomPaintTrans>>();
+            customCar.performanceParts = carEntity.performanceParts.DeserializeObject<List<PerformancePartTrans>>();
             customCar.physicsProfileHash = carEntity.physicsProfileHash;
             customCar.rating = carEntity.rating;
             customCar.resalePrice = carEntity.resalePrice;
-            customCar.skillModParts = carEntity.skillModParts;
+            customCar.skillModParts = carEntity.skillModParts.DeserializeObject<List<SkillModPartTrans>>();
             customCar.skillModSlotCount = 6;
-            customCar.vinyls = carEntity.vinyls;
-            customCar.visualParts = carEntity.visualParts;
+            customCar.vinyls = carEntity.vinyls.DeserializeObject<List<CustomVinylTrans>>();
+            customCar.visualParts = carEntity.visualParts.DeserializeObject<List<VisualPartTrans>>();
 
             return customCar;
         }

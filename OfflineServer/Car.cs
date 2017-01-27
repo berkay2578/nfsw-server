@@ -1,7 +1,9 @@
 ﻿using OfflineServer.Servers;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.Http.Responses;
 using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -277,7 +279,7 @@ namespace OfflineServer
             carId = car.carId;
             personaId = car.ownerPersona.id;
         }
-        
+
         public String getCarPreset()
         {
             return "";
@@ -286,22 +288,25 @@ namespace OfflineServer
         {
             XElement eCarEntry =
                 new XElement("OwnedCarTrans",
-                    new XElement("CustomCar",
-                        new XElement("BaseCar", BaseCarId),
-                        new XElement("CarClassHash", (Int32)RaceClass),
-                        new XElement("Id", Id),
-                        Paints,
-                        PerformanceParts,
-                        new XElement("PhysicsProfileHash", PhysicsProfileHash),
-                        new XElement("ResalePrice", ResalePrice),
-                        SkillModParts,
-                        new XElement("SkillModSlotCount", 6),
-                        Vinyls,
-                        VisualParts
+                    XElement.Parse(
+                        new CustomCar()
+                        {
+                            baseCarId = BaseCarId,
+                            carClassHash = (Int32)RaceClass,
+                            id = Id,
+                            paints = Paints.ToString().DeserializeObject<List<CustomPaintTrans>>(),
+                            performanceParts = PerformanceParts.ToString().DeserializeObject<List<PerformancePartTrans>>(),
+                            physicsProfileHash = PhysicsProfileHash,
+                            resalePrice = ResalePrice,
+                            skillModParts = SkillModParts.ToString().DeserializeObject<List<SkillModPartTrans>>(),
+                            skillModSlotCount = 6,
+                            vinyls = Vinyls.ToString().DeserializeObject<List<CustomVinylTrans>>(),
+                            visualParts = VisualParts.ToString().DeserializeObject<List<VisualPartTrans>>()
+                        }.SerializeObject()
                     ),
                     new XElement("Durability", Durability),
                     (ExpirationDate == new DateTime(1, 1, 1) ?
-                        new XElement("ExpirationDate", new XAttribute(ServerAttributes.nilNS + "nil", "true")) :
+                        new XElement("ExpirationDate", null) :
                         new XElement("ExpirationDate", ExpirationDate.ToString("o"))
                     ),
                     new XElement("Heat", HeatLevel),
