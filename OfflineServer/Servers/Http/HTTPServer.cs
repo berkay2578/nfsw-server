@@ -20,7 +20,7 @@ namespace OfflineServer.Servers.Http
             /* Powerups */ "activated", "getrebroadcasters", "getregioninfo", "loginAnnouncements",
             /* Root */ "carclasses", "systeminfo",
             /* Session */ "getChatInfo",
-            /* User */ "getPermanentSession", "secureLoginPersona", "secureLogout"
+            /* User */ "getPermanentSession", "secureLoginPersona", "secureLogoutPersona"
         };
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
