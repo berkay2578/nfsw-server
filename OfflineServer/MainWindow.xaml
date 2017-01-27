@@ -111,7 +111,7 @@
                     </Button>
                     <GroupBox Name="groupBox" Header="{Binding CurrentSession.ActivePersona.Name, FallbackValue='HIBERNATE FAILURE'}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Height="220" Width="269" BorderThickness="0" Controls:GroupBoxHelper.HeaderForeground="{DynamicResource BlackBrush}" Canvas.Left="170" Canvas.Top="147">
                         <Canvas>
-                            <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0"
+                            <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0" Loaded="FlipViewPersonaImage_Loaded"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="True"
                                 HorizontalAlignment="Left" Width="126" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
                             <StackPanel Orientation="Vertical" Width="48" Canvas.Left="9" Canvas.Top="134">
@@ -183,7 +183,7 @@
             <Controls:MetroTabItem Name="GarageTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Garage, FallbackValue='Garage'}">
                 <StackPanel Orientation="Horizontal" Margin="25,0,0,0">
                     <Canvas Width="170" Height="377">
-                        <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding CurrentSession.ActivePersona.Cars}" SelectedItem="{Binding CurrentSession.ActivePersona.SelectedCar}" SelectedIndex="{Binding CurrentSession.ActivePersona.CurrentCarIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox Name="listCar" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="170" ItemsSource="{Binding CurrentSession.ActivePersona.Cars}" SelectedIndex="{Binding CurrentSession.ActivePersona.CurrentCarIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type local:Car}">
                                     <TextBlock Text="{Binding MakeModel}" TextWrapping="Wrap" TextOptions.TextFormattingMode="Display">

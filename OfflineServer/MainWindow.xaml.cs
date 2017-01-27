@@ -3,11 +3,14 @@ using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using NHibernate;
 using OfflineServer.Data;
+using OfflineServer.Servers;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.Http.Responses;
 using OfflineServer.Servers.IPC;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -112,15 +115,15 @@ namespace OfflineServer
                         carEntity.durability = 100;
                         carEntity.heatLevel = 6;
                         carEntity.carId = 1;
-                        carEntity.paints = "<Paints/>";
-                        carEntity.performanceParts = "<PerformanceParts/>";
+                        carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
+                        carEntity.performanceParts = new List<PerformancePartTrans>().SerializeObject();
                         carEntity.physicsProfileHash = 4123572107L;
                         carEntity.raceClass = CarClass.A;
                         carEntity.rating = 750;
                         carEntity.resalePrice = 123456789;
-                        carEntity.skillModParts = "<SkillModParts/>";
-                        carEntity.vinyls = "<Vinyls/>";
-                        carEntity.visualParts = "<VisualParts/>";
+                        carEntity.skillModParts = new List<SkillModPartTrans>().SerializeObject();
+                        carEntity.vinyls = new List<CustomVinylTrans>().SerializeObject();
+                        carEntity.visualParts = new List<VisualPartTrans>().SerializeObject();
 
                         personaEntity.addCar(carEntity);
                         session.Save(personaEntity);
@@ -136,8 +139,6 @@ namespace OfflineServer
         private void SetupComponents()
         {
             #region FlipViewPersona
-            FlipViewPersonaImage.HideControlButtons();
-
             Image[] aFlipViewAvatarArray = new Image[28];
             for (int i = 0; i < 28; i++)
             {
@@ -212,15 +213,15 @@ namespace OfflineServer
                 carEntity.carId = Access.CurrentSession.ActivePersona.Cars.Last().CarId + 1;
                 carEntity.durability = 100;
                 carEntity.heatLevel = 1;
-                carEntity.paints = "<Paints/>";
-                carEntity.performanceParts = "<PerformanceParts/>";
+                carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
+                carEntity.performanceParts = new List<PerformancePartTrans>().SerializeObject();
                 carEntity.physicsProfileHash = CarDefinitions.physicsProfileHashNormal.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
                 carEntity.raceClass = CarClass.E;
                 carEntity.rating = 123;
                 carEntity.resalePrice = 0;
-                carEntity.skillModParts = "<SkillModParts/>";
-                carEntity.vinyls = "<Vinyls/>";
-                carEntity.visualParts = "<VisualParts/>";
+                carEntity.skillModParts = new List<SkillModPartTrans>().SerializeObject();
+                carEntity.vinyls = new List<CustomVinylTrans>().SerializeObject();
+                carEntity.visualParts = new List<VisualPartTrans>().SerializeObject();
                 PersonaManagement.addCar(carEntity);
                 DialogManager.HideMetroDialogAsync(this, carDialog);
             };
@@ -264,7 +265,9 @@ namespace OfflineServer
 
             nfswDialog = new CustomDialog();
             nfswDialog.Height = 200d;
-            nfswDialog.Width = 500d;
+            nfswDialog.Width = 520d;
+            nfswDialog.HorizontalContentAlignment = HorizontalAlignment.Center;
+            nfswDialog.VerticalContentAlignment = VerticalAlignment.Center;
             nfswDialog.Content = viewBox;
 
             Binding bindTag = new Binding()
@@ -552,7 +555,7 @@ namespace OfflineServer
 
                 try
                 {
-                    nfswDialog.Tag =  Access.dataAccess.appSettings.uiSettings.language.NFSWorldLaunchingMessage;
+                    nfswDialog.Tag = Access.dataAccess.appSettings.uiSettings.language.NFSWorldLaunchingMessage;
                     await this.ShowMetroDialogAsync(nfswDialog);
 
                     if (Access.sHttp == null)
@@ -619,6 +622,10 @@ namespace OfflineServer
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Access.dataAccess.appSettings.uiSettings.style.applyNewStyle();
+        }
+        private void FlipViewPersonaImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            FlipViewPersonaImage.HideControlButtons();
         }
         #endregion
 
