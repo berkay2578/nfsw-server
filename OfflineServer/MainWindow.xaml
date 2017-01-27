@@ -32,18 +32,8 @@
     </Controls:MetroWindow.Resources>
     <Canvas DataContext="{Binding Access}">
         <Canvas.Background>
-            <ImageBrush x:Name="BackgroundImage" Stretch="UniformToFill" ImageSource="{Binding dataAccess.appSettings.uiSettings.style.Background}"/>
+            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding dataAccess.appSettings.uiSettings.style.BGImage}"/>
         </Canvas.Background>
-        <Canvas x:Name="NFSWRunningOverlay" Panel.ZIndex="1000" Visibility="Collapsed">
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity=".87"/>
-            </Canvas.Background>
-
-            <Viewbox x:Name="ActualNFSWRunningOverlay" Visibility="Collapsed" Stretch="Uniform">
-                <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.NFSWorldRunningOverlayText}" TextAlignment="Center" FontSize="72pt" Foreground="White" Margin="60"/>
-            </Viewbox>
-        </Canvas>
-
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
             <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona, FallbackValue='Persona'}" Width="130">
                 <Canvas Width="439" Height="377" Margin="25,0,0,0">

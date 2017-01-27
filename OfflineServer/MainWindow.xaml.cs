@@ -31,7 +31,7 @@ namespace OfflineServer
     public partial class MainWindow : MetroWindow
     {
         private DispatcherTimer RandomPersonaInfo = new DispatcherTimer();
-        private CustomDialog carDialog;
+        private CustomDialog carDialog, nfswDialog;
         private Process nfsWorldProcess;
         public Access Access { get; set; }
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -247,6 +247,34 @@ namespace OfflineServer
             BindingOperations.SetBinding(carDialog, CustomDialog.TitleProperty, lBindSelectCar);
             BindingOperations.SetBinding(selectButton, Button.ContentProperty, lBindSelect);
             BindingOperations.SetBinding(cancelButton, Button.ContentProperty, lBindCancel);
+            #endregion
+
+            #region nfswDialog
+            TextBlock text = new TextBlock();
+            text.HorizontalAlignment = HorizontalAlignment.Center;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            text.TextAlignment = TextAlignment.Center;
+            text.FontSize = 32d;
+            text.MaxWidth = 480d;
+
+            Viewbox viewBox = new Viewbox();
+            viewBox.StretchDirection = StretchDirection.DownOnly;
+            viewBox.Width = 480d;
+            viewBox.Child = text;
+
+            nfswDialog = new CustomDialog();
+            nfswDialog.Height = 200d;
+            nfswDialog.Width = 500d;
+            nfswDialog.Content = viewBox;
+
+            Binding bindTag = new Binding()
+            {
+                Path = new PropertyPath("Tag"),
+                Mode = BindingMode.OneWay,
+                Source = nfswDialog
+            };
+
+            BindingOperations.SetBinding(text, TextBlock.TextProperty, bindTag);
             #endregion
         }
 
@@ -524,6 +552,9 @@ namespace OfflineServer
 
                 try
                 {
+                    nfswDialog.Tag =  Access.dataAccess.appSettings.uiSettings.language.NFSWorldLaunchingMessage;
+                    await this.ShowMetroDialogAsync(nfswDialog);
+
                     if (Access.sHttp == null)
                         Access.sHttp = new Servers.Http.HttpServer();
                     if (Access.sXmpp == null)
@@ -548,21 +579,18 @@ namespace OfflineServer
                         }
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            NFSWRunningOverlay.Visibility = Visibility.Collapsed;
-                            ActualNFSWRunningOverlay.Visibility = Visibility.Collapsed;
+                            this.HideMetroDialogAsync(nfswDialog);
                         }));
                         Access.CurrentSession.ActivePersona.TimePlayed = "";
                         nfsWorldProcess.Dispose();
                     };
                     if (nfsWorldProcess.Start())
                     {
-                        NFSWRunningOverlay.Visibility = Visibility.Visible;
-                        /*await this.ShowMessageAsync(Access.dataAccess.appSettings.uiSettings.language.InformUserInformation,
-                            Access.dataAccess.appSettings.uiSettings.language.NFSWorldLaunchingMessage, MessageDialogStyle.Affirmative);*/
-                        ActualNFSWRunningOverlay.Visibility = Visibility.Visible;
+                        nfswDialog.Tag = Access.dataAccess.appSettings.uiSettings.language.NFSWorldRunningOverlayText;
                     }
                     else
                     {
+                        await this.HideMetroDialogAsync(nfswDialog);
                         nfsWorldProcess.Dispose();
                         if (Access.sHttp != null)
                         {

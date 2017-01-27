@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 
 namespace OfflineServer.Data.Settings
@@ -101,16 +102,24 @@ namespace OfflineServer.Data.Settings
                             if (File.Exists(value))
                             {
                                 background = value;
-                                if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
-                                RaisePropertyChangedEvent("Background");
                             }
                         }
                         else
                         {
                             background = String.Empty;
-                            if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
-                            RaisePropertyChangedEvent("Background");
                         }
+                        if (Access.dataAccess != null) Access.dataAccess.appSettings.saveInstance();
+                        RaisePropertyChangedEvent("BGImage");
+                    }
+                }
+                [XmlIgnore()]
+                public ImageSource BGImage
+                {
+                    get
+                    {
+                        if (Background != String.Empty)
+                            return new BitmapImage(new Uri(Background, UriKind.Absolute));
+                        return null;
                     }
                 }
 
