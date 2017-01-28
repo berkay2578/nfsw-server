@@ -63,6 +63,17 @@ namespace OfflineServer
                 log.Warn("Database doesn't exist!");
                 if (!Directory.Exists(DataEx.dir_Database)) Directory.CreateDirectory(DataEx.dir_Database);
 
+                retry:
+                log.Info("Requesting persona name.");
+                String personaName = this.ShowModalInputExternal(
+                    Access.dataAccess.appSettings.uiSettings.language.AddFirstPersona,
+                    Access.dataAccess.appSettings.uiSettings.language.Name);
+                if (String.IsNullOrWhiteSpace(personaName))
+                {
+                    log.Warn("Invalid persona name.");
+                    goto retry;
+                }
+
                 log.Info("Creating database.");
                 ISessionFactory sessionFactory = SessionManager.createDatabase();
 
@@ -75,12 +86,7 @@ namespace OfflineServer
                     sqliteConnection.Close();
                 }
 
-                retry:
-                String personaName = this.ShowModalInputExternal("Add your first persona", "Name");
-                if (String.IsNullOrWhiteSpace(personaName))
-                    goto retry;
-
-                log.Info("Inserting filler entries.");
+                log.Info("Inserting first persona+user entry.");
                 using (var session = sessionFactory.OpenSession())
                 using (var transaction = session.BeginTransaction())
                 {

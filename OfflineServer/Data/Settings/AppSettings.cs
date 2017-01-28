@@ -192,6 +192,7 @@ namespace OfflineServer.Data.Settings
                 public String Cash { get; set; }
                 public String DetailedPersonaInformation { get; set; }
                 public String PersonaList { get; set; }
+                public String AddFirstPersona { get; set; }
                 public String StartNFSWorld { get; set; }
                 public String AddNew { get; set; }
                 public String NFSWorldLaunchingMessage { get; set; }
