@@ -25,11 +25,16 @@ namespace OfflineServer.Servers.Database.Entities
         {
             garage = new List<CarEntity>();
         }
-        
+
         public virtual void addCar(CarEntity car)
         {
             car.ownerPersona = this;
             garage.Add(car);
+        }
+
+        public virtual void removeCar(CarEntity car)
+        {
+            garage.Remove(car);
         }
     }
 }

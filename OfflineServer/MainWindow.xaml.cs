@@ -56,8 +56,9 @@ namespace OfflineServer
             InitializeComponent();
         }
 
-        private void vCreateDb()
+        private void ensureStableDB()
         {
+            createNew:
             if (!DataEx.db_ServerExists)
             {
                 log.Warn("Database doesn't exist!");
@@ -112,7 +113,20 @@ namespace OfflineServer
                     log.Info("Database actions finalized.");
                 }
             }
-            else { log.Info("Database already exists, skipping creation."); }
+            else
+            {
+                log.Info("Database already exists, skipping creation.");
+
+                using (var session = SessionManager.getSessionFactory().OpenSession())
+                {
+                    if (session.QueryOver<PersonaEntity>().RowCount() == 0)
+                    {
+                        log.Warn("No persona information found on the database, force re-creating new.");
+                        File.Delete(DataEx.db_Server);
+                        goto createNew;
+                    }
+                }
+            }
         }
 
         private void SetupComponents()
@@ -604,7 +618,7 @@ namespace OfflineServer
         #region Loaded events
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            vCreateDb();
+            ensureStableDB();
 
             log.Info("Starting session.");
             Access.CurrentSession.startSession();

@@ -26,8 +26,7 @@ namespace OfflineServer.Servers.Database.Mappings
             Map(c => c.heatLevel);
             Map(c => c.carId);
             References(c => c.ownerPersona)
-                .Not.Nullable()
-                .Cascade.All();
+                .Cascade.None();
         }
     }
 }

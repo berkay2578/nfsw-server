@@ -43,7 +43,9 @@ namespace OfflineServer.Servers.Database.Management
             {
                 PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
                 personaEntity.addCar(carEntity);
-                session.SaveOrUpdate(personaEntity);
+
+                session.Save(carEntity);
+                session.Update(personaEntity);
                 transaction.Commit();
 
                 Access.CurrentSession.ActivePersona.Cars.Add(new Car(carEntity));
@@ -54,7 +56,10 @@ namespace OfflineServer.Servers.Database.Management
         {
             using (ITransaction transaction = session.BeginTransaction())
             {
+                PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
                 CarEntity carEntity = session.Load<CarEntity>(car.Id);
+                personaEntity.removeCar(carEntity);
+
                 session.Delete(carEntity);
                 transaction.Commit();
 
@@ -66,15 +71,12 @@ namespace OfflineServer.Servers.Database.Management
         {
             if (newPersona != null)
             {
-                if (Access.CurrentSession.ActivePersona != null)
+                using (ITransaction transaction = session.BeginTransaction())
                 {
-                    using (ITransaction transaction = session.BeginTransaction())
-                    {
-                        PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
-                        personaEntity = newPersona;
-                        session.Update(personaEntity);
-                        transaction.Commit();
-                    }
+                    PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
+                    personaEntity = newPersona;
+                    session.Update(personaEntity);
+                    transaction.Commit();
                 }
             }
         }
