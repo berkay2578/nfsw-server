@@ -17,7 +17,16 @@ namespace OfflineServer.Data.Settings
     {
         public sealed class UISettings : ObservableObject
         {
-            private static Persona activePersonaProxy { get { return Access.CurrentSession.ActivePersona; } }
+            private static Persona activePersonaProxy
+            {
+                get
+                {
+                    if (Access.CurrentSession != null)
+                        return Access.CurrentSession.ActivePersona;
+
+                    return null;
+                }
+            }
 
             public class Style : ObservableObject
             {
@@ -179,6 +188,7 @@ namespace OfflineServer.Data.Settings
                 public String Name { get; set; }
                 public String Motto { get; set; }
                 public String Level { get; set; }
+                public String LevelUpXPLeft { get; set; }
                 public String Cash { get; set; }
                 public String DetailedPersonaInformation { get; set; }
                 public String PersonaList { get; set; }
@@ -221,7 +231,6 @@ namespace OfflineServer.Data.Settings
 
                 private String achievementTreasureHunt;
                 private String achievementJumpDistance;
-                private String levelUpXPLeft;
                 private String levelToolTip;
                 private String cashToolTip;
                 private String boostToolTip;
@@ -261,23 +270,6 @@ namespace OfflineServer.Data.Settings
                         {
                             achievementJumpDistance = value;
                             RaisePropertyChangedEvent("AchievementJumpDistance");
-                        }
-                    }
-                }
-                public String LevelUpXPLeft
-                {
-                    get
-                    {
-                        if (activePersonaProxy != null)
-                            return String.Format(levelUpXPLeft, "CALCULATE FROM LEVEL REPS");
-                        return String.Empty;
-                    }
-                    set
-                    {
-                        if (levelUpXPLeft != value)
-                        {
-                            levelUpXPLeft = value;
-                            RaisePropertyChangedEvent("LevelUpXPLeft");
                         }
                     }
                 }
