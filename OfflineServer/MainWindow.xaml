@@ -116,7 +116,7 @@
                         <Canvas>
                             <Controls:FlipView Name="FlipViewPersonaImage" LeftTransition="LeftReplace" RightTransition="RightReplace" Margin="-4,0,0,0" Loaded="FlipViewPersonaImage_Loaded"
                             	MouseEnter="FlipViewPersonaImage_MouseEnter" MouseLeave="FlipViewPersonaImage_MouseLeave" CircularNavigation="True" IsNavigationEnabled="True"
-                                HorizontalAlignment="Left" Width="126" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
+                                HorizontalAlignment="Left" Width="128" Height="128" VerticalAlignment="Top" MouseOverGlowEnabled="False" Background="#FF303030" IsBannerEnabled="False" />
                             <StackPanel Orientation="Vertical" Width="48" Canvas.Left="9" Canvas.Top="134">
                                 <StackPanel.ToolTip>
                                     <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.GarageToolTip}"/>
@@ -206,6 +206,15 @@
                                 ToolTip="{Binding dataAccess.appSettings.uiSettings.language.RemoveCar}" TextOptions.TextFormattingMode="Display"/>
                     </Canvas>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=listCar, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="ScrollViewer.IsEnabled" Value="false"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ScrollViewer.Style>
                         <ScrollViewer.Template>
                             <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                 <Grid x:Name="Grid" Background="{TemplateBinding Background}">

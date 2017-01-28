@@ -51,7 +51,11 @@ namespace OfflineServer.Servers.Http.Classes
                 return "";
             }
 
-            return Access.CurrentSession.PersonaList.First(p => p.Id == Int32.Parse(splittedPath[3])).SelectedCar.getCarEntry().ToString();
+            Persona ownerPersona = Access.CurrentSession.PersonaList.First(p => p.Id == Int32.Parse(splittedPath[3]));
+            if (ownerPersona.SelectedCar != null)
+                return ownerPersona.SelectedCar.getCarEntry().ToString();
+
+            return "";
         }
     }
 }

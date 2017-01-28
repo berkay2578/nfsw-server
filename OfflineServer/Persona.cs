@@ -40,9 +40,6 @@ namespace OfflineServer
         public Int32 rating;
         private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
-        //UI
-        private Car selectedCar;
-
         public Int32 Id
         {
             get { return id; }
@@ -236,7 +233,10 @@ namespace OfflineServer
         {
             get
             {
-                return cars[currentCarIndex];
+                if (currentCarIndex != -1)
+                    return cars[currentCarIndex];
+
+                return null;
             }
         }
         public ObservableCollection<Car> Cars
@@ -273,7 +273,6 @@ namespace OfflineServer
             {
                 cars.Add(new Car(car));
             }
-            selectedCar = cars[currentCarIndex];
         }
 
         /// <summary>

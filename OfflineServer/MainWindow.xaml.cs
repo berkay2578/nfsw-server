@@ -52,20 +52,8 @@ namespace OfflineServer
             log.Info("Culture independency achieved.");
             #endregion
 
-            vCreateDb();
-
             Access = new Access();
-
-            log.Info("Starting session.");
-            Access.CurrentSession.startSession();
-
             InitializeComponent();
-            SetupComponents();
-
-            Access.addonManagerTalk = new AddonManagerTalk();
-
-            Access.mainWindow = this;
-            log.Debug("Access.mainWindow set.");
         }
 
         private void vCreateDb()
@@ -87,48 +75,33 @@ namespace OfflineServer
                     sqliteConnection.Close();
                 }
 
+                retry:
+                String personaName = this.ShowModalInputExternal("Add your first persona", "Name");
+                if (String.IsNullOrWhiteSpace(personaName))
+                    goto retry;
+
                 log.Info("Inserting filler entries.");
                 using (var session = sessionFactory.OpenSession())
                 using (var transaction = session.BeginTransaction())
                 {
+                    PersonaEntity personaEntity = new PersonaEntity();
+                    personaEntity.boost = 0;
+                    personaEntity.cash = 250000;
+                    personaEntity.currentCarIndex = -1;
+                    personaEntity.iconIndex = 0;
+                    personaEntity.level = 1;
+                    personaEntity.name = personaName;
+                    personaEntity.percentageOfLevelCompletion = 0;
+                    personaEntity.rating = 0;
+                    personaEntity.reputationInLevel = 0;
+                    personaEntity.reputationInTotal = 0;
+                    personaEntity.score = 0;
+                    session.Save(personaEntity);
+
                     UserEntity userEntity = new UserEntity();
                     userEntity.defaultPersonaIdx = 0;
-
-                    for (int i = 0; i <= 20; i++)
-                    {
-                        PersonaEntity personaEntity = new PersonaEntity();
-                        personaEntity.boost = 7331;
-                        personaEntity.cash = 1337;
-                        personaEntity.currentCarIndex = 0;
-                        personaEntity.iconIndex = 27;
-                        personaEntity.level = 60;
-                        personaEntity.motto = "test";
-                        personaEntity.name = "DEBUG Id" + (i + 100);
-                        personaEntity.percentageOfLevelCompletion = 100;
-                        personaEntity.rating = 8752;
-                        personaEntity.reputationInLevel = 9999;
-                        personaEntity.reputationInTotal = 99999999;
-                        personaEntity.score = 2578;
-
-                        CarEntity carEntity = new CarEntity();
-                        carEntity.baseCarId = 1816139026L;
-                        carEntity.durability = 100;
-                        carEntity.heatLevel = 6;
-                        carEntity.carId = 1;
-                        carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
-                        carEntity.performanceParts = new List<PerformancePartTrans>().SerializeObject();
-                        carEntity.physicsProfileHash = 4123572107L;
-                        carEntity.raceClass = CarClass.A;
-                        carEntity.rating = 750;
-                        carEntity.resalePrice = 123456789;
-                        carEntity.skillModParts = new List<SkillModPartTrans>().SerializeObject();
-                        carEntity.vinyls = new List<CustomVinylTrans>().SerializeObject();
-                        carEntity.visualParts = new List<VisualPartTrans>().SerializeObject();
-
-                        personaEntity.addCar(carEntity);
-                        session.Save(personaEntity);
-                    }
                     session.Save(userEntity);
+
                     transaction.Commit();
                     log.Info("Database actions finalized.");
                 }
@@ -147,7 +120,7 @@ namespace OfflineServer
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Stretch = Stretch.UniformToFill,
-                    RenderSize = new Size(126, 128),
+                    RenderSize = new Size(128, 128),
                     Source = BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand)
                 };
 
@@ -283,8 +256,11 @@ namespace OfflineServer
 
         private void tRandomPersonaInfo_Tick(object sender, EventArgs e)
         {
-            DockPanel dNewInfoContent = Access.CurrentSession.Engine.Achievements.generateNewAchievement();
-            metrotileRandomPersonaInfo.Content = dNewInfoContent;
+            if (Access.CurrentSession != null)
+            {
+                DockPanel dNewInfoContent = Access.CurrentSession.Engine.Achievements.generateNewAchievement();
+                metrotileRandomPersonaInfo.Content = dNewInfoContent;
+            }
         }
 
         private async void button_ClickHandler(object sender, RoutedEventArgs e)
@@ -618,10 +594,23 @@ namespace OfflineServer
         }
         #endregion
 
-        #region Theme error proofing
+        #region Loaded events
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            vCreateDb();
+
+            log.Info("Starting session.");
+            Access.CurrentSession.startSession();
+
+            log.Info("Forcing new style.");
             Access.dataAccess.appSettings.uiSettings.style.applyNewStyle();
+
+            SetupComponents();
+
+            Access.mainWindow = this;
+            log.Debug("Access.mainWindow set.");
+
+            Access.addonManagerTalk = new AddonManagerTalk();
         }
         private void FlipViewPersonaImage_Loaded(object sender, RoutedEventArgs e)
         {
