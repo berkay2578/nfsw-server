@@ -692,6 +692,7 @@ namespace OfflineServer
                 Access.sXmpp.shutdown();
 
             SessionManager.getSessionFactory().Close();
+            SessionManager.getSessionFactory().Dispose();
 
             log.Info("Killing main thread.");
             Application.Current.Shutdown();

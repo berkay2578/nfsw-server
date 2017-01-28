@@ -30,6 +30,12 @@ namespace OfflineServer.Servers.Database
         }
         public static ISessionFactory createDatabase()
         {
+            if (sessionFactory != null)
+            {
+                sessionFactory.Close();
+                sessionFactory.Dispose();
+            }
+
             Action<Configuration> query = delegate(Configuration config) { new SchemaExport(config).Create(false, true); };
             sessionFactory = Fluently.Configure()
                    .Database(
