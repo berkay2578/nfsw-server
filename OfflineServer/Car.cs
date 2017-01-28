@@ -260,6 +260,8 @@ namespace OfflineServer
             }
         }
 
+        public Car() { }
+
         public Car(CarEntity car)
         {
             id = car.id;

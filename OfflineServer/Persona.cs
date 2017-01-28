@@ -226,6 +226,7 @@ namespace OfflineServer
                     PersonaManagement.persona.currentCarIndex = value;
                     PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("CurrentCarIndex");
+                    RaisePropertyChangedEvent("SelectedCar");
                 }
             }
         }

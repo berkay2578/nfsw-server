@@ -189,7 +189,7 @@ namespace OfflineServer
 
                 CarEntity carEntity = new CarEntity();
                 carEntity.baseCarId = CarDefinitions.baseCarId.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
-                carEntity.carId = Access.CurrentSession.ActivePersona.Cars.Last().CarId + 1;
+                carEntity.carId = (Access.CurrentSession.ActivePersona.Cars.LastOrDefault() ?? new Car() { CarId = 0 }).CarId + 1;
                 carEntity.durability = 100;
                 carEntity.heatLevel = 1;
                 carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
@@ -203,6 +203,7 @@ namespace OfflineServer
                 carEntity.visualParts = new List<VisualPartTrans>().SerializeObject();
                 PersonaManagement.addCar(carEntity);
                 DialogManager.HideMetroDialogAsync(this, carDialog);
+                selectButton.IsEnabled = true;
             };
 
             Button cancelButton = new Button();
@@ -312,8 +313,8 @@ namespace OfflineServer
                         Int32 selectedItemIndex = listCar.SelectedIndex;
                         if (selectedItemIndex != -1)
                         {
+                            listCar.SelectedIndex = Math.Min(selectedItemIndex - 1, listCar.Items.Count - 1);
                             PersonaManagement.removeCar((Car)listCar.Items[selectedItemIndex]);
-                            listCar.SelectedIndex = Math.Min(selectedItemIndex, listCar.Items.Count - 1);
                         }
                         else
                         {
