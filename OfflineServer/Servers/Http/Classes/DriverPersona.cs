@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace OfflineServer.Servers.Http.Classes
 {
@@ -23,7 +24,7 @@ namespace OfflineServer.Servers.Http.Classes
             {
                 PersonaEntity personaEntity = new PersonaEntity();
                 personaEntity.boost = 0;
-                personaEntity.cash = 200000;
+                personaEntity.cash = 250000;
                 personaEntity.iconIndex = iconIndex;
                 personaEntity.level = 1;
                 personaEntity.motto = "";
@@ -35,15 +36,14 @@ namespace OfflineServer.Servers.Http.Classes
                 personaEntity.score = 0;
                 session.Save(personaEntity);
 
-                respondProfileData.cash = 200000;
+                respondProfileData.cash = 250000;
                 respondProfileData.iconIndex = iconIndex;
                 respondProfileData.level = 1;
                 respondProfileData.name = name;
                 respondProfileData.personaId = personaEntity.id;
 
                 Access.CurrentSession.PersonaList.Add(new Persona(personaEntity));
-                Int32 newDefaultPersonaIdx = Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.
-                    First<Persona>(sPersona => sPersona.Id == personaEntity.id));
+                Int32 newDefaultPersonaIdx = Access.CurrentSession.PersonaList.Count - 1;
 
                 UserEntity userEntity = session.CreateCriteria(typeof(UserEntity)).List<UserEntity>().First();
                 userEntity.defaultPersonaIdx = newDefaultPersonaIdx;
@@ -63,11 +63,12 @@ namespace OfflineServer.Servers.Http.Classes
             {
                 PersonaEntity personaEntity = session.Load<PersonaEntity>(personaId);
                 session.Delete(personaEntity);
+
+                Access.CurrentSession.PersonaList.RemoveAt(Access.CurrentSession.PersonaList.IndexOf(
+                    Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == personaId)));
+
                 transaction.Commit();
             }
-
-            Access.CurrentSession.PersonaList.RemoveAt(Access.CurrentSession.PersonaList.IndexOf(Access.CurrentSession.PersonaList.
-                First<Persona>(sPersona => sPersona.Id == personaId)));
 
             return "<long>0</long>";
         }

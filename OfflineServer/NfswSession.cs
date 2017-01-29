@@ -6,6 +6,7 @@ namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
+        private object threadSafeDummy = new object();
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();
@@ -46,6 +47,8 @@ namespace OfflineServer
         public void startSession()
         {
             PersonaList = Persona.getCurrentPersonaList();
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(PersonaList, threadSafeDummy);
+
             ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
 
             log.Info("Session started.");
