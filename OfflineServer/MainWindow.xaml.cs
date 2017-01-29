@@ -44,9 +44,13 @@ namespace OfflineServer
             log.Debug("MawinWindow loading...");
 
             #region Culture Independency
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
-            XmlLanguage xMarkup = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name);
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+
+            XmlLanguage xMarkup = XmlLanguage.GetLanguage(CultureInfo.InvariantCulture.Name);
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(xMarkup));
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(xMarkup));
             log.Info("Culture independency achieved.");
