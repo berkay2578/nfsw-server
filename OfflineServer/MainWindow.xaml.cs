@@ -334,7 +334,6 @@ namespace OfflineServer
                         Int32 selectedItemIndex = listCar.SelectedIndex;
                         if (selectedItemIndex != -1)
                         {
-                            listCar.SelectedIndex = Math.Min(selectedItemIndex - 1, listCar.Items.Count - 1);
                             PersonaManagement.removeCar((Car)listCar.Items[selectedItemIndex]);
                         }
                         else

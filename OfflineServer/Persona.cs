@@ -3,7 +3,6 @@ using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml.Linq;
@@ -15,15 +14,7 @@ namespace OfflineServer
     /// </summary>
     public class Persona : ObservableObject
     {
-        /// <summary>
-        /// For future use.
-        /// </summary>
-        public enum PersonaType
-        {
-            Basic = 0,
-            Detailed = 1,
-            Debug = 2
-        }
+        private static object threadSafeDummy = new object();
 
         private Int32 id;
         private Int16 iconIndex;
@@ -274,6 +265,7 @@ namespace OfflineServer
             {
                 cars.Add(new Car(car));
             }
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(Cars, threadSafeDummy);
         }
 
         /// <summary>
@@ -297,14 +289,14 @@ namespace OfflineServer
         /// Reads the registered personas from a fixed-string database file.
         /// </summary>
         /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
-        /// <returns>An initialized "List<Persona>" containing the database entries for the personas.</returns>
+        /// <returns>An initialized <see cref="ObservableCollection{Persona}"/> containing the database entries for the personas.</returns>
         public static ObservableCollection<Persona> getCurrentPersonaList()
         {
             ObservableCollection<Persona> listPersonas = new ObservableCollection<Persona>();
 
             using (var session = SessionManager.getSessionFactory().OpenSession())
             {
-                IList<PersonaEntity> personas = session.CreateCriteria(typeof(PersonaEntity)).List<PersonaEntity>();
+                var personas = session.QueryOver<PersonaEntity>().OrderBy(p => p.id).Asc.List();
                 foreach (PersonaEntity persona in personas)
                     listPersonas.Add(new Persona(persona));
             }

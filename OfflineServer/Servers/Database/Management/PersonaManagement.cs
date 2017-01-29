@@ -1,5 +1,6 @@
 ﻿using NHibernate;
 using OfflineServer.Servers.Database.Entities;
+using System;
 
 namespace OfflineServer.Servers.Database.Management
 {
@@ -49,6 +50,7 @@ namespace OfflineServer.Servers.Database.Management
                 transaction.Commit();
 
                 Access.CurrentSession.ActivePersona.Cars.Add(new Car(carEntity));
+                Access.CurrentSession.ActivePersona.CurrentCarIndex = Access.CurrentSession.ActivePersona.Cars.Count - 1;
             }
         }
 
@@ -63,7 +65,9 @@ namespace OfflineServer.Servers.Database.Management
                 session.Delete(carEntity);
                 transaction.Commit();
 
+                Int32 newIndex = Math.Max(0, Access.CurrentSession.ActivePersona.Cars.IndexOf(car) - 1);
                 Access.CurrentSession.ActivePersona.Cars.Remove(car);
+                Access.CurrentSession.ActivePersona.CurrentCarIndex = newIndex;
             }
         }
 

@@ -25,6 +25,7 @@ namespace OfflineServer.Servers.Http.Classes
                 PersonaEntity personaEntity = new PersonaEntity();
                 personaEntity.boost = 0;
                 personaEntity.cash = 250000;
+                personaEntity.currentCarIndex = -1;
                 personaEntity.iconIndex = iconIndex;
                 personaEntity.level = 1;
                 personaEntity.motto = "";
