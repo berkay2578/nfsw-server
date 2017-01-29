@@ -135,13 +135,16 @@ namespace OfflineServer
             Image[] aFlipViewAvatarArray = new Image[28];
             for (int i = 0; i < 28; i++)
             {
+                ImageSource source = BitmapFrame.Create(
+                    new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute),
+                    BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
+                source.Freeze();
+
                 Image avatarImage = new Image()
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Stretch = Stretch.UniformToFill,
-                    RenderSize = new Size(128, 128),
-                    Source = BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Avatars/Avatar_" + i.ToString() + ".png", UriKind.Absolute), BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand)
+                    Source = source
                 };
 
                 aFlipViewAvatarArray[i] = avatarImage;
