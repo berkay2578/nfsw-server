@@ -5,7 +5,7 @@ namespace OfflineServer.Servers.Database.Management
 {
     public static class PersonaManagement
     {
-        private static ISession session;
+        internal static ISession session;
         static PersonaManagement()
         {
             session = SessionManager.getSessionFactory().OpenSession();

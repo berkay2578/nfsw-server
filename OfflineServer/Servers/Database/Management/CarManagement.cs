@@ -5,7 +5,7 @@ namespace OfflineServer.Servers.Database.Management
 {
     public static class CarManagement
     {
-        private static ISession session;
+        internal static ISession session;
         static CarManagement()
         {
             session = SessionManager.getSessionFactory().OpenSession();

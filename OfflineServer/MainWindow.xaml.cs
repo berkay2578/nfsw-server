@@ -673,6 +673,13 @@ namespace OfflineServer
         {
             log.Info("Shutting down offline server.");
 
+            #region Servers
+            log.DebugFormat("Server status:\r\nHttpServer: {0}\r\nXmppServer: {1}\r\nAddonManagerTalk: {2}",
+                Access.sHttp == null ? "Closed" : Access.sHttp.nServer.State.ToString(),
+                Access.sXmpp == null ? "Closed" : "Running",
+                AddonManagerTalk.isAddonManagerRunning ? "Running" : "Closed");
+
+            log.Info("Clearing up server connections.");
             if (AddonManagerTalk.isAddonManagerRunning && !AddonManagerTalk.isWaitingForClient)
             {
                 log.Info("Closing existing AddonManager IPC Talk.");
@@ -682,6 +689,7 @@ namespace OfflineServer
 
             if (Access.sHttp != null)
             {
+                log.Info("Closing HtppServer.");
                 // https://github.com/foxglovesec/Potato/blob/master/source/NHttp/NHttp/HttpServer.cs#L261
                 Access.sHttp.nServer.Stop();
                 Access.sHttp.nServer.Dispose();
@@ -689,10 +697,23 @@ namespace OfflineServer
             }
 
             if (Access.sXmpp != null)
+            {
+                log.Info("Closing XmppServer.");
                 Access.sXmpp.shutdown();
+            }
+            #endregion
+
+            #region DB Connections
+            log.Info("Clearing up DB connections.");
+
+            PersonaManagement.session.Close();
+            PersonaManagement.session.Dispose();
+
+            CarManagement.session.Close();
+            CarManagement.session.Dispose();
 
             SessionManager.getSessionFactory().Close();
-            SessionManager.getSessionFactory().Dispose();
+            #endregion
 
             log.Info("Killing main thread.");
             Application.Current.Shutdown();

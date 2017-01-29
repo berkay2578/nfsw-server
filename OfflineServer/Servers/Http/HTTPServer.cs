@@ -32,7 +32,7 @@ namespace OfflineServer.Servers.Http
             nServer.RequestReceived += nServer_RequestReceived;
             nServer.Start();
             port = nServer.EndPoint.Port;
-            log.Info(String.Format("Successfully setup HttpServer on port {0}.", port));
+            log.InfoFormat("Successfully setup HttpServer on port {0}.", port);
         }
 
         private void nServer_RequestReceived(object sender, HttpRequestEventArgs e)
@@ -42,7 +42,7 @@ namespace OfflineServer.Servers.Http
             e.Response.Headers.Add("Content-Type", "application/xml;charset=utf-8");
             e.Response.Headers.Add("Status-Code", "200");
 
-            log.Info(String.Format("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl));
+            log.InfoFormat("Received Http-{0} request from {1}.", e.Request.HttpMethod, e.Request.RawUrl);
 
             Byte[] baResponseArray = null;
             List<String> splittedPath = new List<String>(e.Request.Path.Split('/'));
@@ -65,20 +65,20 @@ namespace OfflineServer.Servers.Http
                     Type targetClass = Type.GetType("OfflineServer.Servers.Http.Classes." + targetClassString);
                     MethodInfo targetMethod = targetClass.GetMethod(targetMethodString);
                     request = e.Request;
-                    log.Info(String.Format("Processing OfflineServer.HttpServer.Classes.{0}.{1}().", targetClassString, targetMethodString));
+                    log.InfoFormat("Processing OfflineServer.HttpServer.Classes.{0}.{1}().", targetClassString, targetMethodString);
                     baResponseArray = getResponseData((string)targetMethod.Invoke(null, null));
                 }
                 else
                 {
-                    log.Warn(String.Format("Method for {0} wasn't found, using fallback XML method.", targetMethodString));
+                    log.WarnFormat("Method for {0} wasn't found, using fallback XML method.", targetMethodString);
                     if (File.Exists(ioPath))
                     {
-                        log.Info(String.Format("Reading XML file {0}.", ioPath));
+                        log.InfoFormat("Reading XML file {0}.", ioPath);
                         baResponseArray = getResponseData(File.ReadAllText(ioPath, Encoding.UTF8));
                     }
                     else
                     {
-                        log.Warn(String.Format("File {0} wasn't found, sending only 200OK.", ioPath));
+                        log.WarnFormat("File {0} wasn't found, sending only 200OK.", ioPath);
                     }
                 }
             }
@@ -86,12 +86,12 @@ namespace OfflineServer.Servers.Http
             {
                 if (File.Exists(ioPath))
                 {
-                    log.Info(String.Format("Reading XML file {0}.", ioPath));
+                    log.InfoFormat("Reading XML file {0}.", ioPath);
                     baResponseArray = getResponseData(File.ReadAllText(ioPath, Encoding.UTF8));
                 }
                 else
                 {
-                    log.Warn(String.Format("File {0} wasn't found, sending only 200OK.", ioPath));
+                    log.WarnFormat("File {0} wasn't found, sending only 200OK.", ioPath);
                 }
             }
 
@@ -108,6 +108,7 @@ namespace OfflineServer.Servers.Http
 
         private Byte[] getResponseData(String responseText)
         {
+            log.DebugFormat("responseText: {0}", responseText);
             using (MemoryStream msResponse = new MemoryStream())
             {
                 Byte[] baAnswerData = Encoding.UTF8.GetBytes(responseText);
