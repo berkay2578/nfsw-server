@@ -248,7 +248,6 @@
                                 <Label Margin="0,5,0,0" Content="Visual Parts:"/>
                                 <Label Margin="0,5,0,0" Content="Durability:"/>
                                 <Label Margin="0,5,0,0" Content="Heat Level:"/>
-                                <Label Margin="0,5,0,0" Content="Car Id:"/>
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="136" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
                                 <StackPanel.Resources>
@@ -280,7 +279,6 @@
                                 <Button Name="buttonVisualParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="0" Maximum="100" Value="{Binding Durability, Delay=1000}" StringFormat="{}{0}%" TextAlignment="Left" Interval="5" IsTabStop="False"/>
                                 <Controls:NumericUpDown Margin="0,5,0,0" Minimum="1" Maximum="7" Value="{Binding HeatLevel, Delay=1000}" TextAlignment="Left" Interval="5" IsTabStop="False"/>
-                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Car Id" Text="{Binding CarId, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>

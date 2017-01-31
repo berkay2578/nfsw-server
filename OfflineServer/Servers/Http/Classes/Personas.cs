@@ -1,4 +1,6 @@
-﻿using OfflineServer.Servers.Http.Responses;
+﻿using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.Http.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,48 @@ namespace OfflineServer.Servers.Http.Classes
 {
     public static class Personas
     {
+        public static String baskets()
+        {
+            BasketTrans basketTrans = Access.sHttp.getPostData().DeserializeObject<BasketTrans>();
+            CommerceResultTrans commerceResultTrans = new CommerceResultTrans();
+            List<OwnedCarTrans> purchasedCars = new List<OwnedCarTrans>();
+
+            foreach (BasketItemTrans item in basketTrans.basketItems)
+            {
+                for (int i = 0; i < item.quantity; i++)
+                {
+                    OwnedCarTrans purchasedCar = Catalog.getBasketDefinition<OwnedCarTrans>(item.productId);
+                    if (purchasedCar == default(OwnedCarTrans))
+                        continue;
+
+                    CarEntity carEntity = new CarEntity();
+                    carEntity.baseCarId = purchasedCar.customCar.baseCarId;
+                    carEntity.durability = purchasedCar.durability;
+                    carEntity.heatLevel = purchasedCar.heatLevel;
+                    carEntity.paints = purchasedCar.customCar.paints.SerializeObject();
+                    carEntity.performanceParts = purchasedCar.customCar.performanceParts.SerializeObject();
+                    carEntity.physicsProfileHash = purchasedCar.customCar.physicsProfileHash;
+                    carEntity.raceClass = purchasedCar.customCar.carClass;
+                    carEntity.rating = purchasedCar.customCar.rating;
+                    carEntity.resalePrice = purchasedCar.customCar.resalePrice;
+                    carEntity.skillModParts = purchasedCar.customCar.skillModParts.SerializeObject();
+                    carEntity.vinyls = purchasedCar.customCar.vinyls.SerializeObject();
+                    carEntity.visualParts = purchasedCar.customCar.visualParts.SerializeObject();
+
+                    carEntity = PersonaManagement.addCar(carEntity);
+                    purchasedCar.id = carEntity.id;
+                    purchasedCar.customCar.id = carEntity.id;
+
+                    purchasedCars.Add(purchasedCar);
+                }
+            }
+
+            commerceResultTrans.commerceItems = new List<CommerceItemTrans>();
+            commerceResultTrans.inventoryItems = new List<InventoryItemTrans>() { new InventoryItemTrans() };
+            commerceResultTrans.purchasedCars = purchasedCars;
+            return commerceResultTrans.SerializeObject();
+        }
+
         public static String carslots()
         {
             return Access.CurrentSession.ActivePersona.getCompleteGarage();
@@ -46,7 +90,7 @@ namespace OfflineServer.Servers.Http.Classes
                 Int32 newCarId = Int32.Parse(splittedPath[5]);
                 Access.CurrentSession.ActivePersona.CurrentCarIndex =
                     Access.CurrentSession.ActivePersona.Cars.IndexOf(
-                        Access.CurrentSession.ActivePersona.Cars.First(c => c.Id == newCarId || c.CarId == newCarId));
+                        Access.CurrentSession.ActivePersona.Cars.First(c => c.Id == newCarId));
 
                 return "";
             }

@@ -38,7 +38,7 @@ namespace OfflineServer.Servers.Database.Management
             }
         }
 
-        public static void addCar(CarEntity carEntity)
+        public static CarEntity addCar(CarEntity carEntity)
         {
             using (ITransaction transaction = session.BeginTransaction())
             {
@@ -51,6 +51,8 @@ namespace OfflineServer.Servers.Database.Management
 
                 Access.CurrentSession.ActivePersona.Cars.Add(new Car(carEntity));
                 Access.CurrentSession.ActivePersona.CurrentCarIndex = Access.CurrentSession.ActivePersona.Cars.Count - 1;
+
+                return carEntity;
             }
         }
 

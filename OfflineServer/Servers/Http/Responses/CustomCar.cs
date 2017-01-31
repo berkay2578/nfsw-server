@@ -12,15 +12,15 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("BaseCar")]
         public Int64 baseCarId;
         [XmlElement("CarClassHash")]
-        public Int32 carClassHash;
+        public CarClass carClass;
+        [XmlElement("Id")]
+        public Int64 id;
         [XmlElement("IsPreset")]
         public Boolean isPreset;
         [XmlElement("Level")]
         public Int32 level;
         [XmlElement("Name")]
         public String name;
-        [XmlElement("Id")]
-        public Int64 id;
         [XmlArray("Paints")]
         [XmlArrayItem("CustomPaintTrans")]
         public List<CustomPaintTrans> paints;
@@ -31,6 +31,8 @@ namespace OfflineServer.Servers.Http.Responses
         public Int64 physicsProfileHash;
         [XmlElement("Rating")]
         public Int32 rating;
+        [XmlElement("RideHeightDrop")]
+        public Int32 rideHeightDrop = 0;
         [XmlElement("ResalePrice")]
         public Int32 resalePrice;
         [XmlArray("SkillModParts")]
@@ -38,6 +40,8 @@ namespace OfflineServer.Servers.Http.Responses
         public List<SkillModPartTrans> skillModParts;
         [XmlElement("SkillModSlotCount")]
         public Int16 skillModSlotCount;
+        [XmlElement("Version")]
+        public Int32 version = 0;
         [XmlArray("Vinyls")]
         [XmlArrayItem("CustomVinylTrans")]
         public List<CustomVinylTrans> vinyls;
@@ -49,7 +53,7 @@ namespace OfflineServer.Servers.Http.Responses
         {
             CustomCar customCar = new CustomCar();
             customCar.baseCarId = carEntity.baseCarId;
-            customCar.carClassHash = (Int32)carEntity.raceClass;
+            customCar.carClass = carEntity.raceClass;
             customCar.id = carEntity.id;
             customCar.isPreset = false;
             customCar.level = 0;

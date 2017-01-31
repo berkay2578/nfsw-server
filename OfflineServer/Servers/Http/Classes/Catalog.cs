@@ -34,8 +34,17 @@ namespace OfflineServer.Servers.Http.Classes
             String targetLocalFile = Path.Combine(DataEx.dir_CurrentHttpServerProducts, targetProductName + ".xml");
             if (File.Exists(targetLocalFile))
                 return File.ReadAllText(targetLocalFile, Encoding.UTF8);
-            
+
             return "<ArrayOfProductTrans/>";
+        }
+
+        public static T getBasketDefinition<T>(String productId)
+        {
+            String targetLocalFile = Path.Combine(DataEx.dir_CurrentHttpServerBaskets, productId + ".xml");
+            if (File.Exists(targetLocalFile))
+                return File.ReadAllText(targetLocalFile, Encoding.UTF8).DeserializeObject<T>();
+
+            return default(T);
         }
     }
 }

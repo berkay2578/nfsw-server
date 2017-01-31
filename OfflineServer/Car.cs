@@ -5,16 +5,24 @@ using OfflineServer.Servers.Http.Responses;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace OfflineServer
 {
+    [Serializable()]
     public enum CarClass
     {
+        [XmlEnum("872416321")]
         E = 872416321,
+        [XmlEnum("415909161")]
         D = 415909161,
+        [XmlEnum("1866825865")]
         C = 1866825865,
+        [XmlEnum("-406473455")]
         B = -406473455,
+        [XmlEnum("-405837480")]
         A = -405837480,
+        [XmlEnum("-2142411446")]
         S = -2142411446
     }
 
@@ -32,9 +40,8 @@ namespace OfflineServer
         private XElement vinyls;
         private XElement visualParts;
         private Int16 durability;
-        private DateTime expirationDate;
+        private String expirationDate;
         private Int16 heatLevel;
-        private Int64 carId;
         private Int32 personaId;
         public String MakeModel { get { return CarDefinitions.defineFromPhysicsProfileHash(PhysicsProfileHash, true); } }
         public String MakeModelDetailed { get { return CarDefinitions.defineFromBaseCarId(BaseCarId); } }
@@ -207,7 +214,7 @@ namespace OfflineServer
                 }
             }
         }
-        public DateTime ExpirationDate
+        public String ExpirationDate
         {
             get { return expirationDate; }
             set
@@ -232,18 +239,6 @@ namespace OfflineServer
                     CarManagement.car.heatLevel = value;
                     CarManagement.car.update();
                     RaisePropertyChangedEvent("HeatLevel");
-                }
-            }
-        }
-        public Int64 CarId
-        {
-            get { return carId; }
-            set
-            {
-                if (carId != value)
-                {
-                    carId = value;
-                    RaisePropertyChangedEvent("CarId");
                 }
             }
         }
@@ -278,7 +273,6 @@ namespace OfflineServer
             durability = car.durability;
             expirationDate = car.expirationDate;
             heatLevel = car.heatLevel;
-            carId = car.carId;
             personaId = car.ownerPersona.id;
         }
 
@@ -294,7 +288,7 @@ namespace OfflineServer
                         new CustomCar()
                         {
                             baseCarId = BaseCarId,
-                            carClassHash = (Int32)RaceClass,
+                            carClass = RaceClass,
                             id = Id,
                             paints = Paints.ToString().DeserializeObject<List<CustomPaintTrans>>(),
                             performanceParts = PerformanceParts.ToString().DeserializeObject<List<PerformancePartTrans>>(),
@@ -307,12 +301,9 @@ namespace OfflineServer
                         }.SerializeObject()
                     ),
                     new XElement("Durability", Durability),
-                    (ExpirationDate == new DateTime(1, 1, 1) ?
-                        new XElement("ExpirationDate", null) :
-                        new XElement("ExpirationDate", ExpirationDate.ToString("o"))
-                    ),
+                    new XElement("ExpirationDate", null),
                     new XElement("Heat", HeatLevel),
-                    new XElement("Id", CarId),
+                    new XElement("Id", Id),
                     new XElement("OwnershipType", "CustomizedCar")
                 );
 

@@ -210,7 +210,6 @@ namespace OfflineServer
 
                 CarEntity carEntity = new CarEntity();
                 carEntity.baseCarId = CarDefinitions.baseCarId.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
-                carEntity.carId = (Access.CurrentSession.ActivePersona.Cars.LastOrDefault() ?? new Car() { CarId = 0 }).CarId + 1;
                 carEntity.durability = 100;
                 carEntity.heatLevel = 1;
                 carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
@@ -326,7 +325,9 @@ namespace OfflineServer
                     flyoutGaragePartInfo.IsOpen = !flyoutGaragePartInfo.IsOpen;
                     break;
                 case "buttonAddCar":
+                    buttonAddCar.IsEnabled = false;
                     await this.ShowMetroDialogAsync(carDialog, new MetroDialogSettings() { AnimateHide = true, AnimateShow = true });
+                    buttonAddCar.IsEnabled = true;
                     break;
                 case "buttonRemoveCar":
                     if (listCar.Items.Count > 1)

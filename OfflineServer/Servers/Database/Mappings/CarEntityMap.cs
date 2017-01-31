@@ -24,7 +24,6 @@ namespace OfflineServer.Servers.Database.Mappings
             Map(c => c.expirationDate)
                 .Nullable();
             Map(c => c.heatLevel);
-            Map(c => c.carId);
             References(c => c.ownerPersona)
                 .Cascade.None();
         }

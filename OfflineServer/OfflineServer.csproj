@@ -214,7 +214,10 @@
     <Compile Include="Servers\Http\Classes\User.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfPersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfUdpRelayInfo.cs" />
+    <Compile Include="Servers\Http\Responses\CommerceItemTrans.cs" />
+    <Compile Include="Servers\Http\Responses\CommerceResultTrans.cs" />
     <Compile Include="Servers\Http\Responses\InventoryItemTrans.cs" />
+    <Compile Include="Servers\Http\Responses\OwnedCarTrans.cs" />
     <Compile Include="Servers\Http\Responses\PerformancePartTrans.cs" />
     <Compile Include="Servers\Http\Responses\SkillModPartTrans.cs" />
     <Compile Include="Servers\Http\Responses\VisualPartTrans.cs" />
