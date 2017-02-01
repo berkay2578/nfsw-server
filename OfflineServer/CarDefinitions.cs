@@ -498,6 +498,7 @@ namespace OfflineServer
         {
             {461323600, "ALFA ROMEO 8C COMPETIZIONE"},
             {40376, "ASTON MARTIN DBS"},
+            {-927255791, "ASTON MARTIN DBS VOLANTE"},
             {1153363998, "ASTON MARTIN VANTAGE V12"},
             {56149, "AUDI A1 CLUBSPORT QUATTRO CONCEPT"},
             {-691868261, "AUDI A3 3.2 QUATTRO"},
@@ -676,15 +677,19 @@ namespace OfflineServer
             {
                 carMakeModel = physicsProfileHash.ToString() + " [NO DEF]";
                 if (checkForReversedPhysicsProfileHash)
+                {
                     if (!physicsProfileHashReversed.TryGetValue(physicsProfileHash, out carMakeModel))
                     {
                         carMakeModel = physicsProfileHash.ToString() + " [NO DEF]";
                         if (checkForBaseCarId)
+                        {
                             if (!CarDefinitions.baseCarId.TryGetValue(baseCarId, out carMakeModel))
                             {
                                 carMakeModel = physicsProfileHash.ToString() + " [NO DEF]";
                             }
+                        }
                     }
+                }
             }
             return carMakeModel;
         }
@@ -697,7 +702,8 @@ namespace OfflineServer
         public static String defineFromBaseCarId(Int64 baseCarId)
         {
             String carMakeModel;
-            if (!CarDefinitions.baseCarId.TryGetValue(baseCarId, out carMakeModel)) carMakeModel = Access.dataAccess.appSettings.uiSettings.language.NoBaseCarIdDefinition;
+            if (!CarDefinitions.baseCarId.TryGetValue(baseCarId, out carMakeModel))
+                carMakeModel = Access.dataAccess.appSettings.uiSettings.language.NoBaseCarIdDefinition;
             return carMakeModel;
         }
     }
