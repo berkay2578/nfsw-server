@@ -16,6 +16,7 @@ namespace OfflineServer.Servers.Http
         private List<String> supportedMethods = new List<string>() {
             /* Catalog */ "categories", "productsInCategory",
             /* DriverPersona */ "createPersona", "deletePersona", "getExpLevelPointsMap", "getPersonaInfo", "getPersonaBaseFromList", "reserveName", "updateStatusMessage",
+            /* Matchmaking */ "launchevent",
             /* Personas */ "baskets", "carslots", "commerce", "defaultcar",
             /* Powerups */ "activated", "getrebroadcasters", "getregioninfo", "loginAnnouncements",
             /* Root */ "carclasses", "systeminfo",

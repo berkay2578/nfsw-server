@@ -204,6 +204,7 @@
     <Compile Include="Servers\Database\SessionManager.cs" />
     <Compile Include="Servers\Http\Classes\Catalog.cs" />
     <Compile Include="Servers\Http\Classes\DriverPersona.cs" />
+    <Compile Include="Servers\Http\Classes\Matchmaking.cs" />
     <Compile Include="Servers\Http\Classes\Personas.cs" />
     <Compile Include="Servers\Http\Classes\Powerups.cs" />
     <Compile Include="Servers\Http\Classes\Root.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Servers\Http\Responses\InventoryItemTrans.cs" />
     <Compile Include="Servers\Http\Responses\OwnedCarTrans.cs" />
     <Compile Include="Servers\Http\Responses\PerformancePartTrans.cs" />
+    <Compile Include="Servers\Http\Responses\SecurityChallenge.cs" />
     <Compile Include="Servers\Http\Responses\SkillModPartTrans.cs" />
     <Compile Include="Servers\Http\Responses\VisualPartTrans.cs" />
     <Compile Include="Servers\Http\Responses\CustomPaintTrans.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Servers\Http\Responses\User.cs" />
     <Compile Include="Servers\Http\Responses\UserInfo.cs" />
     <Compile Include="Servers\Http\Responses\Wallets.cs" />
+    <Compile Include="Servers\Http\Responses\SessionInfo.cs" />
     <Compile Include="Servers\Http\Responses\WalletTrans.cs" />
     <Compile Include="Servers\IPC\AddonManagerTalk.cs" />
     <Compile Include="Servers\IPC\IPCBase.cs" />

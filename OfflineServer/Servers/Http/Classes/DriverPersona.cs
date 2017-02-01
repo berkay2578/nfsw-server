@@ -131,7 +131,13 @@ namespace OfflineServer.Servers.Http.Classes
 
         public static String reserveName()
         {
-            return "<ArrayOfstring></ArrayOfstring>";
+            String newPersonaName = Access.sHttp.request.Params.Get("name").ToLowerInvariant();
+            String suggestion = "";
+            Boolean exists = Access.CurrentSession.PersonaList.FirstOrDefault(p => p.Name.ToLowerInvariant() == newPersonaName) != null;
+            if (exists)
+                suggestion = newPersonaName + "1";
+
+            return "<ArrayOfstring>" + suggestion + "</ArrayOfstring>";
         }
 
         public static String updateStatusMessage()
