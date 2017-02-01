@@ -310,6 +310,18 @@ namespace OfflineServer
                 visualParts = VisualParts.ToString().DeserializeObject<List<VisualPartTrans>>()
             };
         }
+        public OwnedCarTrans getOwnedCarTrans()
+        {
+            return new OwnedCarTrans()
+            {
+                customCar = getCustomCar(),
+                durability = Durability,
+                expirationDate = ExpirationDate,
+                heatLevel = HeatLevel,
+                id = Id,
+                ownershipType = "CustomCar"
+            };
+        }
         public XElement getCarEntry()
         {
             XElement eCarEntry =

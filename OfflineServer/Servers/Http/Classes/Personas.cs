@@ -67,6 +67,25 @@ namespace OfflineServer.Servers.Http.Classes
             return commerceResultTrans.SerializeObject();
         }
 
+        public static String cars()
+        {
+            if (Access.sHttp.request.HttpMethod == "POST")
+            {
+                if (Access.CurrentSession.ActivePersona.Cars.Count > 1)
+                {
+                    Int32 carId = Int32.Parse(Access.sHttp.request.Params.Get("serialNumber"));
+                    Car curCar = Access.CurrentSession.ActivePersona.Cars.First(c => c.Id == carId);
+
+                    Economy economy = Economy.defineManually(new Economy.ProductInformation() { currency = Basket.Currency.Cash, price = curCar.ResalePrice }, 1);
+                    economy.doIncrement();
+                    PersonaManagement.removeCar(curCar);
+
+                    return Access.CurrentSession.ActivePersona.SelectedCar.getOwnedCarTrans().SerializeObject();
+                }
+            }
+            return "";
+        }
+
         public static String carslots()
         {
             return Access.CurrentSession.ActivePersona.getCompleteGarage();
