@@ -237,6 +237,7 @@
                             <StackPanel Orientation="Vertical">
                                 <Label Content="Base Car Id:"/>
                                 <Label Margin="0,5,0,0" Content="Car Class:"/>
+                                <Label Margin="0,5,0,0" Content="Name:"/>
                                 <Label Margin="0,5,0,0" Content="Id:"/>
                                 <Label Margin="0,5,0,0" Content="Paints:"/>
                                 <Label Margin="0,5,0,0" Content="Performance Parts:"/>
@@ -268,6 +269,7 @@
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, Delay=1000}"/>
                                 <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass, Delay=1000}"/>
+                                <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Name" Text="{Binding Name, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
                                 <Button Name="buttonPerformanceParts" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>

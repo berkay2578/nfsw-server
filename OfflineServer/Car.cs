@@ -277,6 +277,7 @@ namespace OfflineServer
             id = car.id;
             baseCarId = car.baseCarId;
             raceClass = car.raceClass;
+            name = car.name;
             paints = XElement.Parse(car.paints);
             performanceParts = XElement.Parse(car.performanceParts);
             physicsProfileHash = car.physicsProfileHash;
