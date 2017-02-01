@@ -1,9 +1,12 @@
-﻿using OfflineServer.Servers;
+﻿using NHibernate.Linq;
+using OfflineServer.Servers;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -286,19 +289,19 @@ namespace OfflineServer
         }
 
         /// <summary>
-        /// Reads the registered personas from a fixed-string database file.
+        /// Reads the registered personas inside the session-db.
         /// </summary>
         /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
-        /// <returns>An initialized <see cref="ObservableCollection{Persona}"/> containing the database entries for the personas.</returns>
-        public static ObservableCollection<Persona> getCurrentPersonaList()
+        /// <returns>An initialized <see cref="List{Persona}"/> containing the database entries for the personas.</returns>
+        public static List<Persona> getCurrentPersonaList()
         {
-            ObservableCollection<Persona> listPersonas = new ObservableCollection<Persona>();
+            List<Persona> listPersonas = new List<Persona>();
 
             using (var session = SessionManager.getSessionFactory().OpenSession())
             {
-                var personas = session.QueryOver<PersonaEntity>().OrderBy(p => p.id).Asc.List();
-                foreach (PersonaEntity persona in personas)
-                    listPersonas.Add(new Persona(persona));
+                List<PersonaEntity> personaEntities = session.Query<PersonaEntity>().OrderBy(p => p.id).ToList();
+                foreach (PersonaEntity personaEntity in personaEntities)
+                    listPersonas.Add(new Persona(personaEntity));
             }
 
             return listPersonas;

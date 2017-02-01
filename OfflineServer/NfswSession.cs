@@ -22,7 +22,7 @@ namespace OfflineServer
             {
                 if (activePersona != value)
                 {
-                    Engine.setDefaultPersonaIdx(personaList.IndexOf(personaList.First<Persona>(p => p.Id == value.Id)));
+                    Engine.setDefaultPersonaIdx(personaList.IndexOf(value));
                     activePersona = value;
                     RaisePropertyChangedEvent("ActivePersona");
                 }
@@ -46,7 +46,7 @@ namespace OfflineServer
 
         public void startSession()
         {
-            PersonaList = Persona.getCurrentPersonaList();
+            PersonaList = new ObservableCollection<Persona>(Persona.getCurrentPersonaList());
             System.Windows.Data.BindingOperations.EnableCollectionSynchronization(PersonaList, threadSafeDummy);
 
             ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
