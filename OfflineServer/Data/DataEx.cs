@@ -85,14 +85,14 @@ namespace OfflineServer.Data
 
                     foreach (String catalog in catalogs)
                     {
-                        XDocument xml = XDocument.Load(catalog);
-                        var catalogProducts = xml.Descendants("ProductTrans");
-                        foreach (XElement catalogProduct in catalogProducts)
+                        XDocument xDocument = XDocument.Load(Path.GetFullPath(catalog));
+                        XNamespace ns = xDocument.Root.Name.Namespace;
+                        foreach (XElement catalogProduct in xDocument.Descendants(ns + "ProductTrans"))
                         {
-                            ProductInformation productInfo = new ProductInformation();
-                            productInfo.currency = catalogProduct.Element("Currency").Value.ToLowerInvariant() == "cash" ? Currency.Cash : Currency.Boost;
-                            productInfo.price = Int32.Parse(catalogProduct.Element("Price").Value);
-                            productInformations.Add(catalogProduct.Element("ProductId").Value, productInfo);
+                            ProductInformation productInformation = new ProductInformation();
+                            productInformation.currency = catalogProduct.Element(ns + "Currency").Value.ToLowerInvariant() == "cash" ? Currency.Cash : Currency.Boost;
+                            productInformation.price = Convert.ToInt32(Math.Floor(Convert.ToDouble(catalogProduct.Element(ns + "Price").Value)));
+                            productInformations[catalogProduct.Element(ns + "ProductId").Value] = productInformation;
                         }
                     }
                 }
