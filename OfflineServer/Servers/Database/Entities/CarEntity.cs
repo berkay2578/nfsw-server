@@ -7,6 +7,7 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual Int32 id { get; protected set; }
         public virtual Int64 baseCarId { get; set; }
         public virtual CarClass raceClass { get; set; }
+        public virtual String name { get; set; }
         public virtual String paints { get; set; }
         public virtual String performanceParts { get; set; }
         public virtual Int64 physicsProfileHash { get; set; }

@@ -1,4 +1,5 @@
 ﻿using OfflineServer.Data;
+using OfflineServer.Servers.Http.Responses;
 using System;
 using System.IO;
 using System.Text;
@@ -38,13 +39,13 @@ namespace OfflineServer.Servers.Http.Classes
             return "<ArrayOfProductTrans/>";
         }
 
-        public static T getBasketDefinition<T>(String productId)
+        public static OwnedCarTrans getCarBasketDefinition(String productId)
         {
             String targetLocalFile = Path.Combine(DataEx.dir_CurrentHttpServerBaskets, productId + ".xml");
             if (File.Exists(targetLocalFile))
-                return File.ReadAllText(targetLocalFile, Encoding.UTF8).DeserializeObject<T>();
+                return File.ReadAllText(targetLocalFile, Encoding.UTF8).DeserializeObject<OwnedCarTrans>();
 
-            return default(T);
+            return null;
         }
     }
 }

@@ -31,6 +31,7 @@ namespace OfflineServer
         private Int32 id;
         private Int64 baseCarId;
         private CarClass raceClass;
+        private String name;
         private XElement paints;
         private XElement performanceParts;
         private Int64 physicsProfileHash;
@@ -84,6 +85,20 @@ namespace OfflineServer
                     CarManagement.car.raceClass = value;
                     CarManagement.car.update();
                     RaisePropertyChangedEvent("RaceClass");
+                }
+            }
+        }
+        public String Name
+        {
+            get { return name; }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    CarManagement.car.name = value;
+                    CarManagement.car.update();
+                    RaisePropertyChangedEvent("Name");
                 }
             }
         }
@@ -276,30 +291,29 @@ namespace OfflineServer
             personaId = car.ownerPersona.id;
         }
 
-        public String getCarPreset()
+        public CustomCar getCustomCar()
         {
-            return "";
+            return new CustomCar()
+            {
+                baseCarId = BaseCarId,
+                carClass = RaceClass,
+                id = Id,
+                name = Name,
+                paints = Paints.ToString().DeserializeObject<List<CustomPaintTrans>>(),
+                performanceParts = PerformanceParts.ToString().DeserializeObject<List<PerformancePartTrans>>(),
+                physicsProfileHash = PhysicsProfileHash,
+                resalePrice = ResalePrice,
+                skillModParts = SkillModParts.ToString().DeserializeObject<List<SkillModPartTrans>>(),
+                skillModSlotCount = 6,
+                vinyls = Vinyls.ToString().DeserializeObject<List<CustomVinylTrans>>(),
+                visualParts = VisualParts.ToString().DeserializeObject<List<VisualPartTrans>>()
+            };
         }
         public XElement getCarEntry()
         {
             XElement eCarEntry =
                 new XElement("OwnedCarTrans",
-                    XElement.Parse(
-                        new CustomCar()
-                        {
-                            baseCarId = BaseCarId,
-                            carClass = RaceClass,
-                            id = Id,
-                            paints = Paints.ToString().DeserializeObject<List<CustomPaintTrans>>(),
-                            performanceParts = PerformanceParts.ToString().DeserializeObject<List<PerformancePartTrans>>(),
-                            physicsProfileHash = PhysicsProfileHash,
-                            resalePrice = ResalePrice,
-                            skillModParts = SkillModParts.ToString().DeserializeObject<List<SkillModPartTrans>>(),
-                            skillModSlotCount = 6,
-                            vinyls = Vinyls.ToString().DeserializeObject<List<CustomVinylTrans>>(),
-                            visualParts = VisualParts.ToString().DeserializeObject<List<VisualPartTrans>>()
-                        }.SerializeObject()
-                    ),
+                    XElement.Parse(getCustomCar().SerializeObject()),
                     new XElement("Durability", Durability),
                     new XElement("ExpirationDate", null),
                     new XElement("Heat", HeatLevel),

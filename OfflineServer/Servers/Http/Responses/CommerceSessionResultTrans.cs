@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using static OfflineServer.Economy.Basket;
 
 namespace OfflineServer.Servers.Http.Responses
 {
@@ -17,7 +16,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("UpdatedCar")]
         public UpdatedCar updatedCar;
         [XmlElement("Status")]
-        public String status = ShoppingCartPurchaseResult.success;
+        public String status;
         [XmlElement("Wallets")]
         public Wallets wallets = new Wallets();
     }

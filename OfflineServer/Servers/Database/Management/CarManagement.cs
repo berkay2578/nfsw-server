@@ -1,5 +1,7 @@
 ﻿using NHibernate;
 using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Http.Responses;
+using System.Collections.Generic;
 
 namespace OfflineServer.Servers.Database.Management
 {
@@ -52,6 +54,25 @@ namespace OfflineServer.Servers.Database.Management
                     }
                 }
             }
+        }
+
+        public static CustomCar getCustomCar(this CarEntity carEntity)
+        {
+            CustomCar customCar = new CustomCar();
+            customCar.baseCarId = carEntity.baseCarId;
+            customCar.carClass = carEntity.raceClass;
+            customCar.id = carEntity.id;
+            customCar.name = carEntity.name;
+            customCar.paints = carEntity.paints.DeserializeObject<List<CustomPaintTrans>>();
+            customCar.performanceParts = carEntity.performanceParts.DeserializeObject<List<PerformancePartTrans>>();
+            customCar.physicsProfileHash = carEntity.physicsProfileHash;
+            customCar.rating = carEntity.rating;
+            customCar.resalePrice = carEntity.resalePrice;
+            customCar.skillModParts = carEntity.skillModParts.DeserializeObject<List<SkillModPartTrans>>();
+            customCar.vinyls = carEntity.vinyls.DeserializeObject<List<CustomVinylTrans>>();
+            customCar.visualParts = carEntity.visualParts.DeserializeObject<List<VisualPartTrans>>();
+
+            return customCar;
         }
     }
 }

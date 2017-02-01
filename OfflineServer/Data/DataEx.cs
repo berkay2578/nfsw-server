@@ -1,11 +1,14 @@
 ﻿using OfflineServer.Data.Settings;
 using OfflineServer.Servers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using static OfflineServer.Basket;
 using static OfflineServer.Data.Settings.AppSettings.UISettings;
+using static OfflineServer.Economy;
 
 namespace OfflineServer.Data
 {
@@ -63,6 +66,7 @@ namespace OfflineServer.Data
                 return File.Exists(xml_Settings);
             }
         }
+        public static Dictionary<String, ProductInformation> productInformations = new Dictionary<String, ProductInformation>();
         public static String currentHttpServerCatalog
         {
             set
@@ -73,6 +77,24 @@ namespace OfflineServer.Data
                     dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
                     dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
                     dir_CurrentHttpServerBaskets = Path.Combine(dir_HttpServerBaskets, value + "\\");
+
+                    productInformations.Clear();
+                    List<String> categories = Directory.GetFiles(dir_CurrentHttpServerCategories, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+                    List<String> products = Directory.GetFiles(dir_CurrentHttpServerProducts, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+                    var catalogs = products.Union(categories);
+
+                    foreach (String catalog in catalogs)
+                    {
+                        XDocument xml = XDocument.Load(catalog);
+                        var catalogProducts = xml.Descendants("ProductTrans");
+                        foreach (XElement catalogProduct in catalogProducts)
+                        {
+                            ProductInformation productInfo = new ProductInformation();
+                            productInfo.currency = catalogProduct.Element("Currency").Value.ToLowerInvariant() == "cash" ? Currency.Cash : Currency.Boost;
+                            productInfo.price = Int32.Parse(catalogProduct.Element("Price").Value);
+                            productInformations.Add(catalogProduct.Element("ProductId").Value, productInfo);
+                        }
+                    }
                 }
             }
         }

@@ -7,6 +7,6 @@ namespace OfflineServer.Servers.Http.Responses
     public class Wallets
     {
         [XmlElement("WalletTrans")]
-        public WalletTrans walletTrans = new WalletTrans();
+        public WalletTrans walletTrans;
     }
 }

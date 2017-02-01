@@ -30,8 +30,8 @@ namespace OfflineServer
         private Int32 reputationInLevel;
         private Int32 reputationInTotal;
         private Int32 currentCarIndex;
-        public Int32 score;
-        public Int32 rating;
+        public Int32 score { get; set; }
+        public Int32 rating { get; set; }
         private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
         public Int32 Id
@@ -326,9 +326,9 @@ namespace OfflineServer
                     carEntries,
                     new XElement("DefaultOwnedCarIndex", currentCarIndex),
                     new XElement("ObtainableSlots",
-                        Economy.Basket.getProductTransactionEntry
+                        Basket.getProductTransactionEntry
                         (
-                            Economy.Currency.Boost,
+                            Basket.Currency.Boost,
                             "Grants you 1 extra car slot.",
                             0,
                             -1143680669,
@@ -339,8 +339,8 @@ namespace OfflineServer
                             0,
                             "CARSLOT",
                             "Car Slot",
-                            Economy.GameItemType.CarSlot,
-                            Economy.Special.None
+                            Basket.GameItemType.CarSlot,
+                            Basket.Special.None
                         )
                     ),
                     new XElement("OwnedCarSlotsCount", "100")

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using static OfflineServer.Basket;
 
 namespace OfflineServer.Servers.Http.Responses
 {
@@ -7,8 +8,8 @@ namespace OfflineServer.Servers.Http.Responses
     public class WalletTrans
     {
         [XmlElement("Balance")]
-        public Int32 balance = 1337;
+        public Int32 balance;
         [XmlElement("Currency")]
-        public String currency = "CASH";
+        public Currency currency;
     }
 }
