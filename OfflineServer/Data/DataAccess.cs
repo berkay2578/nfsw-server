@@ -35,7 +35,12 @@ namespace OfflineServer.Data
 
         private void executablesManage()
         {
-            appSettings.NFSWorldExecutables.RemoveAll(e => !File.Exists(e));
+            for (int i = appSettings.NFSWorldExecutables.Count - 1; i >= 0; i--)
+            {
+                if (!File.Exists(appSettings.NFSWorldExecutables[i]))
+                    appSettings.NFSWorldExecutables.RemoveAt(i);
+            }
+
             executablesAddNew();
 
             #region Registry Check @App-Start

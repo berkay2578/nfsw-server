@@ -2,6 +2,7 @@
 using OfflineServer.Servers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,8 @@ namespace OfflineServer.Data.Settings
     [XmlRoot("OfflineServerSettings")]
     public sealed class AppSettings : ObservableObject
     {
+        private object threadSafeDummy = new object();
+
         public sealed class UISettings : ObservableObject
         {
             private static Persona activePersonaProxy
@@ -557,7 +560,7 @@ namespace OfflineServer.Data.Settings
         public HttpServerSettings httpServerSettings { get; set; }
         [XmlArray("NFSWorldExecutables")]
         [XmlArrayItem("Executable")]
-        public List<String> NFSWorldExecutables { get; set; } = new List<String>();
+        public ObservableCollection<String> NFSWorldExecutables { get; set; }
 
         public void reloadAllLists()
         {
@@ -575,6 +578,8 @@ namespace OfflineServer.Data.Settings
         {
             uiSettings = new UISettings();
             httpServerSettings = new HttpServerSettings();
+            NFSWorldExecutables = new ObservableCollection<String>();
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(NFSWorldExecutables, threadSafeDummy);
         }
     }
 }
