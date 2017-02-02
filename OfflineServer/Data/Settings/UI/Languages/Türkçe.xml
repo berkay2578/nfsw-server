@@ -37,7 +37,7 @@
 	<ErrorEmptyPersonaName>Yarışçı ismini boş bırakamazsın!</ErrorEmptyPersonaName>
 	<ErrorEmptyNFSWorldPath>NFS: World seçilmedi.</ErrorEmptyNFSWorldPath>
 	<ErrorNFSWorldLaunch>NFS: World'ü başlatırken birşeyler yanlış gitti, hata hakkında tutanak tutuldu.</ErrorNFSWorldLaunch>
-	<InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Gözlerini bi '{0}'ya çevir derim.</InformationSampleAccent>
+	<InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Herşey '{0}'da.</InformationSampleAccent>
 	<InformationSampleTheme>Patron çıldırdı! Renk tasarımları yetmezmiş gibi artık özel temalar da kullanabilirsin. Hemen '{0}'ya git ve kendi tasarımını yap.</InformationSampleTheme>
 	<Settings>Ayarlar</Settings>
 	<UISettings>Arayüz Ayarları</UISettings>

@@ -37,8 +37,8 @@
 	<ErrorEmptyPersonaName>You can't leave the persona name empty!</ErrorEmptyPersonaName>
 	<ErrorEmptyNFSWorldPath>NFS: World wasn't located.</ErrorEmptyNFSWorldPath>
 	<ErrorNFSWorldLaunch>An exception occured while trying to start NFS: World, the exception was logged.</ErrorNFSWorldLaunch>
-	<InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Well, now you do! Go to '{0}' and get creative!</InformationSampleAccent>
-	<InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Hold on, don't answer it. Just head to '{0}' and make it yours!</InformationSampleTheme>
+	<InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Go to '{0}' and get creative!</InformationSampleAccent>
+	<InformationSampleTheme>Were you aware that you can add or create infinite amounts of custom themes? Just head to '{0}' and make it yours!</InformationSampleTheme>
 	<Settings>Settings</Settings>
 	<UISettings>UI Settings</UISettings>
 	<Background>Background</Background>
