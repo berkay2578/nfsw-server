@@ -108,6 +108,16 @@ namespace OfflineServer.Data
                 }
             }
         }
+        public static Int32 maxLevel
+        {
+            get
+            {
+                String xmlPath = Path.Combine(dir_CurrentGameplayMod, "GetExpLevelPointsMap.xml");
+                XDocument xDocument = XDocument.Load(xmlPath);
+
+                return xDocument.Descendants(xDocument.Root.Name.Namespace + "int").Count();
+            }
+        }
         #endregion
         #region functions
         public static T getInstanceFromXml<T>(String identifier = "")
@@ -128,10 +138,14 @@ namespace OfflineServer.Data
         }
         public static Int32 getRequiredLexelXP(Int32 level, Int32 xpInLevel)
         {
+            if (level == maxLevel)
+                return 0;
+
             String xmlPath = Path.Combine(dir_CurrentGameplayMod, "GetExpLevelPointsMap.xml");
-            XDocument xDoc = XDocument.Load(xmlPath);
-            XNamespace nsArray = "http://schemas.microsoft.com/2003/10/Serialization/Arrays";
-            Int32 levelExp = (Int32)xDoc.Root.Elements(nsArray + "int").ElementAt(level - 1);
+            XDocument xDocument = XDocument.Load(xmlPath);
+            XNamespace nsArray = xDocument.Root.Name.Namespace;
+
+            Int32 levelExp = (Int32)xDocument.Root.Elements(nsArray + "int").ElementAt(level - 1);
             Int32 requiredExp = Math.Max(0, levelExp - xpInLevel);
             return requiredExp;
         }

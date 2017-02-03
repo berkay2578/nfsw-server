@@ -302,7 +302,7 @@
                     <StackPanel Name="stackpanelBasicPersonaInfo" Orientation="Vertical" Width="190" DataContext="{Binding CurrentSession.ActivePersona}">
                         <TextBox Margin="5" Name="textboxPersonaName" Text="{Binding Name, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="14" LostFocus="textboxPersonaName_LostFocus"/>
                         <TextBox Margin="5" Name="textboxPersonaMotto" Text="{Binding Motto, Delay=1000}" Controls:TextBoxHelper.ClearTextButton="True" MaxLength="30"/>
-                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="70" Minimum="1" Value="{Binding Level, Delay=1000}" TextAlignment="Left" InterceptMouseWheel="False" />
+                        <Controls:NumericUpDown Margin="5" Name="numericPersonaLevel" Maximum="60" Minimum="1" Value="{Binding Level, Delay=1000}" TextAlignment="Left" InterceptMouseWheel="False" />
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaCash" Maximum="1000000000" Minimum="0" Value="{Binding Cash, Delay=1000}" StringFormat="{}{0:N0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
                         <Controls:NumericUpDown Margin="5" Name="numericPersonaBoost" Maximum="1000000000" Minimum="0" Value="{Binding Boost, Delay=1000}" StringFormat="{}{0:N0}" TextAlignment="Left" Interval="5" IsTabStop="False" Delay="1000" Speedup="True"/>
                     </StackPanel>

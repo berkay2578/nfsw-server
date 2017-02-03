@@ -1,5 +1,4 @@
 ﻿using NHibernate.Linq;
-using OfflineServer.Servers;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
@@ -106,6 +105,7 @@ namespace OfflineServer
             {
                 if (level != value)
                 {
+                    value = Math.Min(Data.DataEx.maxLevel, value);
                     level = value;
                     PersonaManagement.persona.level = value;
                     PersonaManagement.persona.update();
@@ -179,6 +179,50 @@ namespace OfflineServer
             {
                 if (reputationInLevel != value)
                 {
+                    // Passed level
+                    if (ReputationRequiredToPassTheLevel <= reputationInLevel + value)
+                    {
+                        Int32 maxLevel = Data.DataEx.maxLevel;
+                        if (level < maxLevel)
+                        {
+                            if (level + 1 == maxLevel)
+                            {
+                                value = 0;
+                                Level++;
+                            }
+                            else
+                            {
+                                Int32 extraExp;
+                                do
+                                {
+                                    extraExp = Math.Abs(ReputationRequiredToPassTheLevel - value);
+                                    reputationInLevel = extraExp;
+                                    Level++;
+                                } while (extraExp >= ReputationRequiredToPassTheLevel);
+                                value = extraExp;
+                            }
+                        }
+                        else
+                        {
+                            value = 0;
+                        }
+                    }
+
+                    // Lost exp
+                    if (ReputationRequiredToPassTheLevel + value > ReputationRequiredToPassTheLevel)
+                    {
+                        Int32 baseLevelExp = Data.DataEx.getRequiredLexelXP(level, 0);
+
+                        // Dropped level
+                        if (baseLevelExp < ReputationRequiredToPassTheLevel + value)
+                        {
+                            Int32 expMissing = Math.Abs(baseLevelExp - value);
+                            reputationInLevel = baseLevelExp - expMissing;
+                            value = baseLevelExp - expMissing;
+                            Level--;
+                        }
+                    }
+
                     reputationInLevel = value;
                     PersonaManagement.persona.reputationInLevel = value;
                     PersonaManagement.persona.update();
@@ -195,6 +239,7 @@ namespace OfflineServer
                 if (reputationInTotal != value)
                 {
                     reputationInTotal = value;
+                    ReputationInLevel += value;
                     PersonaManagement.persona.reputationInTotal = value;
                     PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInTotal");
@@ -322,7 +367,6 @@ namespace OfflineServer
             XDocument docAllCars = new XDocument(
                 new XDeclaration("1.0", Encoding.UTF8.HeaderName, String.Empty),
                 new XElement("CarSlotInfoTrans",
-                    new XAttribute(XNamespace.Xmlns + "i", ServerAttributes.nilNS),
                     carEntries,
                     new XElement("DefaultOwnedCarIndex", currentCarIndex),
                     new XElement("ObtainableSlots",
@@ -346,7 +390,7 @@ namespace OfflineServer
                     new XElement("OwnedCarSlotsCount", "100")
                 )
             );
-            docAllCars.Root.SetDefaultXmlNamespace(ServerAttributes.srlNS);
+            docAllCars.Root.SetDefaultXmlNamespace(XNamespace.Get("http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization"));
             return docAllCars.ToString();
         }
     }
