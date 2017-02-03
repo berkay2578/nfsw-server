@@ -52,6 +52,7 @@ namespace OfflineServer.Servers.Http.Responses
             List<RewardPart> rewardParts = new List<RewardPart>();
             Int32 level = Access.CurrentSession.ActivePersona.Level;
             Boolean repLimited = level >= Data.DataEx.maxLevel;
+            EventDefinition eventDefinition = Data.DataEx.eventDefinitions[Access.CurrentSession.ActivePersona.currentEventId];
             finalExp = 0;
             finalCash = 0;
 
@@ -70,7 +71,7 @@ namespace OfflineServer.Servers.Http.Responses
             {
                 rewardParts.Add(new RewardPart()
                 {
-                    repPart = repLimited ? 0 : (300 * level),
+                    repPart = repLimited ? 0 : 300 * level,
                     rewardCategory = RewardCategory.Bonus,
                     rewardType = RewardType.PowerupBonus,
                     tokenPart = 400 * level
@@ -82,10 +83,10 @@ namespace OfflineServer.Servers.Http.Responses
                 // Collision penalty
                 rewardParts.Add(new RewardPart()
                 {
-                    repPart = repLimited ? 0 : numberOfCollisions * -25 * level,
+                    repPart = repLimited ? 0 : numberOfCollisions * (-25 + eventDefinition.laps * 3) * level,
                     rewardCategory = RewardCategory.Base,
                     rewardType = RewardType.Infractions,
-                    tokenPart = numberOfCollisions * -50 * level
+                    tokenPart = numberOfCollisions * (-50 + eventDefinition.laps * 6) * level
                 });
             }
             else
@@ -93,11 +94,28 @@ namespace OfflineServer.Servers.Http.Responses
                 // No collision bonus
                 rewardParts.Add(new RewardPart()
                 {
-                    repPart = repLimited ? 0 : 500 * level,
+                    repPart = repLimited ? 0 : 500 * level * eventDefinition.laps,
                     rewardCategory = RewardCategory.Base,
                     rewardType = RewardType.Infractions,
-                    tokenPart = 600 * level
+                    tokenPart = 600 * level * eventDefinition.laps
                 });
+            }
+
+            if (eventDefinition.laps > 0)
+            {
+                // Best lap time better than third of the circuit race time
+                // Second check is to block any abuse; e.g. Doing a lap in a minute and roaming for 2 minutes
+                if (bestLapDurationInMilliseconds < eventDurationInMilliseconds / 3 &&
+                    bestLapDurationInMilliseconds * eventDefinition.laps > eventDurationInMilliseconds - bestLapDurationInMilliseconds)
+                {
+                    rewardParts.Add(new RewardPart()
+                    {
+                        repPart = 2 * Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / 100,
+                        rewardCategory = RewardCategory.Bonus,
+                        rewardType = RewardType.TimeBonus,
+                        tokenPart = 2000 * Access.CurrentSession.ActivePersona.Level
+                    });
+                }
             }
 
             foreach (RewardPart rewardPart in rewardParts)
@@ -105,28 +123,6 @@ namespace OfflineServer.Servers.Http.Responses
                 finalExp += rewardPart.repPart;
                 finalCash += rewardPart.tokenPart;
             }
-
-            /* Best lap time better than third of the total race time
-             * Need event lap definitions inside availableatlevel.xml
-             * Ignored for now
-             bestLap = 1.5m
-             lap = 3
-             race = 5m
-             1.5m < 1.6m
-             4.5m > 5m;;old
-             3m > 3.5m
-
-            if (bestLapDurationInMilliseconds < eventDurationInMilliseconds / 3
-                bestLapDurationInMiliseconds * laps < eventDurationInMiliseconds)
-            {
-                rewards.Add(new RewardPart()
-                {
-                    repPart = 2 * Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / 100,
-                    rewardCategory = RewardCategory.Bonus,
-                    rewardType = RewardType.TimeBonus,
-                    tokenPart = 2000 * Access.CurrentSession.ActivePersona.Level
-                });
-            }*/
 
             return rewardParts;
         }

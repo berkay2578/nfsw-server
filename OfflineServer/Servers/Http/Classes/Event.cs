@@ -46,6 +46,13 @@ namespace OfflineServer.Servers.Http.Classes
             return "";
         }
 
+        public static String launched()
+        {
+            Access.CurrentSession.ActivePersona.currentEventLaunched = true;
+            // write to db here
+            return "";
+        }
+
         private static Accolades getAccolades(ArbitrationPacket arbitrationPacket)
         {
             Accolades accolades = new Accolades();

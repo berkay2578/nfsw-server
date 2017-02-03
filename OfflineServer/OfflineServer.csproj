@@ -226,7 +226,9 @@
     <Compile Include="Servers\Http\Responses\DragEntrantResult.cs" />
     <Compile Include="Servers\Http\Responses\DragEventResult.cs" />
     <Compile Include="Servers\Http\Responses\EntrantResult.cs" />
+    <Compile Include="Servers\Http\Responses\EventDefinition.cs" />
     <Compile Include="Servers\Http\Responses\EventResult.cs" />
+    <Compile Include="Servers\Http\Responses\EventsPacket.cs" />
     <Compile Include="Servers\Http\Responses\FraudDetection.cs" />
     <Compile Include="Servers\Http\Responses\InventoryItemTrans.cs" />
     <Compile Include="Servers\Http\Responses\LuckyDrawBox.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="Servers\Http\Responses\TeamEscapeEntrantResult.cs" />
     <Compile Include="Servers\Http\Responses\TeamEscapeEventResult.cs" />
     <Compile Include="Servers\Http\Responses\TreasureHuntEventSession.cs" />
+    <Compile Include="Servers\Http\Responses\Vector3.cs" />
     <Compile Include="Servers\Http\Responses\VisualPartTrans.cs" />
     <Compile Include="Servers\Http\Responses\CustomPaintTrans.cs" />
     <Compile Include="Servers\Http\Responses\CustomVinylTrans.cs" />

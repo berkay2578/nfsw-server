@@ -1,5 +1,6 @@
 ﻿using OfflineServer.Data.Settings;
 using OfflineServer.Servers;
+using OfflineServer.Servers.Http.Responses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,8 @@ namespace OfflineServer.Data
                 return File.Exists(xml_Settings);
             }
         }
+
+        public static Dictionary<Int32, EventDefinition> eventDefinitions = new Dictionary<Int32, EventDefinition>();
         public static Dictionary<String, ProductInformation> productInformations = new Dictionary<String, ProductInformation>();
         public static String currentHttpServerCatalog
         {
@@ -77,12 +80,11 @@ namespace OfflineServer.Data
                     dir_CurrentHttpServerCategories = Path.Combine(dir_CurrentHttpServerCatalog, @"Categories\");
                     dir_CurrentHttpServerProducts = Path.Combine(dir_CurrentHttpServerCatalog, @"Products\");
                     dir_CurrentHttpServerBaskets = Path.Combine(dir_HttpServerBaskets, value + "\\");
-
                     productInformations.Clear();
+
                     List<String> categories = Directory.GetFiles(dir_CurrentHttpServerCategories, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                     List<String> products = Directory.GetFiles(dir_CurrentHttpServerProducts, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                     var catalogs = products.Union(categories);
-
                     foreach (String catalog in catalogs)
                     {
                         XDocument xDocument = XDocument.Load(Path.GetFullPath(catalog));
@@ -105,6 +107,14 @@ namespace OfflineServer.Data
                 if (!String.IsNullOrWhiteSpace(value))
                 {
                     dir_CurrentGameplayMod = Path.Combine(dir_GameplayMods, value + "\\");
+                    eventDefinitions.Clear();
+
+                    String availableAtLevel = File.ReadAllText(Path.Combine(dir_CurrentGameplayMod, "availableatlevel.xml"));
+                    EventsPacket eventsPacket = availableAtLevel.DeserializeObject<EventsPacket>();
+                    foreach (EventDefinition eventDefinition in eventsPacket.events)
+                    {
+                        eventDefinitions.Add(eventDefinition.eventId, eventDefinition);
+                    }
                 }
             }
         }

@@ -39,7 +39,7 @@
         </Canvas.Background>
         <Controls:MetroAnimatedTabControl Name="tabMainGroups" HorizontalAlignment="Left" Height="377" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Grid.ColumnSpan="2" TabStripPlacement="Left">
             <Controls:MetroTabItem Name="PersonaTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Persona, FallbackValue='Persona'}" Width="130">
-                <Canvas Width="439" Height="377" Margin="25,0,0,0">
+                <Canvas Margin="25,0,0,0">
                     <Controls:DropDownButton Name="buttonStartNFSWorld" HorizontalAlignment="Left" VerticalAlignment="Top" Width="147" Height="50" ItemsSource="{Binding dataAccess.appSettings.NFSWorldExecutables}" Canvas.Left="10" Canvas.Top="312" >
                         <Controls:DropDownButton.Resources>
                             <Style TargetType="Controls:DropDownButton">
@@ -285,6 +285,26 @@
                         </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
+            </Controls:MetroTabItem>
+            <Controls:MetroTabItem Name="TimesTab" Header="Times">
+                <DockPanel Margin="25,0,0,0">
+                    <DataGrid Style="{StaticResource AzureDataGrid}" 
+                              CanUserReorderColumns="True" AutoGenerateColumns="False" IsReadOnly="True"
+                              SelectionMode="Single" FrozenColumnCount="1">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  Text="{Binding Persona, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
             </Controls:MetroTabItem>
         </Controls:MetroAnimatedTabControl>
     </Canvas>

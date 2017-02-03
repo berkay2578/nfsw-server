@@ -33,6 +33,9 @@ namespace OfflineServer
         public Int32 rating { get; set; }
         private ObservableCollection<Car> cars = new ObservableCollection<Car>();
 
+        public Int32 currentEventId { get; set; } = 0;
+        public Boolean currentEventLaunched { get; set; } = false;
+
         public Int32 Id
         {
             get { return id; }
