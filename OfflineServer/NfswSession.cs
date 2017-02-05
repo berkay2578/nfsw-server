@@ -1,17 +1,17 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reflection;
 
 namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
-        private object threadSafeDummy = new object();
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Engine Engine = new Engine();
+        public ObservableCollection<Persona> PersonaList { get; set; } = new ObservableCollection<Persona>();
+        public ObservableCollection<EventResult> EventResults { get; set; } = new ObservableCollection<EventResult>();
+
         private Persona activePersona;
-        private ObservableCollection<Persona> personaList;
         public Persona ActivePersona
         {
             get
@@ -22,34 +22,23 @@ namespace OfflineServer
             {
                 if (activePersona != value)
                 {
-                    Engine.setDefaultPersonaIdx(personaList.IndexOf(value));
+                    Engine.setDefaultPersonaIdx(PersonaList.IndexOf(value));
                     activePersona = value;
                     RaisePropertyChangedEvent("ActivePersona");
-                }
-            }
-        }
-        public ObservableCollection<Persona> PersonaList
-        {
-            get
-            {
-                return personaList;
-            }
-            set
-            {
-                if (personaList != value)
-                {
-                    personaList = value;
-                    RaisePropertyChangedEvent("PersonaList");
                 }
             }
         }
 
         public void startSession()
         {
-            PersonaList = new ObservableCollection<Persona>(Persona.getCurrentPersonaList());
-            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(PersonaList, threadSafeDummy);
+            foreach (Persona persona in Engine.getCurrentPersonaList())
+                PersonaList.Add(persona);
+            ActivePersona = PersonaList[Engine.getDefaultPersonaIdx()];
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(PersonaList, new object());
 
-            ActivePersona = personaList[Engine.getDefaultPersonaIdx()];
+            foreach (EventResult eventResult in Engine.getEventResults())
+                EventResults.Add(eventResult);
+            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(EventResults, new object());
 
             log.Info("Session started.");
         }

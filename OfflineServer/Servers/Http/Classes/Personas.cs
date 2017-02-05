@@ -35,13 +35,13 @@ namespace OfflineServer.Servers.Http.Classes
 
                         CarEntity carEntity = new CarEntity();
                         carEntity.baseCarId = purchasedCar.customCar.baseCarId;
+                        carEntity.carClassHash = purchasedCar.customCar.carClassHash;
                         carEntity.durability = purchasedCar.durability;
                         carEntity.heatLevel = purchasedCar.heatLevel;
                         carEntity.name = purchasedCar.customCar.name;
                         carEntity.paints = purchasedCar.customCar.paints.SerializeObject();
                         carEntity.performanceParts = purchasedCar.customCar.performanceParts.SerializeObject();
                         carEntity.physicsProfileHash = purchasedCar.customCar.physicsProfileHash;
-                        carEntity.raceClass = purchasedCar.customCar.carClass;
                         carEntity.rating = purchasedCar.customCar.rating;
                         carEntity.resalePrice = purchasedCar.customCar.resalePrice;
                         carEntity.skillModParts = purchasedCar.customCar.skillModParts.SerializeObject();

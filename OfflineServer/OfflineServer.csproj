@@ -188,11 +188,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Access.cs" />
+    <Compile Include="EventResult.cs" />
+    <Compile Include="EventDefinitions.cs" />
     <Compile Include="CarDefinitions.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\DataEx.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Servers\Database\Entities\EventResultEntity.cs" />
+    <Compile Include="Servers\Database\Management\EventResultManagement.cs" />
     <Compile Include="Servers\Database\Management\CarManagement.cs" />
     <Compile Include="Servers\Database\Management\PersonaManagement.cs" />
     <Compile Include="Servers\Database\Entities\CarEntity.cs" />
@@ -200,6 +204,7 @@
     <Compile Include="Servers\Database\Entities\UserEntity.cs" />
     <Compile Include="Servers\Database\Mappings\CarEntityMap.cs" />
     <Compile Include="Servers\Database\Mappings\PersonaEntityMap.cs" />
+    <Compile Include="Servers\Database\Mappings\EventResultMap.cs" />
     <Compile Include="Servers\Database\Mappings\UserEntityMap.cs" />
     <Compile Include="Servers\Database\SessionManager.cs" />
     <Compile Include="Servers\Http\Classes\Catalog.cs" />

@@ -12,6 +12,6 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("EventId")]
         public Int32 eventId;
         [XmlElement("SessionId")]
-        public Int64 sessionId = 1L;
+        public Int64 sessionId;
     }
 }

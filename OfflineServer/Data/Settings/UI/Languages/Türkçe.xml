@@ -1,12 +1,14 @@
 <Language>
 	<Persona>Yarışçı</Persona>
+	<Car>Araba</Car>
+	<Event>Yarış</Event>
 	<AchievementTreasureHunt>Hazine Avı'nda en çok {0} güne '{1}' ile geldin.</AchievementTreasureHunt>
 	<AchievementJumpDistance>{0} metrelik en uzun uçuşunu '{1}' ile yaptın.</AchievementJumpDistance>
 	<PersonaInformation>Yarışçı Bilgileri</PersonaInformation>
 	<Name>Nick</Name>
 	<Motto>Durum</Motto>
 	<Level>Seviye</Level>
-	<Cash>Para</Cash>
+	<Cash>Nakit</Cash>
 	<DetailedPersonaInformation>Ekstra Bilgiler</DetailedPersonaInformation>
 	<PersonaList>Yarışçı Listesi</PersonaList>
 	<AddFirstPersona>İlk yarışçını ekle</AddFirstPersona>
@@ -16,7 +18,7 @@
 	<NFSWorldRunningOverlayText>NFS: World&#10;çalışıyor</NFSWorldRunningOverlayText>
 	<LevelUpXPLeft>EXP kaldı</LevelUpXPLeft>
 	<LevelToolTip>{0} seviye {1}.</LevelToolTip>
-	<CashToolTip>{0}, {1} paraya sahip.</CashToolTip>
+	<CashToolTip>{0}, {1} nakite sahip.</CashToolTip>
 	<BoostToolTip>{0}, {1} boosta sahip.</BoostToolTip>
 	<AmountOfCars>Araba Sayısı</AmountOfCars>
 	<GarageToolTip>{0}, {1} arabası var.</GarageToolTip>
@@ -30,11 +32,22 @@
 	<RemoveCarLastCarError>Kalan son arabayı silemezsin!</RemoveCarLastCarError>
 	<RemoveCarNoSelectedCarError>İlk önce bir araba seçmelisin.</RemoveCarNoSelectedCarError>
 	<LoadXElement>Düzenle</LoadXElement>
+	<Times>Yarışlar</Times>
+	<EventDuration>Yarış Süresi</EventDuration>
+	<FinishReason>Bitiş Sebebi</FinishReason>
+	<Ranking>Sıralama</Ranking>
+	<GainedExperience>Kazanılan EXP</GainedExperience>
+	<GainedCash>Kazanılan Nakit</GainedCash>
+	<BestLapDuration>En İyi Tur</BestLapDuration>
+	<PerfectStart>Mükemmel Kalkış</PerfectStart>
+	<TopSpeed>En Yüksek Hız</TopSpeed>
+	<NoEventResultsToDisplay>Gösterilecek yarış sonucu yok.</NoEventResultsToDisplay>
 	<InformUserError>Böyle kodu yazanın...</InformUserError>
 	<InformUserWarning>Hele orada bi dur koçum</InformUserWarning>
 	<InformUserInformation>Haberin olsun bak...</InformUserInformation>
 	<InformUserOther>Hooayda</InformUserOther>
 	<ErrorEmptyPersonaName>Yarışçı ismini boş bırakamazsın!</ErrorEmptyPersonaName>
+	<ErrorPersonaNameTooLong>Yarışçı ismi 14 karakterden daha az olmalı!</ErrorPersonaNameTooLong>
 	<ErrorEmptyNFSWorldPath>NFS: World seçilmedi.</ErrorEmptyNFSWorldPath>
 	<ErrorNFSWorldLaunch>NFS: World'ü başlatırken birşeyler yanlış gitti, hata hakkında tutanak tutuldu.</ErrorNFSWorldLaunch>
 	<InformationSampleAccent>İstediğin kadar özel renk tasarımı yaratabilir(haşa) ve kullanabilirsin. Herşey '{0}'da.</InformationSampleAccent>

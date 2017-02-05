@@ -252,11 +252,6 @@
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Margin="8,0,0,0" Width="136" DataContext="{Binding CurrentSession.ActivePersona.SelectedCar}">
                                 <StackPanel.Resources>
-                                    <ObjectDataProvider x:Key="CarClasses" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-                                        <ObjectDataProvider.MethodParameters>
-                                            <x:Type TypeName="local:CarClass"/>
-                                        </ObjectDataProvider.MethodParameters>
-                                    </ObjectDataProvider>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource AccentedSquareButtonStyle}">
                                         <Setter Property="BorderThickness" Value="1"/>
                                         <Setter Property="Content" Value="{Binding Source={x:Reference GarageTab}, Path=DataContext.dataAccess.appSettings.uiSettings.language.LoadXElement}"/>
@@ -268,7 +263,14 @@
                                     </Style>
                                 </StackPanel.Resources>
                                 <TextBox Controls:TextBoxHelper.Watermark="BaseCarId" Text="{Binding BaseCarId, Delay=1000}"/>
-                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding Source={StaticResource CarClasses}}" SelectedItem="{Binding RaceClass, Delay=1000}"/>
+                                <ComboBox Margin="0,5,0,0" SelectedValue="{Binding CarClassForUI, Delay=1000}" SelectedValuePath="Content">
+                                    <ComboBoxItem Content="E"/>
+                                    <ComboBoxItem Content="D"/>
+                                    <ComboBoxItem Content="C"/>
+                                    <ComboBoxItem Content="B"/>
+                                    <ComboBoxItem Content="A"/>
+                                    <ComboBoxItem Content="S"/>
+                                </ComboBox>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Name" Text="{Binding Name, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                                 <TextBox Margin="0,5,0,0" Controls:TextBoxHelper.Watermark="Id" Text="{Binding Id, Mode=OneWay}" IsReadOnly="True" IsEnabled="False"/>
                                 <Button Name="buttonPaints" Margin="0,5,0,0" Height="26" Click="button_ClickHandler"/>
@@ -286,9 +288,9 @@
                     </ScrollViewer>
                 </StackPanel>
             </Controls:MetroTabItem>
-            <Controls:MetroTabItem Name="TimesTab" Header="Times">
+            <Controls:MetroTabItem Name="TimesTab" Header="{Binding dataAccess.appSettings.uiSettings.language.Times, FallbackValue=Times}">
                 <DockPanel Margin="25,0,0,0">
-                    <DataGrid Style="{StaticResource AzureDataGrid}" 
+                    <DataGrid Name="datagridTimes" ItemsSource="{Binding CurrentSession.EventResults, Mode=OneWay}"
                               CanUserReorderColumns="True" AutoGenerateColumns="False" IsReadOnly="True"
                               SelectionMode="Single" FrozenColumnCount="1">
                         <DataGrid.Resources>
@@ -296,11 +298,99 @@
                                 <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
                             </Style>
                         </DataGrid.Resources>
+                        <DataGrid.Style>
+                            <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource AzureDataGrid}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentSession.EventResults.Count}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <TextBlock Text="{Binding dataAccess.appSettings.uiSettings.language.NoEventResultsToDisplay}" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Style>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  Text="{Binding Persona, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
-                                </DataGridTextColumn.Header>
+                            <DataGridTextColumn Binding="{Binding PersonaName}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.Persona, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding CarName}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.Car, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding EventName}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.Event, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding EventDuration}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.EventDuration, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding BestLapDuration}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.BestLapDuration, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Rank}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.Ranking, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding PerfectStart}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.PerfectStart, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <!--<DataGridTextColumn Binding="{Binding TopSpeed}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.TopSpeed, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>-->
+                            <DataGridTextColumn Binding="{Binding FinishReason}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.FinishReason, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding GainedExp}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedExperience, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding GainedCash}">
+                                <DataGridTextColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedCash, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
+                                    </DataTemplate>
+                                </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -347,7 +437,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}">
                                 <DataGridTextColumn.Header>
-                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"  Text="{Binding Name, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
+                                    <TextBlock DataContext="{Binding DataContext.dataAccess.appSettings.uiSettings.language, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Text="{Binding Name, Converter={StaticResource DataGridConverter}}" FontWeight="Bold"/>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Motto}">

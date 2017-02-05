@@ -109,11 +109,10 @@ namespace OfflineServer.Data
                     dir_CurrentGameplayMod = Path.Combine(dir_GameplayMods, value + "\\");
                     eventDefinitions.Clear();
 
-                    String availableAtLevel = File.ReadAllText(Path.Combine(dir_CurrentGameplayMod, "availableatlevel.xml"));
-                    EventsPacket eventsPacket = availableAtLevel.DeserializeObject<EventsPacket>();
+                    EventsPacket eventsPacket = getInstanceFromXml<EventsPacket>("availableatlevel.xml");
                     foreach (EventDefinition eventDefinition in eventsPacket.events)
                     {
-                        eventDefinitions.Add(eventDefinition.eventId, eventDefinition);
+                        eventDefinitions[eventDefinition.eventId] = eventDefinition;
                     }
                 }
             }
@@ -125,7 +124,7 @@ namespace OfflineServer.Data
                 String xmlPath = Path.Combine(dir_CurrentGameplayMod, "GetExpLevelPointsMap.xml");
                 XDocument xDocument = XDocument.Load(xmlPath);
 
-                return xDocument.Descendants(xDocument.Root.Name.Namespace + "int").Count();
+                return xDocument.Descendants(xDocument.Root.Name.Namespace + "int").Count() - 1;
             }
         }
         #endregion
@@ -138,6 +137,8 @@ namespace OfflineServer.Data
                 xmlPath = xml_Settings;
             else if (typeof(T) == typeof(Language))
                 xmlPath = Path.Combine(dir_Languages, identifier);
+            else if (typeof(T) == typeof(EventsPacket))
+                xmlPath = Path.Combine(dir_CurrentGameplayMod, identifier);
             else
                 return default(T);
 
@@ -155,7 +156,7 @@ namespace OfflineServer.Data
             XDocument xDocument = XDocument.Load(xmlPath);
             XNamespace nsArray = xDocument.Root.Name.Namespace;
 
-            Int32 levelExp = (Int32)xDocument.Root.Elements(nsArray + "int").ElementAt(level - 1);
+            Int32 levelExp = (Int32)xDocument.Root.Elements(nsArray + "int").ElementAt(level);
             Int32 requiredExp = Math.Max(0, levelExp - xpInLevel);
             return requiredExp;
         }

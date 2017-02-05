@@ -1,6 +1,6 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 using OfflineServer.Servers.Database.Entities;
-using System;
 
 namespace OfflineServer.Servers.Database.Management
 {
@@ -22,17 +22,14 @@ namespace OfflineServer.Servers.Database.Management
             }
             set
             {
-                if (Access.CurrentSession.ActivePersona != null)
+                if (Access.CurrentSession.ActivePersona != null && value != null)
                 {
-                    if (persona != value && value != null)
+                    using (ITransaction transaction = session.BeginTransaction())
                     {
-                        using (ITransaction transaction = session.BeginTransaction())
-                        {
-                            PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
-                            personaEntity = value;
-                            session.Update(personaEntity);
-                            transaction.Commit();
-                        }
+                        PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                        personaEntity = value;
+                        session.Update(personaEntity);
+                        transaction.Commit();
                     }
                 }
             }
@@ -55,7 +52,6 @@ namespace OfflineServer.Servers.Database.Management
                 return carEntity;
             }
         }
-
         public static void removeCar(Car car)
         {
             using (ITransaction transaction = session.BeginTransaction())
@@ -70,20 +66,6 @@ namespace OfflineServer.Servers.Database.Management
                 Int32 newIndex = Math.Max(0, Access.CurrentSession.ActivePersona.Cars.IndexOf(car) - 1);
                 Access.CurrentSession.ActivePersona.Cars.Remove(car);
                 Access.CurrentSession.ActivePersona.CurrentCarIndex = newIndex;
-            }
-        }
-
-        public static void update(this PersonaEntity newPersona)
-        {
-            if (newPersona != null)
-            {
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
-                    personaEntity = newPersona;
-                    session.Update(personaEntity);
-                    transaction.Commit();
-                }
             }
         }
     }

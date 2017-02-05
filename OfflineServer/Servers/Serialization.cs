@@ -58,7 +58,7 @@ namespace OfflineServer.Servers
             catch (Exception ex)
             {
                 log.Error("An exception occured while deserializing the following xml: " + plainXml, ex);
-                MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!", 
+                MessageBox.Show("Please look at " + DataEx.log_Events + " for more information.", "An exception occured!",
                     MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
             }
             return default(T);

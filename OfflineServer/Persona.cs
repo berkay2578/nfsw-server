@@ -31,10 +31,10 @@ namespace OfflineServer
         private Int32 currentCarIndex;
         public Int32 score { get; set; }
         public Int32 rating { get; set; }
-        private ObservableCollection<Car> cars = new ObservableCollection<Car>();
+        public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
 
         public Int32 currentEventId { get; set; } = 0;
-        public Boolean currentEventLaunched { get; set; } = false;
+        public Int32 currentEventSessionId { get; set; } = 0;
 
         public Int32 Id
         {
@@ -68,7 +68,6 @@ namespace OfflineServer
                 {
                     iconIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
                     PersonaManagement.persona.iconIndex = iconIndex;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("IconIndex");
                 }
             }
@@ -82,7 +81,6 @@ namespace OfflineServer
                 {
                     name = value;
                     PersonaManagement.persona.name = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -96,7 +94,6 @@ namespace OfflineServer
                 {
                     motto = value;
                     PersonaManagement.persona.motto = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Motto");
                 }
             }
@@ -111,7 +108,6 @@ namespace OfflineServer
                     value = Math.Min(Data.DataEx.maxLevel, value);
                     level = value;
                     PersonaManagement.persona.level = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Level");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -126,7 +122,6 @@ namespace OfflineServer
                 {
                     cash = value;
                     PersonaManagement.persona.cash = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Cash");
                     RaisePropertyChangedEvent("CashForView");
                 }
@@ -148,7 +143,6 @@ namespace OfflineServer
                 {
                     boost = value;
                     PersonaManagement.persona.boost = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Boost");
                     RaisePropertyChangedEvent("BoostForView");
                 }
@@ -170,7 +164,6 @@ namespace OfflineServer
                 {
                     percentageOfLevelCompletion = value;
                     PersonaManagement.persona.percentageOfLevelCompletion = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
@@ -212,23 +205,38 @@ namespace OfflineServer
                     }
 
                     // Lost exp
-                    if (ReputationRequiredToPassTheLevel + value > ReputationRequiredToPassTheLevel)
+                    if (Math.Sign(value) == -1)
                     {
-                        Int32 baseLevelExp = Data.DataEx.getRequiredLexelXP(level, 0);
-
-                        // Dropped level
-                        if (baseLevelExp < ReputationRequiredToPassTheLevel + value)
+                        if (level == 1)
                         {
-                            Int32 expMissing = Math.Abs(baseLevelExp - value);
-                            reputationInLevel = baseLevelExp - expMissing;
-                            value = baseLevelExp - expMissing;
-                            Level--;
+                            value = 0;
+                        }
+                        else
+                        {
+                            // Dropped level
+                            if (ReputationRequiredToPassTheLevel + value < 0)
+                            {
+                                Int32 expMissingInNewLevel;
+                                do
+                                {
+                                    Int32 levelBaseExp = Data.DataEx.getRequiredLexelXP(level, 0);
+                                    Int32 newLevelBaseExp = Data.DataEx.getRequiredLexelXP(level - 1, 0);
+                                    expMissingInNewLevel = Math.Abs(ReputationRequiredToPassTheLevel + value);
+                                    value = newLevelBaseExp - expMissingInNewLevel;
+
+                                    Level--;
+                                    if (level == 1)
+                                    {
+                                        value = 0;
+                                        break;
+                                    }
+                                } while (expMissingInNewLevel != 0);
+                            }
                         }
                     }
 
                     reputationInLevel = value;
                     PersonaManagement.persona.reputationInLevel = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInLevel");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -244,7 +252,6 @@ namespace OfflineServer
                     reputationInTotal = value;
                     ReputationInLevel += value;
                     PersonaManagement.persona.reputationInTotal = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInTotal");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -266,7 +273,6 @@ namespace OfflineServer
                 {
                     currentCarIndex = value;
                     PersonaManagement.persona.currentCarIndex = value;
-                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("CurrentCarIndex");
                     RaisePropertyChangedEvent("SelectedCar");
                 }
@@ -277,21 +283,9 @@ namespace OfflineServer
             get
             {
                 if (currentCarIndex != -1)
-                    return cars[currentCarIndex];
+                    return Cars[currentCarIndex];
 
                 return null;
-            }
-        }
-        public ObservableCollection<Car> Cars
-        {
-            get { return cars; }
-            set
-            {
-                if (cars != value)
-                {
-                    cars = value;
-                    RaisePropertyChangedEvent("Cars");
-                }
             }
         }
 
@@ -313,9 +307,7 @@ namespace OfflineServer
             currentCarIndex = persona.currentCarIndex;
 
             foreach (CarEntity car in persona.garage)
-            {
-                cars.Add(new Car(car));
-            }
+                Cars.Add(new Car(car));
             System.Windows.Data.BindingOperations.EnableCollectionSynchronization(Cars, threadSafeDummy);
         }
 
@@ -337,32 +329,13 @@ namespace OfflineServer
         }
 
         /// <summary>
-        /// Reads the registered personas inside the session-db.
-        /// </summary>
-        /// <remarks>This is NOT dynamic, this only reads from the database.</remarks>
-        /// <returns>An initialized <see cref="List{Persona}"/> containing the database entries for the personas.</returns>
-        public static List<Persona> getCurrentPersonaList()
-        {
-            List<Persona> listPersonas = new List<Persona>();
-
-            using (var session = SessionManager.getSessionFactory().OpenSession())
-            {
-                List<PersonaEntity> personaEntities = session.Query<PersonaEntity>().OrderBy(p => p.id).ToList();
-                foreach (PersonaEntity personaEntity in personaEntities)
-                    listPersonas.Add(new Persona(personaEntity));
-            }
-
-            return listPersonas;
-        }
-
-        /// <summary>
         /// Reads the complete garage of the current active persona.
         /// </summary>
         /// <returns>A string instance containing all of the persona's cars in indented XML.</returns>
         public String getCompleteGarage()
         {
             XElement carEntries = new XElement("CarsOwnedByPersona");
-            foreach (Car carEntry in cars)
+            foreach (Car carEntry in Cars)
             {
                 carEntries.Add(carEntry.getCarEntry());
             }

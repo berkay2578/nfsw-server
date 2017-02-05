@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace OfflineServer
+{
+    public static class EventDefinitions
+    {
+        public static readonly Dictionary<Int32, String> eventIds = new Dictionary<Int32, String>()
+        {
+            {3, "Bristol & Diamond"},
+            {5, "Campus Interchange"},
+            {6, "Country Club"},
+            {7, "Oil Refinery"},
+            {8, "Ironhorse & Coast"},
+            {9, "Camden Tunnel"},
+            {10, "Bay Bridge"},
+            {11, "Waterfront"},
+            {12, "Gray Point"},
+            {13, "State & Warrent"},
+            {14, "Station & Fisher"},
+            {15, "Route 55"},
+            {16, "Stadium & Chase"},
+            {17, "Heritage & Diamond"},
+            {18, "Camden & Route 55"},
+            {19, "North Bay & Harbour"},
+            {20, "Stadium & Hwy 1"},
+            {21, "College Asylum"},
+            {22, "Boundary & Marina"},
+            {23, "Park Boundary"},
+            {24, "College Mall"},
+            {25, "Beacon & Station"},
+            {26, "Bristol & Bayshore"},
+            {27, "Chancellor & Campus"},
+            {28, "Rockridge & Union"},
+            {29, "Rosewood & Lyons"},
+            {30, "Union & Hollis"},
+            {31, "Heritage & Campus"},
+            {32, "Heritage Heights"},
+            {33, "Hwy 99 & State"},
+            {34, "Clubhouse & Hollis"},
+            {35, "Stadium & Hwy 99"},
+            {36, "Rosewood College"},
+            {37, "Rosewood Park Loop"},
+            {38, "Rosewood Central"},
+            {39, "Diamond & Union"},
+            {41, "Chinatown Delivery"},
+            {43, "Construction Route"},
+            {45, "Welcome To Palmont"},
+            {47, "Old Quarter"},
+            {49, "Savannah Street"},
+            {50, "North Broadway"},
+            {51, "Silverton Way"},
+            {52, "Lucky Towers"},
+            {53, "Starlight Street"},
+            {54, "Spade Street"},
+            {55, "Paradise Hotel"},
+            {56, "Eagle Drive"},
+            {57, "Brooks Street"},
+            {61, "Downtown Challenge"},
+            {71, "Blackwell Bridge"},
+            {72, "Campbell Tunnel"},
+            {76, "North Road"},
+            {77, "Silk Road"},
+            {78, "Chinatown Tram"},
+            {79, "Main Street"},
+            {80, "Lincoln Boulevard"},
+            {81, "Mason Street"},
+            {82, "Garden Boulevard"},
+            {83, "Hastings"},
+            {85, "West Park & Forest"},
+            {97, "Riverfront & Green"},
+            {98, "Seaside Interchange"},
+            {120, "Lion's Challenge"},
+            {131, "Valley & State"},
+            {145, "Little Italy"},
+            {146, "Lyons & Hwy 201"},
+            {147, "West Park & Lyons"},
+            {157, "Financial District"},
+            {287, "University Way"},
+            {289, "Skyline Avenue"},
+            {290, "Verona Tunnel"},
+            {292, "North Bellezza"},
+            {295, "Ocean View"},
+            {296, "York Road"},
+            {298, "Condo Row"},
+            {299, "Agostini Avenue"},
+            {302, "Beachfront"},
+            {303, "Dover And Lepus"},
+            {305, "Waterfront Road"},
+            {307, "Dover Street"},
+            {308, "Kempton Docks"},
+            {309, "Petersburg Dam"},
+            {314, "Mission Street"},
+            {317, "Central Coast"},
+            {355, "Chicken Run"},
+            {360, "Camden Hills"},
+            {362, "Welcome To Oktoberfest"},
+            {499, "Backwood Split"},
+            {500, "Breakneck"},
+            {501, "Speed Fair"},
+            {502, "Rockport Turnpike"},
+            {504, "Neon Crossroads"},
+            {506, "Chinatown Showdown"},
+            {507, "Tram Underpass"},
+            {509, "Breaking Point"},
+            {510, "Burrows"},
+            {511, "Hwy 142"},
+            {513, "Gridlock"},
+            {515, "Skirmish"},
+            {516, "Runway"},
+            {517, "Loop"},
+            {521, "Lunar Circuit"},
+            {525, "Downturn"},
+            {526, "Rosewood Rally"},
+            {527, "Rosewood Rally Reverse"},
+            {529, "Lincoln Boulevard Reverse #02"},
+            {530, "Welcome To Palmont Reverse #03"},
+            {531, "Old Quarter Reverse #04"},
+            {532, "Hwy 99 & State Reverse #05"},
+            {533, "Petersburg Dam Reverse #06"},
+            {534, "Lyons & Hwy 201 Reverse #07"},
+            {535, "Chinatown Delivery Reverse #08"}
+        };
+
+        /// <summary>
+        /// Converts the given EventId to its equivalent event name.
+        /// </summary>
+        /// <param name="eventId">Event Id</param>
+        /// <returns>Event name if found, else "<paramref name="eventId"/> + [NO DEF]"</returns>
+        public static String defineFromEventId(Int32 eventId)
+        {
+            String eventName;
+            if (!eventIds.TryGetValue(eventId, out eventName))
+                eventName = eventId + " [NO DEF]";
+            return eventName;
+        }
+    }
+}

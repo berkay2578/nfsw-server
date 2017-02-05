@@ -1,5 +1,7 @@
 <Language>
 	<Persona>Persona</Persona>
+	<Car>Car</Car>
+	<Event>Event</Event> <!-- For races, pursuits, and team escapes -->
 	<AchievementTreasureHunt>Your longest recorded TH streak is {0}, on persona '{1}'.</AchievementTreasureHunt>
 	<AchievementJumpDistance>Your farthest jump distance was {0} meters, on persona '{1}'.</AchievementJumpDistance>
 	<PersonaInformation>Persona Info</PersonaInformation>
@@ -30,11 +32,22 @@
 	<RemoveCarLastCarError>Cannot remove the last car in a persona!</RemoveCarLastCarError>
 	<RemoveCarNoSelectedCarError>Please select a car first.</RemoveCarNoSelectedCarError>
 	<LoadXElement>Load XElement</LoadXElement>
+	<Times>Times</Times>
+	<EventDuration>Event Duration</EventDuration>
+	<FinishReason>Finish Reason</FinishReason>
+	<Ranking>Rank</Ranking>
+	<GainedExperience>Gained Experience</GainedExperience>
+	<GainedCash>Gained IGC</GainedCash>
+	<BestLapDuration>Best Lap Duration</BestLapDuration>
+	<PerfectStart>Perfect Start</PerfectStart>
+	<TopSpeed>Top Speed</TopSpeed>
+	<NoEventResultsToDisplay>No event results to display.</NoEventResultsToDisplay>
 	<InformUserError>Beep boop, I done goofed</InformUserError>
 	<InformUserWarning>Hold your horses there, big guy</InformUserWarning>
 	<InformUserInformation>Just to let you know...</InformUserInformation>
 	<InformUserOther>Oops!</InformUserOther>
 	<ErrorEmptyPersonaName>You can't leave the persona name empty!</ErrorEmptyPersonaName>
+	<ErrorPersonaNameTooLong>Persona name must be shorter than 14 characters!</ErrorPersonaNameTooLong>
 	<ErrorEmptyNFSWorldPath>NFS: World wasn't located.</ErrorEmptyNFSWorldPath>
 	<ErrorNFSWorldLaunch>An exception occured while trying to start NFS: World, the exception was logged.</ErrorNFSWorldLaunch>
 	<InformationSampleAccent>Did you know that you can add or create infinite amounts of custom accents? Go to '{0}' and get creative!</InformationSampleAccent>

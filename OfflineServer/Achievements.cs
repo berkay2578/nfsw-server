@@ -53,7 +53,7 @@ namespace OfflineServer
         public DockPanel generateNewAchievement()
         {
             String sCurrentText = tblockAchievementDescription.Text;
-            reroll:
+        reroll:
 
             vReDefine();
 

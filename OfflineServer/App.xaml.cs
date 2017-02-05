@@ -43,7 +43,7 @@ namespace OfflineServer
     }
     public class MVVMSyntax : TextEditor, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty _TextProperty = 
+        public static readonly DependencyProperty _TextProperty =
             DependencyProperty.Register("_Text", typeof(String), typeof(MVVMSyntax), new PropertyMetadata(String.Empty, OnMVVMTextChanged));
 
         private static void OnMVVMTextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -81,7 +81,7 @@ namespace OfflineServer
         {
             if (value is string)
             {
-                return value.ToString().ToUpper();
+                return value.ToString().ToUpperInvariant();
             }
             return String.Empty;
         }

@@ -11,7 +11,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("BaseCar")]
         public Int64 baseCarId;
         [XmlElement("CarClassHash")]
-        public CarClass carClass;
+        public Int64 carClassHash;
         [XmlElement("Id")]
         public Int64 id;
         [XmlElement("IsPreset")]

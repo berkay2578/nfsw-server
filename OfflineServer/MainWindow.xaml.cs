@@ -62,7 +62,7 @@ namespace OfflineServer
 
         private void ensureStableDB()
         {
-            createNew:
+        createNew:
             if (!DataEx.db_ServerExists)
             {
                 log.Warn("Database doesn't exist!");
@@ -73,9 +73,23 @@ namespace OfflineServer
                 String personaName = this.ShowModalInputExternal(
                     Access.dataAccess.appSettings.uiSettings.language.AddFirstPersona,
                     Access.dataAccess.appSettings.uiSettings.language.Name);
-                if (String.IsNullOrWhiteSpace(personaName))
+                if (String.IsNullOrWhiteSpace(personaName) || personaName.Length > 14)
                 {
                     log.Warn("Invalid persona name.");
+                    if (personaName.Trim().Length > 14)
+                    {
+                        log.Warn("Persona name longer than 14 chars.");
+                        this.ShowModalMessageExternal(
+                            Access.dataAccess.appSettings.uiSettings.language.InformUserWarning,
+                            Access.dataAccess.appSettings.uiSettings.language.ErrorPersonaNameTooLong);
+                    }
+                    else
+                    {
+                        log.Warn("Empty persona name.");
+                        this.ShowModalMessageExternal(
+                            Access.dataAccess.appSettings.uiSettings.language.InformUserWarning,
+                            Access.dataAccess.appSettings.uiSettings.language.ErrorEmptyPersonaName);
+                    }
                     goto retry;
                 }
 
@@ -210,12 +224,12 @@ namespace OfflineServer
 
                 CarEntity carEntity = new CarEntity();
                 carEntity.baseCarId = CarDefinitions.baseCarId.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
+                carEntity.carClassHash = CarClass.getHashFromCarClass("E");
                 carEntity.durability = 100;
                 carEntity.heatLevel = 1;
                 carEntity.paints = new List<CustomPaintTrans>().SerializeObject();
                 carEntity.performanceParts = new List<PerformancePartTrans>().SerializeObject();
                 carEntity.physicsProfileHash = CarDefinitions.physicsProfileHashNormal.FirstOrDefault(key => key.Value == carComboBox.SelectedItem.ToString()).Key;
-                carEntity.raceClass = CarClass.E;
                 carEntity.rating = 123;
                 carEntity.resalePrice = 0;
                 carEntity.skillModParts = new List<SkillModPartTrans>().SerializeObject();
@@ -713,11 +727,14 @@ namespace OfflineServer
             #region DB Connections
             log.Info("Clearing up DB connections.");
 
+            CarManagement.session.Close();
+            CarManagement.session.Dispose();
+
             PersonaManagement.session.Close();
             PersonaManagement.session.Dispose();
 
-            CarManagement.session.Close();
-            CarManagement.session.Dispose();
+            EventResultManagement.session.Close();
+            EventResultManagement.session.Dispose();
 
             SessionManager.getSessionFactory().Close();
             #endregion

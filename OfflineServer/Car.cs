@@ -6,31 +6,45 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace OfflineServer
 {
     [Serializable()]
-    public enum CarClass
+    public sealed class CarClass
     {
-        [XmlEnum("872416321")]
-        E = 872416321,
-        [XmlEnum("415909161")]
-        D = 415909161,
-        [XmlEnum("1866825865")]
-        C = 1866825865,
-        [XmlEnum("-406473455")]
-        B = -406473455,
-        [XmlEnum("-405837480")]
-        A = -405837480,
-        [XmlEnum("-2142411446")]
-        S = -2142411446
+        private static readonly Dictionary<Int64, String> carClasses = new Dictionary<Int64, String>()
+        {
+            {872416321, "E"},
+            {415909161, "D"},
+            {1866825865, "C"},
+            {3888493841, "B"},
+            {3889129816, "A"},
+            {2152555850, "S"},
+            {-3422550975, "E"},
+            {-3879058135, "D"},
+            {-2428141431, "C"},
+            {-406473455, "B"},
+            {-405837480, "A"},
+            {-2142411446, "S"},
+        };
+
+        public static String getCarClassFromHash(Int64 carClassHash)
+        {
+            return carClasses[carClassHash];
+        }
+
+        public static Int64 getHashFromCarClass(String carClass)
+        {
+            return carClasses.First(c => c.Value == carClass).Key;
+        }
     }
 
     public class Car : ObservableObject
     {
         private Int32 id;
         private Int64 baseCarId;
-        private CarClass raceClass;
+        private Int64 carClassHash;
         private String name;
         private XElement paints;
         private XElement performanceParts;
@@ -69,22 +83,33 @@ namespace OfflineServer
                 {
                     baseCarId = value;
                     CarManagement.car.baseCarId = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("BaseCarId");
                 }
             }
         }
-        public CarClass RaceClass
+        public Int64 CarClassHash
         {
-            get { return raceClass; }
+            get { return carClassHash; }
             set
             {
-                if (raceClass != value)
+                if (carClassHash != value)
                 {
-                    raceClass = value;
-                    CarManagement.car.raceClass = value;
-                    CarManagement.car.update();
-                    RaisePropertyChangedEvent("RaceClass");
+                    carClassHash = value;
+                    CarManagement.car.carClassHash = value;
+                    RaisePropertyChangedEvent("CarClassHash");
+                }
+            }
+        }
+        public String CarClassForUI
+        {
+            get { return CarClass.getCarClassFromHash(carClassHash); }
+            set
+            {
+                Int64 _carClassHash = CarClass.getHashFromCarClass(value);
+                if (carClassHash != _carClassHash)
+                {
+                    CarClassHash = _carClassHash;
+                    RaisePropertyChangedEvent("CarClassForUI");
                 }
             }
         }
@@ -97,7 +122,6 @@ namespace OfflineServer
                 {
                     name = value;
                     CarManagement.car.name = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -111,7 +135,6 @@ namespace OfflineServer
                 {
                     paints = value;
                     CarManagement.car.paints = value.ToString(SaveOptions.DisableFormatting);
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Paints");
                 }
             }
@@ -125,7 +148,6 @@ namespace OfflineServer
                 {
                     performanceParts = value;
                     CarManagement.car.performanceParts = value.ToString(SaveOptions.DisableFormatting);
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PerformanceParts");
                 }
             }
@@ -139,7 +161,6 @@ namespace OfflineServer
                 {
                     physicsProfileHash = value;
                     CarManagement.car.physicsProfileHash = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PhysicsProfileHash");
                     RaisePropertyChangedEvent("MakeModel");
                 }
@@ -154,7 +175,6 @@ namespace OfflineServer
                 {
                     rating = value;
                     CarManagement.car.rating = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Rating");
                 }
             }
@@ -168,7 +188,6 @@ namespace OfflineServer
                 {
                     resalePrice = Math.Min(value, Int32.MaxValue - 1);
                     CarManagement.car.resalePrice = resalePrice;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ResalePrice");
                 }
             }
@@ -182,7 +201,6 @@ namespace OfflineServer
                 {
                     skillModParts = value;
                     CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("SkillModParts");
                 }
             }
@@ -196,7 +214,6 @@ namespace OfflineServer
                 {
                     vinyls = value;
                     CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Vinyls");
                 }
             }
@@ -210,7 +227,6 @@ namespace OfflineServer
                 {
                     visualParts = value;
                     CarManagement.car.visualParts = value.ToString(SaveOptions.DisableFormatting);
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("VisualParts");
                 }
             }
@@ -224,7 +240,6 @@ namespace OfflineServer
                 {
                     durability = value;
                     CarManagement.car.durability = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Durability");
                 }
             }
@@ -238,7 +253,6 @@ namespace OfflineServer
                 {
                     expirationDate = value;
                     CarManagement.car.expirationDate = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ExpirationDate");
                 }
             }
@@ -252,7 +266,6 @@ namespace OfflineServer
                 {
                     heatLevel = value;
                     CarManagement.car.heatLevel = value;
-                    CarManagement.car.update();
                     RaisePropertyChangedEvent("HeatLevel");
                 }
             }
@@ -276,7 +289,7 @@ namespace OfflineServer
         {
             id = car.id;
             baseCarId = car.baseCarId;
-            raceClass = car.raceClass;
+            carClassHash = car.carClassHash;
             name = car.name;
             paints = XElement.Parse(car.paints);
             performanceParts = XElement.Parse(car.performanceParts);
@@ -297,7 +310,7 @@ namespace OfflineServer
             return new CustomCar()
             {
                 baseCarId = BaseCarId,
-                carClass = RaceClass,
+                carClassHash = CarClassHash,
                 id = Id,
                 name = Name,
                 paints = Paints.ToString().DeserializeObject<List<CustomPaintTrans>>(),

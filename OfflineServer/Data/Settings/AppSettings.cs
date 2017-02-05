@@ -1,6 +1,4 @@
-﻿using MahApps.Metro;
-using OfflineServer.Servers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -9,6 +7,8 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
+using MahApps.Metro;
+using OfflineServer.Servers;
 
 namespace OfflineServer.Data.Settings
 {
@@ -187,6 +187,8 @@ namespace OfflineServer.Data.Settings
             {
                 #region ViewModel
                 public String Persona { get; set; }
+                public String Car { get; set; }
+                public String Event { get; set; }
                 public String PersonaInformation { get; set; }
                 public String Name { get; set; }
                 public String Motto { get; set; }
@@ -210,11 +212,22 @@ namespace OfflineServer.Data.Settings
                 public String RemoveCarLastCarError { get; set; }
                 public String RemoveCarNoSelectedCarError { get; set; }
                 public String LoadXElement { get; set; }
+                public String Times { get; set; }
+                public String EventDuration { get; set; }
+                public String FinishReason { get; set; }
+                public String Ranking { get; set; }
+                public String GainedExperience { get; set; }
+                public String GainedCash { get; set; }
+                public String BestLapDuration { get; set; }
+                public String PerfectStart { get; set; }
+                public String TopSpeed { get; set; }
+                public String NoEventResultsToDisplay { get; set; }
                 public String InformUserError { get; set; }
                 public String InformUserWarning { get; set; }
                 public String InformUserInformation { get; set; }
                 public String InformUserOther { get; set; }
                 public String ErrorEmptyPersonaName { get; set; }
+                public String ErrorPersonaNameTooLong { get; set; }
                 public String ErrorEmptyNFSWorldPath { get; set; }
                 public String ErrorNFSWorldLaunch { get; set; }
                 public String Settings { get; set; }
@@ -411,7 +424,7 @@ namespace OfflineServer.Data.Settings
 
                     foreach (String languageFile in Directory.GetFiles(languagesDir, "*.xml", SearchOption.TopDirectoryOnly))
                     {
-                        list_Languages.Add(languageFile.Replace(languagesDir, String.Empty).Replace(".xml", String.Empty));
+                        list_Languages.Add(Path.GetFileNameWithoutExtension(languageFile));
                     }
                 }
 

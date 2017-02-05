@@ -121,7 +121,6 @@ namespace OfflineServer.Servers.Xmpp
                     log.Warn("Shutting down after exception.");
                     personaStopwatch.Stop();
                     PersonaManagement.persona.timePlayed += (UInt64)personaStopwatch.ElapsedMilliseconds;
-                    PersonaManagement.persona.update();
                     Access.CurrentSession.ActivePersona.TimePlayed = "";
                     shutdown();
                     break;
@@ -132,7 +131,6 @@ namespace OfflineServer.Servers.Xmpp
                     log.Info(String.Format("Stream ended for persona id {0} on client {1}.", personaId, client.GetHashCode()));
                     personaStopwatch.Stop();
                     PersonaManagement.persona.timePlayed += (UInt64)personaStopwatch.ElapsedMilliseconds;
-                    PersonaManagement.persona.update();
                     Access.CurrentSession.ActivePersona.TimePlayed = "";
                     shutdown();
                     break;

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
-    [XmlRoot("EventDefinition", Namespace = "http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization.Event")]
+    [XmlRoot("EventDefinition")]
     public class EventDefinition
     {
         [XmlElement("EventModeIcon")]
@@ -50,7 +50,7 @@ namespace OfflineServer.Servers.Http.Responses
         public Int32 minLevel;
         [XmlElement("RegionLocalization")]
         public Int32 regionLocalization;
-        [XmlElement("RewardModes")]
+        [XmlElement("RewardModes", Namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays")]
         public List<Int32> rewardModes;
         [XmlElement("TimeLimit")]
         public float timeLimit;

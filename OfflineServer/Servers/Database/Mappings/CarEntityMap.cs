@@ -11,7 +11,7 @@ namespace OfflineServer.Servers.Database.Mappings
             Id(c => c.id)
                 .GeneratedBy.Native();
             Map(c => c.baseCarId);
-            Map(c => c.raceClass);
+            Map(c => c.carClassHash);
             Map(c => c.name);
             Map(c => c.paints);
             Map(c => c.performanceParts);

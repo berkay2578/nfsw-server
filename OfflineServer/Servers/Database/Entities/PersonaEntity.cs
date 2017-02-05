@@ -31,7 +31,6 @@ namespace OfflineServer.Servers.Database.Entities
             car.ownerPersona = this;
             garage.Add(car);
         }
-
         public virtual void removeCar(CarEntity car)
         {
             garage.Remove(car);

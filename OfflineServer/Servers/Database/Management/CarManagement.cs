@@ -23,32 +23,12 @@ namespace OfflineServer.Servers.Database.Management
             }
             set
             {
-                if (Access.CurrentSession.ActivePersona != null)
-                {
-                    if (car != value && value != null)
-                    {
-                        using (ITransaction transaction = session.BeginTransaction())
-                        {
-                            CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
-                            CarEntity = value;
-                            session.Update(CarEntity);
-                            transaction.Commit();
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void update(this CarEntity newCar)
-        {
-            if (newCar != null)
-            {
-                if (Access.CurrentSession.ActivePersona != null)
+                if (Access.CurrentSession.ActivePersona != null && value != null)
                 {
                     using (ITransaction transaction = session.BeginTransaction())
                     {
-                        CarEntity CarEntity = session.Load<CarEntity>(newCar.id);
-                        CarEntity = newCar;
+                        CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
+                        CarEntity = value;
                         session.Update(CarEntity);
                         transaction.Commit();
                     }
@@ -60,7 +40,7 @@ namespace OfflineServer.Servers.Database.Management
         {
             CustomCar customCar = new CustomCar();
             customCar.baseCarId = carEntity.baseCarId;
-            customCar.carClass = carEntity.raceClass;
+            customCar.carClassHash = carEntity.carClassHash;
             customCar.id = carEntity.id;
             customCar.name = carEntity.name;
             customCar.paints = carEntity.paints.DeserializeObject<List<CustomPaintTrans>>();

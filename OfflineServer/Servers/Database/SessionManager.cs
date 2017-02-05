@@ -16,6 +16,7 @@ namespace OfflineServer.Servers.Database
         {
             if (sessionFactory == null)
             {
+                Action<Configuration> query = delegate (Configuration config) { new SchemaUpdate(config).Execute(false, true); };
                 sessionFactory = Fluently.Configure()
                   .Database(
                     SQLiteConfiguration.Standard
@@ -23,11 +24,14 @@ namespace OfflineServer.Servers.Database
                   )
                   .Mappings(m =>
                         m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
+                  .ExposeConfiguration(query)
                   .BuildSessionFactory();
+                
                 return sessionFactory;
             }
             else { return sessionFactory; }
         }
+
         public static ISessionFactory createDatabase()
         {
             if (sessionFactory != null)
@@ -36,7 +40,7 @@ namespace OfflineServer.Servers.Database
                 sessionFactory.Dispose();
             }
 
-            Action<Configuration> query = delegate(Configuration config) { new SchemaExport(config).Create(false, true); };
+            Action<Configuration> query = delegate (Configuration config) { new SchemaExport(config).Create(false, true); };
             sessionFactory = Fluently.Configure()
                    .Database(
                      SQLiteConfiguration.Standard
