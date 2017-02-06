@@ -17,8 +17,31 @@ namespace OfflineServer.Servers.Http.Classes
                 case "Drag":
                     {
                         DragArbitrationPacket dragArbitration = arbitrationPacket.DeserializeObject<DragArbitrationPacket>();
+
+                        DragEventResult eventResult = new DragEventResult();
+                        eventResult.accolades = getAccolades(dragArbitration);
+                        eventResult.durability = Math.Max(0, Access.CurrentSession.ActivePersona.SelectedCar.Durability - 5);
+                        eventResult.entrants.Add((DragEntrantResult)dragArbitration.getEntrantResult());
+                        eventResult.personaId = Access.CurrentSession.ActivePersona.Id;
+
+                        if (EventResultManagement.eventResult != null)
+                        {
+                            EventResultEntity eventResultEntity = EventResultManagement.eventResult;
+                            eventResultEntity.eventDurationInMilliseconds = dragArbitration.eventDurationInMilliseconds;
+                            eventResultEntity.finishReason = dragArbitration.finishReason.ToString();
+                            eventResultEntity.gainedExp = eventResult.accolades.finalRewards.rep;
+                            eventResultEntity.gainedCash = eventResult.accolades.finalRewards.tokens;
+                            eventResultEntity.perfectStart = dragArbitration.perfectStart == 1;
+                            eventResultEntity.rank = dragArbitration.rank;
+                            eventResultEntity.topSpeed = dragArbitration.topSpeed;
+
+                            EventResultManagement.eventResult = eventResultEntity;
+                        }
+
+                        Access.CurrentSession.ActivePersona.currentEventId = 0;
+                        Access.CurrentSession.ActivePersona.currentEventSessionId = 0;
+                        return eventResult.SerializeObject();
                     }
-                    break;
                 case "Pursuit":
                     {
 
@@ -69,7 +92,8 @@ namespace OfflineServer.Servers.Http.Classes
                 return accolades;
 
             Int32 finalExp, finalCash;
-            List<RewardPart> rewardParts = arbitrationPacket.calculateRewardParts(out finalExp, out finalCash);
+            EventDefinition eventDefinition = Data.DataEx.eventDefinitions[Access.CurrentSession.ActivePersona.currentEventId];
+            List<RewardPart> rewardParts = arbitrationPacket.calculateRewardParts(eventDefinition, out finalExp, out finalCash);
 
             accolades.finalRewards = new Reward()
             {
@@ -78,7 +102,7 @@ namespace OfflineServer.Servers.Http.Classes
             };
             accolades.hasLeveledUp = Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel - finalExp <= 0;
             accolades.luckyDrawInfo = new LuckyDrawInfo();
-            accolades.originalRewards = arbitrationPacket.calculateBaseReward();
+            accolades.originalRewards = arbitrationPacket.calculateBaseReward(eventDefinition);
             accolades.rewardInfo = rewardParts;
 
             Access.CurrentSession.ActivePersona.ReputationInTotal += finalExp;

@@ -27,8 +27,8 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("Response")]
         public SecurityResponse response;
 
-        public abstract Reward calculateBaseReward();
-        public abstract List<RewardPart> calculateRewardParts(out Int32 finalExp, out Int32 finalCash);
+        public abstract Reward calculateBaseReward(EventDefinition eventDefinition);
+        public abstract List<RewardPart> calculateRewardParts(EventDefinition eventDefinition, out Int32 finalExp, out Int32 finalCash);
         public abstract EntrantResult getEntrantResult();
     }
 
