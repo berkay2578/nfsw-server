@@ -387,8 +387,9 @@
                                                         Maximum="100" Minimum="0" StringFormat="{}{0}%"
                                                         TextAlignment="Left"
                                                         Value="{Binding Durability, Delay=1000}" />
-                                <Controls:NumericUpDown Margin="0,5,0,0" Interval="5" IsTabStop="False"
-                                                        Maximum="7" Minimum="1" TextAlignment="Left"
+                                <Controls:NumericUpDown Margin="0,5,0,0" Interval="1" IsTabStop="False"
+                                                        Maximum="7" Minimum="1" StringFormat="{}{0:N}"
+                                                        TextAlignment="Left"
                                                         Value="{Binding HeatLevel, Delay=1000}" />
                             </StackPanel>
                         </StackPanel>
@@ -491,14 +492,14 @@
                             <DataGridTextColumn Binding="{Binding GainedExp}">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedExperience, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}" />
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedExperience, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}, StringFormat={}{0:N0}}" />
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding GainedCash}">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedCash, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}" />
+                                        <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.GainedCash, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}, StringFormat={}{0:N0}}" />
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>

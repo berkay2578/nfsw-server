@@ -39,12 +39,12 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("TopSpeed")]
         public float topSpeed;
 
-        public override Reward calculateBaseReward()
+        public override Reward calculateBaseReward(EventDefinition eventDefinition)
         {
             throw new NotImplementedException();
         }
 
-        public override List<RewardPart> calculateRewardParts(out int finalExp, out int finalCash)
+        public override List<RewardPart> calculateRewardParts(EventDefinition eventDefinition, out int finalExp, out int finalCash)
         {
             throw new NotImplementedException();
         }

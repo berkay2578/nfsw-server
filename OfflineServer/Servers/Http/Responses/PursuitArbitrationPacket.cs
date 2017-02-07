@@ -31,16 +31,123 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("TopSpeed")]
         public float topSpeed;
 
-        public override Reward calculateBaseReward()
-        {
-            throw new NotImplementedException();
-        }
 
-        public override List<RewardPart> calculateRewardParts(out int finalExp, out int finalCash)
+        public override Reward calculateBaseReward(EventDefinition eventDefinition)
         {
-            throw new NotImplementedException();
-        }
+            Int32 level = Access.CurrentSession.ActivePersona.Level;
+            Boolean repLimited = level >= Data.DataEx.maxLevel;
+            Int32 rankMultiplier = 5;
 
+            return new Reward()
+            {
+                rep = repLimited ? 0 : ((rankMultiplier * level) +
+                (Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / ((rank + 1) * 125))) * 8,
+                tokens = rankMultiplier * level * 300
+            };
+        }
+        public override List<RewardPart> calculateRewardParts(EventDefinition eventDefinition, out Int32 finalExp, out Int32 finalCash)
+        {
+            List<RewardPart> rewardParts = new List<RewardPart>();
+            Int32 level = Access.CurrentSession.ActivePersona.Level;
+            Boolean repLimited = level >= Data.DataEx.maxLevel;
+            float carHeat = Access.CurrentSession.ActivePersona.SelectedCar.HeatLevel;
+            Int32 rankMultiplier = 5;
+            finalExp = 0;
+            finalCash = 0;
+
+            // Base reward
+            Reward baseReward = calculateBaseReward(eventDefinition);
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = baseReward.rep,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.Evaded,
+                tokenPart = baseReward.tokens
+            });
+
+            // Bonus for CopsDeployed
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = copsDeployed * level * 10,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.CopCarsDeployed,
+                tokenPart = copsDeployed * level * 25
+            });
+
+            // Bonus for CopsDisabled
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = ((copsDeployed / copsDisabled) * 100) * level * 2,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.CopCarsDisabled,
+                tokenPart = ((copsDeployed / copsDisabled) * 100) * level * 4
+            });
+
+            // Bonus for CopsRammed
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = (copsRammed * 100) + copsDisabled > 0 ? copsDisabled * 50 : 0,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.CopCarsRammed,
+                tokenPart = (copsRammed * 250) + copsDisabled > 0 ? copsDisabled * 100 : 0
+            });
+
+            // Bonus for CostToState
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = (costToState / 100) * (level / 4),
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.CostToState,
+                tokenPart = (costToState / 100) * (level / 2)
+            });
+
+            // Bonus for heat increase
+            if (heat > carHeat)
+            {
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = (Int32)Math.Round(((heat / carHeat) * 100) * rankMultiplier * level * 2),
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.HeatLevel,
+                    tokenPart = (Int32)Math.Round(((heat / carHeat) * 100) * rankMultiplier * level * 3)
+                });
+            }
+
+            // Bonus for Infractions
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = infractions * (level / 2),
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.Infractions,
+                tokenPart = infractions * level
+            });
+
+            // Bonus for RoadBlocksDodged
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = roadBlocksDodged * 30,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.RoadblocksDodged,
+                tokenPart = roadBlocksDodged * 10
+            });
+
+            // Bonus for SpikeStripsDodged
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = spikeStripsDodged * 25,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.SpikeStripsDodged,
+                tokenPart = spikeStripsDodged * 10
+            });
+
+            foreach (RewardPart rewardPart in rewardParts)
+            {
+                finalExp += rewardPart.repPart;
+                finalCash += rewardPart.tokenPart;
+            }
+
+            return rewardParts;
+        }
         public override EntrantResult getEntrantResult()
         {
             throw new NotImplementedException();

@@ -18,7 +18,7 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual String visualParts { get; set; }
         public virtual Int16 durability { get; set; }
         public virtual String expirationDate { get; set; }
-        public virtual Int16 heatLevel { get; set; }
+        public virtual float heatLevel { get; set; }
         public virtual PersonaEntity ownerPersona { get; set; }
     }
 }

@@ -22,6 +22,22 @@ namespace OfflineServer.Servers.Database.Mappings
                 .Nullable();
             Map(er => er.topSpeed)
                 .Nullable();
+            Map(er => er.copsDeployed)
+                .Nullable();
+            Map(er => er.copsDisabled)
+                .Nullable();
+            Map(er => er.copsRammed)
+                .Nullable();
+            Map(er => er.costToState)
+                .Nullable();
+            Map(er => er.heat)
+                .Nullable();
+            Map(er => er.infractions)
+                .Nullable();
+            Map(er => er.roadBlocksDodged)
+                .Nullable();
+            Map(er => er.spikeStripsDodged)
+                .Nullable();
             Map(er => er.personaName);
             Map(er => er.carName);
         }

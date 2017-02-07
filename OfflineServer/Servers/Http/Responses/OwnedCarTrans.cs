@@ -14,7 +14,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("ExpirationDate", IsNullable = true)]
         public String expirationDate = null;
         [XmlElement("Heat")]
-        public Int16 heatLevel;
+        public float heatLevel;
         [XmlElement("Id")]
         public Int32 id;
         [XmlElement("OwnershipType")]

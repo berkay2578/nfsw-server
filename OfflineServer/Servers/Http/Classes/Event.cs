@@ -8,6 +8,7 @@ namespace OfflineServer.Servers.Http.Classes
 {
     public static class Event
     {
+        // TODO: Add penalty for getting busted in pursuit/team-escape
         public static String arbitration()
         {
             String arbitrationPacket = Access.sHttp.getPostData();
@@ -44,9 +45,40 @@ namespace OfflineServer.Servers.Http.Classes
                     }
                 case "Pursuit":
                     {
+                        PursuitArbitrationPacket pursuitArbitration = arbitrationPacket.DeserializeObject<PursuitArbitrationPacket>();
 
+                        PursuitEventResult eventResult = new PursuitEventResult();
+                        eventResult.accolades = getAccolades(pursuitArbitration);
+                        eventResult.durability = Math.Max(0, Access.CurrentSession.ActivePersona.SelectedCar.Durability - 5);
+                        eventResult.heat = pursuitArbitration.heat;
+                        eventResult.personaId = Access.CurrentSession.ActivePersona.Id;
+
+                        if (EventResultManagement.eventResult != null)
+                        {
+                            EventResultEntity eventResultEntity = EventResultManagement.eventResult;
+                            eventResultEntity.copsDeployed = pursuitArbitration.copsDeployed;
+                            eventResultEntity.copsDisabled = pursuitArbitration.copsDisabled;
+                            eventResultEntity.copsRammed = pursuitArbitration.copsRammed;
+                            eventResultEntity.costToState = pursuitArbitration.costToState;
+                            eventResultEntity.eventDurationInMilliseconds = pursuitArbitration.eventDurationInMilliseconds;
+                            eventResultEntity.finishReason = pursuitArbitration.finishReason.ToString();
+                            eventResultEntity.gainedExp = eventResult.accolades.finalRewards.rep;
+                            eventResultEntity.gainedCash = eventResult.accolades.finalRewards.tokens;
+                            eventResultEntity.heat = eventResult.heat;
+                            eventResultEntity.infractions = pursuitArbitration.infractions;
+                            eventResultEntity.rank = pursuitArbitration.rank;
+                            eventResultEntity.roadBlocksDodged = pursuitArbitration.roadBlocksDodged;
+                            eventResultEntity.spikeStripsDodged = pursuitArbitration.spikeStripsDodged;
+                            eventResultEntity.topSpeed = pursuitArbitration.topSpeed;
+
+                            EventResultManagement.eventResult = eventResultEntity;
+                        }
+
+                        CarManagement.car.heatLevel = pursuitArbitration.heat;
+                        Access.CurrentSession.ActivePersona.currentEventId = 0;
+                        Access.CurrentSession.ActivePersona.currentEventSessionId = 0;
+                        return eventResult.SerializeObject();
                     }
-                    break;
                 case "Route":
                     {
                         RouteArbitrationPacket routeArbitration = arbitrationPacket.DeserializeObject<RouteArbitrationPacket>();

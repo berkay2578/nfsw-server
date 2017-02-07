@@ -56,7 +56,7 @@ namespace OfflineServer
         private XElement visualParts;
         private Int16 durability;
         private String expirationDate;
-        private Int16 heatLevel;
+        private float heatLevel;
         private Int32 personaId;
         public String MakeModel { get { return CarDefinitions.defineFromPhysicsProfileHash(PhysicsProfileHash, true); } }
         public String MakeModelDetailed { get { return CarDefinitions.defineFromBaseCarId(BaseCarId); } }
@@ -257,7 +257,7 @@ namespace OfflineServer
                 }
             }
         }
-        public Int16 HeatLevel
+        public float HeatLevel
         {
             get { return heatLevel; }
             set

@@ -14,6 +14,14 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual UInt32? bestLapDurationInMilliseconds { get; set; }
         public virtual Boolean? perfectStart { get; set; }
         public virtual float? topSpeed { get; set; }
+        public virtual Int32? copsDeployed { get; set; }
+        public virtual Int32? copsDisabled { get; set; }
+        public virtual Int32? copsRammed { get; set; }
+        public virtual Int32? costToState { get; set; }
+        public virtual float? heat { get; set; }
+        public virtual Int32? infractions { get; set; }
+        public virtual Int32? roadBlocksDodged { get; set; }
+        public virtual Int32? spikeStripsDodged { get; set; }
         public virtual String personaName { get; set; }
         public virtual String carName { get; set; }
     }
