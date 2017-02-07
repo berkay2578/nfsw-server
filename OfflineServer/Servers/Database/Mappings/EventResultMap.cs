@@ -38,6 +38,8 @@ namespace OfflineServer.Servers.Database.Mappings
                 .Nullable();
             Map(er => er.spikeStripsDodged)
                 .Nullable();
+            Map(er => er.bustedCount)
+                .Nullable();
             Map(er => er.personaName);
             Map(er => er.carName);
         }

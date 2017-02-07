@@ -22,6 +22,7 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual Int32? infractions { get; set; }
         public virtual Int32? roadBlocksDodged { get; set; }
         public virtual Int32? spikeStripsDodged { get; set; }
+        public virtual Int32? bustedCount { get; set; }
         public virtual String personaName { get; set; }
         public virtual String carName { get; set; }
     }

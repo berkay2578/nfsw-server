@@ -84,7 +84,7 @@ namespace OfflineServer.Servers.Http.Responses
                 // Collision penalty
                 rewardParts.Add(new RewardPart()
                 {
-                    repPart = repLimited ? 0 : numberOfCollisions * ((-10 + laps) * 3) * level,
+                    repPart = numberOfCollisions * ((-10 + laps) * 3) * level,
                     rewardCategory = RewardCategory.Base,
                     rewardType = RewardType.Infractions,
                     tokenPart = numberOfCollisions * ((-25 + laps) * 6) * level

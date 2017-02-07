@@ -38,12 +38,26 @@ namespace OfflineServer.Servers.Http.Responses
             Boolean repLimited = level >= Data.DataEx.maxLevel;
             Int32 rankMultiplier = 5;
 
-            return new Reward()
+            if (finishReason == FinishReason.Busted)
             {
-                rep = repLimited ? 0 : ((rankMultiplier * level) +
-                (Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / ((rank + 1) * 125))) * 8,
-                tokens = rankMultiplier * level * 300
-            };
+                rankMultiplier = 3;
+                return new Reward()
+                {
+                    rep = (rankMultiplier * level +
+                    (Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / 350)) * -1,
+                    tokens = rankMultiplier * level * -250
+                };
+            }
+            else
+            {
+                return new Reward()
+                {
+                    rep = repLimited ? 0 : ((rankMultiplier * level) +
+                    (Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel / 250)) * 8,
+                    tokens = rankMultiplier * level * 300
+                };
+            }
+
         }
         public override List<RewardPart> calculateRewardParts(EventDefinition eventDefinition, out Int32 finalExp, out Int32 finalCash)
         {
@@ -51,7 +65,7 @@ namespace OfflineServer.Servers.Http.Responses
             Int32 level = Access.CurrentSession.ActivePersona.Level;
             Boolean repLimited = level >= Data.DataEx.maxLevel;
             float carHeat = Access.CurrentSession.ActivePersona.SelectedCar.HeatLevel;
-            Int32 rankMultiplier = 5;
+            Int32 rankMultiplier = 5 - finishReason == FinishReason.Busted ? 3 : 0;
             finalExp = 0;
             finalCash = 0;
 
@@ -61,44 +75,44 @@ namespace OfflineServer.Servers.Http.Responses
             {
                 repPart = baseReward.rep,
                 rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.Evaded,
+                rewardType = finishReason == FinishReason.Busted ? RewardType.Busted : RewardType.Evaded,
                 tokenPart = baseReward.tokens
             });
 
             // Bonus for CopsDeployed
             rewardParts.Add(new RewardPart()
             {
-                repPart = copsDeployed * level * 10,
+                repPart = copsDeployed * level * rankMultiplier * 2,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.CopCarsDeployed,
-                tokenPart = copsDeployed * level * 25
+                tokenPart = copsDeployed * level * rankMultiplier * 5
             });
 
             // Bonus for CopsDisabled
             rewardParts.Add(new RewardPart()
             {
-                repPart = ((copsDeployed / copsDisabled) * 100) * level * 2,
+                repPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.CopCarsDisabled,
-                tokenPart = ((copsDeployed / copsDisabled) * 100) * level * 4
+                tokenPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier * 2
             });
 
             // Bonus for CopsRammed
             rewardParts.Add(new RewardPart()
             {
-                repPart = (copsRammed * 100) + copsDisabled > 0 ? copsDisabled * 50 : 0,
+                repPart = (copsRammed * rankMultiplier * 10) + copsDisabled > 0 ? copsDisabled * rankMultiplier * 10 : 0,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.CopCarsRammed,
-                tokenPart = (copsRammed * 250) + copsDisabled > 0 ? copsDisabled * 100 : 0
+                tokenPart = (copsRammed * rankMultiplier * 50) + copsDisabled > 0 ? copsDisabled * rankMultiplier * 20 : 0
             });
 
             // Bonus for CostToState
             rewardParts.Add(new RewardPart()
             {
-                repPart = (costToState / 100) * (level / 4),
+                repPart = (costToState / 100) * (level / (9 - rankMultiplier)),
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.CostToState,
-                tokenPart = (costToState / 100) * (level / 2)
+                tokenPart = (costToState / 100) * (level / (7 - rankMultiplier))
             });
 
             // Bonus for heat increase
@@ -126,28 +140,28 @@ namespace OfflineServer.Servers.Http.Responses
             TimeSpan pursuitLength = TimeSpan.FromMilliseconds(eventDurationInMilliseconds);
             rewardParts.Add(new RewardPart()
             {
-                repPart = (Int32)Math.Round(Math.Pow(1.5f, Math.Max(1, pursuitLength.Minutes))) * level * 100,
+                repPart = (Int32)Math.Round(Math.Pow(1.5f, Math.Max(1, pursuitLength.Minutes))) * level * rankMultiplier * 20,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.PursuitLength,
-                tokenPart = (Int32)Math.Round(Math.Pow(2f, Math.Max(1, pursuitLength.Minutes))) * level * 100
+                tokenPart = (Int32)Math.Round(Math.Pow(2f, Math.Max(1, pursuitLength.Minutes))) * level * rankMultiplier * 35
             });
 
             // Bonus for RoadBlocksDodged
             rewardParts.Add(new RewardPart()
             {
-                repPart = roadBlocksDodged * 30,
+                repPart = roadBlocksDodged * rankMultiplier * 6,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.RoadblocksDodged,
-                tokenPart = roadBlocksDodged * 10
+                tokenPart = roadBlocksDodged * rankMultiplier * 2
             });
 
             // Bonus for SpikeStripsDodged
             rewardParts.Add(new RewardPart()
             {
-                repPart = spikeStripsDodged * 25,
+                repPart = spikeStripsDodged * rankMultiplier * 5,
                 rewardCategory = RewardCategory.Pursuit,
                 rewardType = RewardType.SpikeStripsDodged,
-                tokenPart = spikeStripsDodged * 10
+                tokenPart = spikeStripsDodged * rankMultiplier * 2
             });
 
             foreach (RewardPart rewardPart in rewardParts)
