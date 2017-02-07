@@ -122,6 +122,16 @@ namespace OfflineServer.Servers.Http.Responses
                 tokenPart = infractions * level
             });
 
+            // Bonus for PursuitLength
+            TimeSpan pursuitLength = TimeSpan.FromMilliseconds(eventDurationInMilliseconds);
+            rewardParts.Add(new RewardPart()
+            {
+                repPart = (Int32)Math.Round(Math.Pow(1.5f, Math.Max(1, pursuitLength.Minutes))) * level * 100,
+                rewardCategory = RewardCategory.Pursuit,
+                rewardType = RewardType.PursuitLength,
+                tokenPart = (Int32)Math.Round(Math.Pow(2f, Math.Max(1, pursuitLength.Minutes))) * level * 100
+            });
+
             // Bonus for RoadBlocksDodged
             rewardParts.Add(new RewardPart()
             {
