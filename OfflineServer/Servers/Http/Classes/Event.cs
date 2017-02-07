@@ -12,6 +12,7 @@ namespace OfflineServer.Servers.Http.Classes
         public static String arbitration()
         {
             String arbitrationPacket = Access.sHttp.getPostData();
+            Access.CurrentSession.ActivePersona.SelectedCar.Durability -= 5;
 
             switch (arbitrationPacket.Substring(1, arbitrationPacket.IndexOf("ArbitrationPacket") - 1))
             {
@@ -21,7 +22,7 @@ namespace OfflineServer.Servers.Http.Classes
 
                         DragEventResult eventResult = new DragEventResult();
                         eventResult.accolades = getAccolades(dragArbitration);
-                        eventResult.durability = Math.Max(0, Access.CurrentSession.ActivePersona.SelectedCar.Durability - 5);
+                        eventResult.durability = Access.CurrentSession.ActivePersona.SelectedCar.Durability;
                         eventResult.entrants.Add((DragEntrantResult)dragArbitration.getEntrantResult());
                         eventResult.personaId = Access.CurrentSession.ActivePersona.Id;
 
@@ -49,7 +50,7 @@ namespace OfflineServer.Servers.Http.Classes
 
                         PursuitEventResult eventResult = new PursuitEventResult();
                         eventResult.accolades = getAccolades(pursuitArbitration);
-                        eventResult.durability = Math.Max(0, Access.CurrentSession.ActivePersona.SelectedCar.Durability - 5);
+                        eventResult.durability = Access.CurrentSession.ActivePersona.SelectedCar.Durability;
                         eventResult.heat = pursuitArbitration.heat;
                         eventResult.personaId = Access.CurrentSession.ActivePersona.Id;
 
@@ -85,7 +86,7 @@ namespace OfflineServer.Servers.Http.Classes
 
                         RouteEventResult eventResult = new RouteEventResult();
                         eventResult.accolades = getAccolades(routeArbitration);
-                        eventResult.durability = Math.Max(0, Access.CurrentSession.ActivePersona.SelectedCar.Durability - 5);
+                        eventResult.durability = Access.CurrentSession.ActivePersona.SelectedCar.Durability;
                         eventResult.entrants.Add((RouteEntrantResult)routeArbitration.getEntrantResult());
                         eventResult.personaId = Access.CurrentSession.ActivePersona.Id;
 

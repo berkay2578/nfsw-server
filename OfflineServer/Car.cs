@@ -236,7 +236,7 @@ namespace OfflineServer
             get { return durability; }
             set
             {
-                if (durability != value)
+                if (durability != value && value >= 0)
                 {
                     durability = value;
                     CarManagement.car.durability = value;
