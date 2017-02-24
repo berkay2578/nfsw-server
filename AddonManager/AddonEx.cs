@@ -16,7 +16,6 @@ namespace AddonManager
         internal static String dir_Accents;
         internal static String dir_Themes;
         internal static String dir_Languages;
-        internal static String dir_MemoryPatches;
         internal static String dir_Logs;
         internal static String xml_Settings = @"Data\AddonManagerSettings.xml";
 
@@ -76,7 +75,7 @@ namespace AddonManager
         }
         internal static Boolean saveAddonFile(this String filePath, String addonType, params String[][] lists)
         {
-            retry:
+        retry:
             string tempDir = Path.Combine(Path.GetTempPath(), "addonmanager");
             string zipFile = Path.Combine(Path.GetTempPath(), "addon.zip");
             if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
@@ -152,9 +151,6 @@ namespace AddonManager
                                 fileStream.Write(value, 0, value.Length);
                             }
                         }
-                        break;
-                    case AddonType.memoryPatch:
-                        // not yet implemented
                         break;
                 }
             }

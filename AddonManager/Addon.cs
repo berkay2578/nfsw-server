@@ -12,7 +12,6 @@
             public const string accent = "Accent";
             public const string theme = "Theme";
             public const string language = "Language";
-            public const string memoryPatch = "Memory Patch"; 
         }
         public enum AddonProperty
         {

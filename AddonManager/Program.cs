@@ -32,7 +32,6 @@ namespace AddonManager
             AddonEx.dir_Accents = paths.getPath("/accents");
             AddonEx.dir_Themes = paths.getPath("/themes");
             AddonEx.dir_Languages = paths.getPath("/languages");
-            AddonEx.dir_MemoryPatches = paths.getPath("/memorypatches");
             AddonEx.dir_Logs = paths.getPath("/logs");
 
             for (int i = 0; i < args.Length; i++)
@@ -65,18 +64,17 @@ namespace AddonManager
                 || String.IsNullOrWhiteSpace(AddonEx.dir_Accents)
                 || String.IsNullOrWhiteSpace(AddonEx.dir_Themes)
                 || String.IsNullOrWhiteSpace(AddonEx.dir_Languages)
-                || String.IsNullOrWhiteSpace(AddonEx.dir_MemoryPatches)
                 || String.IsNullOrWhiteSpace(AddonEx.dir_Logs))
             {
                 Console.WriteLine("Correct usage example:\r\n{0}\r\nTo automatically install an addon:\r\n{1}\r\n{2}",
-                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path'",
-                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /memorypatches 'path' /logs 'path' /installAddon 'path'",
+                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /logs 'path'",
+                    @"AddonManager /catalogs 'path' /baskets 'path' /accents 'path' /themes 'path' /languages 'path' /logs 'path' /installAddon 'path'",
                     @"Argument order isn't important. Each variable 'path' needs to be escaped."
                     );
                 Environment.Exit(0);
                 return;
             }
-            
+
             Application.Run(new MainForm(addonPath, setupIPCTalk, port));
 #else
             AddonEx.dir_HttpServerCatalogs = @"Data\Server\Catalogs\";
@@ -84,7 +82,6 @@ namespace AddonManager
             AddonEx.dir_Accents = @"Data\UI\Accents\";
             AddonEx.dir_Themes = @"Data\UI\Themes\";
             AddonEx.dir_Languages = @"Data\UI\Languages\";
-            AddonEx.dir_MemoryPatches = @"Data\Others\Memory Patches\";
             AddonEx.dir_Logs = @"Data\Logs\";
 
             Application.Run(new MainForm(true, null, false));

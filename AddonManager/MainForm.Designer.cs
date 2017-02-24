@@ -30,46 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPageCatalog = new System.Windows.Forms.TabPage();
-            this.openCatalogAddonDetails = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.basketsListBox = new System.Windows.Forms.ListBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.categoriesListBox = new AddonManager.CustomControls.ActiveCheckedListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.productsListBox = new AddonManager.CustomControls.ActiveCheckedListBox();
-            this.createCatalog = new System.Windows.Forms.Button();
-            this.discardCatalog = new System.Windows.Forms.Button();
-            this.tabPageAccent = new System.Windows.Forms.TabPage();
-            this.elementHostAccent = new System.Windows.Forms.Integration.ElementHost();
-            this.avalonEditProxyAccent = new AddonManager.AvalonEditProxy();
-            this.openAccentAddonDetails = new System.Windows.Forms.Button();
-            this.createAccent = new System.Windows.Forms.Button();
-            this.discardAccent = new System.Windows.Forms.Button();
-            this.tabPageTheme = new System.Windows.Forms.TabPage();
-            this.elementHostTheme = new System.Windows.Forms.Integration.ElementHost();
-            this.avalonEditProxyTheme = new AddonManager.AvalonEditProxy();
-            this.openThemeAddonDetails = new System.Windows.Forms.Button();
-            this.createTheme = new System.Windows.Forms.Button();
-            this.discardTheme = new System.Windows.Forms.Button();
-            this.tabPageLanguage = new System.Windows.Forms.TabPage();
-            this.label8 = new System.Windows.Forms.Label();
-            this.openLanguageDefault = new System.Windows.Forms.Button();
-            this.elementHostLanguage = new System.Windows.Forms.Integration.ElementHost();
-            this.avalonEditProxyLanguage = new AddonManager.AvalonEditProxy();
-            this.openLanguageAddonDetails = new System.Windows.Forms.Button();
-            this.createLanguage = new System.Windows.Forms.Button();
-            this.discardLanguage = new System.Windows.Forms.Button();
-            this.tabPageMemoryPatch = new System.Windows.Forms.TabPage();
-            this.elementHostMemoryPatch = new System.Windows.Forms.Integration.ElementHost();
-            this.avalonEditProxyMemoryPatch = new AddonManager.AvalonEditProxy();
-            this.comboBoxMemoryPatchTargetModule = new System.Windows.Forms.ComboBox();
-            this.openMemoryPatchAddonDetails = new System.Windows.Forms.Button();
-            this.createMemoryPatch = new System.Windows.Forms.Button();
-            this.discardMemoryPatch = new System.Windows.Forms.Button();
             this.installAddonGroupBox = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -96,451 +56,50 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonAbout = new System.Windows.Forms.ToolStripButton();
-            this.tabControl1.SuspendLayout();
-            this.tabPageCatalog.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.tabPageAccent.SuspendLayout();
-            this.tabPageTheme.SuspendLayout();
-            this.tabPageLanguage.SuspendLayout();
-            this.tabPageMemoryPatch.SuspendLayout();
+            this.tabPageLanguage = new System.Windows.Forms.TabPage();
+            this.discardLanguage = new System.Windows.Forms.Button();
+            this.createLanguage = new System.Windows.Forms.Button();
+            this.openLanguageAddonDetails = new System.Windows.Forms.Button();
+            this.elementHostLanguage = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyLanguage = new AddonManager.AvalonEditProxy();
+            this.openLanguageDefault = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tabPageTheme = new System.Windows.Forms.TabPage();
+            this.discardTheme = new System.Windows.Forms.Button();
+            this.createTheme = new System.Windows.Forms.Button();
+            this.openThemeAddonDetails = new System.Windows.Forms.Button();
+            this.elementHostTheme = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyTheme = new AddonManager.AvalonEditProxy();
+            this.tabPageAccent = new System.Windows.Forms.TabPage();
+            this.discardAccent = new System.Windows.Forms.Button();
+            this.createAccent = new System.Windows.Forms.Button();
+            this.openAccentAddonDetails = new System.Windows.Forms.Button();
+            this.elementHostAccent = new System.Windows.Forms.Integration.ElementHost();
+            this.avalonEditProxyAccent = new AddonManager.AvalonEditProxy();
+            this.tabPageCatalog = new System.Windows.Forms.TabPage();
+            this.discardCatalog = new System.Windows.Forms.Button();
+            this.createCatalog = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.productsListBox = new AddonManager.CustomControls.ActiveCheckedListBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.categoriesListBox = new AddonManager.CustomControls.ActiveCheckedListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.basketsListBox = new System.Windows.Forms.ListBox();
+            this.openCatalogAddonDetails = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.installAddonGroupBox.SuspendLayout();
             this.listBoxRemoveItemContextMenu.SuspendLayout();
             this.addonManagerToolStrip.SuspendLayout();
+            this.tabPageLanguage.SuspendLayout();
+            this.tabPageTheme.SuspendLayout();
+            this.tabPageAccent.SuspendLayout();
+            this.tabPageCatalog.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tabControl1.Controls.Add(this.tabPageCatalog);
-            this.tabControl1.Controls.Add(this.tabPageAccent);
-            this.tabControl1.Controls.Add(this.tabPageTheme);
-            this.tabControl1.Controls.Add(this.tabPageLanguage);
-            this.tabControl1.Controls.Add(this.tabPageMemoryPatch);
-            this.tabControl1.Location = new System.Drawing.Point(12, 28);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(467, 373);
-            this.tabControl1.TabIndex = 2;
-            this.tabControl1.TabStop = false;
-            // 
-            // tabPageCatalog
-            // 
-            this.tabPageCatalog.Controls.Add(this.openCatalogAddonDetails);
-            this.tabPageCatalog.Controls.Add(this.groupBox3);
-            this.tabPageCatalog.Controls.Add(this.groupBox2);
-            this.tabPageCatalog.Controls.Add(this.createCatalog);
-            this.tabPageCatalog.Controls.Add(this.discardCatalog);
-            this.tabPageCatalog.Location = new System.Drawing.Point(4, 4);
-            this.tabPageCatalog.Name = "tabPageCatalog";
-            this.tabPageCatalog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCatalog.Size = new System.Drawing.Size(459, 347);
-            this.tabPageCatalog.TabIndex = 1;
-            this.tabPageCatalog.Text = "Catalog and Basket Pack";
-            this.tabPageCatalog.UseVisualStyleBackColor = true;
-            // 
-            // openCatalogAddonDetails
-            // 
-            this.openCatalogAddonDetails.Location = new System.Drawing.Point(230, 289);
-            this.openCatalogAddonDetails.Name = "openCatalogAddonDetails";
-            this.openCatalogAddonDetails.Size = new System.Drawing.Size(223, 23);
-            this.openCatalogAddonDetails.TabIndex = 10;
-            this.openCatalogAddonDetails.Text = "Addon Details";
-            this.openCatalogAddonDetails.UseVisualStyleBackColor = true;
-            this.openCatalogAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.basketsListBox);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Location = new System.Drawing.Point(230, 6);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(223, 271);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Basket";
-            // 
-            // basketsListBox
-            // 
-            this.basketsListBox.AllowDrop = true;
-            this.basketsListBox.FormattingEnabled = true;
-            this.basketsListBox.Location = new System.Drawing.Point(6, 35);
-            this.basketsListBox.Name = "basketsListBox";
-            this.basketsListBox.ScrollAlwaysVisible = true;
-            this.basketsListBox.Size = new System.Drawing.Size(211, 225);
-            this.basketsListBox.TabIndex = 4;
-            this.basketsListBox.TabStop = false;
-            this.basketsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox_DragDrop);
-            this.basketsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
-            this.basketsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.basketsListBox_KeyUp);
-            this.basketsListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.basketsListBox_MouseDown);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(158, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Drag and drop basket files here:";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.categoriesListBox);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.productsListBox);
-            this.groupBox2.Location = new System.Drawing.Point(6, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(218, 335);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Catalog";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 187);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(154, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Drag and drop categories here:";
-            // 
-            // categoriesListBox
-            // 
-            this.categoriesListBox.AllowDrop = true;
-            this.categoriesListBox.FormattingEnabled = true;
-            this.categoriesListBox.Items.AddRange(new object[] {
-            "NFSW_NA_EP_VINYLS_Category.xml"});
-            this.categoriesListBox.Location = new System.Drawing.Point(6, 203);
-            this.categoriesListBox.Name = "categoriesListBox";
-            this.categoriesListBox.ScrollAlwaysVisible = true;
-            this.categoriesListBox.Size = new System.Drawing.Size(206, 124);
-            this.categoriesListBox.TabIndex = 2;
-            this.categoriesListBox.TabStop = false;
-            this.categoriesListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
-            this.categoriesListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(146, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Drag and drop products here:";
-            // 
-            // productsListBox
-            // 
-            this.productsListBox.AllowDrop = true;
-            this.productsListBox.CausesValidation = false;
-            this.productsListBox.FormattingEnabled = true;
-            this.productsListBox.Items.AddRange(new object[] {
-            "BoosterPacks.xml",
-            "NFSW_NA_EP_CARSLOTS.xml",
-            "NFSW_NA_EP_PAINTS_BODY_Category.xml",
-            "NFSW_NA_EP_PAINTS_WHEEL_Category.xml",
-            "NFSW_NA_EP_PERFORMANCEPARTS.xml",
-            "NFSW_NA_EP_PRESET_RIDES_ALL_Category.xml",
-            "NFSW_NA_EP_REPAIRS.xml",
-            "NFSW_NA_EP_SKILLMODPARTS.xml",
-            "NFSW_NA_EP_VISUALPARTS_BODYKIT.xml",
-            "NFSW_NA_EP_VISUALPARTS_HOOD.xml",
-            "NFSW_NA_EP_VISUALPARTS_LICENSEPLATES.xml",
-            "NFSW_NA_EP_VISUALPARTS_LOWERINGKIT.xml",
-            "NFSW_NA_EP_VISUALPARTS_NEONS.xml",
-            "NFSW_NA_EP_VISUALPARTS_SPOILER.xml",
-            "NFSW_NA_EP_VISUALPARTS_WHEELS.xml",
-            "NFSW_NA_EP_VISUALPARTS_WINDOWTINTS.xml",
-            "Starting_Cars.xml",
-            "STORE_AFTERMARKETSHOP_CARDPACK.xml",
-            "STORE_AMPLIFIERS.xml",
-            "STORE_BOOSTERPACKS.xml",
-            "STORE_CARS.xml",
-            "STORE_OWNEDCARS.xml",
-            "STORE_PERFORMANCESHOP_CARDPACK.xml",
-            "STORE_POWERUPS.xml",
-            "STORE_SKILLMODPARTS.xml",
-            "STORE_SKILLMODSHOP_CARDPACK.xml",
-            "STORE_STREAK_RECOVERY.xml",
-            "STORE_VANITY_BODYKIT.xml",
-            "STORE_VANITY_HOOD.xml",
-            "STORE_VANITY_LICENSE_PLATE.xml",
-            "STORE_VANITY_LOWERING_KIT.xml",
-            "STORE_VANITY_NEON.xml",
-            "STORE_VANITY_SPOILER.xml",
-            "STORE_VANITY_WHEEL.xml",
-            "STORE_VANITY_WINDOW.xml",
-            "STORE_VINYLCATEGORIES.xml"});
-            this.productsListBox.Location = new System.Drawing.Point(6, 35);
-            this.productsListBox.Name = "productsListBox";
-            this.productsListBox.ScrollAlwaysVisible = true;
-            this.productsListBox.Size = new System.Drawing.Size(206, 139);
-            this.productsListBox.TabIndex = 0;
-            this.productsListBox.TabStop = false;
-            this.productsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
-            this.productsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
-            // 
-            // createCatalog
-            // 
-            this.createCatalog.Location = new System.Drawing.Point(344, 318);
-            this.createCatalog.Name = "createCatalog";
-            this.createCatalog.Size = new System.Drawing.Size(109, 23);
-            this.createCatalog.TabIndex = 5;
-            this.createCatalog.Text = "Create";
-            this.createCatalog.UseVisualStyleBackColor = true;
-            this.createCatalog.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // discardCatalog
-            // 
-            this.discardCatalog.Location = new System.Drawing.Point(230, 318);
-            this.discardCatalog.Name = "discardCatalog";
-            this.discardCatalog.Size = new System.Drawing.Size(108, 23);
-            this.discardCatalog.TabIndex = 6;
-            this.discardCatalog.Text = "Discard";
-            this.discardCatalog.UseVisualStyleBackColor = true;
-            this.discardCatalog.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // tabPageAccent
-            // 
-            this.tabPageAccent.Controls.Add(this.elementHostAccent);
-            this.tabPageAccent.Controls.Add(this.openAccentAddonDetails);
-            this.tabPageAccent.Controls.Add(this.createAccent);
-            this.tabPageAccent.Controls.Add(this.discardAccent);
-            this.tabPageAccent.Location = new System.Drawing.Point(4, 4);
-            this.tabPageAccent.Name = "tabPageAccent";
-            this.tabPageAccent.Size = new System.Drawing.Size(459, 347);
-            this.tabPageAccent.TabIndex = 2;
-            this.tabPageAccent.Text = "Accent";
-            this.tabPageAccent.UseVisualStyleBackColor = true;
-            // 
-            // elementHostAccent
-            // 
-            this.elementHostAccent.Location = new System.Drawing.Point(5, 5);
-            this.elementHostAccent.Name = "elementHostAccent";
-            this.elementHostAccent.Size = new System.Drawing.Size(448, 307);
-            this.elementHostAccent.TabIndex = 24;
-            this.elementHostAccent.Child = this.avalonEditProxyAccent;
-            // 
-            // openAccentAddonDetails
-            // 
-            this.openAccentAddonDetails.Location = new System.Drawing.Point(119, 318);
-            this.openAccentAddonDetails.Name = "openAccentAddonDetails";
-            this.openAccentAddonDetails.Size = new System.Drawing.Size(219, 23);
-            this.openAccentAddonDetails.TabIndex = 23;
-            this.openAccentAddonDetails.Text = "Addon Details";
-            this.openAccentAddonDetails.UseVisualStyleBackColor = true;
-            this.openAccentAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // createAccent
-            // 
-            this.createAccent.Location = new System.Drawing.Point(344, 318);
-            this.createAccent.Name = "createAccent";
-            this.createAccent.Size = new System.Drawing.Size(109, 23);
-            this.createAccent.TabIndex = 21;
-            this.createAccent.Text = "Create";
-            this.createAccent.UseVisualStyleBackColor = true;
-            this.createAccent.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // discardAccent
-            // 
-            this.discardAccent.Location = new System.Drawing.Point(5, 318);
-            this.discardAccent.Name = "discardAccent";
-            this.discardAccent.Size = new System.Drawing.Size(108, 23);
-            this.discardAccent.TabIndex = 22;
-            this.discardAccent.Text = "Discard";
-            this.discardAccent.UseVisualStyleBackColor = true;
-            this.discardAccent.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // tabPageTheme
-            // 
-            this.tabPageTheme.Controls.Add(this.elementHostTheme);
-            this.tabPageTheme.Controls.Add(this.openThemeAddonDetails);
-            this.tabPageTheme.Controls.Add(this.createTheme);
-            this.tabPageTheme.Controls.Add(this.discardTheme);
-            this.tabPageTheme.Location = new System.Drawing.Point(4, 4);
-            this.tabPageTheme.Name = "tabPageTheme";
-            this.tabPageTheme.Size = new System.Drawing.Size(459, 347);
-            this.tabPageTheme.TabIndex = 3;
-            this.tabPageTheme.Text = "Theme";
-            this.tabPageTheme.UseVisualStyleBackColor = true;
-            // 
-            // elementHostTheme
-            // 
-            this.elementHostTheme.Location = new System.Drawing.Point(5, 5);
-            this.elementHostTheme.Name = "elementHostTheme";
-            this.elementHostTheme.Size = new System.Drawing.Size(448, 307);
-            this.elementHostTheme.TabIndex = 24;
-            this.elementHostTheme.Child = this.avalonEditProxyTheme;
-            // 
-            // openThemeAddonDetails
-            // 
-            this.openThemeAddonDetails.Location = new System.Drawing.Point(119, 318);
-            this.openThemeAddonDetails.Name = "openThemeAddonDetails";
-            this.openThemeAddonDetails.Size = new System.Drawing.Size(219, 23);
-            this.openThemeAddonDetails.TabIndex = 23;
-            this.openThemeAddonDetails.Text = "Addon Details";
-            this.openThemeAddonDetails.UseVisualStyleBackColor = true;
-            this.openThemeAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // createTheme
-            // 
-            this.createTheme.Location = new System.Drawing.Point(344, 318);
-            this.createTheme.Name = "createTheme";
-            this.createTheme.Size = new System.Drawing.Size(109, 23);
-            this.createTheme.TabIndex = 21;
-            this.createTheme.Text = "Create";
-            this.createTheme.UseVisualStyleBackColor = true;
-            this.createTheme.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // discardTheme
-            // 
-            this.discardTheme.Location = new System.Drawing.Point(5, 318);
-            this.discardTheme.Name = "discardTheme";
-            this.discardTheme.Size = new System.Drawing.Size(108, 23);
-            this.discardTheme.TabIndex = 22;
-            this.discardTheme.Text = "Discard";
-            this.discardTheme.UseVisualStyleBackColor = true;
-            this.discardTheme.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // tabPageLanguage
-            // 
-            this.tabPageLanguage.Controls.Add(this.label8);
-            this.tabPageLanguage.Controls.Add(this.openLanguageDefault);
-            this.tabPageLanguage.Controls.Add(this.elementHostLanguage);
-            this.tabPageLanguage.Controls.Add(this.openLanguageAddonDetails);
-            this.tabPageLanguage.Controls.Add(this.createLanguage);
-            this.tabPageLanguage.Controls.Add(this.discardLanguage);
-            this.tabPageLanguage.Location = new System.Drawing.Point(4, 4);
-            this.tabPageLanguage.Name = "tabPageLanguage";
-            this.tabPageLanguage.Size = new System.Drawing.Size(459, 347);
-            this.tabPageLanguage.TabIndex = 4;
-            this.tabPageLanguage.Text = "Language";
-            this.tabPageLanguage.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(5, 289);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 52);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "Please do NOT only translate the language file. Add yourself into the mix, make i" +
-    "t yours.";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // openLanguageDefault
-            // 
-            this.openLanguageDefault.Location = new System.Drawing.Point(133, 289);
-            this.openLanguageDefault.Name = "openLanguageDefault";
-            this.openLanguageDefault.Size = new System.Drawing.Size(91, 52);
-            this.openLanguageDefault.TabIndex = 21;
-            this.openLanguageDefault.Text = "Show Default (English) Language File";
-            this.openLanguageDefault.UseVisualStyleBackColor = true;
-            this.openLanguageDefault.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // elementHostLanguage
-            // 
-            this.elementHostLanguage.Location = new System.Drawing.Point(5, 5);
-            this.elementHostLanguage.Name = "elementHostLanguage";
-            this.elementHostLanguage.Size = new System.Drawing.Size(448, 278);
-            this.elementHostLanguage.TabIndex = 20;
-            this.elementHostLanguage.Child = this.avalonEditProxyLanguage;
-            // 
-            // openLanguageAddonDetails
-            // 
-            this.openLanguageAddonDetails.Location = new System.Drawing.Point(230, 289);
-            this.openLanguageAddonDetails.Name = "openLanguageAddonDetails";
-            this.openLanguageAddonDetails.Size = new System.Drawing.Size(223, 23);
-            this.openLanguageAddonDetails.TabIndex = 18;
-            this.openLanguageAddonDetails.Text = "Addon Details";
-            this.openLanguageAddonDetails.UseVisualStyleBackColor = true;
-            this.openLanguageAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // createLanguage
-            // 
-            this.createLanguage.Location = new System.Drawing.Point(344, 318);
-            this.createLanguage.Name = "createLanguage";
-            this.createLanguage.Size = new System.Drawing.Size(109, 23);
-            this.createLanguage.TabIndex = 16;
-            this.createLanguage.Text = "Create";
-            this.createLanguage.UseVisualStyleBackColor = true;
-            this.createLanguage.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // discardLanguage
-            // 
-            this.discardLanguage.Location = new System.Drawing.Point(230, 318);
-            this.discardLanguage.Name = "discardLanguage";
-            this.discardLanguage.Size = new System.Drawing.Size(108, 23);
-            this.discardLanguage.TabIndex = 17;
-            this.discardLanguage.Text = "Discard";
-            this.discardLanguage.UseVisualStyleBackColor = true;
-            this.discardLanguage.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // tabPageMemoryPatch
-            // 
-            this.tabPageMemoryPatch.Controls.Add(this.elementHostMemoryPatch);
-            this.tabPageMemoryPatch.Controls.Add(this.comboBoxMemoryPatchTargetModule);
-            this.tabPageMemoryPatch.Controls.Add(this.openMemoryPatchAddonDetails);
-            this.tabPageMemoryPatch.Controls.Add(this.createMemoryPatch);
-            this.tabPageMemoryPatch.Controls.Add(this.discardMemoryPatch);
-            this.tabPageMemoryPatch.Location = new System.Drawing.Point(4, 4);
-            this.tabPageMemoryPatch.Name = "tabPageMemoryPatch";
-            this.tabPageMemoryPatch.Size = new System.Drawing.Size(459, 347);
-            this.tabPageMemoryPatch.TabIndex = 5;
-            this.tabPageMemoryPatch.Text = "Memory Patch";
-            this.tabPageMemoryPatch.UseVisualStyleBackColor = true;
-            // 
-            // elementHostMemoryPatch
-            // 
-            this.elementHostMemoryPatch.Location = new System.Drawing.Point(5, 5);
-            this.elementHostMemoryPatch.Name = "elementHostMemoryPatch";
-            this.elementHostMemoryPatch.Size = new System.Drawing.Size(448, 251);
-            this.elementHostMemoryPatch.TabIndex = 15;
-            this.elementHostMemoryPatch.Child = this.avalonEditProxyMemoryPatch;
-            // 
-            // comboBoxMemoryPatchTargetModule
-            // 
-            this.comboBoxMemoryPatchTargetModule.FormattingEnabled = true;
-            this.comboBoxMemoryPatchTargetModule.Items.AddRange(new object[] {
-            "nfsw.exe",
-            "gameplay.dll",
-            "gameplay.native.dll",
-            "eawebkit.dll"});
-            this.comboBoxMemoryPatchTargetModule.Location = new System.Drawing.Point(230, 262);
-            this.comboBoxMemoryPatchTargetModule.Name = "comboBoxMemoryPatchTargetModule";
-            this.comboBoxMemoryPatchTargetModule.Size = new System.Drawing.Size(223, 21);
-            this.comboBoxMemoryPatchTargetModule.TabIndex = 14;
-            this.comboBoxMemoryPatchTargetModule.Text = "Target Module";
-            // 
-            // openMemoryPatchAddonDetails
-            // 
-            this.openMemoryPatchAddonDetails.Location = new System.Drawing.Point(230, 289);
-            this.openMemoryPatchAddonDetails.Name = "openMemoryPatchAddonDetails";
-            this.openMemoryPatchAddonDetails.Size = new System.Drawing.Size(223, 23);
-            this.openMemoryPatchAddonDetails.TabIndex = 13;
-            this.openMemoryPatchAddonDetails.Text = "Addon Details";
-            this.openMemoryPatchAddonDetails.UseVisualStyleBackColor = true;
-            this.openMemoryPatchAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // createMemoryPatch
-            // 
-            this.createMemoryPatch.Location = new System.Drawing.Point(344, 318);
-            this.createMemoryPatch.Name = "createMemoryPatch";
-            this.createMemoryPatch.Size = new System.Drawing.Size(109, 23);
-            this.createMemoryPatch.TabIndex = 11;
-            this.createMemoryPatch.Text = "Create";
-            this.createMemoryPatch.UseVisualStyleBackColor = true;
-            this.createMemoryPatch.Click += new System.EventHandler(this.tabButton_Click);
-            // 
-            // discardMemoryPatch
-            // 
-            this.discardMemoryPatch.Location = new System.Drawing.Point(230, 318);
-            this.discardMemoryPatch.Name = "discardMemoryPatch";
-            this.discardMemoryPatch.Size = new System.Drawing.Size(108, 23);
-            this.discardMemoryPatch.TabIndex = 12;
-            this.discardMemoryPatch.Text = "Discard";
-            this.discardMemoryPatch.UseVisualStyleBackColor = true;
-            this.discardMemoryPatch.Click += new System.EventHandler(this.tabButton_Click);
             // 
             // installAddonGroupBox
             // 
@@ -663,8 +222,7 @@
             // 
             this.addonLocationDialog.AddExtension = false;
             this.addonLocationDialog.Filter = "Catalog and basket pack|*.serveraddon.catalogwithbasket|Accent|*.serveraddon.acce" +
-    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language|Memory Patch|*.serv" +
-    "eraddon.memorypatch";
+    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language";
             this.addonLocationDialog.SupportMultiDottedExtensions = true;
             this.addonLocationDialog.Title = "Select an addon...";
             // 
@@ -688,8 +246,7 @@
             // 
             this.createAddonDialog.FileName = "MyNewAddon";
             this.createAddonDialog.Filter = "Catalog and basket pack|*.serveraddon.catalogwithbasket|Accent|*.serveraddon.acce" +
-    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language|Memory Patch|*.serv" +
-    "eraddon.memorypatch";
+    "nt|Theme|*.serveraddon.theme|Language|*.serveraddon.language";
             this.createAddonDialog.SupportMultiDottedExtensions = true;
             this.createAddonDialog.Title = "Create an addon";
             // 
@@ -780,7 +337,7 @@
             // toolStripMenuItemSaveProjectAs
             // 
             this.toolStripMenuItemSaveProjectAs.Name = "toolStripMenuItemSaveProjectAs";
-            this.toolStripMenuItemSaveProjectAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.toolStripMenuItemSaveProjectAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.S)));
             this.toolStripMenuItemSaveProjectAs.Size = new System.Drawing.Size(235, 22);
             this.toolStripMenuItemSaveProjectAs.Text = "Save Project As...";
@@ -809,6 +366,372 @@
             this.toolStripButtonAbout.Text = "About";
             this.toolStripButtonAbout.Click += new System.EventHandler(this.toolStripButton_Click);
             // 
+            // tabPageLanguage
+            // 
+            this.tabPageLanguage.Controls.Add(this.label8);
+            this.tabPageLanguage.Controls.Add(this.openLanguageDefault);
+            this.tabPageLanguage.Controls.Add(this.elementHostLanguage);
+            this.tabPageLanguage.Controls.Add(this.openLanguageAddonDetails);
+            this.tabPageLanguage.Controls.Add(this.createLanguage);
+            this.tabPageLanguage.Controls.Add(this.discardLanguage);
+            this.tabPageLanguage.Location = new System.Drawing.Point(4, 4);
+            this.tabPageLanguage.Name = "tabPageLanguage";
+            this.tabPageLanguage.Size = new System.Drawing.Size(459, 347);
+            this.tabPageLanguage.TabIndex = 4;
+            this.tabPageLanguage.Text = "Language";
+            this.tabPageLanguage.UseVisualStyleBackColor = true;
+            // 
+            // discardLanguage
+            // 
+            this.discardLanguage.Location = new System.Drawing.Point(230, 318);
+            this.discardLanguage.Name = "discardLanguage";
+            this.discardLanguage.Size = new System.Drawing.Size(108, 23);
+            this.discardLanguage.TabIndex = 17;
+            this.discardLanguage.Text = "Discard";
+            this.discardLanguage.UseVisualStyleBackColor = true;
+            this.discardLanguage.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // createLanguage
+            // 
+            this.createLanguage.Location = new System.Drawing.Point(344, 318);
+            this.createLanguage.Name = "createLanguage";
+            this.createLanguage.Size = new System.Drawing.Size(109, 23);
+            this.createLanguage.TabIndex = 16;
+            this.createLanguage.Text = "Create";
+            this.createLanguage.UseVisualStyleBackColor = true;
+            this.createLanguage.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // openLanguageAddonDetails
+            // 
+            this.openLanguageAddonDetails.Location = new System.Drawing.Point(230, 289);
+            this.openLanguageAddonDetails.Name = "openLanguageAddonDetails";
+            this.openLanguageAddonDetails.Size = new System.Drawing.Size(223, 23);
+            this.openLanguageAddonDetails.TabIndex = 18;
+            this.openLanguageAddonDetails.Text = "Addon Details";
+            this.openLanguageAddonDetails.UseVisualStyleBackColor = true;
+            this.openLanguageAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // elementHostLanguage
+            // 
+            this.elementHostLanguage.Location = new System.Drawing.Point(5, 5);
+            this.elementHostLanguage.Name = "elementHostLanguage";
+            this.elementHostLanguage.Size = new System.Drawing.Size(448, 278);
+            this.elementHostLanguage.TabIndex = 20;
+            this.elementHostLanguage.Child = this.avalonEditProxyLanguage;
+            // 
+            // openLanguageDefault
+            // 
+            this.openLanguageDefault.Location = new System.Drawing.Point(133, 289);
+            this.openLanguageDefault.Name = "openLanguageDefault";
+            this.openLanguageDefault.Size = new System.Drawing.Size(91, 52);
+            this.openLanguageDefault.TabIndex = 21;
+            this.openLanguageDefault.Text = "Show Default (English) Language File";
+            this.openLanguageDefault.UseVisualStyleBackColor = true;
+            this.openLanguageDefault.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(5, 289);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(122, 52);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Please do NOT only translate the language file. Add yourself into the mix, make i" +
+    "t yours.";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // tabPageTheme
+            // 
+            this.tabPageTheme.Controls.Add(this.elementHostTheme);
+            this.tabPageTheme.Controls.Add(this.openThemeAddonDetails);
+            this.tabPageTheme.Controls.Add(this.createTheme);
+            this.tabPageTheme.Controls.Add(this.discardTheme);
+            this.tabPageTheme.Location = new System.Drawing.Point(4, 4);
+            this.tabPageTheme.Name = "tabPageTheme";
+            this.tabPageTheme.Size = new System.Drawing.Size(459, 347);
+            this.tabPageTheme.TabIndex = 3;
+            this.tabPageTheme.Text = "Theme";
+            this.tabPageTheme.UseVisualStyleBackColor = true;
+            // 
+            // discardTheme
+            // 
+            this.discardTheme.Location = new System.Drawing.Point(5, 318);
+            this.discardTheme.Name = "discardTheme";
+            this.discardTheme.Size = new System.Drawing.Size(108, 23);
+            this.discardTheme.TabIndex = 22;
+            this.discardTheme.Text = "Discard";
+            this.discardTheme.UseVisualStyleBackColor = true;
+            this.discardTheme.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // createTheme
+            // 
+            this.createTheme.Location = new System.Drawing.Point(344, 318);
+            this.createTheme.Name = "createTheme";
+            this.createTheme.Size = new System.Drawing.Size(109, 23);
+            this.createTheme.TabIndex = 21;
+            this.createTheme.Text = "Create";
+            this.createTheme.UseVisualStyleBackColor = true;
+            this.createTheme.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // openThemeAddonDetails
+            // 
+            this.openThemeAddonDetails.Location = new System.Drawing.Point(119, 318);
+            this.openThemeAddonDetails.Name = "openThemeAddonDetails";
+            this.openThemeAddonDetails.Size = new System.Drawing.Size(219, 23);
+            this.openThemeAddonDetails.TabIndex = 23;
+            this.openThemeAddonDetails.Text = "Addon Details";
+            this.openThemeAddonDetails.UseVisualStyleBackColor = true;
+            this.openThemeAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // elementHostTheme
+            // 
+            this.elementHostTheme.Location = new System.Drawing.Point(5, 5);
+            this.elementHostTheme.Name = "elementHostTheme";
+            this.elementHostTheme.Size = new System.Drawing.Size(448, 307);
+            this.elementHostTheme.TabIndex = 24;
+            this.elementHostTheme.Child = this.avalonEditProxyTheme;
+            // 
+            // tabPageAccent
+            // 
+            this.tabPageAccent.Controls.Add(this.elementHostAccent);
+            this.tabPageAccent.Controls.Add(this.openAccentAddonDetails);
+            this.tabPageAccent.Controls.Add(this.createAccent);
+            this.tabPageAccent.Controls.Add(this.discardAccent);
+            this.tabPageAccent.Location = new System.Drawing.Point(4, 4);
+            this.tabPageAccent.Name = "tabPageAccent";
+            this.tabPageAccent.Size = new System.Drawing.Size(459, 347);
+            this.tabPageAccent.TabIndex = 2;
+            this.tabPageAccent.Text = "Accent";
+            this.tabPageAccent.UseVisualStyleBackColor = true;
+            // 
+            // discardAccent
+            // 
+            this.discardAccent.Location = new System.Drawing.Point(5, 318);
+            this.discardAccent.Name = "discardAccent";
+            this.discardAccent.Size = new System.Drawing.Size(108, 23);
+            this.discardAccent.TabIndex = 22;
+            this.discardAccent.Text = "Discard";
+            this.discardAccent.UseVisualStyleBackColor = true;
+            this.discardAccent.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // createAccent
+            // 
+            this.createAccent.Location = new System.Drawing.Point(344, 318);
+            this.createAccent.Name = "createAccent";
+            this.createAccent.Size = new System.Drawing.Size(109, 23);
+            this.createAccent.TabIndex = 21;
+            this.createAccent.Text = "Create";
+            this.createAccent.UseVisualStyleBackColor = true;
+            this.createAccent.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // openAccentAddonDetails
+            // 
+            this.openAccentAddonDetails.Location = new System.Drawing.Point(119, 318);
+            this.openAccentAddonDetails.Name = "openAccentAddonDetails";
+            this.openAccentAddonDetails.Size = new System.Drawing.Size(219, 23);
+            this.openAccentAddonDetails.TabIndex = 23;
+            this.openAccentAddonDetails.Text = "Addon Details";
+            this.openAccentAddonDetails.UseVisualStyleBackColor = true;
+            this.openAccentAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // elementHostAccent
+            // 
+            this.elementHostAccent.Location = new System.Drawing.Point(5, 5);
+            this.elementHostAccent.Name = "elementHostAccent";
+            this.elementHostAccent.Size = new System.Drawing.Size(448, 307);
+            this.elementHostAccent.TabIndex = 24;
+            this.elementHostAccent.Child = this.avalonEditProxyAccent;
+            // 
+            // tabPageCatalog
+            // 
+            this.tabPageCatalog.Controls.Add(this.openCatalogAddonDetails);
+            this.tabPageCatalog.Controls.Add(this.groupBox3);
+            this.tabPageCatalog.Controls.Add(this.groupBox2);
+            this.tabPageCatalog.Controls.Add(this.createCatalog);
+            this.tabPageCatalog.Controls.Add(this.discardCatalog);
+            this.tabPageCatalog.Location = new System.Drawing.Point(4, 4);
+            this.tabPageCatalog.Name = "tabPageCatalog";
+            this.tabPageCatalog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCatalog.Size = new System.Drawing.Size(459, 347);
+            this.tabPageCatalog.TabIndex = 1;
+            this.tabPageCatalog.Text = "Catalog and Basket Pack";
+            this.tabPageCatalog.UseVisualStyleBackColor = true;
+            // 
+            // discardCatalog
+            // 
+            this.discardCatalog.Location = new System.Drawing.Point(230, 318);
+            this.discardCatalog.Name = "discardCatalog";
+            this.discardCatalog.Size = new System.Drawing.Size(108, 23);
+            this.discardCatalog.TabIndex = 6;
+            this.discardCatalog.Text = "Discard";
+            this.discardCatalog.UseVisualStyleBackColor = true;
+            this.discardCatalog.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // createCatalog
+            // 
+            this.createCatalog.Location = new System.Drawing.Point(344, 318);
+            this.createCatalog.Name = "createCatalog";
+            this.createCatalog.Size = new System.Drawing.Size(109, 23);
+            this.createCatalog.TabIndex = 5;
+            this.createCatalog.Text = "Create";
+            this.createCatalog.UseVisualStyleBackColor = true;
+            this.createCatalog.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.categoriesListBox);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.productsListBox);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(218, 335);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Catalog";
+            // 
+            // productsListBox
+            // 
+            this.productsListBox.AllowDrop = true;
+            this.productsListBox.CausesValidation = false;
+            this.productsListBox.FormattingEnabled = true;
+            this.productsListBox.Items.AddRange(new object[] {
+            "BoosterPacks.xml",
+            "NFSW_NA_EP_CARSLOTS.xml",
+            "NFSW_NA_EP_PAINTS_BODY_Category.xml",
+            "NFSW_NA_EP_PAINTS_WHEEL_Category.xml",
+            "NFSW_NA_EP_PERFORMANCEPARTS.xml",
+            "NFSW_NA_EP_PRESET_RIDES_ALL_Category.xml",
+            "NFSW_NA_EP_REPAIRS.xml",
+            "NFSW_NA_EP_SKILLMODPARTS.xml",
+            "NFSW_NA_EP_VISUALPARTS_BODYKIT.xml",
+            "NFSW_NA_EP_VISUALPARTS_HOOD.xml",
+            "NFSW_NA_EP_VISUALPARTS_LICENSEPLATES.xml",
+            "NFSW_NA_EP_VISUALPARTS_LOWERINGKIT.xml",
+            "NFSW_NA_EP_VISUALPARTS_NEONS.xml",
+            "NFSW_NA_EP_VISUALPARTS_SPOILER.xml",
+            "NFSW_NA_EP_VISUALPARTS_WHEELS.xml",
+            "NFSW_NA_EP_VISUALPARTS_WINDOWTINTS.xml",
+            "Starting_Cars.xml",
+            "STORE_AFTERMARKETSHOP_CARDPACK.xml",
+            "STORE_AMPLIFIERS.xml",
+            "STORE_BOOSTERPACKS.xml",
+            "STORE_CARS.xml",
+            "STORE_OWNEDCARS.xml",
+            "STORE_PERFORMANCESHOP_CARDPACK.xml",
+            "STORE_POWERUPS.xml",
+            "STORE_SKILLMODPARTS.xml",
+            "STORE_SKILLMODSHOP_CARDPACK.xml",
+            "STORE_STREAK_RECOVERY.xml",
+            "STORE_VANITY_BODYKIT.xml",
+            "STORE_VANITY_HOOD.xml",
+            "STORE_VANITY_LICENSE_PLATE.xml",
+            "STORE_VANITY_LOWERING_KIT.xml",
+            "STORE_VANITY_NEON.xml",
+            "STORE_VANITY_SPOILER.xml",
+            "STORE_VANITY_WHEEL.xml",
+            "STORE_VANITY_WINDOW.xml",
+            "STORE_VINYLCATEGORIES.xml"});
+            this.productsListBox.Location = new System.Drawing.Point(6, 35);
+            this.productsListBox.Name = "productsListBox";
+            this.productsListBox.ScrollAlwaysVisible = true;
+            this.productsListBox.Size = new System.Drawing.Size(206, 139);
+            this.productsListBox.TabIndex = 0;
+            this.productsListBox.TabStop = false;
+            this.productsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
+            this.productsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(146, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Drag and drop products here:";
+            // 
+            // categoriesListBox
+            // 
+            this.categoriesListBox.AllowDrop = true;
+            this.categoriesListBox.FormattingEnabled = true;
+            this.categoriesListBox.Items.AddRange(new object[] {
+            "NFSW_NA_EP_VINYLS_Category.xml"});
+            this.categoriesListBox.Location = new System.Drawing.Point(6, 203);
+            this.categoriesListBox.Name = "categoriesListBox";
+            this.categoriesListBox.ScrollAlwaysVisible = true;
+            this.categoriesListBox.Size = new System.Drawing.Size(206, 124);
+            this.categoriesListBox.TabIndex = 2;
+            this.categoriesListBox.TabStop = false;
+            this.categoriesListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.checkedListBox_DragDrop);
+            this.categoriesListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 187);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(154, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Drag and drop categories here:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.basketsListBox);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Location = new System.Drawing.Point(230, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(223, 271);
+            this.groupBox3.TabIndex = 9;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Basket";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 19);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(158, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Drag and drop basket files here:";
+            // 
+            // basketsListBox
+            // 
+            this.basketsListBox.AllowDrop = true;
+            this.basketsListBox.FormattingEnabled = true;
+            this.basketsListBox.Location = new System.Drawing.Point(6, 35);
+            this.basketsListBox.Name = "basketsListBox";
+            this.basketsListBox.ScrollAlwaysVisible = true;
+            this.basketsListBox.Size = new System.Drawing.Size(211, 225);
+            this.basketsListBox.TabIndex = 4;
+            this.basketsListBox.TabStop = false;
+            this.basketsListBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBox_DragDrop);
+            this.basketsListBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.control_DragEnter);
+            this.basketsListBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.basketsListBox_KeyUp);
+            this.basketsListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.basketsListBox_MouseDown);
+            // 
+            // openCatalogAddonDetails
+            // 
+            this.openCatalogAddonDetails.Location = new System.Drawing.Point(230, 289);
+            this.openCatalogAddonDetails.Name = "openCatalogAddonDetails";
+            this.openCatalogAddonDetails.Size = new System.Drawing.Size(223, 23);
+            this.openCatalogAddonDetails.TabIndex = 10;
+            this.openCatalogAddonDetails.Text = "Addon Details";
+            this.openCatalogAddonDetails.UseVisualStyleBackColor = true;
+            this.openCatalogAddonDetails.Click += new System.EventHandler(this.tabButton_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tabControl1.Controls.Add(this.tabPageCatalog);
+            this.tabControl1.Controls.Add(this.tabPageAccent);
+            this.tabControl1.Controls.Add(this.tabPageTheme);
+            this.tabControl1.Controls.Add(this.tabPageLanguage);
+            this.tabControl1.Location = new System.Drawing.Point(12, 28);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(467, 373);
+            this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -824,34 +747,26 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Offline Server: Addon Manager";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPageCatalog.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.tabPageAccent.ResumeLayout(false);
-            this.tabPageTheme.ResumeLayout(false);
-            this.tabPageLanguage.ResumeLayout(false);
-            this.tabPageMemoryPatch.ResumeLayout(false);
             this.installAddonGroupBox.ResumeLayout(false);
             this.installAddonGroupBox.PerformLayout();
             this.listBoxRemoveItemContextMenu.ResumeLayout(false);
             this.addonManagerToolStrip.ResumeLayout(false);
             this.addonManagerToolStrip.PerformLayout();
+            this.tabPageLanguage.ResumeLayout(false);
+            this.tabPageTheme.ResumeLayout(false);
+            this.tabPageAccent.ResumeLayout(false);
+            this.tabPageCatalog.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPageCatalog;
-        private System.Windows.Forms.Button createCatalog;
-        private System.Windows.Forms.Button discardCatalog;
-        private System.Windows.Forms.TabPage tabPageAccent;
-        private System.Windows.Forms.TabPage tabPageTheme;
-        private System.Windows.Forms.TabPage tabPageLanguage;
         private System.Windows.Forms.GroupBox installAddonGroupBox;
         private System.Windows.Forms.Button buttonAddonInstall;
         private System.Windows.Forms.Label addonLocationLabel;
@@ -861,19 +776,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label addonInformationLabel;
         internal System.Windows.Forms.OpenFileDialog addonLocationDialog;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label5;
-        private CustomControls.ActiveCheckedListBox categoriesListBox;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ListBox basketsListBox;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.SaveFileDialog saveProjectDialog;
-        private CustomControls.ActiveCheckedListBox productsListBox;
         private System.Windows.Forms.OpenFileDialog openProjectDialog;
         private System.Windows.Forms.SaveFileDialog createAddonDialog;
-        private System.Windows.Forms.Button openCatalogAddonDetails;
-        private System.Windows.Forms.TabPage tabPageMemoryPatch;
         private System.Windows.Forms.ContextMenuStrip listBoxRemoveItemContextMenu;
         private System.Windows.Forms.ToolStripMenuItem contextMenuRemove;
         private System.Windows.Forms.ToolStripMenuItem contextMenuRemoveOption1;
@@ -887,29 +792,39 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
-        private System.Windows.Forms.ComboBox comboBoxMemoryPatchTargetModule;
-        private System.Windows.Forms.Button openMemoryPatchAddonDetails;
-        private System.Windows.Forms.Button createMemoryPatch;
-        private System.Windows.Forms.Button discardMemoryPatch;
-        private System.Windows.Forms.Integration.ElementHost elementHostMemoryPatch;
-        private AvalonEditProxy avalonEditProxyMemoryPatch;
-        private System.Windows.Forms.Integration.ElementHost elementHostAccent;
-        private System.Windows.Forms.Button openAccentAddonDetails;
-        private System.Windows.Forms.Button createAccent;
-        private System.Windows.Forms.Button discardAccent;
-        private System.Windows.Forms.Integration.ElementHost elementHostTheme;
-        private System.Windows.Forms.Button openThemeAddonDetails;
-        private System.Windows.Forms.Button createTheme;
-        private System.Windows.Forms.Button discardTheme;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TabPage tabPageLanguage;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button openLanguageDefault;
         private System.Windows.Forms.Integration.ElementHost elementHostLanguage;
+        private AvalonEditProxy avalonEditProxyLanguage;
         private System.Windows.Forms.Button openLanguageAddonDetails;
         private System.Windows.Forms.Button createLanguage;
         private System.Windows.Forms.Button discardLanguage;
-        private AvalonEditProxy avalonEditProxyAccent;
-        private System.Windows.Forms.Button openLanguageDefault;
+        private System.Windows.Forms.TabPage tabPageTheme;
+        private System.Windows.Forms.Integration.ElementHost elementHostTheme;
         private AvalonEditProxy avalonEditProxyTheme;
-        private AvalonEditProxy avalonEditProxyLanguage;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button openThemeAddonDetails;
+        private System.Windows.Forms.Button createTheme;
+        private System.Windows.Forms.Button discardTheme;
+        private System.Windows.Forms.TabPage tabPageAccent;
+        private System.Windows.Forms.Integration.ElementHost elementHostAccent;
+        private AvalonEditProxy avalonEditProxyAccent;
+        private System.Windows.Forms.Button openAccentAddonDetails;
+        private System.Windows.Forms.Button createAccent;
+        private System.Windows.Forms.Button discardAccent;
+        private System.Windows.Forms.TabPage tabPageCatalog;
+        private System.Windows.Forms.Button openCatalogAddonDetails;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListBox basketsListBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label5;
+        private CustomControls.ActiveCheckedListBox categoriesListBox;
+        private System.Windows.Forms.Label label4;
+        private CustomControls.ActiveCheckedListBox productsListBox;
+        private System.Windows.Forms.Button createCatalog;
+        private System.Windows.Forms.Button discardCatalog;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }

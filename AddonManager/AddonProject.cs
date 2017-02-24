@@ -18,7 +18,7 @@ namespace AddonManager
 
             public List<String> catalog_products = new List<String>();
             public List<String> catalog_categories = new List<String>();
-            public List<String> basket_definitions = new List<String>(); 
+            public List<String> basket_definitions = new List<String>();
 
             public static String getFileLocation(String listBoxEntry)
             {
@@ -155,39 +155,6 @@ namespace AddonManager
                 addonVersion = "v1.33.7";
             }
         }
-        public class MemoryPatch
-        {
-            public String addonCreator;
-            public String addonDescription;
-            public String addonName;
-            public String addonVersion;
-
-            public Byte[] memoryPatchCodeBytes;
-            [XmlIgnore]
-            public String memoryPatchCode
-            {
-                get
-                {
-                    return new UTF8Encoding(false, false).GetString(memoryPatchCodeBytes);
-                }
-                set
-                {
-                    byte[] valueInBytes = new UTF8Encoding(false, false).GetBytes(value);
-                    if (memoryPatchCodeBytes != valueInBytes)
-                    {
-                        memoryPatchCodeBytes = valueInBytes;
-                    }
-                }
-            }
-
-            public MemoryPatch()
-            {
-                addonCreator = "Smarty McSmartyFace";
-                addonDescription = "A simple description of my new addon!\r\n<p>Look at <u>all</u> this <i>fancy</i> <b>HTML</b>!</p>";
-                addonName = "My New Addon";
-                addonVersion = "v1.33.7";
-            }
-        }
         #endregion
 
         [XmlIgnore]
@@ -197,7 +164,6 @@ namespace AddonManager
         public Accent accent { get; set; }
         public Theme theme { get; set; }
         public Language language { get; set; }
-        public MemoryPatch memoryPatch { get; set; }
 
         public AddonProject()
         {
@@ -207,7 +173,6 @@ namespace AddonManager
             accent = new Accent();
             theme = new Theme();
             language = new Language();
-            memoryPatch = new MemoryPatch();
         }
     }
 }

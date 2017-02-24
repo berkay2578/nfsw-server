@@ -381,25 +381,6 @@ namespace AddonManager
                                     }
                                 }
                                 break;
-                            case "MemoryPatchAddonDetails":
-                                {
-                                    using (AddonDetailsDialog addonDetailsDialog = new AddonDetailsDialog(addonProject.memoryPatch.addonName,
-                                                AddonType.memoryPatch,
-                                                addonProject.memoryPatch.addonCreator,
-                                                addonProject.memoryPatch.addonVersion,
-                                                addonProject.memoryPatch.addonDescription))
-                                    {
-                                        if (addonDetailsDialog.ShowDialog() == DialogResult.OK)
-                                        {
-
-                                            addonProject.memoryPatch.addonName = addonDetailsDialog.returnValues[0];
-                                            addonProject.memoryPatch.addonCreator = addonDetailsDialog.returnValues[1];
-                                            addonProject.memoryPatch.addonVersion = addonDetailsDialog.returnValues[2];
-                                            addonProject.memoryPatch.addonDescription = addonDetailsDialog.returnValues[3];
-                                        }
-                                    }
-                                }
-                                break;
                         }
                         break;
                     }
@@ -591,9 +572,6 @@ namespace AddonManager
                                     }
                                 }
                                 break;
-                            case "MemoryPatch":
-                                MessageBox.Show("codedom-jitcompile-dll-main-attach/detach");
-                                break;
                         }
                         break;
                     }
@@ -626,12 +604,6 @@ namespace AddonManager
                                 {
                                     addonProject.language = new AddonProject.Language();
                                     avalonEditProxyLanguage.textEditor.Text = AddonProject.Language.defaultLanguageFileText;
-                                }
-                                break;
-                            case "MemoryPatch":
-                                {
-                                    addonProject.memoryPatch = new AddonProject.MemoryPatch();
-                                    avalonEditProxyMemoryPatch.textEditor.Text = "";
                                 }
                                 break;
                         }
@@ -728,7 +700,6 @@ namespace AddonManager
                     || file.EndsWith(".serveraddon.accent")
                     || file.EndsWith(".serveraddon.theme")
                     || file.EndsWith(".serveraddon.language")
-                    || file.EndsWith(".serveraddon.memorypatch"))
                 {
                     readAddon(file);
                     return;
@@ -921,7 +892,6 @@ namespace AddonManager
             avalonEditProxyAccent.textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("XML");
             avalonEditProxyTheme.textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("XML");
             avalonEditProxyLanguage.textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("XML");
-            avalonEditProxyMemoryPatch.textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinition("C#");
 
             avalonEditProxyAccent.textEditor.Text = AddonProject.Accent.defaultAccentXaml;
             avalonEditProxyTheme.textEditor.Text = AddonProject.Theme.defaultThemeXaml;
@@ -944,7 +914,8 @@ namespace AddonManager
                         FirstRunForm frForm = new FirstRunForm(this);
                         frForm.Show();
                     }));
-                } else
+                }
+                else
                 {
                     this.Opacity = 1d;
                     this.Show();

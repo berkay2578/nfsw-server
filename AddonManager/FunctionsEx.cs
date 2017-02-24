@@ -29,7 +29,7 @@ namespace AddonManager
 
         public static string getPath(this DirectoryNotFoundException dnfEx)
         {
-            System.Text.RegularExpressions.Regex pathMatcher = new System.Text.RegularExpressions.Regex(@"[^']+");
+            Regex pathMatcher = new Regex(@"[^']+");
             return pathMatcher.Matches(dnfEx.Message)[1].Value;
         }
     }

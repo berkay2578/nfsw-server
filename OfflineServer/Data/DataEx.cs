@@ -33,7 +33,6 @@ namespace OfflineServer.Data
         public static String dir_CurrentHttpServerBaskets;
 
         public static readonly String dir_Others = Path.Combine(dir_Data, @"Others\");
-        public static readonly String dir_MemoryPatches = Path.Combine(dir_Others, @"Memory Patches\");
         public static readonly String dir_GameplayMods = Path.Combine(dir_Others, @"Gameplay Mods\");
 
         public static String dir_CurrentGameplayMod;

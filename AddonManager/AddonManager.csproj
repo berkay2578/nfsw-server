@@ -219,7 +219,10 @@
     <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /info /patch "$(ProjectDir)"</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /info /patch "$(ProjectDir)"
+xcopy /i /e /s /y /f "$(SolutionDir)OfflineServer\Data\Settings\UI\Accents\CustomAccentSample.xaml" "$(ProjectDir)Resources"
+xcopy /i /e /s /y /f "$(SolutionDir)OfflineServer\Data\Settings\UI\Themes\CustomThemeSample.xaml" "$(ProjectDir)Resources"
+xcopy /i /e /s /y /f "$(SolutionDir)OfflineServer\Data\Settings\UI\Languages\English.xml" "$(ProjectDir)Resources"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>"$(SolutionDir)Extern\NetRevisionTool.exe" /restore "$(ProjectDir)"</PostBuildEvent>
