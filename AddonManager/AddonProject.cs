@@ -41,6 +41,36 @@ namespace AddonManager
                 addonVersion = "v1.33.7";
             }
         }
+        public class GameplayMod
+        {
+            public String addonCreator;
+            public String addonDescription;
+            public String addonName;
+            public String addonVersion;
+
+            public List<String> mods = new List<String>();
+
+            public static String getFileLocation(String listBoxEntry)
+            {
+                int startIndex = listBoxEntry.IndexOf('(') + 1;
+                int endIndex = listBoxEntry.IndexOf(')');
+                int numToCrop = endIndex - startIndex;
+
+                return listBoxEntry.Substring(startIndex, numToCrop);
+            }
+            public static String getListBoxEntryText(String listBoxEntry)
+            {
+                return listBoxEntry.Split(' ')[0];
+            }
+
+            public GameplayMod()
+            {
+                addonCreator = "Smarty McSmartyFace";
+                addonDescription = "A simple description of my new addon!\r\n<p>Look at <u>all</u> this <i>fancy</i> <b>HTML</b>!</p>";
+                addonName = "My New Addon";
+                addonVersion = "v1.33.7";
+            }
+        }
         public class Accent
         {
             public String addonCreator;
@@ -161,6 +191,7 @@ namespace AddonManager
         public String projectLocation { get; set; }
 
         public Catalog catalog { get; set; }
+        public GameplayMod gameplayMod { get; set; }
         public Accent accent { get; set; }
         public Theme theme { get; set; }
         public Language language { get; set; }
@@ -170,6 +201,7 @@ namespace AddonManager
             projectLocation = null;
 
             catalog = new Catalog();
+            gameplayMod = new GameplayMod();
             accent = new Accent();
             theme = new Theme();
             language = new Language();

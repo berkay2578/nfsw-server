@@ -89,6 +89,23 @@ namespace AddonManager
             basketsListBox.Items.Clear();
         }
         #endregion
+        #region Gameplay Mod
+        private void clearGameplayModListBox()
+        {
+            ActiveCheckedListBox.managingLists = true;
+            var gameplayModCheckedItems = gameplayModListBox.CheckedItems.Cast<string>().ToList().AsReadOnly();
+            foreach (string currentGameplayMod in gameplayModCheckedItems)
+            {
+                string gameplayModName = AddonProject.GameplayMod.getListBoxEntryText(currentGameplayMod);
+                int targetIndex = gameplayModListBox.Items.IndexOf(gameplayModListBox.Items.Cast<string>()
+                        .Where(itemText => itemText.StartsWith(gameplayModName))
+                        .First());
+                gameplayModListBox.Items[targetIndex] = gameplayModName;
+                gameplayModListBox.SetItemChecked(targetIndex, false);
+            }
+            ActiveCheckedListBox.managingLists = false;
+        }
+        #endregion
         #region Project
         internal void loadAddonProject()
         {
@@ -137,6 +154,33 @@ namespace AddonManager
                         basketFiles.Add(basket.Trim());
 
                     addItemsWithNaturalOrder(ref basketsListBox, basketFiles);
+
+                    // Others
+                    addonProject.catalog.addonCreator = addonProject.catalog.addonCreator
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonCreator.Length, Addon.addonCreatorDef[2] - 1));
+                    addonProject.catalog.addonDescription = addonProject.catalog.addonDescription
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonDescription.Length, Addon.addonDescriptionDef[2] - 1));
+                    addonProject.catalog.addonName = addonProject.catalog.addonName
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonName.Length, Addon.addonNameDef[2] - 1));
+                    addonProject.catalog.addonVersion = addonProject.catalog.addonVersion
+                                                        .Substring(0, Math.Min(addonProject.catalog.addonVersion.Length, Addon.addonVersionDef[2] - 1));
+                    #endregion
+
+                    #region Gameplay Mod
+                    clearGameplayModListBox();
+                    ActiveCheckedListBox.managingLists = true;
+
+                    foreach (string mod in addonProject.gameplayMod.mods)
+                    {
+                        if (mod.Trim().IndexOf('(') != -1)
+                        {
+                            int targetIndex = gameplayModListBox.Items.IndexOf(gameplayModListBox.Items.Cast<string>()
+                                .Where(itemText => itemText.StartsWith(AddonProject.GameplayMod.getListBoxEntryText(mod)))
+                                .First());
+                            gameplayModListBox.Items[targetIndex] = mod;
+                            gameplayModListBox.SetItemChecked(targetIndex, true);
+                        }
+                    }
 
                     // Others
                     addonProject.catalog.addonCreator = addonProject.catalog.addonCreator
@@ -209,6 +253,10 @@ namespace AddonManager
             addonProject.catalog.catalog_products = productsListBox.Items.Cast<String>().ToList();
             addonProject.catalog.catalog_categories = categoriesListBox.Items.Cast<String>().ToList();
             addonProject.catalog.basket_definitions = basketsListBox.Items.Cast<String>().ToList();
+            #endregion
+
+            #region Gameplay Mod
+            addonProject.gameplayMod.mods = gameplayModListBox.Items.Cast<String>().ToList();
             #endregion
 
             #region Accent
@@ -312,6 +360,28 @@ namespace AddonManager
                                             addonProject.catalog.addonCreator = addonDetailsDialog.returnValues[1];
                                             addonProject.catalog.addonVersion = addonDetailsDialog.returnValues[2];
                                             addonProject.catalog.addonDescription = addonDetailsDialog.returnValues[3];
+                                        }
+                                    }
+                                }
+                                break;
+                            case "GameplayAddonDetails":
+                                {
+                                    using (AddonDetailsDialog addonDetailsDialog =
+                                        new AddonDetailsDialog(
+                                            addonProject.gameplayMod.addonName,
+                                            AddonType.gameplayMod,
+                                            addonProject.gameplayMod.addonCreator,
+                                            addonProject.gameplayMod.addonVersion,
+                                            addonProject.gameplayMod.addonDescription)
+                                            )
+                                    {
+                                        if (addonDetailsDialog.ShowDialog() == DialogResult.OK)
+                                        {
+
+                                            addonProject.gameplayMod.addonName = addonDetailsDialog.returnValues[0];
+                                            addonProject.gameplayMod.addonCreator = addonDetailsDialog.returnValues[1];
+                                            addonProject.gameplayMod.addonVersion = addonDetailsDialog.returnValues[2];
+                                            addonProject.gameplayMod.addonDescription = addonDetailsDialog.returnValues[3];
                                         }
                                     }
                                 }
@@ -431,6 +501,50 @@ namespace AddonManager
                                 else
                                 {
                                     MessageBox.Show("Please fill in the missing entries in the catalog section and retry.",
+                                        "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                                break;
+                            case "Gameplay":
+                                if (gameplayModListBox.CheckedItems.Count == gameplayModListBox.Items.Count)
+                                {
+                                    createAddonDialog.FilterIndex = 2;
+                                    createAddonDialog.FileName = addonProject.gameplayMod.addonName;
+                                    if (createAddonDialog.ShowDialog() == DialogResult.OK)
+                                    {
+                                        if (createAddonDialog.FileName.EndsWith(".serveraddon.gameplaymod"))
+                                        {
+                                            string targetAddon = createAddonDialog.FileName;
+                                            saveAddonProperties(targetAddon,
+                                                addonProject.gameplayMod.addonName,
+                                                AddonType.gameplayMod,
+                                                addonProject.gameplayMod.addonCreator,
+                                                addonProject.gameplayMod.addonVersion,
+                                                addonProject.gameplayMod.addonDescription);
+                                            if (targetAddon.saveAddonFile(
+                                                AddonType.gameplayMod,
+                                                gameplayModListBox.Items.Cast<string>().ToArray()
+                                                ))
+                                            {
+                                                MessageBox.Show("The gameplay addon has been created successfully!",
+                                                    "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                            }
+                                            else
+                                            {
+                                                if (File.Exists(targetAddon)) File.Delete(targetAddon);
+                                                MessageBox.Show("Create gameplay addon operation has been cancelled.",
+                                                    "Just to let you know...", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please use the default extension '.serveraddon.gameplaymod' and retry.",
+                                                "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Please fill in the missing entries in the gameplay mod list and retry.",
                                         "Hold your horses there, big guy!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 break;
@@ -588,6 +702,12 @@ namespace AddonManager
                                     addonProject.catalog = new AddonProject.Catalog();
                                 }
                                 break;
+                            case "Gameplay":
+                                {
+                                    clearGameplayModListBox();
+                                    addonProject.gameplayMod = new AddonProject.GameplayMod();
+                                }
+                                break;
                             case "Accent":
                                 {
                                     addonProject.accent = new AddonProject.Accent();
@@ -697,9 +817,10 @@ namespace AddonManager
             foreach (string file in files)
             {
                 if (file.EndsWith(".serveraddon.catalogwithbasket")
+                    || file.EndsWith(".serveraddon.gameplaymod")
                     || file.EndsWith(".serveraddon.accent")
                     || file.EndsWith(".serveraddon.theme")
-                    || file.EndsWith(".serveraddon.language")
+                    || file.EndsWith(".serveraddon.language"))
                 {
                     readAddon(file);
                     return;

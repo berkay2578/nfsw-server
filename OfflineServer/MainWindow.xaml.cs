@@ -403,9 +403,10 @@ namespace OfflineServer
                         }
 
                         Access.addonManagerTalk.initialize();
-                        String args = String.Format("/catalogs '{0}' /baskets '{1}' /accents '{2}' /themes '{3}' /languages '{4}' /logs '{6}' /offlineServer {7}",
+                        String args = String.Format("/catalogs '{0}' /baskets '{1}' /gameplay '{2}' /accents '{3}' /themes '{4}' /languages '{5}' /logs '{6}' /offlineServer {7}",
                             Path.GetFullPath(DataEx.dir_HttpServerCatalogs),
                             Path.GetFullPath(DataEx.dir_HttpServerBaskets),
+                            Path.GetFullPath(DataEx.dir_GameplayMods),
                             Path.GetFullPath(DataEx.dir_Accents),
                             Path.GetFullPath(DataEx.dir_Themes),
                             Path.GetFullPath(DataEx.dir_Languages),

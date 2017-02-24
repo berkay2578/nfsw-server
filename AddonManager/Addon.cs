@@ -9,6 +9,7 @@
         public struct AddonType
         {
             public const string catalogWithBaskets = "Catalog and Basket Pack";
+            public const string gameplayMod = "Gameplay Mod";
             public const string accent = "Accent";
             public const string theme = "Theme";
             public const string language = "Language";
@@ -25,7 +26,7 @@
             Description = 7,
             AddonFile = 8
         }
-        
+
         public static readonly dynamic[] addonNameDef = new dynamic[3] { AddonProperty.Name, 0, 101 };
         public static readonly dynamic[] addonTypeDef = new dynamic[3] { AddonProperty.Type, 404, 51 };
         public static readonly dynamic[] addonCreatorDef = new dynamic[3] { AddonProperty.CreatedBy, 608, 51 };

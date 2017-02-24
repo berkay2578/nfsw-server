@@ -13,6 +13,7 @@ namespace AddonManager
     {
         internal static String dir_HttpServerCatalogs;
         internal static String dir_HttpServerBaskets;
+        internal static String dir_GameplayMods;
         internal static String dir_Accents;
         internal static String dir_Themes;
         internal static String dir_Languages;
@@ -108,6 +109,18 @@ namespace AddonManager
                             foreach (string basket in baskets)
                                 File.Copy(AddonProject.Catalog.getFileLocation(basket), Path.Combine(basketsTemp.FullName,
                                     AddonProject.Catalog.getListBoxEntryText(basket)), true);
+                        }
+                        break;
+                    case AddonType.gameplayMod:
+                        {
+                            string[] mods = lists[0];
+
+                            var gameplayModTemp = Directory.CreateDirectory(Path.Combine(tempDir, dir_GameplayMods,
+                                Path.GetFileNameWithoutExtension(filePath)));
+
+                            foreach (string mod in mods)
+                                File.Copy(AddonProject.GameplayMod.getFileLocation(mod), Path.Combine(gameplayModTemp.FullName,
+                                    AddonProject.GameplayMod.getListBoxEntryText(mod)), true);
                         }
                         break;
                     case AddonType.accent:
