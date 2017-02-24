@@ -210,6 +210,8 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
 /OfflineServer/images/Icons
 /OfflineServer/costura32
 /OfflineServer/costura64
+/AddonManager/Resources
