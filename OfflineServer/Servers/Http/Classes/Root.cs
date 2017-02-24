@@ -52,7 +52,7 @@ namespace OfflineServer.Servers.Http.Classes
                     "<PortalDomain/>" +
                     "<PortalSecureDomain/>" +
                     "<PortalTimeOut>10000</PortalTimeOut>" +
-                    "<Time>" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture) + ":00.0000000+00:00</Time>" +
+                    "<Time>" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm") + ":00.0000000+00:00</Time>" +
                     "<Version>D4_41</Version>" +
                 "</SystemInfo>";
         }

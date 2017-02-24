@@ -281,6 +281,10 @@
     <Compile Include="Servers\IPC\IPCBase.cs" />
     <Compile Include="Servers\Serialization.cs" />
     <Compile Include="Servers\Xmpp\BasicXmppServer.cs" />
+    <Compile Include="Servers\Xmpp\Responses\AchievementAwarded.cs" />
+    <Compile Include="Servers\Xmpp\Responses\AchievementProgress.cs" />
+    <Compile Include="Servers\Xmpp\Responses\AchievementsAwarded.cs" />
+    <Compile Include="Servers\Xmpp\Responses\BadgePacket.cs" />
     <Compile Include="Servers\Xmpp\Responses\Message.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivated.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivatedResponse.cs" />
