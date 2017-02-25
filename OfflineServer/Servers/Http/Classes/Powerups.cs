@@ -34,6 +34,7 @@ namespace OfflineServer.Servers.Http.Classes
                 // Send powerup activation data to game
                 Access.sXmpp.write(message.SerializeObject(true));
             }
+#if DEBUG
             lock (threadSafeDummy)
             {
                 if ((Int32)powerupHash == powerupHashes["nos"])
@@ -60,7 +61,7 @@ namespace OfflineServer.Servers.Http.Classes
                     Access.sXmpp.write(message.SerializeObject(true));
                 }
             }
-
+#endif
 #pragma warning restore CS4014
 
             return "";

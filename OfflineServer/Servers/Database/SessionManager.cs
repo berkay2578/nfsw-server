@@ -1,11 +1,9 @@
-﻿using FluentNHibernate.Cfg;
+﻿using System.Reflection;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using OfflineServer.Data;
-using System;
-using System.Reflection;
 
 namespace OfflineServer.Servers.Database
 {
@@ -16,7 +14,6 @@ namespace OfflineServer.Servers.Database
         {
             if (sessionFactory == null)
             {
-                Action<Configuration> query = delegate (Configuration config) { new SchemaUpdate(config).Execute(false, true); };
                 sessionFactory = Fluently.Configure()
                   .Database(
                     SQLiteConfiguration.Standard
@@ -24,9 +21,12 @@ namespace OfflineServer.Servers.Database
                   )
                   .Mappings(m =>
                         m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
-                  .ExposeConfiguration(query)
+                  .ExposeConfiguration(config =>
+                  {
+                      new SchemaUpdate(config).Execute(false, true);
+                  })
                   .BuildSessionFactory();
-                
+
                 return sessionFactory;
             }
             else { return sessionFactory; }
@@ -40,7 +40,6 @@ namespace OfflineServer.Servers.Database
                 sessionFactory.Dispose();
             }
 
-            Action<Configuration> query = delegate (Configuration config) { new SchemaExport(config).Create(false, true); };
             sessionFactory = Fluently.Configure()
                    .Database(
                      SQLiteConfiguration.Standard
@@ -48,8 +47,11 @@ namespace OfflineServer.Servers.Database
                    )
                    .Mappings(m =>
                          m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly()))
-                    .ExposeConfiguration(query)
-                    .BuildSessionFactory();
+                   .ExposeConfiguration(config =>
+                   {
+                       new SchemaExport(config).Create(false, true);
+                   })
+                   .BuildSessionFactory();
             return sessionFactory;
         }
     }
