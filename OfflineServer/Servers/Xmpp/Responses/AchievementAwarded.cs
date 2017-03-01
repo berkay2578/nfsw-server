@@ -24,7 +24,7 @@ namespace OfflineServer.Servers.Xmpp.Responses
         [XmlElement("ClipLengthInSeconds")]
         public float clipLengthInSeconds = 5f;
         [XmlElement("IsRare")]
-        public bool isRare;
+        public Boolean isRare;
         [XmlElement("Points")]
         public Int16 points;
         [XmlElement("Rarity")]

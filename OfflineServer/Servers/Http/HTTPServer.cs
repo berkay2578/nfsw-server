@@ -14,6 +14,7 @@ namespace OfflineServer.Servers.Http
     {
         // for easy development and debug, will be removed later when everything is coded
         private List<String> supportedMethods = new List<string>() {
+            /* Achievements */ "loadall",
             /* Catalog */ "categories", "productsInCategory",
             /* DriverPersona */ "createPersona", "deletePersona", "getExpLevelPointsMap", "getPersonaInfo", "getPersonaBaseFromList", "reserveName", "updateStatusMessage",
             /* Event */ "arbitration",

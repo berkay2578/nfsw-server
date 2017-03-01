@@ -188,6 +188,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Access.cs" />
+    <Compile Include="AchievementDefinitions.cs" />
     <Compile Include="EventResult.cs" />
     <Compile Include="EventDefinitions.cs" />
     <Compile Include="CarDefinitions.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Servers\Database\Mappings\EventResultMap.cs" />
     <Compile Include="Servers\Database\Mappings\UserEntityMap.cs" />
     <Compile Include="Servers\Database\SessionManager.cs" />
+    <Compile Include="Servers\Http\Classes\Achievements.cs" />
     <Compile Include="Servers\Http\Classes\Catalog.cs" />
     <Compile Include="Servers\Http\Classes\DriverPersona.cs" />
     <Compile Include="Servers\Http\Classes\Events.cs" />
@@ -221,9 +223,13 @@
     <Compile Include="Economy.cs" />
     <Compile Include="Servers\Http\Classes\User.cs" />
     <Compile Include="Servers\Http\Responses\Accolades.cs" />
+    <Compile Include="Servers\Http\Responses\AchievementDefinitionPacket.cs" />
+    <Compile Include="Servers\Http\Responses\AchievementRankPacket.cs" />
+    <Compile Include="Servers\Http\Responses\AchievementsPacket.cs" />
     <Compile Include="Servers\Http\Responses\ArbitrationPacket.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfPersonaBase.cs" />
     <Compile Include="Servers\Http\Responses\ArrayOfUdpRelayInfo.cs" />
+    <Compile Include="Servers\Http\Responses\BadgeDefinitionPacket.cs" />
     <Compile Include="Servers\Http\Responses\ClientPhysicsMetrics.cs" />
     <Compile Include="Servers\Http\Responses\CommerceItemTrans.cs" />
     <Compile Include="Servers\Http\Responses\CommerceResultTrans.cs" />
@@ -284,7 +290,7 @@
     <Compile Include="Servers\Xmpp\Responses\AchievementAwarded.cs" />
     <Compile Include="Servers\Xmpp\Responses\AchievementProgress.cs" />
     <Compile Include="Servers\Xmpp\Responses\AchievementsAwarded.cs" />
-    <Compile Include="Servers\Xmpp\Responses\BadgePacket.cs" />
+    <Compile Include="Servers\Http\Responses\BadgePacket.cs" />
     <Compile Include="Servers\Xmpp\Responses\Message.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivated.cs" />
     <Compile Include="Servers\Xmpp\Responses\PowerupActivatedResponse.cs" />

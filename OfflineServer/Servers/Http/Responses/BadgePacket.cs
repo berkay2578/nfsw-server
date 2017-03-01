@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace OfflineServer.Servers.Xmpp.Responses
+namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
     [XmlRoot("Badge", Namespace = "http://schemas.datacontract.org/2004/07/Victory.Service.Objects")]

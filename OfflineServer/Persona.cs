@@ -68,6 +68,7 @@ namespace OfflineServer
                 {
                     iconIndex = (Int16)((value <= 0) ? 0 : (value >= 27) ? 27 : value);
                     PersonaManagement.persona.iconIndex = iconIndex;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("IconIndex");
                 }
             }
@@ -81,6 +82,7 @@ namespace OfflineServer
                 {
                     name = value;
                     PersonaManagement.persona.name = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -94,6 +96,7 @@ namespace OfflineServer
                 {
                     motto = value;
                     PersonaManagement.persona.motto = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Motto");
                 }
             }
@@ -108,6 +111,7 @@ namespace OfflineServer
                     value = Math.Min(Data.DataEx.maxLevel, value);
                     level = value;
                     PersonaManagement.persona.level = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Level");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -122,6 +126,7 @@ namespace OfflineServer
                 {
                     cash = value;
                     PersonaManagement.persona.cash = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Cash");
                     RaisePropertyChangedEvent("CashForView");
                 }
@@ -143,6 +148,7 @@ namespace OfflineServer
                 {
                     boost = value;
                     PersonaManagement.persona.boost = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("Boost");
                     RaisePropertyChangedEvent("BoostForView");
                 }
@@ -164,6 +170,7 @@ namespace OfflineServer
                 {
                     percentageOfLevelCompletion = value;
                     PersonaManagement.persona.percentageOfLevelCompletion = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("PercentageOfLevelCompletion");
                 }
             }
@@ -237,6 +244,7 @@ namespace OfflineServer
 
                     reputationInLevel = value;
                     PersonaManagement.persona.reputationInLevel = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInLevel");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -252,6 +260,7 @@ namespace OfflineServer
                     reputationInTotal = value;
                     ReputationInLevel += value;
                     PersonaManagement.persona.reputationInTotal = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("ReputationInTotal");
                     RaisePropertyChangedEvent("ReputationRequiredToPassTheLevel");
                 }
@@ -273,6 +282,7 @@ namespace OfflineServer
                 {
                     currentCarIndex = value;
                     PersonaManagement.persona.currentCarIndex = value;
+                    PersonaManagement.persona.update();
                     RaisePropertyChangedEvent("CurrentCarIndex");
                     RaisePropertyChangedEvent("SelectedCar");
                 }

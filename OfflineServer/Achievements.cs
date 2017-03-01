@@ -6,29 +6,26 @@ using System.Windows.Media.Imaging;
 
 namespace OfflineServer
 {
-    /// <summary>
-    /// NOT actual achievements, only readings from API.
-    /// </summary>
     public class Achievements
     {
         private Random rPseudo;
         private DockPanel dpAchievement;
-        private ImageBrush ibAchievementBackground;
-        private TextBlock tblockAchievementDescription;
+        private ImageBrush bgAchievement;
+        private TextBlock descAchievement;
+
         private static class tAchievement
         {
             public const Int32 treasureHunt = 1;
             public const Int32 farthestJumpDistance = 2;
         }
 
-        private void vReDefine()
+        public Achievements()
         {
-            rPseudo = new Random();
-            ibAchievementBackground = new ImageBrush()
+            bgAchievement = new ImageBrush()
             {
                 Stretch = Stretch.Fill
             };
-            tblockAchievementDescription = new TextBlock()
+            descAchievement = new TextBlock()
             {
                 Text = "DEBUG PLACEHOLDER",
                 Padding = new Thickness(6d),
@@ -37,42 +34,37 @@ namespace OfflineServer
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 Height = 30
             };
-            DockPanel.SetDock(tblockAchievementDescription, Dock.Bottom);
-            dpAchievement = new DockPanel()
-            {
-                Background = ibAchievementBackground
-            };
-            dpAchievement.Children.Add(tblockAchievementDescription);
-        }
+            DockPanel.SetDock(descAchievement, Dock.Bottom);
 
-        public Achievements()
-        {
-            vReDefine();
+            dpAchievement = new DockPanel();
+            dpAchievement.Background = bgAchievement;
+            dpAchievement.Children.Add(descAchievement);
+
+            rPseudo = new Random();
         }
 
         public DockPanel generateNewAchievement()
         {
-            String sCurrentText = tblockAchievementDescription.Text;
+            String sCurrentText = descAchievement.Text;
         reroll:
 
-            vReDefine();
-
+            rPseudo = new Random();
             switch (rPseudo.Next(1, 3))
             {
                 case tAchievement.treasureHunt:
                     {
-                        ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/TreasureHuntStreak.png", UriKind.RelativeOrAbsolute));
-                        tblockAchievementDescription.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementTreasureHunt; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
+                        bgAchievement.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/TreasureHuntStreak.png", UriKind.RelativeOrAbsolute));
+                        descAchievement.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementTreasureHunt; // PLACEHOLDER, mPersona->bIsTHBrokenForViewModel, mPersona->iTHStreak, TH class?
                         break;
                     }
                 case tAchievement.farthestJumpDistance:
                     {
-                        ibAchievementBackground.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/JumpDistance.png", UriKind.RelativeOrAbsolute));
-                        tblockAchievementDescription.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementJumpDistance; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...
+                        bgAchievement.ImageSource = (ImageSource)BitmapFrame.Create(new Uri("pack://application:,,,/OfflineServer;component/images/NFSW_Achievements/JumpDistance.png", UriKind.RelativeOrAbsolute));
+                        descAchievement.Text = Access.dataAccess.appSettings.uiSettings.language.AchievementJumpDistance; // PLACEHOLDER, mEngine->API->JumpDistance, mmmph...
                         break;
                     }
             }
-            if (tblockAchievementDescription.Text.Equals(sCurrentText)) goto reroll;
+            if (descAchievement.Text.Equals(sCurrentText)) goto reroll;
 
             return dpAchievement;
         }

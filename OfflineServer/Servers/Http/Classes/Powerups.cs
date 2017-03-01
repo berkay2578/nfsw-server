@@ -44,18 +44,23 @@ namespace OfflineServer.Servers.Http.Classes
                     // Debug, only for showing achievement display
                     // Will cause the game to crash if achievements/loadall was empty.
                     AchievementAwarded achievementAwarded = new AchievementAwarded();
-                    achievementAwarded.achievementDefinitionId = 96;
-                    achievementAwarded.achievementRankId = 309;
-                    achievementAwarded.description = "GM_ACHIEVEMENT_0000026E";
-                    achievementAwarded.icon = "ACH_USE_NOS";
-                    achievementAwarded.isRare = true;
-                    achievementAwarded.name = "GM_ACHIEVEMENT_0000010C";
-                    achievementAwarded.points = 10;
-                    achievementAwarded.rarity = 1f;
+                    var acDef = AchievementDefinitions.achievements["ACH_USE_NOS"];
+                    achievementAwarded.achievementDefinitionId = acDef.achievementDefinition.achievementDefinitionId;
+                    achievementAwarded.achievementRankId = acDef.achievementDefinition.achievementRanks[0].achievementRankId;
+                    achievementAwarded.description = acDef.badgeDefinition.description;
+                    achievementAwarded.icon = acDef.badgeDefinition.icon;
+                    achievementAwarded.isRare = acDef.achievementDefinition.achievementRanks[0].isRare;
+                    achievementAwarded.name = acDef.badgeDefinition.name;
+                    achievementAwarded.points = acDef.achievementDefinition.achievementRanks[0].points;
+                    achievementAwarded.rarity = acDef.achievementDefinition.achievementRanks[0].rarity;
+
+                    AchievementProgress achievementProgress = new AchievementProgress();
+                    achievementProgress.achievementDefinitionId = acDef.achievementDefinition.achievementDefinitionId;
+                    achievementProgress.currentValue = 1;
 
                     AchievementsAwarded achievementsAwarded = new AchievementsAwarded();
                     achievementsAwarded.achievements.Add(achievementAwarded);
-                    achievementsAwarded.score = 0;
+                    achievementsAwarded.score = Access.CurrentSession.ActivePersona.score;
 
                     message.setBody(achievementsAwarded);
                     Access.sXmpp.write(message.SerializeObject(true));

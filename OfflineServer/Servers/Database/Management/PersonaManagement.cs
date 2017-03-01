@@ -68,5 +68,19 @@ namespace OfflineServer.Servers.Database.Management
                 Access.CurrentSession.ActivePersona.CurrentCarIndex = newIndex;
             }
         }
+
+        public static void update(this PersonaEntity newPersona)
+        {
+            if (newPersona != null)
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    PersonaEntity personaEntity = session.Load<PersonaEntity>(newPersona.id);
+                    personaEntity = newPersona;
+                    session.Update(personaEntity);
+                    transaction.Commit();
+                }
+            }
+        }
     }
 }
