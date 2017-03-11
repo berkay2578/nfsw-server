@@ -85,8 +85,9 @@ namespace OfflineServer.Servers.Http.Classes
 
         public static String getPersonaInfo()
         {
-            ProfileData profileData = new ProfileData();
             Persona activePersona = Access.CurrentSession.ActivePersona;
+
+            ProfileData profileData = new ProfileData();
             profileData.boost = activePersona.Boost;
             profileData.cash = activePersona.Cash;
             profileData.iconIndex = activePersona.IconIndex;
@@ -112,7 +113,6 @@ namespace OfflineServer.Servers.Http.Classes
             {
                 Persona persona = Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == personaId);
 
-                ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
                 PersonaBase personaBase = new PersonaBase();
                 personaBase.iconIndex = persona.IconIndex;
                 personaBase.level = persona.Level;
@@ -120,7 +120,10 @@ namespace OfflineServer.Servers.Http.Classes
                 personaBase.name = persona.Name;
                 personaBase.personaId = personaId;
                 personaBase.score = persona.score;
+
+                ArrayOfPersonaBase arrayOfPersonaBase = new ArrayOfPersonaBase();
                 arrayOfPersonaBase.personaBase = personaBase;
+
                 return arrayOfPersonaBase.SerializeObject();
             }
             catch (Exception)

@@ -5678,7 +5678,7 @@ namespace OfflineServer
                         canProgress = true,
                         currentValue = 0,
                         isVisible = true,
-                        progressText = "GM_ACHIEVEMENT_0000004B",
+                        progressText = "GM_ACHIEVEMENT_00000049",
                         statConversion = StatConversion.None,
 
                         achievementRanks = new List<AchievementRankPacket>()
@@ -5688,8 +5688,8 @@ namespace OfflineServer
                                 isRare = true,
                                 points = 25,
                                 rank = 1,
-                                rarity = 0.02769229f,
-                                rewardDescription = "GM_ACHIEVEMENT_0000004A",
+                                rarity = 0f,
+                                rewardDescription = "??",
                                 rewardType = "aftermarket",
                                 rewardVisualStyle = "achievements_rewards",
                                 state = AchievementState.InProgress,
@@ -5713,6 +5713,32 @@ namespace OfflineServer
                         name = "GM_ACHIEVEMENT_0000003E"
                     },
                     achievementDefinition = new AchievementDefinitionPacket()
+                    {
+                        achievementDefinitionId = 7,
+                        badgeDefinitionId = 8,
+                        canProgress = true,
+                        currentValue = 0,
+                        isVisible = true,
+                        progressText = "GM_ACHIEVEMENT_0000003D",
+                        statConversion = StatConversion.None,
+
+                        achievementRanks = new List<AchievementRankPacket>()
+                        {
+                            new AchievementRankPacket() {
+                                achievementRankId = 801,
+                                isRare = true,
+                                points = 25,
+                                rank = 1,
+                                rarity = 0f,
+                                rewardDescription = "??",
+                                rewardType = "aftermarket",
+                                rewardVisualStyle = "achievements_rewards",
+                                state = AchievementState.InProgress,
+                                thresholdValue = 2578
+                            }
+
+                        }
+                    }
                 }
             },
 

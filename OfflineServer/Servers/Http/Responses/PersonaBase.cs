@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace OfflineServer.Servers.Http.Responses
@@ -7,8 +8,9 @@ namespace OfflineServer.Servers.Http.Responses
     [XmlRoot("PersonaBase")]
     public class PersonaBase
     {
-        [XmlElement("Badges")]
-        public String badges = "";
+        [XmlArray("Badges")]
+        [XmlArrayItem("BadgePacket")]
+        public List<BadgePacket> badges = new List<BadgePacket>();
         [XmlElement("IconIndex")]
         public Int16 iconIndex = 27;
         [XmlElement("Level")]
