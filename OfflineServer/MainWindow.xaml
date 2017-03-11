@@ -475,13 +475,13 @@
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
                             </DataGridTextColumn>
-                            <!--<DataGridTextColumn Binding="{Binding TopSpeed}">
+                            <DataGridTextColumn Binding="{Binding TopSpeed}">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding DataContext.dataAccess.appSettings.uiSettings.language.TopSpeed, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource DataGridConverter}}"/>
                                     </DataTemplate>
                                 </DataGridTextColumn.HeaderTemplate>
-                            </DataGridTextColumn>-->
+                            </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding FinishReason}">
                                 <DataGridTextColumn.HeaderTemplate>
                                     <DataTemplate>

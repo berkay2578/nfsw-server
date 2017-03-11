@@ -39,7 +39,7 @@ namespace OfflineServer
             PerfectStart = eventResult.perfectStart == null ? "-" :
                 (Boolean)eventResult.perfectStart ? "Yes" : "No";
             TopSpeed = eventResult.topSpeed == null ? "-" :
-                ((float)eventResult.topSpeed).ToString(); // not mph, not kph, wtf is this.
+                (float)eventResult.topSpeed * 3.6f + " km/h";
             PersonaName = eventResult.personaName;
             CarName = eventResult.carName;
         }
