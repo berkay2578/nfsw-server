@@ -31,7 +31,7 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlElement("Rating")]
         public Int32 rating;
         [XmlElement("RideHeightDrop")]
-        public Int32 rideHeightDrop = 0;
+        public float rideHeightDrop = 0;
         [XmlElement("ResalePrice")]
         public Int32 resalePrice;
         [XmlArray("SkillModParts")]
