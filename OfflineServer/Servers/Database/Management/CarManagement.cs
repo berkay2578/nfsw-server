@@ -36,6 +36,20 @@ namespace OfflineServer.Servers.Database.Management
             }
         }
 
+        public static void update(this CarEntity newCar)
+        {
+            if (newCar != null)
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    CarEntity personaEntity = session.Load<CarEntity>(newCar.id);
+                    personaEntity = newCar;
+                    session.Update(personaEntity);
+                    transaction.Commit();
+                }
+            }
+        }
+
         public static CustomCar getCustomCar(this CarEntity carEntity)
         {
             CustomCar customCar = new CustomCar();

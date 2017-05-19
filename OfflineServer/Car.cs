@@ -83,6 +83,7 @@ namespace OfflineServer
                 {
                     baseCarId = value;
                     CarManagement.car.baseCarId = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("BaseCarId");
                 }
             }
@@ -96,6 +97,7 @@ namespace OfflineServer
                 {
                     carClassHash = value;
                     CarManagement.car.carClassHash = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("CarClassHash");
                 }
             }
@@ -122,6 +124,7 @@ namespace OfflineServer
                 {
                     name = value;
                     CarManagement.car.name = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Name");
                 }
             }
@@ -135,6 +138,7 @@ namespace OfflineServer
                 {
                     paints = value;
                     CarManagement.car.paints = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Paints");
                 }
             }
@@ -148,6 +152,7 @@ namespace OfflineServer
                 {
                     performanceParts = value;
                     CarManagement.car.performanceParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PerformanceParts");
                 }
             }
@@ -161,6 +166,7 @@ namespace OfflineServer
                 {
                     physicsProfileHash = value;
                     CarManagement.car.physicsProfileHash = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("PhysicsProfileHash");
                     RaisePropertyChangedEvent("MakeModel");
                 }
@@ -175,6 +181,7 @@ namespace OfflineServer
                 {
                     rating = value;
                     CarManagement.car.rating = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Rating");
                 }
             }
@@ -188,6 +195,7 @@ namespace OfflineServer
                 {
                     resalePrice = Math.Min(value, Int32.MaxValue - 1);
                     CarManagement.car.resalePrice = resalePrice;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ResalePrice");
                 }
             }
@@ -201,6 +209,7 @@ namespace OfflineServer
                 {
                     skillModParts = value;
                     CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("SkillModParts");
                 }
             }
@@ -213,7 +222,8 @@ namespace OfflineServer
                 if (vinyls != value)
                 {
                     vinyls = value;
-                    CarManagement.car.skillModParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.vinyls = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("Vinyls");
                 }
             }
@@ -227,6 +237,7 @@ namespace OfflineServer
                 {
                     visualParts = value;
                     CarManagement.car.visualParts = value.ToString(SaveOptions.DisableFormatting);
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("VisualParts");
                 }
             }
@@ -253,6 +264,7 @@ namespace OfflineServer
                 {
                     expirationDate = value;
                     CarManagement.car.expirationDate = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("ExpirationDate");
                 }
             }
@@ -266,6 +278,7 @@ namespace OfflineServer
                 {
                     heatLevel = value;
                     CarManagement.car.heatLevel = value;
+                    CarManagement.car.update();
                     RaisePropertyChangedEvent("HeatLevel");
                 }
             }
