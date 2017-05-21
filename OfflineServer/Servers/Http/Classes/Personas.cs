@@ -75,10 +75,18 @@ namespace OfflineServer.Servers.Http.Classes
                 {
                     Int32 carId = Int32.Parse(Access.sHttp.request.Params.Get("serialNumber"));
                     Car curCar = Access.CurrentSession.ActivePersona.Cars.First(c => c.Id == carId);
+                    Int32 curCarIndex = Access.CurrentSession.ActivePersona.Cars.IndexOf(curCar);
 
                     Economy economy = Economy.defineManually(new Economy.ProductInformation() { currency = Basket.Currency.Cash, price = curCar.ResalePrice }, 1);
                     economy.doIncrement();
                     PersonaManagement.removeCar(curCar);
+
+                    Int32 newIndex;
+                    if (Access.CurrentSession.ActivePersona.Cars.Count <= curCarIndex)
+                        newIndex = Access.CurrentSession.ActivePersona.Cars.Count - 1;
+                    else
+                        newIndex = curCarIndex;
+                    Access.CurrentSession.ActivePersona.CurrentCarIndex = newIndex;
 
                     return Access.CurrentSession.ActivePersona.SelectedCar.getOwnedCarTrans().SerializeObject();
                 }

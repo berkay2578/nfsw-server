@@ -280,6 +280,8 @@ namespace OfflineServer
             {
                 if (currentCarIndex != value)
                 {
+                    if (value < 0)
+                        value = 0;
                     currentCarIndex = value;
                     PersonaManagement.persona.currentCarIndex = value;
                     PersonaManagement.persona.update();
