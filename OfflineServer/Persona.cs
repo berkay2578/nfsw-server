@@ -280,8 +280,6 @@ namespace OfflineServer
             {
                 if (currentCarIndex != value)
                 {
-                    if (value < 0)
-                        value = 0;
                     currentCarIndex = value;
                     PersonaManagement.persona.currentCarIndex = value;
                     PersonaManagement.persona.update();
@@ -294,6 +292,9 @@ namespace OfflineServer
         {
             get
             {
+                if (currentCarIndex >= Cars.Count)
+                    CurrentCarIndex = 0;
+
                 if (currentCarIndex != -1)
                     return Cars[currentCarIndex];
 

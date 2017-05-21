@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace OfflineServer.Servers.Http.Responses
 {
     [Serializable()]
-    [XmlRoot("OwnedCarTrans")]
+    [XmlRoot("OwnedCarTrans", Namespace = "http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization")]
     public class OwnedCarTrans
     {
         [XmlElement("CustomCar")]

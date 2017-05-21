@@ -10,6 +10,7 @@ namespace OfflineServer.Servers.Database.Mappings
             Table("User");
             Id(u => u.id);
             Map(u => u.defaultPersonaIdx);
+            Not.LazyLoad();
         }
     }
 }

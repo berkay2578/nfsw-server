@@ -6,24 +6,24 @@ namespace OfflineServer.Servers.Database.Management
 {
     public static class EventResultManagement
     {
+        internal static ISession session;
+        static EventResultManagement()
+        {
+            session = SessionManager.getSessionFactory().OpenSession();
+        }
+
         public static EventResultEntity eventResult
         {
             get
             {
                 if (Access.CurrentSession.ActivePersona != null)
-                {
-                    using (ISession session = SessionManager.getSessionFactory().OpenSession())
-                    {
-                        return session.Get<EventResultEntity>(Access.CurrentSession.ActivePersona.currentEventSessionId);
-                    }
-                }
+                    return session.Load<EventResultEntity>(Access.CurrentSession.ActivePersona.currentEventSessionId);
                 return null;
             }
             set
             {
                 if (Access.CurrentSession.ActivePersona != null && value != null)
                 {
-                    using (ISession session = SessionManager.getSessionFactory().OpenSession())
                     using (ITransaction transaction = session.BeginTransaction())
                     {
                         EventResultEntity eventResultEntity = session.Load<EventResultEntity>(Access.CurrentSession.ActivePersona.currentEventSessionId);
@@ -40,7 +40,6 @@ namespace OfflineServer.Servers.Database.Management
 
         public static EventResultEntity addEventResult(EventResultEntity eventResultEntity)
         {
-            using (ISession session = SessionManager.getSessionFactory().OpenSession())
             using (ITransaction transaction = session.BeginTransaction())
             {
                 session.Save(eventResultEntity);

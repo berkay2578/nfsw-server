@@ -28,6 +28,7 @@ namespace OfflineServer.Servers.Database.Mappings
                 .Cascade.AllDeleteOrphan()
                 .Fetch.Join()
                 .OrderBy("id asc");
+            Not.LazyLoad();
         }
     }
 }

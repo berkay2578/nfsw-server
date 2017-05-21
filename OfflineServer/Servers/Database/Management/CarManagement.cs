@@ -7,24 +7,24 @@ namespace OfflineServer.Servers.Database.Management
 {
     public static class CarManagement
     {
+        internal static ISession session;
+        static CarManagement()
+        {
+            session = SessionManager.getSessionFactory().OpenSession();
+        }
+
         public static CarEntity car
         {
             get
             {
                 if (Access.CurrentSession.ActivePersona != null)
-                {
-                    using (ISession session = SessionManager.getSessionFactory().OpenSession())
-                    {
-                        return session.Get<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
-                    }
-                }
+                    return session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
                 return null;
             }
             set
             {
                 if (Access.CurrentSession.ActivePersona != null && value != null)
                 {
-                    using (ISession session = SessionManager.getSessionFactory().OpenSession())
                     using (ITransaction transaction = session.BeginTransaction())
                     {
                         CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
@@ -40,7 +40,6 @@ namespace OfflineServer.Servers.Database.Management
         {
             if (newCar != null)
             {
-                using (ISession session = SessionManager.getSessionFactory().OpenSession())
                 using (ITransaction transaction = session.BeginTransaction())
                 {
                     CarEntity personaEntity = session.Load<CarEntity>(newCar.id);

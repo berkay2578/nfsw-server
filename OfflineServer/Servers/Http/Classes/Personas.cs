@@ -91,6 +91,15 @@ namespace OfflineServer.Servers.Http.Classes
                     return Access.CurrentSession.ActivePersona.SelectedCar.getOwnedCarTrans().SerializeObject();
                 }
             }
+            else if (Access.sHttp.request.HttpMethod == "PUT")
+            {
+                // TODO: Make performance parts use economy -> attribHash
+                Car curCar = Access.CurrentSession.ActivePersona.Cars[Access.CurrentSession.ActivePersona.CurrentCarIndex];
+                OwnedCarTrans newCar = Access.sHttp.getPostData().DeserializeObject<OwnedCarTrans>();
+
+                curCar.PerformanceParts = XElement.Parse(newCar.customCar.performanceParts.SerializeObject());
+                return curCar.getOwnedCarTrans().SerializeObject();
+            }
             return "";
         }
 

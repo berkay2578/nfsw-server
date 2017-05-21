@@ -27,6 +27,7 @@ namespace OfflineServer.Servers.Database.Mappings
             Map(c => c.heatLevel);
             References(c => c.ownerPersona)
                 .Cascade.None();
+            Not.LazyLoad();
         }
     }
 }

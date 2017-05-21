@@ -726,6 +726,15 @@ namespace OfflineServer
 
             #region DB Connections
             log.Info("Clearing up DB connections.");
+            CarManagement.session.Close();
+            CarManagement.session.Dispose();
+
+            PersonaManagement.session.Close();
+            PersonaManagement.session.Dispose();
+
+            EventResultManagement.session.Close();
+            EventResultManagement.session.Dispose();
+
             SessionManager.getSessionFactory().Close();
             #endregion
 
