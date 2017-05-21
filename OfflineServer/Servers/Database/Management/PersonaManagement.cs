@@ -26,7 +26,7 @@ namespace OfflineServer.Servers.Database.Management
                     using (ISession session = SessionManager.getSessionFactory().OpenSession())
                     using (ITransaction transaction = session.BeginTransaction())
                     {
-                        PersonaEntity personaEntity = session.Get<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
+                        PersonaEntity personaEntity = session.Load<PersonaEntity>(Access.CurrentSession.ActivePersona.Id);
                         personaEntity = value;
                         session.Update(personaEntity);
                         transaction.Commit();

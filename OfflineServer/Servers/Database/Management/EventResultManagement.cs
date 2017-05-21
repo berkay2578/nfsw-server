@@ -26,7 +26,7 @@ namespace OfflineServer.Servers.Database.Management
                     using (ISession session = SessionManager.getSessionFactory().OpenSession())
                     using (ITransaction transaction = session.BeginTransaction())
                     {
-                        EventResultEntity eventResultEntity = session.Get<EventResultEntity>(Access.CurrentSession.ActivePersona.currentEventSessionId);
+                        EventResultEntity eventResultEntity = session.Load<EventResultEntity>(Access.CurrentSession.ActivePersona.currentEventSessionId);
                         eventResultEntity = value;
                         session.Update(eventResultEntity);
                         transaction.Commit();

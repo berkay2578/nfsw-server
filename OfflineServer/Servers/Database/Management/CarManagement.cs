@@ -27,7 +27,7 @@ namespace OfflineServer.Servers.Database.Management
                     using (ISession session = SessionManager.getSessionFactory().OpenSession())
                     using (ITransaction transaction = session.BeginTransaction())
                     {
-                        CarEntity CarEntity = session.Get<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
+                        CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
                         CarEntity = value;
                         session.Update(CarEntity);
                         transaction.Commit();
