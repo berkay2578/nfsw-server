@@ -80,61 +80,76 @@ namespace OfflineServer.Servers.Http.Responses
             });
 
             // Bonus for CopsDeployed
-            rewardParts.Add(new RewardPart()
-            {
-                repPart = copsDeployed * level * rankMultiplier * 2,
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.CopCarsDeployed,
-                tokenPart = copsDeployed * level * rankMultiplier * 5
-            });
-
-            // Bonus for CopsDisabled
-            rewardParts.Add(new RewardPart()
-            {
-                repPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier,
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.CopCarsDisabled,
-                tokenPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier * 2
-            });
-
-            // Bonus for CopsRammed
-            rewardParts.Add(new RewardPart()
-            {
-                repPart = (copsRammed * rankMultiplier * 10) + copsDisabled > 0 ? copsDisabled * rankMultiplier * 10 : 0,
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.CopCarsRammed,
-                tokenPart = (copsRammed * rankMultiplier * 50) + copsDisabled > 0 ? copsDisabled * rankMultiplier * 20 : 0
-            });
-
-            // Bonus for CostToState
-            rewardParts.Add(new RewardPart()
-            {
-                repPart = (costToState / 100) * (level / (9 - rankMultiplier)),
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.CostToState,
-                tokenPart = (costToState / 100) * (level / (7 - rankMultiplier))
-            });
-
-            // Bonus for heat increase
-            if (heat > carHeat)
+            if (copsDeployed > 0)
             {
                 rewardParts.Add(new RewardPart()
                 {
-                    repPart = (Int32)Math.Round(((heat / carHeat) * 100) * rankMultiplier * level * 2),
+                    repPart = copsDeployed * level * rankMultiplier * 2,
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.CopCarsDeployed,
+                    tokenPart = copsDeployed * level * rankMultiplier * 5
+                });
+
+                // Bonus for CopsDisabled
+                if (copsDisabled > 0)
+                {
+                    rewardParts.Add(new RewardPart()
+                    {
+                        repPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier,
+                        rewardCategory = RewardCategory.Pursuit,
+                        rewardType = RewardType.CopCarsDisabled,
+                        tokenPart = ((copsDeployed / copsDisabled) * 100) * level * rankMultiplier * 2
+                    });
+                }
+
+                // Bonus for CopsRammed
+                if (copsRammed > 0)
+                {
+                    rewardParts.Add(new RewardPart()
+                    {
+                        repPart = (copsRammed * rankMultiplier * 10) + copsDisabled,
+                        rewardCategory = RewardCategory.Pursuit,
+                        rewardType = RewardType.CopCarsRammed,
+                        tokenPart = (copsRammed * rankMultiplier * 50) + copsDisabled
+                    });
+                }
+            }
+
+            // Bonus for CostToState
+            if (costToState > 0)
+            {
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = (costToState / 100) * (level / (9 - rankMultiplier)),
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.CostToState,
+                    tokenPart = (costToState / 100) * (level / (7 - rankMultiplier))
+                });
+            }
+
+            // Bonus for heat increase
+            if (heat > carHeat && carHeat > 0f)
+            {
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = (Int32)Math.Round(((heat / carHeat) * 100f) * rankMultiplier * level * 2),
                     rewardCategory = RewardCategory.Pursuit,
                     rewardType = RewardType.HeatLevel,
-                    tokenPart = (Int32)Math.Round(((heat / carHeat) * 100) * rankMultiplier * level * 3)
+                    tokenPart = (Int32)Math.Round(((heat / carHeat) * 100f) * rankMultiplier * level * 3)
                 });
             }
 
             // Bonus for Infractions
-            rewardParts.Add(new RewardPart()
+            if (infractions > 0)
             {
-                repPart = infractions * (level / 2),
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.Infractions,
-                tokenPart = infractions * level
-            });
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = infractions * (level / 2),
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.Infractions,
+                    tokenPart = infractions * level
+                });
+            }
 
             // Bonus for PursuitLength
             TimeSpan pursuitLength = TimeSpan.FromMilliseconds(eventDurationInMilliseconds);
@@ -147,22 +162,28 @@ namespace OfflineServer.Servers.Http.Responses
             });
 
             // Bonus for RoadBlocksDodged
-            rewardParts.Add(new RewardPart()
+            if (roadBlocksDodged > 0)
             {
-                repPart = roadBlocksDodged * rankMultiplier * 6,
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.RoadblocksDodged,
-                tokenPart = roadBlocksDodged * rankMultiplier * 2
-            });
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = roadBlocksDodged * rankMultiplier * 6,
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.RoadblocksDodged,
+                    tokenPart = roadBlocksDodged * rankMultiplier * 2
+                });
+            }
 
             // Bonus for SpikeStripsDodged
-            rewardParts.Add(new RewardPart()
+            if (spikeStripsDodged > 0)
             {
-                repPart = spikeStripsDodged * rankMultiplier * 5,
-                rewardCategory = RewardCategory.Pursuit,
-                rewardType = RewardType.SpikeStripsDodged,
-                tokenPart = spikeStripsDodged * rankMultiplier * 2
-            });
+                rewardParts.Add(new RewardPart()
+                {
+                    repPart = spikeStripsDodged * rankMultiplier * 5,
+                    rewardCategory = RewardCategory.Pursuit,
+                    rewardType = RewardType.SpikeStripsDodged,
+                    tokenPart = spikeStripsDodged * rankMultiplier * 2
+                });
+            }
 
             foreach (RewardPart rewardPart in rewardParts)
             {
