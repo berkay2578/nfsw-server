@@ -91,12 +91,19 @@ namespace OfflineServer
 
         public static Economy defineFromBasketItemTrans(BasketItemTrans basketItemTrans)
         {
-            Economy economy = new Economy();
-            ProductInformation productInformation = DataEx.productInformations[basketItemTrans.productId];
-            economy.currency = productInformation.currency;
-            economy.total = productInformation.price * basketItemTrans.quantity;
+            if (DataEx.productInformations.ContainsKey(basketItemTrans.productId))
+            {
+                ProductInformation productInformation = DataEx.productInformations[basketItemTrans.productId];
 
-            return economy;
+                Economy economy = new Economy();
+                economy.currency = productInformation.currency;
+                economy.total = productInformation.price * basketItemTrans.quantity;
+                return economy;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static Economy defineFromBasketItemTransList(List<BasketItemTrans> basketItemTransList)
@@ -104,11 +111,18 @@ namespace OfflineServer
             Economy economy = new Economy();
             foreach (BasketItemTrans basketItemTrans in basketItemTransList)
             {
-                ProductInformation productInformation = DataEx.productInformations[basketItemTrans.productId];
-                economy.currency = productInformation.currency; // this is probably a bug in the future, just gonna keep it like this until it is
-                economy.total += productInformation.price * basketItemTrans.quantity;
-            }
+                if (DataEx.productInformations.ContainsKey(basketItemTrans.productId))
+                {
+                    ProductInformation productInformation = DataEx.productInformations[basketItemTrans.productId];
 
+                    economy.currency = productInformation.currency; // this is probably a bug in the future, just gonna keep it like this until it is
+                    economy.total += productInformation.price * basketItemTrans.quantity;
+                }
+                else
+                {
+                    return null;
+                }
+            }
             return economy;
         }
     }
@@ -124,6 +138,15 @@ namespace OfflineServer
             [XmlEnum("_NS")]
             [StringData("_NS")]
             Boost = 1
+        }
+        public enum BasketItemType
+        {
+            Unknown = 0,
+            THRevive = 1,
+            Repair = 2,
+            CarSlot = 3,
+            Powerup = 4,
+            Car = 5
         }
         public enum GameItemType
         {

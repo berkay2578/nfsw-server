@@ -45,12 +45,14 @@ namespace OfflineServer.Servers.Database.Management
                 session.Save(carEntity);
                 session.Update(personaEntity);
                 transaction.Commit();
-
+            }
+            lock (Persona.carsLock)
+            {
                 Access.CurrentSession.ActivePersona.Cars.Add(new Car(carEntity));
                 Access.CurrentSession.ActivePersona.CurrentCarIndex = Access.CurrentSession.ActivePersona.Cars.Count - 1;
-
-                return carEntity;
             }
+
+            return carEntity;
         }
         public static void removeCar(Car car)
         {
@@ -60,10 +62,12 @@ namespace OfflineServer.Servers.Database.Management
                 CarEntity carEntity = session.Load<CarEntity>(car.Id);
                 personaEntity.removeCar(carEntity);
 
-                Access.CurrentSession.ActivePersona.Cars.Remove(car);
-
                 session.Delete(carEntity);
                 transaction.Commit();
+            }
+            lock (Persona.carsLock)
+            {
+                Access.CurrentSession.ActivePersona.Cars.Remove(car);
             }
         }
 

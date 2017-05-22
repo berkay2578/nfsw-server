@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 using OfflineServer.Servers.Database.Entities;
+using System.Linq;
 
 namespace OfflineServer.Servers.Database.Management
 {
@@ -44,11 +44,12 @@ namespace OfflineServer.Servers.Database.Management
             {
                 session.Save(eventResultEntity);
                 transaction.Commit();
-
-                Access.CurrentSession.EventResults.Add(new EventResult(eventResultEntity));
-
-                return eventResultEntity;
             }
+            lock (NfswSession.eventResultsLock)
+            {
+                Access.CurrentSession.EventResults.Add(new EventResult(eventResultEntity));
+            }
+            return eventResultEntity;
         }
     }
 }

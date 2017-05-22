@@ -16,51 +16,84 @@ namespace OfflineServer.Servers.Http.Classes
             CommerceResultTrans commerceResultTrans = new CommerceResultTrans();
             List<OwnedCarTrans> purchasedCars = new List<OwnedCarTrans>();
 
-            commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Fail_InvalidBasket;
-
-            foreach (BasketItemTrans basketItemTrans in basketTrans.basketItems)
+            Economy economy = Economy.defineFromBasketItemTransList(basketTrans.basketItems);
+            if (economy == null)
             {
-                Economy economy = Economy.defineFromBasketItemTrans(basketItemTrans);
-                if (economy.canBuy())
+                commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Fail_InvalidBasket;
+            }
+            else if (!economy.canBuy())
+            {
+                commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Fail_InsufficientFunds;
+            }
+            else
+            {
+                economy.doTransaction();
+                commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Success;
+                commerceResultTrans.wallets.walletTrans = new WalletTrans()
                 {
-                    economy.doTransaction();
-                    commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Success;
-                    commerceResultTrans.wallets.walletTrans = new WalletTrans() { balance = economy.balance, currency = economy.currency };
+                    balance = economy.balance,
+                    currency = economy.currency
+                };
 
+                foreach (BasketItemTrans basketItemTrans in basketTrans.basketItems)
+                {
                     for (int i = 0; i < basketItemTrans.quantity; i++)
                     {
-                        OwnedCarTrans purchasedCar = Catalog.getCarBasketDefinition(basketItemTrans.productId);
-                        if (purchasedCar == null)
-                            continue;
+                        switch (basketItemTrans.getItemType())
+                        {
+                            case Basket.BasketItemType.Unknown:
+                                {
+                                    commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Fail_ItemNotAvailableStandalone;
+                                    goto finalize; // ahahah fuck you anti-goto people
+                                }
+                            case Basket.BasketItemType.THRevive:
+                                // implement TH
+                                break;
+                            case Basket.BasketItemType.Repair:
+                                {
+                                    Access.CurrentSession.ActivePersona.SelectedCar.Durability = (Int16)100;
+                                }
+                                break;
+                            case Basket.BasketItemType.CarSlot:
+                                // implement carslots
+                                break;
+                            case Basket.BasketItemType.Powerup:
+                                // implement inventory
+                                break;
+                            case Basket.BasketItemType.Car:
+                                {
+                                    OwnedCarTrans purchasedCar = Catalog.getCarBasketDefinition(basketItemTrans.productId);
+                                    if (purchasedCar == null)
+                                        continue;
 
-                        CarEntity carEntity = new CarEntity();
-                        carEntity.baseCarId = purchasedCar.customCar.baseCarId;
-                        carEntity.carClassHash = purchasedCar.customCar.carClassHash;
-                        carEntity.durability = purchasedCar.durability;
-                        carEntity.heatLevel = purchasedCar.heatLevel;
-                        carEntity.name = purchasedCar.customCar.name;
-                        carEntity.paints = purchasedCar.customCar.paints.SerializeObject();
-                        carEntity.performanceParts = purchasedCar.customCar.performanceParts.SerializeObject();
-                        carEntity.physicsProfileHash = purchasedCar.customCar.physicsProfileHash;
-                        carEntity.rating = purchasedCar.customCar.rating;
-                        carEntity.resalePrice = purchasedCar.customCar.resalePrice;
-                        carEntity.skillModParts = purchasedCar.customCar.skillModParts.SerializeObject();
-                        carEntity.vinyls = purchasedCar.customCar.vinyls.SerializeObject();
-                        carEntity.visualParts = purchasedCar.customCar.visualParts.SerializeObject();
+                                    CarEntity carEntity = new CarEntity();
+                                    carEntity.baseCarId = purchasedCar.customCar.baseCarId;
+                                    carEntity.carClassHash = purchasedCar.customCar.carClassHash;
+                                    carEntity.durability = purchasedCar.durability;
+                                    carEntity.heatLevel = purchasedCar.heatLevel;
+                                    carEntity.name = purchasedCar.customCar.name;
+                                    carEntity.paints = purchasedCar.customCar.paints.SerializeObject();
+                                    carEntity.performanceParts = purchasedCar.customCar.performanceParts.SerializeObject();
+                                    carEntity.physicsProfileHash = purchasedCar.customCar.physicsProfileHash;
+                                    carEntity.rating = purchasedCar.customCar.rating;
+                                    carEntity.resalePrice = purchasedCar.customCar.resalePrice;
+                                    carEntity.skillModParts = purchasedCar.customCar.skillModParts.SerializeObject();
+                                    carEntity.vinyls = purchasedCar.customCar.vinyls.SerializeObject();
+                                    carEntity.visualParts = purchasedCar.customCar.visualParts.SerializeObject();
 
-                        carEntity = PersonaManagement.addCar(carEntity);
+                                    carEntity = PersonaManagement.addCar(carEntity);
 
-                        purchasedCar.id = carEntity.id;
-                        purchasedCar.customCar.id = carEntity.id;
-                        purchasedCars.Add(purchasedCar);
+                                    purchasedCar.id = carEntity.id;
+                                    purchasedCar.customCar.id = carEntity.id;
+                                    purchasedCars.Add(purchasedCar);
+                                }
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    commerceResultTrans.status = Basket.ShoppingCartPurchaseResult.Fail_InsufficientFunds;
                 }
             }
 
+        finalize:
             commerceResultTrans.commerceItems = new List<CommerceItemTrans>();
             commerceResultTrans.inventoryItems = new List<InventoryItemTrans>() { new InventoryItemTrans() };
             commerceResultTrans.purchasedCars = purchasedCars;

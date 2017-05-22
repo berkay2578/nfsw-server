@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Data;
 using System.Xml.Linq;
 
 namespace OfflineServer
@@ -16,7 +17,7 @@ namespace OfflineServer
     /// </summary>
     public class Persona : ObservableObject
     {
-        private static object threadSafeDummy = new object();
+        public static object carsLock = new object();
 
         private Int32 id;
         private Int16 iconIndex;
@@ -307,6 +308,9 @@ namespace OfflineServer
         /// </summary>
         public Persona(PersonaEntity persona)
         {
+            App.Current.Dispatcher.Invoke(() =>
+                BindingOperations.EnableCollectionSynchronization(Cars, carsLock));
+
             id = persona.id;
             iconIndex = persona.iconIndex;
             name = persona.name;
@@ -321,7 +325,6 @@ namespace OfflineServer
 
             foreach (CarEntity car in persona.garage)
                 Cars.Add(new Car(car));
-            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(Cars, threadSafeDummy);
         }
 
         /// <summary>

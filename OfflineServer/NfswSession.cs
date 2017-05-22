@@ -1,11 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Windows.Data;
 
 namespace OfflineServer
 {
     public class NfswSession : ObservableObject
     {
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public static object personaListLock = new object();
+        public static object eventResultsLock = new object();
 
         public Engine Engine = new Engine();
         public ObservableCollection<Persona> PersonaList { get; set; } = new ObservableCollection<Persona>();
@@ -31,14 +35,17 @@ namespace OfflineServer
 
         public void startSession()
         {
+            App.Current.Dispatcher.Invoke(() =>
+                BindingOperations.EnableCollectionSynchronization(PersonaList, personaListLock));
+            App.Current.Dispatcher.Invoke(() =>
+                BindingOperations.EnableCollectionSynchronization(EventResults, eventResultsLock));
+
             foreach (Persona persona in Engine.getCurrentPersonaList())
                 PersonaList.Add(persona);
             ActivePersona = PersonaList[Engine.getDefaultPersonaIdx()];
-            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(PersonaList, new object());
 
             foreach (EventResult eventResult in Engine.getEventResults())
                 EventResults.Add(eventResult);
-            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(EventResults, new object());
 
             log.Info("Session started.");
         }

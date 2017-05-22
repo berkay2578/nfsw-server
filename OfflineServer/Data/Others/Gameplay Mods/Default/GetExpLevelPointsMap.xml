@@ -1,6 +1,5 @@
 <!--  Each entry is the exp required to gain to pass the level, not the total required exp! -->
 <ArrayOfint xmlns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<!-- Level  0 --> <int>0</int>
 	<!-- Level  1 --> <int>100</int>
 	<!-- Level  2 --> <int>975</int>
 	<!-- Level  3 --> <int>2025</int>

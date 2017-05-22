@@ -4,9 +4,8 @@ using OfflineServer.Servers.Database.Management;
 using OfflineServer.Servers.Http.Responses;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace OfflineServer
 {

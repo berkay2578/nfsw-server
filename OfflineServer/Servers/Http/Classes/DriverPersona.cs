@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace OfflineServer.Servers.Http.Classes
 {
@@ -37,27 +36,35 @@ namespace OfflineServer.Servers.Http.Classes
                 personaEntity.score = 0;
                 session.Save(personaEntity);
 
+                respondProfileData.boost = 0;
                 respondProfileData.cash = 250000;
                 respondProfileData.iconIndex = iconIndex;
                 respondProfileData.level = 1;
                 respondProfileData.name = name;
                 respondProfileData.personaId = personaEntity.id;
 
-                Access.CurrentSession.PersonaList.Add(new Persona(personaEntity));
-                Int32 newDefaultPersonaIdx = Access.CurrentSession.PersonaList.Count - 1;
-
-                UserEntity userEntity = session.CreateCriteria(typeof(UserEntity)).List<UserEntity>().First();
-                userEntity.defaultPersonaIdx = newDefaultPersonaIdx;
-                session.Update(userEntity);
+                lock (NfswSession.personaListLock)
+                {
+                    Access.CurrentSession.PersonaList.Add(new Persona(personaEntity));
+                }
 
                 transaction.Commit();
             }
+            lock (NfswSession.personaListLock)
+            {
+                Int32 newDefaultPersonaIdx = Access.CurrentSession.PersonaList.Count - 1;
+                Access.CurrentSession.ActivePersona = Access.CurrentSession.PersonaList[newDefaultPersonaIdx];
+            }
+
             return respondProfileData.SerializeObject();
         }
 
         public static String deletePersona()
         {
             Int32 personaId = Convert.ToInt32(Access.sHttp.request.Params.Get("personaId"));
+            if (personaId < 100 ||
+                Access.CurrentSession.PersonaList.FirstOrDefault(p => p.Id == personaId) == null)
+                return "";
 
             using (var session = SessionManager.getSessionFactory().OpenSession())
             using (var transaction = session.BeginTransaction())
@@ -65,10 +72,16 @@ namespace OfflineServer.Servers.Http.Classes
                 PersonaEntity personaEntity = session.Load<PersonaEntity>(personaId);
                 session.Delete(personaEntity);
 
+                transaction.Commit();
+            }
+
+            lock (NfswSession.personaListLock)
+            {
                 Access.CurrentSession.PersonaList.RemoveAt(Access.CurrentSession.PersonaList.IndexOf(
                     Access.CurrentSession.PersonaList.First<Persona>(sPersona => sPersona.Id == personaId)));
 
-                transaction.Commit();
+                if (Access.CurrentSession.PersonaList.Count > 0)
+                    Access.CurrentSession.ActivePersona = Access.CurrentSession.PersonaList[0];
             }
 
             return "<long>0</long>";
