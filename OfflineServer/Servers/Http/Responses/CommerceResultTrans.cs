@@ -11,8 +11,8 @@ namespace OfflineServer.Servers.Http.Responses
         [XmlArray("CommerceItems")]
         [XmlArrayItem("CommerceItemTrans")]
         public List<CommerceItemTrans> commerceItems;
-        [XmlElement("InvalidBasket")]
-        public String invalidBasket = "";
+        [XmlElement("InvalidBasket", IsNullable = true)]
+        public String invalidBasket = null;
         [XmlArray("InventoryItems")]
         [XmlArrayItem("InventoryItemTrans")]
         public List<InventoryItemTrans> inventoryItems;

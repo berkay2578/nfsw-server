@@ -19,7 +19,7 @@ namespace OfflineServer.Servers.Http
             /* DriverPersona */ "createPersona", "deletePersona", "getExpLevelPointsMap", "getPersonaInfo", "getPersonaBaseFromList", "reserveName", "updateStatusMessage",
             /* Event */ "arbitration",
             /* Matchmaking */ "launchevent",
-            /* Personas */ "baskets", "cars", "carslots", "commerce", "defaultcar",
+            /* Personas */ "baskets", "cars", "carslots", "commerce", "defaultcar", "inventory",
             /* Powerups */ "activated", "getrebroadcasters", "getregioninfo", "loginAnnouncements",
             /* Root */ "carclasses", "systeminfo",
             /* Session */ "getChatInfo",

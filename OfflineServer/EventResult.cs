@@ -1,5 +1,5 @@
-﻿using System;
-using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Servers.Database.Entities;
+using System;
 
 namespace OfflineServer
 {

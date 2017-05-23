@@ -93,6 +93,7 @@ namespace OfflineServer.Data
                             ProductInformation productInformation = new ProductInformation();
                             productInformation.currency = catalogProduct.Element(ns + "Currency").Value.ToLowerInvariant() == "cash" ? Currency.Cash : Currency.Boost;
                             productInformation.price = Convert.ToInt32(Math.Floor(Convert.ToDouble(catalogProduct.Element(ns + "Price").Value)));
+                            productInformation.useCount = Convert.ToInt32(catalogProduct.Element(ns + "UseCount").Value);
                             productInformations[catalogProduct.Element(ns + "ProductId").Value] = productInformation;
                         }
                     }

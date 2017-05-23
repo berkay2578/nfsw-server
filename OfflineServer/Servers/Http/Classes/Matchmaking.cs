@@ -1,7 +1,7 @@
-﻿using System;
-using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using OfflineServer.Servers.Http.Responses;
+using System;
 
 namespace OfflineServer.Servers.Http.Classes
 {

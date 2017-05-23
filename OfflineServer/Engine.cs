@@ -1,9 +1,11 @@
 ﻿using NHibernate;
+using NHibernate.Linq;
 using OfflineServer.Servers.Database;
 using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Http.Classes;
 using System;
 using System.Collections.Generic;
-using NHibernate.Linq;
+using System.Data.HashFunction;
 using System.Linq;
 
 namespace OfflineServer
@@ -45,7 +47,12 @@ namespace OfflineServer
             {
                 List<PersonaEntity> personaEntities = session.Query<PersonaEntity>().OrderBy(p => p.id).ToList();
                 foreach (PersonaEntity personaEntity in personaEntities)
+                {
+                    if (personaEntity.inventory.Count == 0)
+                        Powerups.addPowerupsToPersona(personaEntity.id);
+
                     listPersonas.Add(new Persona(personaEntity));
+                }
             }
 
             return listPersonas;
@@ -69,6 +76,18 @@ namespace OfflineServer
             }
 
             return listEventResults;
+        }
+
+        public static String getHexHash(String text)
+        {
+            Byte[] byteHash = new JenkinsLookup2(0xABCDEF00u).ComputeHash(text);
+            Array.Reverse(byteHash);
+            return BitConverter.ToString(byteHash).Replace("-", String.Empty);
+        }
+        public static Int32 getOverflowHash(String text)
+        {
+            String hexHash = getHexHash(text);
+            return Convert.ToInt32(hexHash, 16);
         }
     }
 }

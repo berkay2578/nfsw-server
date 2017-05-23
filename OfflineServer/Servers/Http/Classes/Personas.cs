@@ -1,4 +1,5 @@
-﻿using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Data;
+using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using OfflineServer.Servers.Http.Responses;
 using System;
@@ -14,6 +15,7 @@ namespace OfflineServer.Servers.Http.Classes
         {
             BasketTrans basketTrans = Access.sHttp.getPostData().DeserializeObject<BasketTrans>();
             CommerceResultTrans commerceResultTrans = new CommerceResultTrans();
+            List<InventoryItemTrans> inventoryItems = new List<InventoryItemTrans>();
             List<OwnedCarTrans> purchasedCars = new List<OwnedCarTrans>();
 
             Economy economy = Economy.defineFromBasketItemTransList(basketTrans.basketItems);
@@ -58,7 +60,20 @@ namespace OfflineServer.Servers.Http.Classes
                                 // implement carslots
                                 break;
                             case Basket.BasketItemType.Powerup:
-                                // implement inventory
+                                String powerupType = basketItemTrans.productId.Replace("SRV-POWERUP-", "");
+
+                                // TODO: 
+                                // expose to UI
+                                // improve Persona.Inventory
+                                InventoryItemEntity entity = PersonaManagement.persona.inventory.FirstOrDefault(ii => ii.entitlementTag == powerupType);
+                                if (entity != null)
+                                {
+                                    entity = InventoryItemManagement.getInventoryItemEntity(entity.id);
+                                    entity.remainingUseCount += DataEx.productInformations[basketItemTrans.productId].useCount;
+                                    entity.setInventoryItemEntity();
+
+                                    inventoryItems.Add(entity.getInventoryItemTrans());
+                                }
                                 break;
                             case Basket.BasketItemType.Car:
                                 {
@@ -95,7 +110,7 @@ namespace OfflineServer.Servers.Http.Classes
 
         finalize:
             commerceResultTrans.commerceItems = new List<CommerceItemTrans>();
-            commerceResultTrans.inventoryItems = new List<InventoryItemTrans>() { new InventoryItemTrans() };
+            commerceResultTrans.inventoryItems = inventoryItems.Count > 0 ? inventoryItems : new List<InventoryItemTrans>() { new InventoryItemTrans() };
             commerceResultTrans.purchasedCars = purchasedCars;
             return commerceResultTrans.SerializeObject();
         }
@@ -201,6 +216,11 @@ namespace OfflineServer.Servers.Http.Classes
                 return ownerPersona.SelectedCar.getCarEntry().ToString();
 
             return "";
+        }
+
+        public static String inventory()
+        {
+            return Access.CurrentSession.ActivePersona.getCompleteInventory().SerializeObject();
         }
     }
 }

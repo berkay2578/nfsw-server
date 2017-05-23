@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
 using OfflineServer.Servers.Http.Responses;
+using System;
+using System.Collections.Generic;
 
 namespace OfflineServer.Servers.Http.Classes
 {

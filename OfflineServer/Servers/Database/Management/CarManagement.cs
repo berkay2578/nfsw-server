@@ -27,9 +27,9 @@ namespace OfflineServer.Servers.Database.Management
                 {
                     using (ITransaction transaction = session.BeginTransaction())
                     {
-                        CarEntity CarEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
-                        CarEntity = value;
-                        session.Update(CarEntity);
+                        CarEntity carEntity = session.Load<CarEntity>(Access.CurrentSession.ActivePersona.SelectedCar.Id);
+                        carEntity = value;
+                        session.Update(carEntity);
                         transaction.Commit();
                     }
                 }
@@ -42,9 +42,9 @@ namespace OfflineServer.Servers.Database.Management
             {
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    CarEntity personaEntity = session.Load<CarEntity>(newCar.id);
-                    personaEntity = newCar;
-                    session.Update(personaEntity);
+                    CarEntity carEntity = session.Load<CarEntity>(newCar.id);
+                    carEntity = newCar;
+                    session.Update(carEntity);
                     transaction.Commit();
                 }
             }

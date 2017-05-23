@@ -23,10 +23,14 @@ namespace OfflineServer.Servers.Database.Mappings
             Map(p => p.score);
             Map(p => p.rating);
             HasMany(p => p.garage)
-                .AsBag()
                 .Inverse()
                 .Cascade.AllDeleteOrphan()
                 .Fetch.Join()
+                .OrderBy("id asc");
+            HasMany(p => p.inventory)
+                .Inverse()
+                .Cascade.AllDeleteOrphan()
+                .Fetch.Select()
                 .OrderBy("id asc");
             Not.LazyLoad();
         }

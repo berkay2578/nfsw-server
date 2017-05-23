@@ -14,6 +14,7 @@ namespace OfflineServer
         {
             public Currency currency;
             public Int32 price;
+            public Int32 useCount;
         }
 
         public Int32 activePersonaBoost

@@ -732,6 +732,9 @@ namespace OfflineServer
             PersonaManagement.session.Close();
             PersonaManagement.session.Dispose();
 
+            InventoryItemManagement.session.Close();
+            InventoryItemManagement.session.Dispose();
+
             EventResultManagement.session.Close();
             EventResultManagement.session.Dispose();
 

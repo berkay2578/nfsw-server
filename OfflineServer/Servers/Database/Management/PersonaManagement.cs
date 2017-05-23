@@ -1,5 +1,4 @@
-﻿using System;
-using NHibernate;
+﻿using NHibernate;
 using OfflineServer.Servers.Database.Entities;
 
 namespace OfflineServer.Servers.Database.Management

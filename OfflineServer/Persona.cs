@@ -1,11 +1,8 @@
-﻿using NHibernate.Linq;
-using OfflineServer.Servers.Database;
-using OfflineServer.Servers.Database.Entities;
+﻿using OfflineServer.Servers.Database.Entities;
 using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.Http.Responses;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Xml.Linq;
@@ -18,6 +15,7 @@ namespace OfflineServer
     public class Persona : ObservableObject
     {
         public static object carsLock = new object();
+        public static object inventoryLock = new object();
 
         private Int32 id;
         private Int16 iconIndex;
@@ -33,6 +31,7 @@ namespace OfflineServer
         public Int32 score { get; set; }
         public Int32 rating { get; set; }
         public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
+        public ObservableCollection<InventoryItem> Inventory { get; set; } = new ObservableCollection<InventoryItem>();
 
         public Int32 currentEventId { get; set; } = 0;
         public Int32 currentEventSessionId { get; set; } = 0;
@@ -310,6 +309,8 @@ namespace OfflineServer
         {
             App.Current.Dispatcher.Invoke(() =>
                 BindingOperations.EnableCollectionSynchronization(Cars, carsLock));
+            App.Current.Dispatcher.Invoke(() =>
+                BindingOperations.EnableCollectionSynchronization(Inventory, inventoryLock));
 
             id = persona.id;
             iconIndex = persona.iconIndex;
@@ -325,6 +326,9 @@ namespace OfflineServer
 
             foreach (CarEntity car in persona.garage)
                 Cars.Add(new Car(car));
+
+            foreach (InventoryItemEntity inventoryItemEntity in persona.inventory)
+                Inventory.Add(new InventoryItem(inventoryItemEntity));
         }
 
         /// <summary>
@@ -384,6 +388,15 @@ namespace OfflineServer
             );
             docAllCars.Root.SetDefaultXmlNamespace(XNamespace.Get("http://schemas.datacontract.org/2004/07/Victory.DataLayer.Serialization"));
             return docAllCars.ToString();
+        }
+
+        public InventoryTrans getCompleteInventory()
+        {
+            InventoryTrans inventoryTrans = new InventoryTrans();
+            foreach (InventoryItem inventoryItem in Inventory)
+                inventoryTrans.inventoryItems.Add(inventoryItem.getInventoryItemTrans());
+
+            return inventoryTrans;
         }
     }
 }

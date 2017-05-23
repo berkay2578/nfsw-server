@@ -1,16 +1,29 @@
-﻿using OfflineServer.Servers.Xmpp.Responses;
+﻿using OfflineServer.Servers.Database;
+using OfflineServer.Servers.Database.Entities;
+using OfflineServer.Servers.Database.Management;
+using OfflineServer.Servers.Http.Responses;
+using OfflineServer.Servers.Xmpp.Responses;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace OfflineServer.Servers.Http.Classes
 {
     public static class Powerups
     {
-        public static readonly Dictionary<String, Int32> powerupHashes = new Dictionary<String, Int32>()
+        public static readonly String[] powerups = new String[]
         {
-            {"nos", -1681514783},
-            {"juggernaut", 1805681994},
-            {"ready", 957701799}
+            "runflattires",
+            "trafficmagnet",
+            "instantcooldown",
+            "shield",
+            "slingshot",
+            "ready",
+            "juggernaut",
+            "emergencyevade",
+            "team_emergencyevade",
+            "nosshot",
+            "onemorelap",
+            "team_slingshot"
         };
 
         public static String activated()
@@ -31,13 +44,21 @@ namespace OfflineServer.Servers.Http.Classes
             object threadSafeDummy = new object();
             lock (threadSafeDummy)
             {
+                InventoryItemEntity entity = PersonaManagement.persona.inventory.FirstOrDefault(ii => ii.hash == (Int32)powerupHash);
+                if (entity != null)
+                {
+                    entity = InventoryItemManagement.getInventoryItemEntity(entity.id);
+                    entity.remainingUseCount -= 1;
+                    entity.setInventoryItemEntity();
+                }
+
                 // Send powerup activation data to game
                 Access.sXmpp.write(message.SerializeObject(true));
             }
 #if DEBUG
             lock (threadSafeDummy)
             {
-                if ((Int32)powerupHash == powerupHashes["nos"])
+                if ((Int32)powerupHash == Engine.getOverflowHash("nosshot"))
                 {
                     message = new Message();
 
@@ -70,6 +91,32 @@ namespace OfflineServer.Servers.Http.Classes
 #pragma warning restore CS4014
 
             return "";
+        }
+
+        public static void addPowerupsToPersona(Int32 personaId)
+        {
+            using (var session = SessionManager.getSessionFactory().OpenSession())
+            using (var transaction = session.BeginTransaction())
+            {
+                PersonaEntity personaEntity = session.Load<PersonaEntity>(personaId);
+                foreach (String powerup in powerups)
+                {
+                    InventoryItemEntity itemEntity = new InventoryItemEntity();
+                    itemEntity.entitlementTag = powerup;
+                    itemEntity.hash = Engine.getOverflowHash(powerup);
+                    itemEntity.productId = "DO NOT USE ME";
+                    itemEntity.status = "ACTIVE";
+                    itemEntity.stringHash = "0x" + Engine.getHexHash(powerup);
+                    itemEntity.remainingUseCount = 50;
+                    itemEntity.resellPrice = 0;
+                    itemEntity.virtualItemType = VirtualItemType.powerup;
+
+                    personaEntity.addInventoryItem(itemEntity);
+                    session.Save(itemEntity);
+                    session.Update(personaEntity);
+                }
+                transaction.Commit();
+            }
         }
     }
 }

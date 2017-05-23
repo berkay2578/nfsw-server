@@ -34,7 +34,23 @@ namespace OfflineServer.Servers.Http.Classes
                 personaEntity.reputationInLevel = 0;
                 personaEntity.reputationInTotal = 0;
                 personaEntity.score = 0;
+
                 session.Save(personaEntity);
+                foreach (String powerup in Powerups.powerups)
+                {
+                    InventoryItemEntity itemEntity = new InventoryItemEntity();
+                    itemEntity.entitlementTag = powerup;
+                    itemEntity.hash = Engine.getOverflowHash(powerup);
+                    itemEntity.productId = "DO NOT USE ME";
+                    itemEntity.status = "ACTIVE";
+                    itemEntity.stringHash = "0x" + Engine.getHexHash(powerup);
+                    itemEntity.remainingUseCount = 50;
+                    itemEntity.resellPrice = 0;
+                    itemEntity.virtualItemType = VirtualItemType.powerup;
+
+                    personaEntity.addInventoryItem(itemEntity);
+                    session.Save(powerup);
+                }
 
                 respondProfileData.boost = 0;
                 respondProfileData.cash = 250000;

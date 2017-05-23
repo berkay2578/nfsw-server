@@ -1,5 +1,5 @@
-﻿using System;
-using OfflineServer.Servers.Http.Responses;
+﻿using OfflineServer.Servers.Http.Responses;
+using System;
 using static OfflineServer.AchievementDefinitions;
 
 namespace OfflineServer.Servers.Http.Classes

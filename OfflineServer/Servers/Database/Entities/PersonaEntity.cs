@@ -20,10 +20,12 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual Int32 score { get; set; }
         public virtual Int32 rating { get; set; }
         public virtual IList<CarEntity> garage { get; protected set; }
+        public virtual IList<InventoryItemEntity> inventory { get; protected set; }
 
         public PersonaEntity()
         {
             garage = new List<CarEntity>();
+            inventory = new List<InventoryItemEntity>();
         }
 
         public virtual void addCar(CarEntity car)
@@ -34,6 +36,16 @@ namespace OfflineServer.Servers.Database.Entities
         public virtual void removeCar(CarEntity car)
         {
             garage.Remove(car);
+        }
+
+        public virtual void addInventoryItem(InventoryItemEntity inventoryItem)
+        {
+            inventoryItem.ownerPersona = this;
+            inventory.Add(inventoryItem);
+        }
+        public virtual void removeInventoryItem(InventoryItemEntity inventoryItem)
+        {
+            inventory.Remove(inventoryItem);
         }
     }
 }
