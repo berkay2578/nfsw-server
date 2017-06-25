@@ -8,11 +8,11 @@ namespace OfflineServer.Servers.Http.Responses
     [XmlRoot("LuckyDrawInfo")]
     public class LuckyDrawInfo
     {
+        [XmlArray("Boxes", IsNullable = true)]
+        [XmlArrayItem("LuckyDrawBox", IsNullable = true)]
+        public List<LuckyDrawBox> boxes = null;
         [XmlElement("CardDeck")]
         public CardDeck cardDeck;
-        [XmlArray("Boxes")]
-        [XmlArrayItem("LuckyDrawBox")]
-        public List<LuckyDrawBox> boxes = new List<LuckyDrawBox>();
         [XmlElement("CurrentStreak")]
         public Int32 currentStreak;
         [XmlElement("IsStreakBroken")]

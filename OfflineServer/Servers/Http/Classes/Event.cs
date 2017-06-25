@@ -165,6 +165,19 @@ namespace OfflineServer.Servers.Http.Classes
             };
             accolades.hasLeveledUp = Access.CurrentSession.ActivePersona.ReputationRequiredToPassTheLevel - finalExp <= 0;
             accolades.luckyDrawInfo = new LuckyDrawInfo();
+            accolades.luckyDrawInfo.items.Add(
+                new LuckyDrawItem()
+                {
+                    description = "test drop",
+                    hash = 1627606782L,
+                    icon = "prod_powerup_stack_onemo",
+                    remainingUseCount = 1,
+                    resellPrice = 0,
+                    virtualItem = "onemorelap",
+                    virtualItemType = VirtualItemType.powerup,
+                    wasSold = false
+                }
+            );
             accolades.originalRewards = arbitrationPacket.calculateBaseReward(eventDefinition);
             accolades.rewardInfo = rewardParts;
 
