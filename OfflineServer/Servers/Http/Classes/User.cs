@@ -44,7 +44,7 @@ namespace OfflineServer.Servers.Http.Classes
 
         public static String secureLogoutPersona()
         {
-            Access.sXmpp = new Xmpp.BasicXmppServer(true);
+            Access.sXmpp.doLogout();
             return "";
         }
     }

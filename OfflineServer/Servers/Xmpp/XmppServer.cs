@@ -13,11 +13,11 @@ namespace OfflineServer.Servers.Xmpp
     {
         public Int32 port;
         public String jidPrepender;
+        protected Int32 personaId;
         protected TcpListener listener;
         protected TcpClient client;
         protected NetworkStream stream;
         protected SslStream sslStream;
-        protected Int32 personaId;
         protected X509Certificate certificate;
         protected Decoder decoder = Encoding.UTF8.GetDecoder();
         protected CancellationTokenSource cts;
@@ -83,7 +83,7 @@ namespace OfflineServer.Servers.Xmpp
         public abstract void initialize();
         public abstract void doHandshake();
         public abstract void doLogin(Int32 newPersonaId);
-        public abstract void doLogout(Int32 personaId);
+        public abstract void doLogout();
         public abstract void listenLoop();
         public abstract Int64 calculateHash(String messageResponse);
         public abstract void shutdown();

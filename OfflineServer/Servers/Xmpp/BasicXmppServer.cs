@@ -84,9 +84,11 @@ namespace OfflineServer.Servers.Xmpp
             definePackets();
             doHandshake();
         }
-        public override void doLogout(Int32 personaId)
+        public override void doLogout()
         {
-            throw new NotImplementedException();
+            personaId = 0;
+            amountRead = -1;
+            log.Info(String.Format("Logged out persona id {0}.", personaId));
         }
 
         public override async void doHandshake()
@@ -132,7 +134,6 @@ namespace OfflineServer.Servers.Xmpp
                     personaStopwatch.Stop();
                     PersonaManagement.persona.timePlayed += (UInt64)personaStopwatch.ElapsedMilliseconds;
                     Access.CurrentSession.ActivePersona.TimePlayed = "";
-                    shutdown();
                     break;
                 }
             }
